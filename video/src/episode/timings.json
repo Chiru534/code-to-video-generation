@@ -1,0 +1,58 @@
+{
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2790,
+  "scenes": {
+    "s01": {
+      "sec": 8.489,
+      "frames": 255,
+      "text": "Finding the address. Every time you open a website, your computer has to answer one question first. What number belongs to this name?"
+    },
+    "s02": {
+      "sec": 7.831,
+      "frames": 235,
+      "text": "You typed eleven characters, and pressed Enter. Your computer now has about two hundred milliseconds to turn a name into a number."
+    },
+    "s03": {
+      "sec": 9.706,
+      "frames": 291,
+      "text": "The name is example dot com. Your computer cannot use it. Computers find each other by number. So the first job is to translate the name into one."
+    },
+    "s04": {
+      "sec": 10.115,
+      "frames": 303,
+      "text": "Your computer doesn't know the number. So it asks. Not the whole internet, just one machine. A D N S resolver. Usually your internet provider runs it."
+    },
+    "s05": {
+      "sec": 15.689,
+      "frames": 471,
+      "text": "The resolver probably doesn't know either. So it goes looking. First, a root server, which knows who runs dot com. Then the dot com server, which knows who runs example dot com. Then the registrar, which finally knows the address."
+    },
+    "s06": {
+      "sec": 10.151,
+      "frames": 305,
+      "text": "Three questions. Three round trips across the network. And this time, a real answer. Ninety three. One eighty four. Two sixteen. Thirty four."
+    },
+    "s07": {
+      "sec": 12.276,
+      "frames": 368,
+      "text": "But here is what makes everything after this feel fast. The answer gets remembered. Your computer keeps it. Your resolver keeps it. For minutes, sometimes hours, that name resolves instantly."
+    },
+    "s08": {
+      "sec": 7.881,
+      "frames": 236,
+      "text": "We are twenty percent through the budget. Forty milliseconds gone. Three round trips. And we have not opened a single connection."
+    },
+    "s09": {
+      "sec": 6.717,
+      "frames": 202,
+      "text": "That was one step out of five. We haven't connected. We haven't proved it's safe. We haven't even asked for the page."
+    },
+    "s10": {
+      "sec": 4.131,
+      "frames": 124,
+      "text": "Next, we open the connection. Three packets. One round trip."
+    }
+  }
+}

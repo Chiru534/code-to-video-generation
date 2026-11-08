@@ -1,0 +1,46 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Finding the address. Every time you open a website, your computer has to answer one question first. What number belongs to this name?"
+    },
+    {
+      "id": "s02",
+      "text": "You typed eleven characters, and pressed Enter. Your computer now has about two hundred milliseconds to turn a name into a number."
+    },
+    {
+      "id": "s03",
+      "text": "The name is example dot com. Your computer cannot use it. Computers find each other by number. So the first job is to translate the name into one."
+    },
+    {
+      "id": "s04",
+      "text": "Your computer doesn't know the number. So it asks. Not the whole internet, just one machine. A D N S resolver. Usually your internet provider runs it."
+    },
+    {
+      "id": "s05",
+      "text": "The resolver probably doesn't know either. So it goes looking. First, a root server, which knows who runs dot com. Then the dot com server, which knows who runs example dot com. Then the registrar, which finally knows the address."
+    },
+    {
+      "id": "s06",
+      "text": "Three questions. Three round trips across the network. And this time, a real answer. Ninety three. One eighty four. Two sixteen. Thirty four."
+    },
+    {
+      "id": "s07",
+      "text": "But here is what makes everything after this feel fast. The answer gets remembered. Your computer keeps it. Your resolver keeps it. For minutes, sometimes hours, that name resolves instantly."
+    },
+    {
+      "id": "s08",
+      "text": "We are twenty percent through the budget. Forty milliseconds gone. Three round trips. And we have not opened a single connection."
+    },
+    {
+      "id": "s09",
+      "text": "That was one step out of five. We haven't connected. We haven't proved it's safe. We haven't even asked for the page."
+    },
+    {
+      "id": "s10",
+      "text": "Next, we open the connection. Three packets. One round trip."
+    }
+  ]
+}

@@ -61,3 +61,8 @@ production/renders/
 video/node_modules/
 video/out/
 video/.remotion/
+
+# Generated narration audio + TTS model weights
+video/public/audio/
+video/kokoro-v1.0.onnx
+video/voices-v1.0.bin

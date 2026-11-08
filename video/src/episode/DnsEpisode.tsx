@@ -1,14 +1,17 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Audio,
   Easing,
   Sequence,
   interpolate,
   spring,
+  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
 import { C, F } from "../theme";
+import timings from "./timings.json";
 
 const ease = Easing.bezier(0.22, 1, 0.36, 1);
 
@@ -746,32 +749,48 @@ const EndCard: React.FC = () => {
   );
 };
 
-/* ---------------- timeline ---------------- */
+/* ---------------- timeline (driven by measured narration) ---------------- */
 
-type Scene = { from: number; dur: number; el: React.ReactNode };
+const TAIL_FRAMES = 12; // 0.4s of air after each line
 
-export const SCENES: Scene[] = [
-  { from: 0, dur: 180, el: <TitleScene /> },
-  { from: 180, dur: 240, el: <HookScene /> },
-  { from: 420, dur: 360, el: <NameVsNumber /> },
-  { from: 780, dur: 300, el: <ResolverScene /> },
-  { from: 1080, dur: 420, el: <ChainScene /> },
-  { from: 1500, dur: 360, el: <AnswerScene /> },
-  { from: 1860, dur: 360, el: <CacheScene /> },
-  { from: 2220, dur: 360, el: <BudgetScene /> },
-  { from: 2580, dur: 540, el: <RecapScene /> },
-  { from: 3120, dur: 480, el: <EndCard /> },
-];
+const SCENE_NODES: Record<string, React.ReactNode> = {
+  s01: <TitleScene />,
+  s02: <HookScene />,
+  s03: <NameVsNumber />,
+  s04: <ResolverScene />,
+  s05: <ChainScene />,
+  s06: <AnswerScene />,
+  s07: <CacheScene />,
+  s08: <BudgetScene />,
+  s09: <RecapScene />,
+  s10: <EndCard />,
+};
 
-export const DURATION = 3600;
+type Plan = { id: string; from: number; dur: number };
+
+const buildPlan = (): Plan[] => {
+  let cursor = 0;
+  return Object.keys(SCENE_NODES).map((id) => {
+    const measured = timings.scenes[id as keyof typeof timings.scenes];
+    const dur = (measured?.frames ?? 240) + TAIL_FRAMES;
+    const item = { id, from: cursor, dur };
+    cursor += dur;
+    return item;
+  });
+};
+
+const PLAN = buildPlan();
+
+export const DURATION = PLAN.reduce((n, p) => n + p.dur, 0);
 
 export const DnsEpisode: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: C.bg }}>
       <Backdrop />
-      {SCENES.map((s) => (
-        <Sequence key={s.from} from={s.from} durationInFrames={s.dur}>
-          {s.el}
+      {PLAN.map((p) => (
+        <Sequence key={p.id} from={p.from} durationInFrames={p.dur}>
+          <Audio src={staticFile(`audio/${p.id}.wav`)} />
+          {SCENE_NODES[p.id]}
         </Sequence>
       ))}
       <AbsoluteFill

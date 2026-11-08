@@ -15,7 +15,7 @@ concurrency:
 jobs:
   render:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
@@ -25,18 +25,45 @@ jobs:
           cache: npm
           cache-dependency-path: video/package-lock.json
 
-      - name: Chrome shared libraries
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: System packages
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq --no-install-recommends \
-            ffmpeg \
+            ffmpeg espeak-ng libsndfile1 \
             libnss3 libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 libgbm-dev \
             libasound2t64 libxrandr2 libxkbcommon-dev libxfixes3 libxcomposite1 \
             libxdamage1 libpango-1.0-0 libcairo2 libcups2 fonts-liberation
 
-      - name: Install dependencies
+      - name: Cache Kokoro model
+        uses: actions/cache@v4
+        with:
+          path: |
+            video/kokoro-v1.0.onnx
+            video/voices-v1.0.bin
+          key: kokoro-v1.0-model-files-v1.1
+
+      - name: Download Kokoro model
+        working-directory: video
+        run: |
+          BASE=https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.1
+          [ -f kokoro-v1.0.onnx ] || curl -L --retry 3 -o kokoro-v1.0.onnx "$BASE/kokoro-v1.0.onnx"
+          [ -f voices-v1.0.bin ] || curl -L --retry 3 -o voices-v1.0.bin "$BASE/voices-v1.0.bin"
+          ls -lh kokoro-v1.0.onnx voices-v1.0.bin
+
+      - name: Install TTS dependencies
+        run: pip install -q kokoro-onnx soundfile numpy
+
+      - name: Install node dependencies
         working-directory: video
         run: npm ci --no-audit --no-fund
+
+      - name: Generate narration
+        working-directory: video
+        run: python tools/tts.py
 
       - name: Ensure headless browser
         working-directory: video
@@ -46,32 +73,55 @@ jobs:
         working-directory: video
         run: |
           START=$(date +%s)
-          npx remotion render FindingTheAddress out/finding-the-address.mp4
+          npx remotion render FindingTheAddress out/raw.mp4
           END=$(date +%s)
           echo "RENDER_SECONDS=$((END-START))" >> "$GITHUB_ENV"
+
+      - name: Master audio to -14 LUFS
+        working-directory: video
+        run: |
+          ffmpeg -y -v error -i out/raw.mp4 \
+            -c:v copy \
+            -af "loudnorm=I=-14:TP=-1.5:LRA=11" \
+            -ar 48000 -c:a aac -b:a 192k \
+            -movflags +faststart \
+            out/finding-the-address.mp4
+          echo "--- integrated loudness ---"
+          ffmpeg -hide_banner -nostats -i out/finding-the-address.mp4 \
+            -af ebur128 -f null - 2>&1 | grep -A6 "Summary:" | head -12
 
       - name: Verify output
         working-directory: video
         run: |
           ffprobe -v error -show_entries format=duration,size,bit_rate \
-            -show_entries stream=codec_name,width,height,r_frame_rate,pix_fmt \
+            -show_entries stream=codec_type,codec_name,width,height,r_frame_rate,pix_fmt \
             -of default=noprint_wrappers=1 out/finding-the-address.mp4
           ls -lh out/finding-the-address.mp4
-          FPS=$(python3 -c "print(round(3600/${RENDER_SECONDS},2))")
-          PROJ=$(python3 -c "print(round(27000/${FPS}/60,1))")
+          DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 out/finding-the-address.mp4)
+          AUDIO=$(ffprobe -v error -select_streams a -show_entries stream=codec_name -of csv=p=0 out/finding-the-address.mp4)
+          echo "HEARD_AUDIO=${AUDIO:-none}" >> "$GITHUB_ENV"
           {
             echo "### Episode render"
             echo ""
             echo "| metric | value |"
             echo "|---|---|"
-            echo "| wall clock | ${RENDER_SECONDS}s |"
-            echo "| frames | 3600 (120s @ 30fps) |"
-            echo "| throughput | ${FPS} frames/sec |"
-            echo "| projected 15 min | ${PROJ} min sequential |"
+            echo "| duration | ${DUR}s |"
+            echo "| audio track | ${AUDIO:-NONE} |"
+            echo "| render wall clock | ${RENDER_SECONDS}s |"
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail if silent
+        run: |
+          if [ -z "${HEARD_AUDIO}" ]; then
+            echo "::error::Rendered video has no audio stream"
+            exit 1
+          fi
 
       - uses: actions/upload-artifact@v4
         with:
           name: finding-the-address
-          path: video/out/finding-the-address.mp4
+          path: |
+            video/out/finding-the-address.mp4
+            video/public/audio/*.wav
+            video/src/episode/timings.json
           retention-days: 30
