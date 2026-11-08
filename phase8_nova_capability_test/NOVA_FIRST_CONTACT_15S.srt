@@ -1,0 +1,11 @@
+1
+00:00:00,800 --> 00:00:04,600
+Subterranean sector reached. Visual contact with the Quantum Core.
+
+2
+00:00:05,800 --> 00:00:09,000
+Initiating physical calibration interface.
+
+3
+00:00:10,600 --> 00:00:14,400
+Containment harmonics locked. Resonance achieved.

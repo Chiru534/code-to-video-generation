@@ -1,0 +1,44 @@
+{
+  "model": "Lightricks/LTX-Video ltxv-2b-0.9.8-distilled",
+  "target_frames": 249,
+  "fps": 30,
+  "native_resolution": "512x288",
+  "delivery_resolution": "832x480 (upscaled from 512x288)",
+  "target_duration_seconds": 8.3,
+  "setup_started_utc": "2026-11-07T07:23:30Z",
+  "gpu_devices": [
+    {
+      "name": "Tesla T4",
+      "vram_bytes": 15636037632
+    },
+    {
+      "name": "Tesla T4",
+      "vram_bytes": 15636037632
+    }
+  ],
+  "setup_seconds": 32.1,
+  "generation_pipeline_seconds": 56.7,
+  "generation_call_wall_seconds": 274.02,
+  "video_file": "ltx_2b_distilled_249frames_480p.mp4",
+  "native_video_file": "video_output_0_a-cinematic-photorealistic_20261107_288x512x249_0.mp4",
+  "video_bytes": 6545114,
+  "video_sha256": "f6a063e7fe4c16f09017a31e6da5bedfe32c5a61a31be51b9ef568a76314ae0e",
+  "ffprobe": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 832,
+        "height": 480,
+        "r_frame_rate": "30/1",
+        "nb_frames": "249"
+      }
+    ],
+    "format": {
+      "duration": "8.300000",
+      "size": "6545114"
+    }
+  },
+  "total_job_wall_seconds": 377.58,
+  "status": "complete"
+}

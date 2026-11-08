@@ -1,0 +1,35 @@
+{
+  "status": "complete",
+  "model": "Wan-AI/Wan2.1-T2V-1.3B-Diffusers",
+  "prompt": "Photorealistic cinematic educational documentary macro footage of a precision semiconductor processor on a dark modern circuit board. Bright cyan and amber data pulses flow continuously along copper traces and branch into the chip while tiny particles stream into its surface. Indicator lights pulse in sequence, realistic metal and silicon textures catch moving reflections, the camera makes one smooth low macro tracking move from the chip edge across the circuitry, shallow depth of field, vivid but natural colors, physically plausible motion, one unbroken shot, no cuts, no text, no labels, no logos.",
+  "seed": 6152026,
+  "steps": 20,
+  "native_resolution": "832x480",
+  "frames": 49,
+  "fps": 16,
+  "duration_seconds": 3.0625,
+  "gpu": "Tesla T4",
+  "gpu_count": 2,
+  "model_load_seconds": 216.66,
+  "generation_pipeline_seconds": 589.77,
+  "generation_plus_video_write_seconds": 592.11,
+  "total_job_seconds": 810.84,
+  "file_bytes": 632732,
+  "sha256": "233d7a7fbbcb45d2def40440987e8d75460f8bb4bd7642f8d187cdc4d1d66a19",
+  "ffprobe": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 832,
+        "height": 480,
+        "r_frame_rate": "16/1",
+        "nb_frames": "49"
+      }
+    ],
+    "format": {
+      "duration": "3.062500",
+      "size": "632732"
+    }
+  }
+}

@@ -1,0 +1,333 @@
+{
+  "version": "1.0.0",
+  "project_id": "NOVA_FIRST_CONTACT_P8_TEST",
+  "title": "Nova First Contact",
+  "target_duration_seconds": 15.0,
+  "total_frames": 360,
+  "fps": 24,
+  "director_model": "Claude 3.7 Sonnet / Antigravity AI Director Engine",
+  "brief": {
+    "version": "1.0.0",
+    "project_id": "NOVA_FIRST_CONTACT_P8_TEST",
+    "title": "Nova First Contact",
+    "user_prompt": "Create a visually impressive, fully rendered 15-second 3D animated cinematic scene featuring a character named Nova interacting with a futuristic Quantum Core. Demonstrate real character modelling, rigging, animation, materials, object interaction, cinematic presentation and production orchestration.",
+    "target_duration_seconds": 15.0,
+    "aspect_ratio": "16:9",
+    "style": "Cinematic Stylized Sci-Fi",
+    "target_fps": 24
+  },
+  "character": {
+    "character_id": "CHAR_NOVA",
+    "name": "Nova",
+    "archetype": "Futuristic Field Specialist & Quantum Physicist",
+    "description": "Stylized athletic humanoid female explorer with recognizable anatomical proportions, sculpted head, torso, articulated arms with five-fingered hands, legs, and boots. Wearing futuristic field explorer uniform with armor plating, visor, and silk dynamic shoulder mantle.",
+    "proportions": {
+      "height_meters": 1.78,
+      "head_scale": 0.17,
+      "torso_length": 0.55,
+      "leg_length": 0.88,
+      "arm_span": 1.56
+    },
+    "color_palette": {
+      "main_clothing": "#142238 (Deep Navy Blue)",
+      "secondary_clothing": "#BFC7D5 (Metallic Silver Armor)",
+      "illuminated_details": "#33D6E8 (Electric Cyan Visor & Sole Runners)",
+      "hair": "#1C1620 (Dark Textured Coif)",
+      "face": "#E8B595 (Natural Balanced Skin Tone)",
+      "mantle": "#9B5CFF (Violet Dynamic Silk Cape)",
+      "accessories": "Graphite and brushed silver buckle and knee guards"
+    },
+    "rigging_requirements": [
+      "17-Bone skeletal armature (Root, Spine, Chest, Neck, Head, Limbs)",
+      "Dual 2-bone Inverse Kinematics (IK) on legs for walking stride and foot-planting",
+      "Dual 2-bone Inverse Kinematics (IK) on arms for reaching, touch contact, and bracing",
+      "Normalized vertex group deformation binding via Armature modifier",
+      "Dynamic cloth simulation for mantle pinned at chest shoulders"
+    ],
+    "facial_controls": [
+      "Smile (0.0 to 1.0)",
+      "Alert_Frown (0.0 to 1.0)",
+      "Blink_L (0.0 to 1.0)",
+      "Blink_R (0.0 to 1.0)"
+    ],
+    "has_cloth": true
+  },
+  "prop": {
+    "prop_id": "PROP_QUANTUM_CORE",
+    "name": "Quantum Core",
+    "description": "Ancient harmonic energy artifact levitating above a cylindrical titanium pedestal. Features an inner luminous crystal, outer electric cyan energy shell, concentric counter-rotating gimbal rings, violet resonant corona, and 4 emitter struts with green/amber LED telemetry.",
+    "components": [
+      "Inner Crystal Sphere",
+      "Outer Energy Lattice",
+      "Inner Gimbal Ring",
+      "Outer Chrome Gimbal Ring",
+      "Violet Corona Ring",
+      "Titanium Pedestal",
+      "4 Emitter Struts with LEDs"
+    ],
+    "color_palette": {
+      "inner_crystal": "#287BFF (Luminous Blue, Emission 5.0)",
+      "outer_energy": "#00D9FF (Electric Cyan, Emission 6.0)",
+      "corona": "#9B5CFF (Resonant Violet Corona, Emission 4.5)",
+      "inner_ring": "#00D9FF (Cyan Metallic Gimbal)",
+      "outer_ring": "#D8DEEB (Polished Silver Chrome)",
+      "pedestal": "#141A24 (Dark Titanium Base)",
+      "emitter_leds": "#00E676 (Green Locked), #FFAB00 (Amber Active)"
+    },
+    "dynamic_behaviors": [
+      "Gyroscopic dual-axis rotation",
+      "Proximity scale pulsation",
+      "Touch-triggered kinetic energy surge",
+      "Harmonic resonance lock"
+    ]
+  },
+  "environment": {
+    "env_id": "ENV_LABORATORY",
+    "name": "Subterranean Quantum Research Vault",
+    "description": "High-tech subterranean containment laboratory featuring dark metallic carbon floor tiles with controlled reflections, illuminated electric cyan guide lines, architectural workstation pillars with glowing telemetry screens and status LEDs, central core pedestal, and energy deflector pillar.",
+    "architecture": [
+      "Carbon Floor Grid (30m x 30m)",
+      "Electric Cyan Floor Guide Channels",
+      "Workstation Console Pillars",
+      "Holographic Telemetry Screens",
+      "LED Status Indicator Arrays",
+      "Energy Deflector Pillar"
+    ],
+    "lighting_setup": {
+      "key_light": "750W Cool Cyan Area Light (location: 2.5, -2.5, 3.8)",
+      "fill_light": "400W Deep Blue Point Light (location: -3.5, -1.5, 2.5)",
+      "rim_light": "900W Warm Amber Spot Light (location: 0.0, 4.5, 4.5, focused on Nova and Core)"
+    }
+  },
+  "shots": [
+    {
+      "shot_id": "SHOT_01",
+      "name": "The Discovery",
+      "shot_index": 1,
+      "start_time": 0.0,
+      "end_time": 5.0,
+      "duration_seconds": 5.0,
+      "frame_start": 1,
+      "frame_end": 120,
+      "total_frames": 120,
+      "narrative_beat": "Wide establishing shot. Nova enters the futuristic laboratory along the cyan guide runner, surveying the subterranean facility. The glowing Quantum Core is discovered in the center. Nova turns her head and upper torso towards the Core in wonder and scientific curiosity.",
+      "camera": {
+        "shot_id": "SHOT_01",
+        "focal_length_mm": 28.0,
+        "camera_type": "TRACK_PAN",
+        "start_location": [
+          0.0,
+          -7.5,
+          2.6
+        ],
+        "end_location": [
+          0.0,
+          -5.5,
+          2.0
+        ],
+        "look_at_target": [
+          0.0,
+          -1.5,
+          1.2
+        ]
+      },
+      "character_animation": {
+        "character_id": "CHAR_NOVA",
+        "action_type": "WALK_AND_OBSERVE",
+        "start_frame": 1,
+        "end_frame": 120,
+        "locomotion": "Walks along Y from -5.5 to -3.2 using Foot_IK stride, swaying torso, turning head +0.18 rad toward Core at frame 60",
+        "gesture": "Right arm balances stride; dynamic silk cape flutters in ventilation airflow",
+        "facial_expression": "NEUTRAL transitioning to FOCUSED curiosity; involuntary eye blinks at frame 45 and 95",
+        "interaction_target": null,
+        "contact_frame": null
+      },
+      "prop_animation": {
+        "prop_id": "PROP_QUANTUM_CORE",
+        "start_frame": 1,
+        "end_frame": 120,
+        "energy_state": "IDLE_RESONANCE",
+        "rotation_speed_rad_s": 1.2,
+        "pulse_intensity": 1.0
+      },
+      "audio_cues": [
+        "DL_01",
+        "SFX_01_LAB_HUM",
+        "SFX_02_FOOTSTEPS"
+      ]
+    },
+    {
+      "shot_id": "SHOT_02",
+      "name": "First Contact",
+      "shot_index": 2,
+      "start_time": 5.0,
+      "end_time": 10.0,
+      "duration_seconds": 5.0,
+      "frame_start": 121,
+      "frame_end": 240,
+      "total_frames": 120,
+      "narrative_beat": "Medium-close tracking shot. Nova approaches the Core pedestal and decelerates to a stop at y=-1.2. She raises her right arm, extends her hand, and delicately makes physical contact with the outer gimbal ring of the Quantum Core at frame 210 (t=8.75s).",
+      "camera": {
+        "shot_id": "SHOT_02",
+        "focal_length_mm": 50.0,
+        "camera_type": "MEDIUM_TRACK",
+        "start_location": [
+          1.8,
+          -2.6,
+          1.6
+        ],
+        "end_location": [
+          1.3,
+          -1.8,
+          1.45
+        ],
+        "look_at_target": [
+          0.0,
+          -0.6,
+          1.25
+        ]
+      },
+      "character_animation": {
+        "character_id": "CHAR_NOVA",
+        "action_type": "APPROACH_AND_TOUCH",
+        "start_frame": 121,
+        "end_frame": 240,
+        "locomotion": "Decelerates from y=-3.2 to y=-1.2 by frame 160, plants feet firmly in grounded stance (Foot_IK)",
+        "gesture": "Right arm (Hand_IK.R) elevates from hip at frame 170 and extends forward to reach (0.0, -0.44, 1.30) making direct physical contact with the Core at frame 210",
+        "facial_expression": "FOCUSED alert frown (Alert_Frown=0.70); natural eyelid blinks at frame 150",
+        "interaction_target": "PROP_QUANTUM_CORE",
+        "contact_frame": 210
+      },
+      "prop_animation": {
+        "prop_id": "PROP_QUANTUM_CORE",
+        "start_frame": 121,
+        "end_frame": 240,
+        "energy_state": "PRE_CONTACT_STABILITY",
+        "rotation_speed_rad_s": 2.5,
+        "pulse_intensity": 1.1
+      },
+      "audio_cues": [
+        "DL_02",
+        "SFX_02_FOOTSTEPS",
+        "SFX_03_INTERFACE_CHIME"
+      ]
+    },
+    {
+      "shot_id": "SHOT_03",
+      "name": "Energy Response",
+      "shot_index": 3,
+      "start_time": 10.0,
+      "end_time": 15.0,
+      "duration_seconds": 5.0,
+      "frame_start": 241,
+      "frame_end": 360,
+      "total_frames": 120,
+      "narrative_beat": "Hero composition. In response to Nova's physical contact, the Quantum Core flares with bright cyan/blue luminescence! Gimbal rings spin into high-speed gyroscopic rotation, and a resonant violet corona expands. Nova absorbs the energy glow, torso recoils slightly, and her face transitions into a resolute, victorious smile beside the humming Core.",
+      "camera": {
+        "shot_id": "SHOT_03",
+        "focal_length_mm": 45.0,
+        "camera_type": "HERO_CLOSE_UP",
+        "start_location": [
+          -1.1,
+          -1.6,
+          1.45
+        ],
+        "end_location": [
+          -0.85,
+          -1.35,
+          1.4
+        ],
+        "look_at_target": [
+          0.0,
+          -0.5,
+          1.3
+        ]
+      },
+      "character_animation": {
+        "character_id": "CHAR_NOVA",
+        "action_type": "REACTION_AND_HERO_STANCE",
+        "start_frame": 241,
+        "end_frame": 360,
+        "locomotion": "Grounded hero stance at y=-1.30, chest elevated +0.12 rad, head tilted proudly observing the stabilized core",
+        "gesture": "Right hand gently retracts to side; dynamic mantle drapes softly as kinetic surge settles",
+        "facial_expression": "Alert_Frown drops to 0.0; Smile ramps to 0.85 by frame 290 and holds; blinks at frame 310",
+        "interaction_target": null,
+        "contact_frame": null
+      },
+      "prop_animation": {
+        "prop_id": "PROP_QUANTUM_CORE",
+        "start_frame": 241,
+        "end_frame": 360,
+        "energy_state": "HARMONIC_SURGE_AND_LOCK",
+        "rotation_speed_rad_s": 12.0,
+        "pulse_intensity": 1.45
+      },
+      "audio_cues": [
+        "DL_03",
+        "SFX_04_ENERGY_SURGE",
+        "SFX_06_HARMONIC_OUTRO",
+        "BGM_CRESCENDO"
+      ]
+    }
+  ],
+  "dialogue": [
+    {
+      "line_id": "DL_01",
+      "speaker": "NOVA",
+      "text": "Subterranean sector reached. Visual contact with the Quantum Core.",
+      "start_time": 0.8,
+      "duration": 3.8
+    },
+    {
+      "line_id": "DL_02",
+      "speaker": "NOVA",
+      "text": "Initiating physical calibration interface.",
+      "start_time": 5.8,
+      "duration": 3.5
+    },
+    {
+      "line_id": "DL_03",
+      "speaker": "NOVA",
+      "text": "Containment harmonics locked. Resonance achieved.",
+      "start_time": 10.6,
+      "duration": 3.8
+    }
+  ],
+  "sfx": [
+    {
+      "sfx_id": "SFX_01_LAB_HUM",
+      "name": "Laboratory Ambient Reactor Hum",
+      "trigger_time": 0.0,
+      "duration": 15.0,
+      "description": "Deep 55 Hz sub-bass carrier with 110 Hz harmonic overtone"
+    },
+    {
+      "sfx_id": "SFX_02_FOOTSTEPS",
+      "name": "Magnetic Boot Footsteps",
+      "trigger_time": 1.0,
+      "duration": 6.5,
+      "description": "Rhythmic mechanical impacts across metallic floor"
+    },
+    {
+      "sfx_id": "SFX_03_INTERFACE_CHIME",
+      "name": "First Contact Crystal Chime",
+      "trigger_time": 8.75,
+      "duration": 2.5,
+      "description": "High-frequency dual crystal transient at 1320 Hz when hand touches ring"
+    },
+    {
+      "sfx_id": "SFX_04_ENERGY_SURGE",
+      "name": "Kinetic Energy Surge Pulse",
+      "trigger_time": 10.0,
+      "duration": 3.5,
+      "description": "Low-to-high resonant frequency sweep with plasma crackle"
+    },
+    {
+      "sfx_id": "SFX_06_HARMONIC_OUTRO",
+      "name": "Harmonic Resonance Chord",
+      "trigger_time": 12.0,
+      "duration": 3.0,
+      "description": "Pure fifth harmonic chord fading into peaceful stability"
+    }
+  ]
+}

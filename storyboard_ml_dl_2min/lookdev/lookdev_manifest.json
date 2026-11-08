@@ -1,0 +1,223 @@
+{
+  "model": "stabilityai/sdxl-turbo",
+  "resolution": "672x384",
+  "steps": 2,
+  "shots": [
+    {
+      "id": "S01",
+      "visual": "Opening: host and cat",
+      "file": "S01.png",
+      "seed": 51400,
+      "mean_saturation": 0.2881,
+      "elapsed_seconds": 17.93,
+      "sha256": "19c417ec979380268c651cd5cbb6d137267840a86998fff17faa2ee3b39d87ea"
+    },
+    {
+      "id": "S02",
+      "visual": "Examples power learning",
+      "file": "S02.png",
+      "seed": 51401,
+      "mean_saturation": 0.475,
+      "elapsed_seconds": 7.71,
+      "sha256": "97c16a623bbb1ef7dad180d39d93687f375a04a44d1696052cd62e8ed010d876"
+    },
+    {
+      "id": "S03",
+      "visual": "AI branches into methods",
+      "file": "S03.png",
+      "seed": 51402,
+      "mean_saturation": 0.4962,
+      "elapsed_seconds": 5.68,
+      "sha256": "11c9737ec5acaa098eb4d06fcdcfa7dd688f55fd153f0eb5817f2a87802f21b7"
+    },
+    {
+      "id": "S04",
+      "visual": "Learning from examples",
+      "file": "S04.png",
+      "seed": 51403,
+      "mean_saturation": 0.2616,
+      "elapsed_seconds": 5.54,
+      "sha256": "cfeba85fd64caa97b21ca0dade7a31425e03d37109ef356e5763e1610e52b4b8"
+    },
+    {
+      "id": "S05",
+      "visual": "Cat example",
+      "file": "S05.png",
+      "seed": 51404,
+      "mean_saturation": 0.3696,
+      "elapsed_seconds": 5.44,
+      "sha256": "da1530d9fbe8aa8ee54671201fe2a8ad470e3a0bd3597dbad82b2b2b79da9803"
+    },
+    {
+      "id": "S06",
+      "visual": "Dog example",
+      "file": "S06.png",
+      "seed": 51405,
+      "mean_saturation": 0.5176,
+      "elapsed_seconds": 5.46,
+      "sha256": "f9a74170731153fbf36bf39f3d0ec98336f53e8955b24c3df2c4e7bf3010b817"
+    },
+    {
+      "id": "S07",
+      "visual": "Human-selected features",
+      "file": "S07.png",
+      "seed": 51406,
+      "mean_saturation": 0.2776,
+      "elapsed_seconds": 5.42,
+      "sha256": "92b839b3d3374defe233bc72dfec4aee51d1164a40ab33fad121663f64c93877"
+    },
+    {
+      "id": "S08",
+      "visual": "Features become a decision",
+      "file": "S08.png",
+      "seed": 51407,
+      "mean_saturation": 0.4747,
+      "elapsed_seconds": 5.39,
+      "sha256": "24e70738fcf23ca3dde95b7b16743df83dbe509fd3e97aa7badcc39503c5a6ad"
+    },
+    {
+      "id": "S09",
+      "visual": "Deep neural network",
+      "file": "S09.png",
+      "seed": 51408,
+      "mean_saturation": 0.5938,
+      "elapsed_seconds": 5.34,
+      "sha256": "0380a7c2104fde0f6003fc6c1f736da2c0cc1f88add1e0be952759378047d968"
+    },
+    {
+      "id": "S10",
+      "visual": "Automatic feature learning",
+      "file": "S10.png",
+      "seed": 51409,
+      "mean_saturation": 0.3201,
+      "elapsed_seconds": 5.36,
+      "sha256": "749b05881c724d7e8c942b3502797102adb6000aa1e316581ccd929bd6a15856"
+    },
+    {
+      "id": "S11",
+      "visual": "Early layers detect edges",
+      "file": "S11.png",
+      "seed": 51410,
+      "mean_saturation": 0.4882,
+      "elapsed_seconds": 5.4,
+      "sha256": "fdf53ef00c1c2320ef72590a979f287e43f9faf4529b32e00898186f597ffb5c"
+    },
+    {
+      "id": "S12",
+      "visual": "Later layers recognize objects",
+      "file": "S12.png",
+      "seed": 51411,
+      "mean_saturation": 0.3148,
+      "elapsed_seconds": 5.45,
+      "sha256": "3a55f18368ed33e1be26ccf6506f76f9da2314aad44d3a100d37315373428e38"
+    },
+    {
+      "id": "S13",
+      "visual": "Medical imaging",
+      "file": "S13.png",
+      "seed": 51412,
+      "mean_saturation": 0.2852,
+      "elapsed_seconds": 5.45,
+      "sha256": "0f3bf1bf6024618bdb670b3acc976e4ab587105914edc87d09cd2bdeafa62840"
+    },
+    {
+      "id": "S14",
+      "visual": "Face recognition",
+      "file": "S14.png",
+      "seed": 51413,
+      "mean_saturation": 0.3011,
+      "elapsed_seconds": 5.5,
+      "sha256": "04b2edd5eb5a6394f48d94aa7db7566c52c5b7f8921cbc9cb7ea2e1e52a2757f"
+    },
+    {
+      "id": "S15",
+      "visual": "Self-driving car",
+      "file": "S15.png",
+      "seed": 51414,
+      "mean_saturation": 0.383,
+      "elapsed_seconds": 5.6,
+      "sha256": "1da073afaf58ea7552e1ba3cf8f211b26f7fb4bbd294ec618a17ae11c3034c06"
+    },
+    {
+      "id": "S16",
+      "visual": "Choosing the right method",
+      "file": "S16.png",
+      "seed": 51415,
+      "mean_saturation": 0.3053,
+      "elapsed_seconds": 5.46,
+      "sha256": "249a33a6b2ef34084b6707f2af6eade5373865b105fb4d78aabca3a9dc0dea19"
+    },
+    {
+      "id": "S17",
+      "visual": "Small data favors simple baselines",
+      "file": "S17.png",
+      "seed": 51416,
+      "mean_saturation": 0.1871,
+      "elapsed_seconds": 5.47,
+      "sha256": "c64ee86dea2cc886d28911b7fc4a952873fc02af43ac651ac6a78f89d3a86f30"
+    },
+    {
+      "id": "S18",
+      "visual": "Complex data needs richer models",
+      "file": "S18.png",
+      "seed": 51417,
+      "mean_saturation": 0.2126,
+      "elapsed_seconds": 5.39,
+      "sha256": "bde28b16667d216ee272cee2b9aea02c7fdbacc5c6a64f1ebc9a848848826112"
+    },
+    {
+      "id": "S19",
+      "visual": "Key takeaway",
+      "file": "S19.png",
+      "seed": 51418,
+      "mean_saturation": 0.0954,
+      "elapsed_seconds": 5.42,
+      "sha256": "e13feb48fd64cc1620686c69f0d041f8cafbdb7c4fd12bcde466a931e50a1c36"
+    },
+    {
+      "id": "S20",
+      "visual": "Compare on unseen data",
+      "file": "S20.png",
+      "seed": 51419,
+      "mean_saturation": 0.1801,
+      "elapsed_seconds": 5.39,
+      "sha256": "127f4069c5eb98f0609b41a0b02b56e9250ec49efae18d05657fbb0c19795262"
+    },
+    {
+      "id": "S21",
+      "visual": "Both methods solve problems",
+      "file": "S21.png",
+      "seed": 51420,
+      "mean_saturation": 0.3134,
+      "elapsed_seconds": 5.41,
+      "sha256": "b4e292880cab4597d3cf3e55e89fe1c81df102fbcbd83670accf1606ef2db887"
+    },
+    {
+      "id": "S22",
+      "visual": "Learning from data",
+      "file": "S22.png",
+      "seed": 51421,
+      "mean_saturation": 0.4903,
+      "elapsed_seconds": 5.37,
+      "sha256": "0c8391725d306bdfa49e58998dff988e7ef5336e45da0f60140ffc77a1ecbfc0"
+    },
+    {
+      "id": "S23",
+      "visual": "Final ML and DL comparison",
+      "file": "S23.png",
+      "seed": 51422,
+      "mean_saturation": 0.4755,
+      "elapsed_seconds": 5.38,
+      "sha256": "1eb15eae6119f927d0b4b3dbd8af62a8149585ccd835991f694cc1a8108980a2"
+    },
+    {
+      "id": "S24",
+      "visual": "Friendly close",
+      "file": "S24.png",
+      "seed": 51423,
+      "mean_saturation": 0.2517,
+      "elapsed_seconds": 5.41,
+      "sha256": "25c991807287c3ace95e7dda02135a02b10c7a8f6798eb0ba051cb3edb930f8b"
+    }
+  ]
+}

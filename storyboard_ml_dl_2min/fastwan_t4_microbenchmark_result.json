@@ -1,0 +1,25 @@
+{
+  "model": "FastVideo/FastWan2.1-T2V-1.3B-Diffusers",
+  "target_frames": 49,
+  "target_duration_seconds": 3.0625,
+  "resolution": "832x480",
+  "fps": 16,
+  "steps": 3,
+  "host_python": "3.13.16 (main, Oct  1 2026, 15:40:24) [GCC 13.3.0]",
+  "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+  "gpus": [
+    {
+      "name": "Tesla T4",
+      "vram_bytes": 15636037632
+    },
+    {
+      "name": "Tesla T4",
+      "vram_bytes": 15636037632
+    }
+  ],
+  "install_seconds": 64.4,
+  "status": "error",
+  "error": "CalledProcessError(1, ['/tmp/fastvideo-env/bin/python', '/kaggle/working/fastwan_micro/run_fastwan.py'])",
+  "traceback": "Traceback (most recent call last):\n  File \"/tmp/ipykernel_24/2342076180.py\", line 73, in <cell line: 0>\n    subprocess.run([py, str(runner)], check=True)\n    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.13/subprocess.py\", line 578, in run\n    raise CalledProcessError(retcode, process.args,\n                             output=stdout, stderr=stderr)\nsubprocess.CalledProcessError: Command '['/tmp/fastvideo-env/bin/python', '/kaggle/working/fastwan_micro/run_fastwan.py']' returned non-zero exit status 1.\n",
+  "total_job_seconds": 396.23
+}

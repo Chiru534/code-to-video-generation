@@ -1,0 +1,32 @@
+{
+  "file_name": "NOVA_FIRST_CONTACT_15S.mp4",
+  "file_size_bytes": 3977896,
+  "duration_seconds": 15.0,
+  "target_duration_seconds": 15.0,
+  "duration_error_seconds": 0.0,
+  "video": {
+    "codec_name": "h264",
+    "width": 1280,
+    "height": 720,
+    "r_frame_rate": "24/1",
+    "nb_frames": 360,
+    "pixel_format": "yuv420p",
+    "bit_rate": 1959897
+  },
+  "audio": {
+    "codec_name": "aac",
+    "sample_rate": 48000,
+    "channels": 1,
+    "channel_layout": "mono",
+    "bit_rate": 155137
+  },
+  "burned_subtitles": true,
+  "validation_checks": {
+    "exact_duration_15s": true,
+    "exact_frame_count_360": true,
+    "resolution_1280x720": true,
+    "frame_rate_24fps": true,
+    "audio_stream_present": true
+  },
+  "overall_status": "PASS"
+}

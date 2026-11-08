@@ -1,0 +1,92 @@
+{
+  "timestamp": "2026-11-02T11:38:05Z",
+  "model_version": "Blender-S1 v4.2 Motion Intelligence",
+  "checkpoint": "D:/New folder/checkpoints/blender_s1_v4_2_motion_intelligence.pt",
+  "checkpoint_sha256": "1fd7fe174d51b65bbce445465f4394ee95c8339030a8ec00119bd07a19ddb89c",
+  "parameter_count": 1606064,
+  "held_out_test_evaluation": {
+    "total_decisions": 4081,
+    "overall_action_accuracy": 87.82,
+    "overall_bone_accuracy": 92.46,
+    "overall_trans_mae_mm": 28.6,
+    "overall_rot_mae_deg": 0.58,
+    "overall_frame_mae_f": 0.7,
+    "cpu_latency_p50_ms": 7.13,
+    "cpu_latency_p95_ms": 12.16,
+    "domain_breakdown": {
+      "GESTURE": {
+        "decisions": 710,
+        "action_accuracy": 90.0,
+        "trans_mae_mm": 25.2,
+        "rot_mae_deg": 0.79
+      },
+      "JUMP": {
+        "decisions": 480,
+        "action_accuracy": 100.0,
+        "trans_mae_mm": 32.6,
+        "rot_mae_deg": 0.64
+      },
+      "PICKUP": {
+        "decisions": 590,
+        "action_accuracy": 100.0,
+        "trans_mae_mm": 22.4,
+        "rot_mae_deg": 0.46
+      },
+      "RIGGING": {
+        "decisions": 336,
+        "action_accuracy": 75.0,
+        "trans_mae_mm": 0.0,
+        "rot_mae_deg": 0.0
+      },
+      "RUN": {
+        "decisions": 750,
+        "action_accuracy": 100.0,
+        "trans_mae_mm": 35.7,
+        "rot_mae_deg": 0.52
+      },
+      "SCENE": {
+        "decisions": 297,
+        "action_accuracy": 27.27,
+        "trans_mae_mm": 0.0,
+        "rot_mae_deg": 0.0
+      },
+      "TRANSITION": {
+        "decisions": 216,
+        "action_accuracy": 66.67,
+        "trans_mae_mm": 0.0,
+        "rot_mae_deg": 0.0
+      },
+      "WALK": {
+        "decisions": 702,
+        "action_accuracy": 92.31,
+        "trans_mae_mm": 26.2,
+        "rot_mae_deg": 0.54
+      }
+    }
+  },
+  "closed_loop_summary": {
+    "total_episodes": 200,
+    "passed_episodes": 200,
+    "overall_pass_rate": 100.0,
+    "domain_pass_rates": {
+      "WALK": 100.0,
+      "RUN": 100.0,
+      "JUMP": 100.0,
+      "GESTURE": 100.0,
+      "PICKUP": 100.0,
+      "TRANSITION": 100.0
+    }
+  },
+  "comparison_against_phase6_1_pilot": {
+    "phase6_1_candidate_checkpoint": "blender_s1_v4_1_continuous_motion.pt",
+    "phase6_1_overall_trans_mae_mm": 219.3,
+    "phase6_2_overall_trans_mae_mm": 28.6,
+    "trans_mae_reduction_pct": 86.9,
+    "phase6_1_held_out_action_acc": 64.33,
+    "phase6_2_held_out_action_acc": 87.82,
+    "phase6_1_physical_pass_rate": 100.0,
+    "phase6_2_physical_pass_rate": 100.0,
+    "physical_episodes_tested": "200 episodes (vs 30 pilot episodes in Phase 6.1)"
+  }
+}
+

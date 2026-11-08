@@ -1,0 +1,34 @@
+{
+  "total_episodes": 240,
+  "total_decisions": 2500,
+  "train": {
+    "episodes": 180,
+    "decisions": 1897,
+    "sha256": "d4031c443d36aea16ec46b0b1d71e77fc02ec9a7853e142d88ae65f7f133dbe3",
+    "size_bytes": 5756139
+  },
+  "val": {
+    "episodes": 36,
+    "decisions": 361,
+    "sha256": "a9e68e14d027f2e5521672cee94f14bcc06471acfa6fdc30d6046a2c4607608c",
+    "size_bytes": 1095465
+  },
+  "test": {
+    "episodes": 24,
+    "decisions": 242,
+    "sha256": "0fd54b083817edf73a6a91ed00735df1f133a046830c825e089d459426a44b94",
+    "size_bytes": 734669
+  },
+  "domain_distribution": {
+    "D1_drop_bounce": 35,
+    "D2_stacking_balance": 35,
+    "D3_push_slide": 35,
+    "D4_throw_handoff": 35,
+    "D5_character_contact": 25,
+    "D6_cloth_draping": 25,
+    "R1_scene_staging": 17,
+    "R2_character_rigging": 15,
+    "R3_character_motion": 18
+  }
+}
+

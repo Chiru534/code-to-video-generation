@@ -1,0 +1,892 @@
+{
+  "stage": "16. VIDEO_EXPORT",
+  "history": [
+    {
+      "stage": "1. BRIEF_ANALYSIS",
+      "timestamp": 1793679482.2446492
+    },
+    {
+      "stage": "2. STORY_GENERATION",
+      "timestamp": 1793679482.2465036
+    },
+    {
+      "stage": "3. SCRIPT_APPROVAL",
+      "timestamp": 1793679482.248759
+    },
+    {
+      "stage": "4. SCENE_BREAKDOWN",
+      "timestamp": 1793679482.2502165
+    },
+    {
+      "stage": "5. SHOT_PLANNING",
+      "timestamp": 1793679482.251606
+    },
+    {
+      "stage": "6. ASSET_PLANNING",
+      "timestamp": 1793679482.2530258
+    },
+    {
+      "stage": "7. ASSET_PREPARATION",
+      "timestamp": 1793679482.2544525
+    },
+    {
+      "stage": "8-12. EXECUTING_SHOT_01",
+      "timestamp": 1793679482.255958
+    },
+    {
+      "stage": "8-12. EXECUTING_SHOT_02",
+      "timestamp": 1793679776.5899127
+    },
+    {
+      "stage": "8-12. EXECUTING_SHOT_03",
+      "timestamp": 1793680143.4140031
+    },
+    {
+      "stage": "8-12. EXECUTING_SHOT_04",
+      "timestamp": 1793680566.3390477
+    },
+    {
+      "stage": "8-12. EXECUTING_SHOT_05",
+      "timestamp": 1793680994.0196226
+    },
+    {
+      "stage": "8-12. EXECUTING_SHOT_06",
+      "timestamp": 1793681373.1901479
+    },
+    {
+      "stage": "13. AUDIO_GENERATION",
+      "timestamp": 1793681654.1435385
+    },
+    {
+      "stage": "14. VIDEO_COMPOSITION",
+      "timestamp": 1793681661.2732835
+    },
+    {
+      "stage": "15. FINAL_QUALITY_REVIEW",
+      "timestamp": 1793681704.7968655
+    },
+    {
+      "stage": "16. VIDEO_EXPORT",
+      "timestamp": 1793681704.9375963
+    }
+  ],
+  "brief": {
+    "version": "1.0.0",
+    "project_id": "PROD_P8_001",
+    "title": "The Quantum Core",
+    "user_prompt": "Create a 60-second cinematic sci-fi animated film. Explorer Nova enters an ancient cybernetic vault, approaches a floating Quantum Core, tests its kinetic energy by lifting and throwing it toward an energy deflector barrier, and observes the rebound containment before the chamber seals.",
+    "target_duration_seconds": 60.0,
+    "aspect_ratio": "16:9",
+    "style": "Cinematic Stylized Sci-Fi",
+    "target_fps": 24,
+    "audio_requirements": []
+  },
+  "package": {
+    "script": {
+      "version": "1.0.0",
+      "logline": "Deep inside a forgotten cybernetic vault, explorer Nova uncovers a pulsing Quantum Core and tests its energy threshold.",
+      "synopsis": "Nova descends into an ancient vaulted chamber where an active energy core floats above a pedestal. Reaching out with an IK armature arm, Nova lifts the core and launches it across the chamber to test the dampening field. The core strikes an energy deflector, bounces with rigid restitution, and settles into its containment ring.",
+      "beats": [
+        {
+          "beat_number": 1,
+          "act": 1,
+          "description": "Establishing shot of the Vault; Nova enters and approaches pedestal.",
+          "characters_involved": [
+            "CHAR_NOVA"
+          ],
+          "time_range_seconds": [
+            0.0,
+            8.0
+          ]
+        },
+        {
+          "beat_number": 2,
+          "act": 1,
+          "description": "Tracking camera follows Nova up close; examines the levitating core.",
+          "characters_involved": [
+            "CHAR_NOVA"
+          ],
+          "time_range_seconds": [
+            8.0,
+            18.0
+          ]
+        },
+        {
+          "beat_number": 3,
+          "act": 2,
+          "description": "Nova grasps the Quantum Core and lifts it into active hold.",
+          "characters_involved": [
+            "CHAR_NOVA"
+          ],
+          "time_range_seconds": [
+            18.0,
+            30.0
+          ]
+        },
+        {
+          "beat_number": 4,
+          "act": 2,
+          "description": "Nova initiates dynamic throw; ballistic projectile release.",
+          "characters_involved": [
+            "CHAR_NOVA"
+          ],
+          "time_range_seconds": [
+            30.0,
+            42.0
+          ]
+        },
+        {
+          "beat_number": 5,
+          "act": 3,
+          "description": "Core strikes deflector pillar; ricochets and slides across stone.",
+          "characters_involved": [],
+          "time_range_seconds": [
+            42.0,
+            52.0
+          ]
+        },
+        {
+          "beat_number": 6,
+          "act": 3,
+          "description": "Wide shot; Nova watches core settle; cloth cape drapes peacefully.",
+          "characters_involved": [
+            "CHAR_NOVA"
+          ],
+          "time_range_seconds": [
+            52.0,
+            60.0
+          ]
+        }
+      ],
+      "dialogue": [
+        {
+          "line_id": "DL_01",
+          "speaker": "NARRATOR",
+          "text": "Deep within the forgotten facility, the Quantum Core still pulsed with ancient power.",
+          "start_time": 1.0,
+          "duration": 6.5,
+          "audio_file": null
+        },
+        {
+          "line_id": "DL_02",
+          "speaker": "NOVA",
+          "text": "Readings confirmed. Magnetic confinement is holding steady.",
+          "start_time": 10.0,
+          "duration": 4.5,
+          "audio_file": null
+        },
+        {
+          "line_id": "DL_03",
+          "speaker": "NOVA",
+          "text": "Initiating physical kinetic transfer test.",
+          "start_time": 20.5,
+          "duration": 4.0,
+          "audio_file": null
+        },
+        {
+          "line_id": "DL_04",
+          "speaker": "NOVA",
+          "text": "Release phase active. Vector locked.",
+          "start_time": 32.0,
+          "duration": 3.5,
+          "audio_file": null
+        },
+        {
+          "line_id": "DL_05",
+          "speaker": "NARRATOR",
+          "text": "The deflector absorbed the impact. The containment ring sealed instantly.",
+          "start_time": 44.0,
+          "duration": 6.0,
+          "audio_file": null
+        },
+        {
+          "line_id": "DL_06",
+          "speaker": "NARRATOR",
+          "text": "The expedition lives to see tomorrow.",
+          "start_time": 54.0,
+          "duration": 4.0,
+          "audio_file": null
+        }
+      ]
+    },
+    "bible": {
+      "version": "1.0.0",
+      "characters": [
+        {
+          "character_id": "CHAR_NOVA",
+          "name": "Nova",
+          "archetype": "Cybernetic Explorer",
+          "description": "Bipedal explorer with illuminated cyan visor, armored carbon exoskeleton, and dynamic cloth shoulder cape.",
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "color_palette": {
+            "armor": [
+              0.12,
+              0.14,
+              0.18,
+              1.0
+            ],
+            "visor": [
+              0.0,
+              0.85,
+              1.0,
+              1.0
+            ],
+            "cape": [
+              0.75,
+              0.22,
+              0.15,
+              1.0
+            ]
+          },
+          "has_cloth": true,
+          "voice_id": "en-US-GuyNeural"
+        }
+      ]
+    },
+    "manifest": {
+      "version": "1.0.0",
+      "assets": [
+        {
+          "asset_id": "CHAR_NOVA",
+          "asset_type": "CHARACTER",
+          "name": "Nova Cyber Biped",
+          "blend_path": null,
+          "parameters": {}
+        },
+        {
+          "asset_id": "ENV_VAULT",
+          "asset_type": "ENVIRONMENT",
+          "name": "Ancient Cybernetic Vault",
+          "blend_path": null,
+          "parameters": {}
+        },
+        {
+          "asset_id": "PROP_CORE",
+          "asset_type": "PROP",
+          "name": "Quantum Core Cube",
+          "blend_path": null,
+          "parameters": {
+            "mass": 2.5,
+            "restitution": 0.65,
+            "friction": 0.25
+          }
+        },
+        {
+          "asset_id": "PROP_PEDESTAL",
+          "asset_type": "PROP",
+          "name": "Holding Pedestal",
+          "blend_path": null,
+          "parameters": {
+            "mass": 0.0,
+            "restitution": 0.2
+          }
+        },
+        {
+          "asset_id": "PROP_DEFLECTOR",
+          "asset_type": "PROP",
+          "name": "Energy Deflector Pillar",
+          "blend_path": null,
+          "parameters": {
+            "mass": 0.0,
+            "restitution": 0.75
+          }
+        },
+        {
+          "asset_id": "LIGHT_MOODY",
+          "asset_type": "LIGHTING_PRESET",
+          "name": "Cyan Key Amber Rim",
+          "blend_path": null,
+          "parameters": {}
+        }
+      ]
+    },
+    "scene_plan": {
+      "version": "1.0.0",
+      "scene_id": "SCENE_01",
+      "scene_title": "The Ancient Vault",
+      "environment_ref": "ENV_VAULT",
+      "shots": [
+        {
+          "version": "1.0.0",
+          "shot_id": "SHOT_01",
+          "scene_id": "SCENE_01",
+          "shot_index": 1,
+          "duration_seconds": 8.0,
+          "start_time": 0.0,
+          "end_time": 8.0,
+          "environment_ref": "ENV_VAULT",
+          "character_refs": [
+            "CHAR_NOVA"
+          ],
+          "asset_refs": [
+            "PROP_PEDESTAL",
+            "PROP_CORE"
+          ],
+          "camera": {
+            "focal_length_mm": 28.0,
+            "camera_type": "PAN",
+            "start_location": [
+              0.0,
+              -8.0,
+              4.0
+            ],
+            "end_location": [
+              0.0,
+              -5.0,
+              2.5
+            ],
+            "look_at_target": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          "animation": [
+            {
+              "character_id": "CHAR_NOVA",
+              "locomotion_action": "WALK",
+              "facial_expression": "NEUTRAL",
+              "interaction_target": null,
+              "start_frame": 1,
+              "end_frame": 192
+            }
+          ],
+          "physics": {
+            "active_objects": [],
+            "passive_objects": [],
+            "impulse_vectors": {},
+            "cloth_enabled": false,
+            "bake_range": [
+              1,
+              250
+            ]
+          },
+          "lighting_preset": "LIGHT_MOODY",
+          "audio_cues": [
+            "DL_01",
+            "SFX_01",
+            "SFX_02"
+          ],
+          "render_config": {
+            "resolution_x": 1280,
+            "resolution_y": 720,
+            "fps": 24,
+            "engine": "BLENDER_EEVEE_NEXT",
+            "samples": 32
+          },
+          "verification_status": "VERIFIED"
+        },
+        {
+          "version": "1.0.0",
+          "shot_id": "SHOT_02",
+          "scene_id": "SCENE_01",
+          "shot_index": 2,
+          "duration_seconds": 10.0,
+          "start_time": 8.0,
+          "end_time": 18.0,
+          "environment_ref": "ENV_VAULT",
+          "character_refs": [
+            "CHAR_NOVA"
+          ],
+          "asset_refs": [
+            "PROP_PEDESTAL",
+            "PROP_CORE"
+          ],
+          "camera": {
+            "focal_length_mm": 50.0,
+            "camera_type": "TRACK",
+            "start_location": [
+              1.5,
+              -3.0,
+              1.8
+            ],
+            "end_location": [
+              1.0,
+              -1.8,
+              1.6
+            ],
+            "look_at_target": [
+              0.0,
+              0.0,
+              1.2
+            ]
+          },
+          "animation": [
+            {
+              "character_id": "CHAR_NOVA",
+              "locomotion_action": "IDLE",
+              "facial_expression": "FOCUSED",
+              "interaction_target": null,
+              "start_frame": 1,
+              "end_frame": 240
+            }
+          ],
+          "physics": {
+            "active_objects": [],
+            "passive_objects": [],
+            "impulse_vectors": {},
+            "cloth_enabled": false,
+            "bake_range": [
+              1,
+              250
+            ]
+          },
+          "lighting_preset": "LIGHT_MOODY",
+          "audio_cues": [
+            "DL_02"
+          ],
+          "render_config": {
+            "resolution_x": 1280,
+            "resolution_y": 720,
+            "fps": 24,
+            "engine": "BLENDER_EEVEE_NEXT",
+            "samples": 32
+          },
+          "verification_status": "VERIFIED"
+        },
+        {
+          "version": "1.0.0",
+          "shot_id": "SHOT_03",
+          "scene_id": "SCENE_01",
+          "shot_index": 3,
+          "duration_seconds": 12.0,
+          "start_time": 18.0,
+          "end_time": 30.0,
+          "environment_ref": "ENV_VAULT",
+          "character_refs": [
+            "CHAR_NOVA"
+          ],
+          "asset_refs": [
+            "PROP_CORE"
+          ],
+          "camera": {
+            "focal_length_mm": 85.0,
+            "camera_type": "STATIC",
+            "start_location": [
+              0.8,
+              -1.2,
+              1.3
+            ],
+            "end_location": [
+              0.8,
+              -1.2,
+              1.3
+            ],
+            "look_at_target": [
+              0.0,
+              0.0,
+              1.2
+            ]
+          },
+          "animation": [
+            {
+              "character_id": "CHAR_NOVA",
+              "locomotion_action": "REACH",
+              "facial_expression": "FOCUSED",
+              "interaction_target": "PROP_CORE",
+              "start_frame": 1,
+              "end_frame": 288
+            }
+          ],
+          "physics": {
+            "active_objects": [],
+            "passive_objects": [],
+            "impulse_vectors": {},
+            "cloth_enabled": false,
+            "bake_range": [
+              1,
+              250
+            ]
+          },
+          "lighting_preset": "LIGHT_MOODY",
+          "audio_cues": [
+            "DL_03"
+          ],
+          "render_config": {
+            "resolution_x": 1280,
+            "resolution_y": 720,
+            "fps": 24,
+            "engine": "BLENDER_EEVEE_NEXT",
+            "samples": 32
+          },
+          "verification_status": "VERIFIED"
+        },
+        {
+          "version": "1.0.0",
+          "shot_id": "SHOT_04",
+          "scene_id": "SCENE_01",
+          "shot_index": 4,
+          "duration_seconds": 12.0,
+          "start_time": 30.0,
+          "end_time": 42.0,
+          "environment_ref": "ENV_VAULT",
+          "character_refs": [
+            "CHAR_NOVA"
+          ],
+          "asset_refs": [
+            "PROP_CORE",
+            "PROP_DEFLECTOR"
+          ],
+          "camera": {
+            "focal_length_mm": 35.0,
+            "camera_type": "TRACK",
+            "start_location": [
+              -2.5,
+              -2.5,
+              2.0
+            ],
+            "end_location": [
+              -1.0,
+              0.0,
+              1.8
+            ],
+            "look_at_target": [
+              0.0,
+              3.0,
+              1.0
+            ]
+          },
+          "animation": [
+            {
+              "character_id": "CHAR_NOVA",
+              "locomotion_action": "GESTURE",
+              "facial_expression": "RESOLUTE",
+              "interaction_target": null,
+              "start_frame": 1,
+              "end_frame": 288
+            }
+          ],
+          "physics": {
+            "active_objects": [
+              "PROP_CORE"
+            ],
+            "passive_objects": [
+              "PROP_DEFLECTOR",
+              "ENV_VAULT_FLOOR"
+            ],
+            "impulse_vectors": {
+              "PROP_CORE": [
+                0.0,
+                5.0,
+                2.0
+              ]
+            },
+            "cloth_enabled": false,
+            "bake_range": [
+              1,
+              288
+            ]
+          },
+          "lighting_preset": "LIGHT_MOODY",
+          "audio_cues": [
+            "DL_04",
+            "SFX_03"
+          ],
+          "render_config": {
+            "resolution_x": 1280,
+            "resolution_y": 720,
+            "fps": 24,
+            "engine": "BLENDER_EEVEE_NEXT",
+            "samples": 32
+          },
+          "verification_status": "VERIFIED"
+        },
+        {
+          "version": "1.0.0",
+          "shot_id": "SHOT_05",
+          "scene_id": "SCENE_01",
+          "shot_index": 5,
+          "duration_seconds": 10.0,
+          "start_time": 42.0,
+          "end_time": 52.0,
+          "environment_ref": "ENV_VAULT",
+          "character_refs": [],
+          "asset_refs": [
+            "PROP_CORE",
+            "PROP_DEFLECTOR"
+          ],
+          "camera": {
+            "focal_length_mm": 50.0,
+            "camera_type": "PAN",
+            "start_location": [
+              3.0,
+              2.0,
+              1.5
+            ],
+            "end_location": [
+              2.0,
+              3.5,
+              1.2
+            ],
+            "look_at_target": [
+              0.0,
+              3.5,
+              0.5
+            ]
+          },
+          "animation": [],
+          "physics": {
+            "active_objects": [
+              "PROP_CORE"
+            ],
+            "passive_objects": [
+              "PROP_DEFLECTOR",
+              "ENV_VAULT_FLOOR"
+            ],
+            "impulse_vectors": {},
+            "cloth_enabled": false,
+            "bake_range": [
+              1,
+              240
+            ]
+          },
+          "lighting_preset": "LIGHT_MOODY",
+          "audio_cues": [
+            "DL_05",
+            "SFX_04"
+          ],
+          "render_config": {
+            "resolution_x": 1280,
+            "resolution_y": 720,
+            "fps": 24,
+            "engine": "BLENDER_EEVEE_NEXT",
+            "samples": 32
+          },
+          "verification_status": "VERIFIED"
+        },
+        {
+          "version": "1.0.0",
+          "shot_id": "SHOT_06",
+          "scene_id": "SCENE_01",
+          "shot_index": 6,
+          "duration_seconds": 8.0,
+          "start_time": 52.0,
+          "end_time": 60.0,
+          "environment_ref": "ENV_VAULT",
+          "character_refs": [
+            "CHAR_NOVA"
+          ],
+          "asset_refs": [
+            "PROP_CORE"
+          ],
+          "camera": {
+            "focal_length_mm": 24.0,
+            "camera_type": "DOLLY",
+            "start_location": [
+              0.0,
+              -6.0,
+              2.0
+            ],
+            "end_location": [
+              0.0,
+              -9.0,
+              3.0
+            ],
+            "look_at_target": [
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          "animation": [
+            {
+              "character_id": "CHAR_NOVA",
+              "locomotion_action": "IDLE",
+              "facial_expression": "RESOLUTE",
+              "interaction_target": null,
+              "start_frame": 1,
+              "end_frame": 192
+            }
+          ],
+          "physics": {
+            "active_objects": [],
+            "passive_objects": [],
+            "impulse_vectors": {},
+            "cloth_enabled": true,
+            "bake_range": [
+              1,
+              192
+            ]
+          },
+          "lighting_preset": "LIGHT_MOODY",
+          "audio_cues": [
+            "DL_06",
+            "SFX_05"
+          ],
+          "render_config": {
+            "resolution_x": 1280,
+            "resolution_y": 720,
+            "fps": 24,
+            "engine": "BLENDER_EEVEE_NEXT",
+            "samples": 32
+          },
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    "audio": {
+      "version": "1.0.0",
+      "dialogue_tracks": [
+        {
+          "line_id": "DL_01",
+          "speaker": "NARRATOR",
+          "text": "Deep within the forgotten facility, the Quantum Core still pulsed with ancient power.",
+          "start_time": 1.0,
+          "duration": 6.5,
+          "audio_file": null
+        },
+        {
+          "line_id": "DL_02",
+          "speaker": "NOVA",
+          "text": "Readings confirmed. Magnetic confinement is holding steady.",
+          "start_time": 10.0,
+          "duration": 4.5,
+          "audio_file": null
+        },
+        {
+          "line_id": "DL_03",
+          "speaker": "NOVA",
+          "text": "Initiating physical kinetic transfer test.",
+          "start_time": 20.5,
+          "duration": 4.0,
+          "audio_file": null
+        },
+        {
+          "line_id": "DL_04",
+          "speaker": "NOVA",
+          "text": "Release phase active. Vector locked.",
+          "start_time": 32.0,
+          "duration": 3.5,
+          "audio_file": null
+        },
+        {
+          "line_id": "DL_05",
+          "speaker": "NARRATOR",
+          "text": "The deflector absorbed the impact. The containment ring sealed instantly.",
+          "start_time": 44.0,
+          "duration": 6.0,
+          "audio_file": null
+        },
+        {
+          "line_id": "DL_06",
+          "speaker": "NARRATOR",
+          "text": "The expedition lives to see tomorrow.",
+          "start_time": 54.0,
+          "duration": 4.0,
+          "audio_file": null
+        }
+      ],
+      "sfx_tracks": [
+        {
+          "sfx_id": "SFX_01",
+          "sfx_type": "HUM",
+          "start_time": 0.5,
+          "duration": 15.0,
+          "volume": 0.4
+        },
+        {
+          "sfx_id": "SFX_02",
+          "sfx_type": "FOOTSTEP",
+          "start_time": 3.0,
+          "duration": 5.0,
+          "volume": 0.5
+        },
+        {
+          "sfx_id": "SFX_03",
+          "sfx_type": "WHOOSH",
+          "start_time": 33.0,
+          "duration": 1.5,
+          "volume": 0.7
+        },
+        {
+          "sfx_id": "SFX_04",
+          "sfx_type": "IMPACT",
+          "start_time": 42.5,
+          "duration": 2.0,
+          "volume": 0.9
+        },
+        {
+          "sfx_id": "SFX_05",
+          "sfx_type": "RUMBLE",
+          "start_time": 50.0,
+          "duration": 4.0,
+          "volume": 0.6
+        }
+      ],
+      "bgm_mood": "Cinematic Sci-Fi Ambient",
+      "bgm_volume": 0.3
+    },
+    "timeline": {
+      "version": "1.0.0",
+      "total_duration_seconds": 60.0,
+      "cuts": [
+        {
+          "shot_id": "SHOT_01",
+          "source_video": "renders/SHOT_01.mp4",
+          "timeline_in": 0.0,
+          "timeline_out": 8.0,
+          "duration": 8.0,
+          "transition_type": "CUT"
+        },
+        {
+          "shot_id": "SHOT_02",
+          "source_video": "renders/SHOT_02.mp4",
+          "timeline_in": 8.0,
+          "timeline_out": 18.0,
+          "duration": 10.0,
+          "transition_type": "CUT"
+        },
+        {
+          "shot_id": "SHOT_03",
+          "source_video": "renders/SHOT_03.mp4",
+          "timeline_in": 18.0,
+          "timeline_out": 30.0,
+          "duration": 12.0,
+          "transition_type": "CUT"
+        },
+        {
+          "shot_id": "SHOT_04",
+          "source_video": "renders/SHOT_04.mp4",
+          "timeline_in": 30.0,
+          "timeline_out": 42.0,
+          "duration": 12.0,
+          "transition_type": "CUT"
+        },
+        {
+          "shot_id": "SHOT_05",
+          "source_video": "renders/SHOT_05.mp4",
+          "timeline_in": 42.0,
+          "timeline_out": 52.0,
+          "duration": 10.0,
+          "transition_type": "CUT"
+        },
+        {
+          "shot_id": "SHOT_06",
+          "source_video": "renders/SHOT_06.mp4",
+          "timeline_in": 52.0,
+          "timeline_out": 60.0,
+          "duration": 8.0,
+          "transition_type": "CUT"
+        }
+      ]
+    }
+  },
+  "final_video": {
+    "video_path": "/content/production/assembly/blender_s1_phase8_the_quantum_core_60s.mp4",
+    "duration_seconds": 60.0,
+    "size_bytes": 3364056,
+    "width": 1280,
+    "height": 720,
+    "fps": "24/1",
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "has_audio": true
+  },
+  "production_duration_seconds": 2222.6946330070496,
+  "status": "COMPLETED"
+}
+

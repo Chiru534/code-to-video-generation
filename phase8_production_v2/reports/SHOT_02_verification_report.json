@@ -1,0 +1,44 @@
+{
+  "shot": "SHOT_02",
+  "frames": 240,
+  "fps": 24,
+  "duration_seconds": 10.0,
+  "render_time_seconds": 331.15,
+  "seconds_per_frame": 1.38,
+  "video_path": "/content/phase8_production_v2/SHOT_02_PRODUCTION.mp4",
+  "video_size_bytes": 844416,
+  "audio_track": "/content/phase8_production_v2/audio/SHOT_02_audio.wav",
+  "color_qa": [
+    {
+      "frame": 1,
+      "saturated_pixel_ratio": 0.9438,
+      "threshold_passed": true,
+      "cyan_pixels": 0,
+      "navy_pixels": 29830,
+      "skin_pixels": 25,
+      "silver_pixels": 1343,
+      "status": "PASS"
+    },
+    {
+      "frame": 120,
+      "saturated_pixel_ratio": 0.9439,
+      "threshold_passed": true,
+      "cyan_pixels": 3,
+      "navy_pixels": 33022,
+      "skin_pixels": 39,
+      "silver_pixels": 1753,
+      "status": "PASS"
+    },
+    {
+      "frame": 240,
+      "saturated_pixel_ratio": 0.942,
+      "threshold_passed": true,
+      "cyan_pixels": 2,
+      "navy_pixels": 38340,
+      "skin_pixels": 44,
+      "silver_pixels": 2368,
+      "status": "PASS"
+    }
+  ],
+  "color_qa_overall": "PASS"
+}

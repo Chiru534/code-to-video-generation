@@ -1,0 +1,283 @@
+{
+  "production_id": "PROD_P8_001",
+  "project": "Blender-S1 Phase 8 Production V2",
+  "title": "The Quantum Core",
+  "status": "COMPLETED",
+  "timestamp": 1793689774.0855076,
+  "master_film": {
+    "filename": "FINAL_QUANTUM_CORE_60S.mp4",
+    "duration_seconds": 60.0,
+    "size_bytes": 7544546,
+    "resolution": "1280x720",
+    "fps": 24,
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "subtitles_burned": true
+  },
+  "shots": [
+    {
+      "shot": "SHOT_01",
+      "frames": 192,
+      "fps": 24,
+      "duration_seconds": 8.0,
+      "render_time_seconds": 248.06,
+      "seconds_per_frame": 1.292,
+      "video_path": "/content/phase8_production_v2/SHOT_01_PRODUCTION.mp4",
+      "video_size_bytes": 513654,
+      "audio_track": "/content/phase8_production_v2/audio/SHOT_01_audio.wav",
+      "color_qa": [
+        {
+          "frame": 1,
+          "saturated_pixel_ratio": 0.8591,
+          "threshold_passed": true,
+          "cyan_pixels": 2,
+          "navy_pixels": 11218,
+          "skin_pixels": 6,
+          "silver_pixels": 322,
+          "status": "PASS"
+        },
+        {
+          "frame": 96,
+          "saturated_pixel_ratio": 0.8555,
+          "threshold_passed": true,
+          "cyan_pixels": 3,
+          "navy_pixels": 10450,
+          "skin_pixels": 6,
+          "silver_pixels": 432,
+          "status": "PASS"
+        },
+        {
+          "frame": 192,
+          "saturated_pixel_ratio": 0.8517,
+          "threshold_passed": true,
+          "cyan_pixels": 3,
+          "navy_pixels": 9851,
+          "skin_pixels": 9,
+          "silver_pixels": 552,
+          "status": "PASS"
+        }
+      ],
+      "color_qa_overall": "PASS"
+    },
+    {
+      "shot": "SHOT_02",
+      "frames": 240,
+      "fps": 24,
+      "duration_seconds": 10.0,
+      "render_time_seconds": 331.15,
+      "seconds_per_frame": 1.38,
+      "video_path": "/content/phase8_production_v2/SHOT_02_PRODUCTION.mp4",
+      "video_size_bytes": 844416,
+      "audio_track": "/content/phase8_production_v2/audio/SHOT_02_audio.wav",
+      "color_qa": [
+        {
+          "frame": 1,
+          "saturated_pixel_ratio": 0.9438,
+          "threshold_passed": true,
+          "cyan_pixels": 0,
+          "navy_pixels": 29830,
+          "skin_pixels": 25,
+          "silver_pixels": 1343,
+          "status": "PASS"
+        },
+        {
+          "frame": 120,
+          "saturated_pixel_ratio": 0.9439,
+          "threshold_passed": true,
+          "cyan_pixels": 3,
+          "navy_pixels": 33022,
+          "skin_pixels": 39,
+          "silver_pixels": 1753,
+          "status": "PASS"
+        },
+        {
+          "frame": 240,
+          "saturated_pixel_ratio": 0.942,
+          "threshold_passed": true,
+          "cyan_pixels": 2,
+          "navy_pixels": 38340,
+          "skin_pixels": 44,
+          "silver_pixels": 2368,
+          "status": "PASS"
+        }
+      ],
+      "color_qa_overall": "PASS"
+    },
+    {
+      "shot": "SHOT_03",
+      "frames": 288,
+      "fps": 24,
+      "duration_seconds": 12.0,
+      "render_time_seconds": 389.45,
+      "seconds_per_frame": 1.352,
+      "video_path": "/content/phase8_production_v2/SHOT_03_PRODUCTION.mp4",
+      "video_size_bytes": 1659054,
+      "audio_track": "/content/phase8_production_v2/audio/SHOT_03_audio.wav",
+      "color_qa": [
+        {
+          "frame": 1,
+          "saturated_pixel_ratio": 0.7617,
+          "threshold_passed": true,
+          "cyan_pixels": 0,
+          "navy_pixels": 15215,
+          "skin_pixels": 212,
+          "silver_pixels": 11682,
+          "status": "PASS"
+        },
+        {
+          "frame": 144,
+          "saturated_pixel_ratio": 0.7648,
+          "threshold_passed": true,
+          "cyan_pixels": 0,
+          "navy_pixels": 12292,
+          "skin_pixels": 228,
+          "silver_pixels": 12754,
+          "status": "PASS"
+        },
+        {
+          "frame": 288,
+          "saturated_pixel_ratio": 0.7724,
+          "threshold_passed": true,
+          "cyan_pixels": 0,
+          "navy_pixels": 13971,
+          "skin_pixels": 257,
+          "silver_pixels": 14145,
+          "status": "PASS"
+        }
+      ],
+      "color_qa_overall": "PASS"
+    },
+    {
+      "shot": "SHOT_04",
+      "frames": 288,
+      "fps": 24,
+      "duration_seconds": 12.0,
+      "render_time_seconds": 353.81,
+      "seconds_per_frame": 1.229,
+      "video_path": "/content/phase8_production_v2/SHOT_04_PRODUCTION.mp4",
+      "video_size_bytes": 1184862,
+      "audio_track": "/content/phase8_production_v2/audio/SHOT_04_audio.wav",
+      "color_qa": [
+        {
+          "frame": 1,
+          "saturated_pixel_ratio": 0.6124,
+          "threshold_passed": true,
+          "cyan_pixels": 0,
+          "navy_pixels": 1969,
+          "skin_pixels": 93,
+          "silver_pixels": 6573,
+          "status": "PASS"
+        },
+        {
+          "frame": 144,
+          "saturated_pixel_ratio": 0.611,
+          "threshold_passed": true,
+          "cyan_pixels": 1,
+          "navy_pixels": 1895,
+          "skin_pixels": 90,
+          "silver_pixels": 5968,
+          "status": "PASS"
+        },
+        {
+          "frame": 288,
+          "saturated_pixel_ratio": 0.612,
+          "threshold_passed": true,
+          "cyan_pixels": 0,
+          "navy_pixels": 1911,
+          "skin_pixels": 93,
+          "silver_pixels": 6294,
+          "status": "PASS"
+        }
+      ],
+      "color_qa_overall": "PASS"
+    },
+    {
+      "shot": "SHOT_05",
+      "frames": 240,
+      "fps": 24,
+      "duration_seconds": 10.0,
+      "render_time_seconds": 309.29,
+      "seconds_per_frame": 1.289,
+      "video_path": "/content/phase8_production_v2/SHOT_05_PRODUCTION.mp4",
+      "video_size_bytes": 534255,
+      "audio_track": "/content/phase8_production_v2/audio/SHOT_05_audio.wav",
+      "color_qa": [
+        {
+          "frame": 1,
+          "saturated_pixel_ratio": 0.7605,
+          "threshold_passed": true,
+          "cyan_pixels": 0,
+          "navy_pixels": 17506,
+          "skin_pixels": 25,
+          "silver_pixels": 2785,
+          "status": "PASS"
+        },
+        {
+          "frame": 120,
+          "saturated_pixel_ratio": 0.761,
+          "threshold_passed": true,
+          "cyan_pixels": 2,
+          "navy_pixels": 17483,
+          "skin_pixels": 25,
+          "silver_pixels": 2717,
+          "status": "PASS"
+        },
+        {
+          "frame": 240,
+          "saturated_pixel_ratio": 0.761,
+          "threshold_passed": true,
+          "cyan_pixels": 2,
+          "navy_pixels": 17483,
+          "skin_pixels": 25,
+          "silver_pixels": 2722,
+          "status": "PASS"
+        }
+      ],
+      "color_qa_overall": "PASS"
+    },
+    {
+      "shot": "SHOT_06",
+      "frames": 192,
+      "fps": 24,
+      "duration_seconds": 8.0,
+      "render_time_seconds": 258.28,
+      "seconds_per_frame": 1.345,
+      "video_path": "/content/phase8_production_v2/SHOT_06_PRODUCTION.mp4",
+      "video_size_bytes": 673149,
+      "audio_track": "/content/phase8_production_v2/audio/SHOT_06_audio.wav",
+      "color_qa": [
+        {
+          "frame": 1,
+          "saturated_pixel_ratio": 0.7677,
+          "threshold_passed": true,
+          "cyan_pixels": 1,
+          "navy_pixels": 33026,
+          "skin_pixels": 43,
+          "silver_pixels": 2754,
+          "status": "PASS"
+        },
+        {
+          "frame": 96,
+          "saturated_pixel_ratio": 0.7592,
+          "threshold_passed": true,
+          "cyan_pixels": 1,
+          "navy_pixels": 13778,
+          "skin_pixels": 16,
+          "silver_pixels": 938,
+          "status": "PASS"
+        },
+        {
+          "frame": 192,
+          "saturated_pixel_ratio": 0.8869,
+          "threshold_passed": true,
+          "cyan_pixels": 0,
+          "navy_pixels": 42976,
+          "skin_pixels": 0,
+          "silver_pixels": 77,
+          "status": "PASS"
+        }
+      ],
+      "color_qa_overall": "PASS"
+    }
+  ]
+}

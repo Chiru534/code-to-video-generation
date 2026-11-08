@@ -1,0 +1,57 @@
+{
+  "timestamp": "2026-11-02T13:45:00Z",
+  "blender_version": [
+    5,
+    2,
+    3
+  ],
+  "character": {
+    "mesh_name": "Hero_Anim_Mesh",
+    "vertex_count": 674,
+    "bone_count": 27,
+    "shape_keys": [
+      "Basis",
+      "Smile",
+      "Blink_L",
+      "Blink_R",
+      "Jaw_Open"
+    ]
+  },
+  "demonstrations": {
+    "walk_cycle": {
+      "cycle_name": "HUMANOID_WALK_CYCLE",
+      "total_frames": 24,
+      "stride_displacement_m": 0.44,
+      "foot_lift_elevation_m": 0.1,
+      "periodicity_loop_drift_m": 0.0,
+      "verification_passed": true
+    },
+    "run_cycle": {
+      "cycle_name": "HUMANOID_RUN_CYCLE",
+      "total_frames": 16,
+      "flight_phase_verified": true,
+      "r_foot_flight_elevation_m": 0.28,
+      "l_foot_flight_elevation_m": 0.3,
+      "periodicity_loop_drift_m": 0.0,
+      "verification_passed": true
+    },
+    "gesture_sequence": {
+      "sequence_name": "EXPRESSIVE_GESTURE_AND_FACIAL",
+      "total_frames": 60,
+      "max_hand_elevation_m": 0.45,
+      "smile_peak_value": 0.85,
+      "blink_synchronized": true,
+      "verification_passed": true
+    },
+    "pickup_interaction": {
+      "interaction_name": "OBJECT_PICKUP_INTERACTION",
+      "prop_name": "Interactive_Prop_Crate",
+      "initial_elevation_m": 1.0908,
+      "lifted_elevation_m": 1.8185,
+      "elevation_gain_m": 0.7276,
+      "verification_passed": true
+    }
+  },
+  "all_passed": true
+}
+

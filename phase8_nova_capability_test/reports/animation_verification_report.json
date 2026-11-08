@@ -1,0 +1,40 @@
+{
+  "production_id": "NOVA_FIRST_CONTACT_P8_TEST",
+  "total_frames": 360,
+  "fps": 24,
+  "duration_seconds": 15.0,
+  "shots_count": 3,
+  "contact_interaction_validation": {
+    "contact_frame": 210,
+    "contact_timestamp_seconds": 8.75,
+    "intended_contact_point": [
+      0.0,
+      -0.44,
+      1.3
+    ],
+    "hand_tail_world_at_contact": [
+      -5e-05,
+      -0.440041,
+      1.29996
+    ],
+    "spatial_distance_error_meters": 7.6e-05,
+    "contact_threshold_meters": 0.05,
+    "physical_contact_verified": true
+  },
+  "character_motion_validation": {
+    "shot_1_walk_distance_meters": 2.2,
+    "shot_2_approach_distance_meters": 1.65,
+    "grounded_stance_verified": true,
+    "arm_reach_verified": true,
+    "hero_smile_max_value": 0.85,
+    "alert_frown_max_value": 0.7
+  },
+  "quantum_core_response_validation": {
+    "pre_contact_rotation_rad_s": 2.5,
+    "post_contact_peak_rotation_rad_s": 12.0,
+    "crystal_peak_pulse_scale": 1.35,
+    "corona_flare_peak_scale": 1.8,
+    "energy_response_verified": true
+  },
+  "overall_animation_status": "PASS"
+}

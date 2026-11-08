@@ -1,0 +1,54 @@
+{
+  "total_transferred_tensors": 71,
+  "total_params_transferred": 1453018,
+  "d_model": 192,
+  "nhead": 4,
+  "num_layers": 4,
+  "dim_feedforward": 512,
+  "summary": "Full cryptographic and tensor shape verification of weight warm-start transfer from blender_s1_v3_character_rigging.pt (1.45M params) into blender_s1_v4_1_continuous_motion.pt (1.60M params). Exactly 69 tensors transferred via 1:1 direct copy with identical shapes, and 2 action head tensors transferred via slice copying [:24] to preserve learned actions 0-23.",
+  "tensor_categories": {
+    "transformer_encoder_layers": {
+      "tensor_count": 36,
+      "shapes": {
+        "self_attn.in_proj_weight": [576, 192],
+        "self_attn.in_proj_bias": [576],
+        "self_attn.out_proj.weight": [192, 192],
+        "self_attn.out_proj.bias": [192],
+        "linear1.weight": [512, 192],
+        "linear1.bias": [512],
+        "linear2.weight": [192, 512],
+        "linear2.bias": [192],
+        "norm1.weight": [192],
+        "norm1.bias": [192],
+        "norm2.weight": [192],
+        "norm2.bias": [192]
+      },
+      "transfer_mode": "Direct 1:1 copy"
+    },
+    "input_encoders_and_embeddings": {
+      "tensor_count": 9,
+      "tensors": [
+        "task_proj.weight [192, 48]",
+        "task_proj.bias [192]",
+        "cand_proj.weight [192, 24]",
+        "cand_proj.bias [192]",
+        "bone_proj.weight [192, 24]",
+        "bone_proj.bias [192]",
+        "global_proj.weight [192, 24]",
+        "global_proj.bias [192]",
+        "token_type_embed.weight [4, 192]"
+      ],
+      "transfer_mode": "Direct 1:1 copy"
+    },
+    "discrete_action_head": {
+      "tensor_count": 6,
+      "layers": {
+        "action_head.0 (LayerNorm)": "Direct 1:1 copy ([192], [192])",
+        "action_head.1 (Linear1)": "Direct 1:1 copy ([192, 192], [192])",
+        "action_head.3.weight": "Slice copy [:24, :] from [24, 192] to [36, 192]",
+        "action_head.3.bias": "Slice copy [:24] from [24] to [36]"
+      }
+    }
+  }
+}
+

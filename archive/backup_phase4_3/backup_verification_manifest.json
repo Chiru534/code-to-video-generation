@@ -1,0 +1,77 @@
+{
+  "timestamp": "2026-11-02T11:34:00Z",
+  "phase": "4.3_Sequential_Intelligence_and_Recovery",
+  "persistent_storage": {
+    "colab_path": "/content/backup_phase4_3/",
+    "colab_archive": "/content/backup_phase4_3/blender_s1_phase4_3_backup.tar.gz",
+    "local_workspace": "d:\\New folder\\backup_phase4_3\\"
+  },
+  "archive": {
+    "file": "blender_s1_phase4_3_backup.tar.gz",
+    "size_bytes": 25141259,
+    "sha256": "33467d44bda5af4df8dce6f66e1f9631d302cf9d2139d154393bf5afac1c9dc6"
+  },
+  "checkpoints": {
+    "blender_s1_v1_frozen_baseline.pt": {
+      "original_path": "/content/blender_s1_mvp/checkpoints/blender_s1_v1_frozen_baseline.pt",
+      "backup_path": "/content/backup_phase4_3/checkpoints/blender_s1_v1_frozen_baseline.pt",
+      "size_bytes": 4523284,
+      "sha256": "0111b42463a48f5b1aeb1d0fb4482da50d386c3b29032d27e5a9c76b402a9cb1",
+      "hash_verified": true
+    },
+    "blender_s1_v2_latest.pt": {
+      "original_path": "/content/blender_s1_v2/checkpoints/blender_s1_v2_latest.pt",
+      "backup_path": "/content/backup_phase4_3/checkpoints/blender_s1_v2_latest.pt",
+      "size_bytes": 7351075,
+      "sha256": "dde935f40dff6719da2e6430f994ebf7f9a0ea801b567db7c4b722b4ad49a233",
+      "hash_verified": true
+    },
+    "blender_s1_v2_leakage_free.pt": {
+      "original_path": "/content/blender_s1_v2/checkpoints/blender_s1_v2_leakage_free.pt",
+      "backup_path": "/content/backup_phase4_3/checkpoints/blender_s1_v2_leakage_free.pt",
+      "size_bytes": 7351653,
+      "sha256": "352a64c038412b3e693ec15afe59a11e05ff1d47da5cf376f5132401c47024c7",
+      "hash_verified": true
+    },
+    "blender_s1_v2_sequential_recovery.pt": {
+      "original_path": "/content/blender_s1_v2/checkpoints/blender_s1_v2_sequential_recovery.pt",
+      "backup_path": "/content/backup_phase4_3/checkpoints/blender_s1_v2_sequential_recovery.pt",
+      "size_bytes": 7352178,
+      "sha256": "84812992a4564e83420efee988331e7b114193950e586c3f6f17d02c07944a75",
+      "hash_verified": true
+    }
+  },
+  "datasets": {
+    "blender_s1_v2_combined_train.jsonl": {
+      "size_bytes": 47358194,
+      "sha256": "624508fc799ce6c6c9f84fbd225c0befb1f94bf2beff9b95f9d85946007cd7c7"
+    },
+    "blender_s1_v2_combined_val.jsonl": {
+      "size_bytes": 5918898,
+      "sha256": "ee5a0fbf877d2f6653e43cb989f883f44d4d1b4a1c1024a7c80a920bb9f435af"
+    },
+    "blender_s1_v2_clean_train.jsonl": {
+      "size_bytes": 23982151,
+      "sha256": "261d4f6cfa395552f2d59235bc01eef8a661ca1ea35f976633f21543d6038cb6"
+    },
+    "blender_s1_v2_clean_val.jsonl": {
+      "size_bytes": 2983761,
+      "sha256": "575bd99d787e5f80bf02d34099faac613f05170f588113415533db7ec58b7f3a"
+    },
+    "blender_s1_v2_clean_test.jsonl": {
+      "size_bytes": 8879020,
+      "sha256": "0efac3ad18bd0eb7a12fb02aebcc3df946349088e1f5bde6fd1bd0ed777abe85"
+    }
+  },
+  "configs": {
+    "p43_training_summary.json": {
+      "size_bytes": 1527,
+      "sha256": "bf012dfd7e9a583ca4d1ce9917cde22f098d364903d81f5bde5284d2bdc88bb8"
+    },
+    "leakage_free_training_summary.json": {
+      "size_bytes": 1710,
+      "sha256": "df47543ff1db3412ad8202647e600f537fae544a780d33a08c44eb0aa19fb794"
+    }
+  },
+  "reports_count": 24
+}

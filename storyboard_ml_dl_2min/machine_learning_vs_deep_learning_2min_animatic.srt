@@ -1,0 +1,77 @@
+﻿1
+00:00:00,000 --> 00:00:07,443
+Hey, I'm Nova. In the next two minutes,
+we'll compare machine learning with deep
+learning and see what each is good at.
+
+2
+00:00:10,000 --> 00:00:17,883
+AI is the broad goal. Machine learning is
+one way computers learn patterns from
+examples instead of following every hand-
+written rule.
+
+3
+00:00:20,000 --> 00:00:28,138
+Give a model many labeled cat and dog
+photos. It learns patterns from those
+examples, then uses them to classify new
+pictures.
+
+4
+00:00:30,000 --> 00:00:38,208
+In traditional machine learning, people
+choose features such as ear shape, fur
+color, body outline, and size before
+training.
+
+5
+00:00:40,000 --> 00:00:48,533
+Deep learning is a type of machine learning.
+Layered neural networks learn useful
+features directly from raw data, including
+images and sound.
+
+6
+00:00:50,000 --> 00:00:58,658
+Early layers detect edges and shapes. Later
+layers combine them into patterns like
+whiskers, eyes, faces, and objects.
+
+7
+00:01:00,000 --> 00:01:08,363
+This helps analyze images, speech, and
+video, powering tools for medical scans,
+face recognition, and driver assistance.
+
+8
+00:01:10,000 --> 00:01:17,288
+Deep learning often needs more data and
+computing power. Traditional machine
+learning can be faster and easier to
+inspect.
+
+9
+00:01:20,000 --> 00:01:27,753
+For a small dataset and clear features,
+start with a machine-learning baseline. It
+might already solve the problem well.
+
+10
+00:01:30,000 --> 00:01:37,958
+For complicated patterns and plenty of
+examples, deep learning may perform better.
+It still needs careful training and fair
+testing.
+
+11
+00:01:40,000 --> 00:01:47,973
+Compare both on data the model has never
+seen. Check accuracy, reliability, cost, and
+the mistakes each approach makes.
+
+12
+00:01:50,000 --> 00:01:57,983
+Deep learning is part of machine learning.
+Both learn from data. Choose the simplest
+method that reliably solves your task.

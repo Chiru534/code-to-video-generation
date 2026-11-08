@@ -1,0 +1,28 @@
+{
+  "python": "3.13.18 (main, Oct 26 2026, 15:28:15) [GCC 13.3.0]",
+  "platform": "Linux-6.18.55+-x86_64-with-glibc2.39",
+  "packages": {
+    "jax": true,
+    "jaxlib": true,
+    "torch": true,
+    "torch_xla": false,
+    "tensorflow": true
+  },
+  "devices": [
+    {
+      "platform": "cpu",
+      "device_kind": "cpu",
+      "id": 0,
+      "process_index": 0
+    }
+  ],
+  "probes": {
+    "jax_version": "0.11.1",
+    "jax_bfloat16_matmul_seconds": 0.945,
+    "jax_matmul_value": 512.0,
+    "torch_xla_error": "ModuleNotFoundError(\"No module named 'torch_xla'\")",
+    "df -h /kaggle/working": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/loop2       20G  108K   20G   1% /kaggle/working",
+    "free -h": "total        used        free      shared  buff/cache   available\nMem:            31Gi       1.1Gi        26Gi       1.2Mi       4.5Gi        30Gi\nSwap:             0B          0B          0B"
+  },
+  "tpu_detected": false
+}

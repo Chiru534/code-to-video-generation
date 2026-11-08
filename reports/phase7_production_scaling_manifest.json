@@ -1,0 +1,171 @@
+{
+  "manifest_id": "BLENDER-S1-P7-SCALING-MANIFEST-001",
+  "total_decisions": 40000,
+  "total_episodes": 3812,
+  "distribution_split": {
+    "train": {
+      "decisions": 30000,
+      "decision_percentage": 75.0,
+      "episodes": 2859,
+      "episode_percentage": 75.0
+    },
+    "val": {
+      "decisions": 6000,
+      "decision_percentage": 15.0,
+      "episodes": 571,
+      "episode_percentage": 14.98
+    },
+    "test": {
+      "decisions": 4000,
+      "decision_percentage": 10.0,
+      "episodes": 382,
+      "episode_percentage": 10.02
+    }
+  },
+  "domain_allocations": {
+    "D1_drop_bounce": {
+      "domain_name": "Drop & Bounce (Restitution Calibration)",
+      "domain_type": "PHYSICS",
+      "total_decisions": 5500,
+      "total_episodes": 550,
+      "decisions_per_episode": 10,
+      "train_episodes": 412,
+      "train_decisions": 4120,
+      "val_episodes": 81,
+      "val_decisions": 810,
+      "test_episodes": 57,
+      "test_decisions": 570
+    },
+    "D2_stacking_balance": {
+      "domain_name": "Stacking & Balance (Multi-Tier Equilibrium)",
+      "domain_type": "PHYSICS",
+      "total_decisions": 6000,
+      "total_episodes": 500,
+      "decisions_per_episode": 12,
+      "train_episodes": 375,
+      "train_decisions": 4500,
+      "val_episodes": 76,
+      "val_decisions": 912,
+      "test_episodes": 49,
+      "test_decisions": 588
+    },
+    "D3_push_slide": {
+      "domain_name": "Push & Slide (Coulomb Friction Calibration)",
+      "domain_type": "PHYSICS",
+      "total_decisions": 5500,
+      "total_episodes": 550,
+      "decisions_per_episode": 10,
+      "train_episodes": 412,
+      "train_decisions": 4120,
+      "val_episodes": 82,
+      "val_decisions": 820,
+      "test_episodes": 56,
+      "test_decisions": 560
+    },
+    "D4_throw_handoff": {
+      "domain_name": "Kinematic Throw & Handoff (Parabolic Trajectory)",
+      "domain_type": "PHYSICS",
+      "total_decisions": 6000,
+      "total_episodes": 500,
+      "decisions_per_episode": 12,
+      "train_episodes": 375,
+      "train_decisions": 4500,
+      "val_episodes": 75,
+      "val_decisions": 900,
+      "test_episodes": 50,
+      "test_decisions": 600
+    },
+    "D5_character_contact": {
+      "domain_name": "Character Dynamic Contact (Lever-Arm Couple)",
+      "domain_type": "PHYSICS",
+      "total_decisions": 5400,
+      "total_episodes": 450,
+      "decisions_per_episode": 12,
+      "train_episodes": 338,
+      "train_decisions": 4056,
+      "val_episodes": 68,
+      "val_decisions": 816,
+      "test_episodes": 44,
+      "test_decisions": 528
+    },
+    "D6_cloth_draping": {
+      "domain_name": "Cloth Draping & Collision (Pinning / Non-Penetration)",
+      "domain_type": "PHYSICS",
+      "total_decisions": 3600,
+      "total_episodes": 550,
+      "episode_structure": "400 eps @ 6 dec + 150 eps @ 8 dec",
+      "train_episodes": 413,
+      "train_decisions": 2704,
+      "val_episodes": 81,
+      "val_decisions": 528,
+      "test_episodes": 56,
+      "test_decisions": 368
+    },
+    "R1_scene_staging": {
+      "domain_name": "Scene Staging (Phase 4 Replay)",
+      "domain_type": "REPLAY",
+      "total_decisions": 2750,
+      "total_episodes": 250,
+      "decisions_per_episode": 11,
+      "train_episodes": 187,
+      "train_decisions": 2057,
+      "val_episodes": 39,
+      "val_decisions": 429,
+      "test_episodes": 24,
+      "test_decisions": 264
+    },
+    "R2_character_rigging": {
+      "domain_name": "Character Rigging (Phase 5 Replay)",
+      "domain_type": "REPLAY",
+      "total_decisions": 2700,
+      "total_episodes": 230,
+      "episode_structure": "170 eps @ 12 dec + 60 eps @ 11 dec",
+      "train_episodes": 173,
+      "train_decisions": 2031,
+      "val_episodes": 35,
+      "val_decisions": 411,
+      "test_episodes": 22,
+      "test_decisions": 258
+    },
+    "R3_character_motion": {
+      "domain_name": "Character Motion (Phase 6 Replay)",
+      "domain_type": "REPLAY",
+      "total_decisions": 2550,
+      "total_episodes": 232,
+      "episode_structure": "230 eps @ 11 dec + 2 eps @ 10 dec",
+      "train_episodes": 174,
+      "train_decisions": 1912,
+      "val_episodes": 34,
+      "val_decisions": 374,
+      "test_episodes": 24,
+      "test_decisions": 264
+    }
+  },
+  "subtotals": {
+    "physics_simulation_d1_to_d6": {
+      "total_decisions": 32000,
+      "percentage": 80.0,
+      "total_episodes": 3100,
+      "train_decisions": 24000,
+      "val_decisions": 4786,
+      "test_decisions": 3214
+    },
+    "capability_replay_r1_to_r3": {
+      "total_decisions": 8000,
+      "percentage": 20.0,
+      "total_episodes": 712,
+      "train_decisions": 6000,
+      "val_decisions": 1214,
+      "test_decisions": 786
+    }
+  },
+  "verification": {
+    "sum_decisions": 40000,
+    "sum_episodes": 3812,
+    "integer_complete_episodes": true,
+    "zero_fractional_decisions": true,
+    "physics_replay_ratio": "80:20",
+    "train_val_test_decision_split": "75.00% / 15.00% / 10.00%"
+  }
+}
+

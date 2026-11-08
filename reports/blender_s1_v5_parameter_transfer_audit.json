@@ -1,0 +1,141 @@
+{
+  "baseline_checkpoint": "blender_s1_v4_2_motion_intelligence.pt",
+  "baseline_sha256": "1fd7fe174d51b65bbce445465f4394ee95c8339030a8ec00119bd07a19ddb89c",
+  "baseline_total_tensors": 95,
+  "baseline_total_parameters": 1606064,
+  "v5_model_class": "BlenderS1V5",
+  "v5_total_tensors": 119,
+  "v5_total_parameters": 1689173,
+  "discrepancy_resolutions": {
+    "14992_parameter_discrepancy_explanation": "In v1.0.1 Section 5 table, the listed subsystem counts (1,363,968 + 10,176 + 74,880 + 75,770 + 37,248 + 16,164 + 12,866) summed to 1,591,072 instead of the actual 1,606,064 baseline parameters (discrepancy = 14,992). The row values undercounted the transformer backbone (1,385,216 vs 1,363,968) and action head (44,388 vs 37,248), while double-counting sliced projections. All individual tensor values are now fully rectified and match the exact state_dict.",
+    "30_vs_20_tensor_discrepancy_explanation": "Each of the 5 new physics heads comprises 1 LayerNorm (2 tensors: weight, bias) + 2 Linear layers (4 tensors: weight1, bias1, weight2, bias2) = 6 tensors per head. Across 5 heads, this equals exactly 30 tensors. The draft bullet points previously wrote '(4 tensors)' by omitting the LayerNorm tensors, creating a visual 30-vs-20 conflict."
+  },
+  "summary": {
+    "direct_transferred_tensors": 85,
+    "direct_transferred_parameters": 1577034,
+    "direct_transferred_pct_of_v4_2": 98.19,
+    "sliced_transferred_tensors": 4,
+    "sliced_transferred_parameters": 16164,
+    "sliced_transferred_pct_of_v4_2": 1.01,
+    "total_retained_parameters_from_v4_2": 1593198,
+    "total_retained_pct_of_v4_2": 99.2,
+    "retired_tensors_count": 6,
+    "retired_parameters_count": 12866,
+    "retired_pct_of_v4_2": 0.8,
+    "sliced_new_parameters": 5388,
+    "new_heads_tensors_count": 30,
+    "new_heads_parameters": 90587,
+    "total_new_parameters_in_v5": 95975,
+    "total_new_pct_of_v5": 5.68,
+    "incompatible_tensors_count": 0,
+    "incompatible_parameters_count": 0
+  },
+  "sliced_transfers": [
+    {
+      "name": "cand_proj.weight",
+      "source_shape": [192, 24],
+      "dest_shape": [192, 32],
+      "source_parameters": 4608,
+      "dest_parameters": 6144,
+      "transferred_parameters": 4608,
+      "new_parameters": 1536,
+      "status": "WARM_START_SLICED"
+    },
+    {
+      "name": "global_proj.weight",
+      "source_shape": [192, 24],
+      "dest_shape": [192, 32],
+      "source_parameters": 4608,
+      "dest_parameters": 6144,
+      "transferred_parameters": 4608,
+      "new_parameters": 1536,
+      "status": "WARM_START_SLICED"
+    },
+    {
+      "name": "action_head.3.weight",
+      "source_shape": [36, 192],
+      "dest_shape": [48, 192],
+      "source_parameters": 6912,
+      "dest_parameters": 9216,
+      "transferred_parameters": 6912,
+      "new_parameters": 2304,
+      "status": "WARM_START_SLICED"
+    },
+    {
+      "name": "action_head.3.bias",
+      "source_shape": [36],
+      "dest_shape": [48],
+      "source_parameters": 36,
+      "dest_parameters": 48,
+      "transferred_parameters": 36,
+      "new_parameters": 12,
+      "status": "WARM_START_SLICED"
+    }
+  ],
+  "retired_tensors": [
+    {
+      "name": "scalar_head.0.weight",
+      "shape": [192],
+      "parameters": 192,
+      "status": "RETIRED_LEGACY_TENSOR"
+    },
+    {
+      "name": "scalar_head.0.bias",
+      "shape": [192],
+      "parameters": 192,
+      "status": "RETIRED_LEGACY_TENSOR"
+    },
+    {
+      "name": "scalar_head.1.weight",
+      "shape": [64, 192],
+      "parameters": 12288,
+      "status": "RETIRED_LEGACY_TENSOR"
+    },
+    {
+      "name": "scalar_head.1.bias",
+      "shape": [64],
+      "parameters": 64,
+      "status": "RETIRED_LEGACY_TENSOR"
+    },
+    {
+      "name": "scalar_head.3.weight",
+      "shape": [2, 64],
+      "parameters": 128,
+      "status": "RETIRED_LEGACY_TENSOR"
+    },
+    {
+      "name": "scalar_head.3.bias",
+      "shape": [2],
+      "parameters": 2,
+      "status": "RETIRED_LEGACY_TENSOR"
+    }
+  ],
+  "new_heads_breakdown": {
+    "torque_head": {
+      "tensors_count": 6,
+      "parameters": 25475,
+      "structure": "LayerNorm(192) -> Linear(192, 128) -> GELU -> Linear(128, 3)"
+    },
+    "physics_head": {
+      "tensors_count": 6,
+      "parameters": 25604,
+      "structure": "LayerNorm(192) -> Linear(192, 128) -> GELU -> Linear(128, 4)"
+    },
+    "shape_head": {
+      "tensors_count": 6,
+      "parameters": 13191,
+      "structure": "LayerNorm(192) -> Linear(192, 64) -> GELU -> Linear(64, 7)"
+    },
+    "constraint_head": {
+      "tensors_count": 6,
+      "parameters": 13256,
+      "structure": "LayerNorm(192) -> Linear(192, 64) -> GELU -> Linear(64, 8)"
+    },
+    "cloth_preset_head": {
+      "tensors_count": 6,
+      "parameters": 13061,
+      "structure": "LayerNorm(192) -> Linear(192, 64) -> GELU -> Linear(64, 5)"
+    }
+  }
+}
+

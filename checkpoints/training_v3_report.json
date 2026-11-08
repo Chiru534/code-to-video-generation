@@ -1,0 +1,20 @@
+﻿{
+  "model_name": "Blender-S1 v3 (Character Modelling & Rigging)",
+  "checkpoint_path": "/content/blender_s1_v3/checkpoints/blender_s1_v3_character_rigging.pt",
+  "checkpoint_sha256": "705107b2f9431be65eeafe59b30eb3c0dc4e77bb4ffcd6af946f53f7e892960e",
+  "total_parameters": 1453018,
+  "epochs": 5,
+  "best_val_act_acc": 0.8288791384124452,
+  "final_epoch_metrics": {
+    "epoch": 5,
+    "train_loss": 0.5356468103469257,
+    "train_act_acc": 0.8132394366197183,
+    "train_obj_acc": 0.9396350665386198,
+    "train_bone_acc": 0.9231435375622429,
+    "val_loss": 0.4540488575743069,
+    "val_act_acc": 0.8288791384124452,
+    "val_obj_acc": 0.9494556765163297,
+    "val_bone_acc": 0.9214026602176542,
+    "duration_sec": 130.92820382118225
+  }
+}

@@ -1,0 +1,23 @@
+Hey, I'm Nova. In the next two minutes, we'll compare machine learning with deep learning and see what each is good at.
+
+AI is the broad goal. Machine learning is one way computers learn patterns from examples instead of following every hand-written rule.
+
+Give a model many labeled cat and dog photos. It learns patterns from those examples, then uses them to classify new pictures.
+
+In traditional machine learning, people choose features such as ear shape, fur color, body outline, and size before training.
+
+Deep learning is a type of machine learning. Layered neural networks learn useful features directly from raw data, including images and sound.
+
+Early layers detect edges and shapes. Later layers combine them into patterns like whiskers, eyes, faces, and objects.
+
+This helps analyze images, speech, and video, powering tools for medical scans, face recognition, and driver assistance.
+
+Deep learning often needs more data and computing power. Traditional machine learning can be faster and easier to inspect.
+
+For a small dataset and clear features, start with a machine-learning baseline. It might already solve the problem well.
+
+For complicated patterns and plenty of examples, deep learning may perform better. It still needs careful training and fair testing.
+
+Compare both on data the model has never seen. Check accuracy, reliability, cost, and the mistakes each approach makes.
+
+Deep learning is part of machine learning. Both learn from data. Choose the simplest method that reliably solves your task.

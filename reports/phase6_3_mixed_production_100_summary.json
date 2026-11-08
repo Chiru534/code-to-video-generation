@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-11-02T12:19:19Z",
+  "benchmark_name": "Phase 6.3 100 Mixed Production Benchmark",
+  "checkpoint": "/content/blender_s1_v4/checkpoints/blender_s1_v4_2_motion_intelligence.pt",
+  "checkpoint_sha256": "1fd7fe174d51b65bbce445465f4394ee95c8339030a8ec00119bd07a19ddb89c",
+  "total_tasks": 100,
+  "passed_tasks": 100,
+  "overall_success_rate": 100.0,
+  "total_duration_seconds": 271.3,
+  "seconds_per_episode": 2.71,
+  "cpu_latency": {
+    "p50_ms": 7.02,
+    "p95_ms": 11.32
+  },
+  "stage_success_rates": {
+    "scene_creation": 100.0,
+    "character_rigging": 100.0,
+    "motion_animation": 100.0,
+    "camera_setup": 100.0,
+    "lighting_setup": 100.0,
+    "render_verification": 100.0
+  },
+  "domain_results": {
+    "WALK": {"total": 20, "passed": 20, "rate": 100.0},
+    "RUN": {"total": 20, "passed": 20, "rate": 100.0},
+    "JUMP": {"total": 20, "passed": 20, "rate": 100.0},
+    "GESTURE": {"total": 20, "passed": 20, "rate": 100.0},
+    "PICKUP": {"total": 20, "passed": 20, "rate": 100.0}
+  }
+}
+

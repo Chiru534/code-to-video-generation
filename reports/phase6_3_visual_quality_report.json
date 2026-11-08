@@ -1,0 +1,129 @@
+{
+  "WALK": {
+    "blend_file": "/content/blender_s1_v4/renders/phase6_3_walk.blend",
+    "preview_gif": "/content/blender_s1_v4/renders/walk_preview.gif",
+    "keyframe_pngs": [
+      "/content/blender_s1_v4/renders/walk_f01.png",
+      "/content/blender_s1_v4/renders/walk_f08.png",
+      "/content/blender_s1_v4/renders/walk_f16.png",
+      "/content/blender_s1_v4/renders/walk_f24.png",
+      "/content/blender_s1_v4/renders/walk_f32.png"
+    ],
+    "metrics": {
+      "foot_sliding_drift_mm": 162.78,
+      "foot_sliding_velocity_mps": 0.301,
+      "loop_continuity_mm": 28.4,
+      "joint_rotation_jerk_rad_s3": 0.0,
+      "bone_length_conservation_ratio": 1.002,
+      "mesh_floor_penetration_mm": 0.0,
+      "prop_attachment_stability_mm": 0.0,
+      "clip_transition_velocity_jump_mps": 0.0
+    }
+  },
+  "RUN": {
+    "blend_file": "/content/blender_s1_v4/renders/phase6_3_run.blend",
+    "preview_gif": "/content/blender_s1_v4/renders/run_preview.gif",
+    "keyframe_pngs": [
+      "/content/blender_s1_v4/renders/run_f01.png",
+      "/content/blender_s1_v4/renders/run_f08.png",
+      "/content/blender_s1_v4/renders/run_f16.png",
+      "/content/blender_s1_v4/renders/run_f24.png",
+      "/content/blender_s1_v4/renders/run_f32.png"
+    ],
+    "metrics": {
+      "foot_sliding_drift_mm": 0.0,
+      "foot_sliding_velocity_mps": 0.0,
+      "loop_continuity_mm": 0.0,
+      "joint_rotation_jerk_rad_s3": 0.0,
+      "bone_length_conservation_ratio": 1.002,
+      "mesh_floor_penetration_mm": 0.0,
+      "prop_attachment_stability_mm": 0.0,
+      "clip_transition_velocity_jump_mps": 0.0
+    }
+  },
+  "JUMP": {
+    "blend_file": "/content/blender_s1_v4/renders/phase6_3_jump.blend",
+    "preview_gif": "/content/blender_s1_v4/renders/jump_preview.gif",
+    "keyframe_pngs": [
+      "/content/blender_s1_v4/renders/jump_f01.png",
+      "/content/blender_s1_v4/renders/jump_f08.png",
+      "/content/blender_s1_v4/renders/jump_f16.png",
+      "/content/blender_s1_v4/renders/jump_f24.png",
+      "/content/blender_s1_v4/renders/jump_f32.png"
+    ],
+    "metrics": {
+      "foot_sliding_drift_mm": 17.6,
+      "foot_sliding_velocity_mps": 0.106,
+      "loop_continuity_mm": 18.2,
+      "joint_rotation_jerk_rad_s3": 0.0,
+      "bone_length_conservation_ratio": 1.002,
+      "mesh_floor_penetration_mm": 0.0,
+      "prop_attachment_stability_mm": 0.0,
+      "clip_transition_velocity_jump_mps": 0.0
+    }
+  },
+  "GESTURE": {
+    "blend_file": "/content/blender_s1_v4/renders/phase6_3_gesture.blend",
+    "preview_gif": "/content/blender_s1_v4/renders/gesture_preview.gif",
+    "keyframe_pngs": [
+      "/content/blender_s1_v4/renders/gesture_f01.png",
+      "/content/blender_s1_v4/renders/gesture_f08.png",
+      "/content/blender_s1_v4/renders/gesture_f16.png",
+      "/content/blender_s1_v4/renders/gesture_f24.png",
+      "/content/blender_s1_v4/renders/gesture_f32.png"
+    ],
+    "metrics": {
+      "foot_sliding_drift_mm": 0.0,
+      "foot_sliding_velocity_mps": 0.0,
+      "loop_continuity_mm": 0.0,
+      "joint_rotation_jerk_rad_s3": 0.0,
+      "bone_length_conservation_ratio": 1.002,
+      "mesh_floor_penetration_mm": 0.0,
+      "prop_attachment_stability_mm": 0.0,
+      "clip_transition_velocity_jump_mps": 0.0
+    }
+  },
+  "PICKUP": {
+    "blend_file": "/content/blender_s1_v4/renders/phase6_3_pickup.blend",
+    "preview_gif": "/content/blender_s1_v4/renders/pickup_preview.gif",
+    "keyframe_pngs": [
+      "/content/blender_s1_v4/renders/pickup_f01.png",
+      "/content/blender_s1_v4/renders/pickup_f08.png",
+      "/content/blender_s1_v4/renders/pickup_f16.png",
+      "/content/blender_s1_v4/renders/pickup_f24.png",
+      "/content/blender_s1_v4/renders/pickup_f32.png"
+    ],
+    "metrics": {
+      "foot_sliding_drift_mm": 0.0,
+      "foot_sliding_velocity_mps": 0.0,
+      "loop_continuity_mm": 0.0,
+      "joint_rotation_jerk_rad_s3": 0.0,
+      "bone_length_conservation_ratio": 1.002,
+      "mesh_floor_penetration_mm": 0.0,
+      "prop_attachment_stability_mm": 1.8,
+      "clip_transition_velocity_jump_mps": 0.0
+    }
+  },
+  "TRANSITION": {
+    "blend_file": "/content/blender_s1_v4/renders/phase6_3_transition.blend",
+    "preview_gif": "/content/blender_s1_v4/renders/transition_preview.gif",
+    "keyframe_pngs": [
+      "/content/blender_s1_v4/renders/transition_f01.png",
+      "/content/blender_s1_v4/renders/transition_f08.png",
+      "/content/blender_s1_v4/renders/transition_f16.png",
+      "/content/blender_s1_v4/renders/transition_f24.png",
+      "/content/blender_s1_v4/renders/transition_f32.png"
+    ],
+    "metrics": {
+      "foot_sliding_drift_mm": 0.0,
+      "foot_sliding_velocity_mps": 0.0,
+      "loop_continuity_mm": 0.0,
+      "joint_rotation_jerk_rad_s3": 0.0,
+      "bone_length_conservation_ratio": 1.002,
+      "mesh_floor_penetration_mm": 0.0,
+      "prop_attachment_stability_mm": 0.0,
+      "clip_transition_velocity_jump_mps": 0.08
+    }
+  }
+}
+

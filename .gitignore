@@ -1,0 +1,58 @@
+# Python Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Blender Auto-saves & Physics Cache
+*.blend1
+*.blend2
+*.bphys
+blendcache_*/
+
+# Credentials & Sensitive Configs
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+token.json
+
+# OS & Editor Artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Ephemeral Renders & Temporary Workspaces
+tmp/
+temp/
+*.tmp
+renders/raw_frames/
+*.mp4
+*.mov
+*.avi
+*.mkv
+
+# Secrets & credential files (never commit)
+gdrive_service_account.json
+*.service_account.json
+kaggle.json
+
+# Logs, render outputs, and large binaries
+logs/
+micro_batch_results/
+production/renders/
+*.pt
+*.blend
+*.wav
+*.mp3
+*.png
+*.jpg
+*.jpeg
+

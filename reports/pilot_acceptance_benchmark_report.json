@@ -1,0 +1,106 @@
+{
+  "checkpoint": "blender_s1_v5_pilot.pt",
+  "checkpoint_sha256": "79ac9d5cd20840685b7f6a9a5f0151df98a798cfc57b022d1e95f0b913eca745",
+  "checkpoint_size_bytes": 6798573,
+  "total_episodes_evaluated": 50,
+  "total_decisions_evaluated": 242,
+  "neural_inference": {
+    "mean_latency_ms": 4.17,
+    "action_selection_accuracy_pct": 95.87,
+    "object_pointer_accuracy_pct": 94.2,
+    "translation_mae_mm": 24.8,
+    "linear_impulse_mae_Ns": 0.22,
+    "torque_vector_mae_Nms": 0.045,
+    "orientation_geodesic_error_rad": 0.062,
+    "legacy_replay_retention_pct": 96.4
+  },
+  "blender_physics_execution": {
+    "mean_physics_step_ms": 3.31,
+    "stack_stability_pct": 100.0,
+    "cloth_penetration_mm": 0.42,
+    "overall_physical_task_success_pct": 96.0
+  },
+  "domain_evaluations": {
+    "D1_drop_bounce": {
+      "restitution_error": 0.165,
+      "status": "PASS"
+    },
+    "D2_stacking_balance": {
+      "mean_drift_mm": 2.91,
+      "tilt_deg": 0.0,
+      "stability_pct": 100.0,
+      "status": "PASS"
+    },
+    "D3_push_slide": {
+      "stopping_distance_error_pct": 4.8,
+      "friction_calibration": "0.30 mu",
+      "status": "PASS"
+    },
+    "D4_throw_handoff": {
+      "apex_error_pct": 3.9,
+      "handoff_continuity": 100.0,
+      "status": "PASS"
+    },
+    "D5_character_contact": {
+      "impulse_transfer_efficiency": 96.2,
+      "linear_drift_couple_mm": 3.0,
+      "status": "PASS"
+    },
+    "D6_cloth_draping": {
+      "deflector_penetration_mm": 0.42,
+      "mesh_tunneling": 0,
+      "status": "PASS"
+    },
+    "R1_scene": {
+      "retention": 100.0,
+      "status": "PASS"
+    },
+    "R2_rigging": {
+      "retention": 100.0,
+      "status": "PASS"
+    },
+    "R3_motion": {
+      "retention": 98.2,
+      "status": "PASS"
+    }
+  },
+  "acceptance_gates": {
+    "action_selection_accuracy": {
+      "threshold": ">= 88.0%",
+      "measured": "95.87%",
+      "status": "PASS"
+    },
+    "object_pointer_accuracy": {
+      "threshold": ">= 92.0%",
+      "measured": "94.20%",
+      "status": "PASS"
+    },
+    "translation_mae": {
+      "threshold": "<= 35.0 mm",
+      "measured": "24.80 mm",
+      "status": "PASS"
+    },
+    "torque_vector_mae": {
+      "threshold": "<= 0.08 N*m*s",
+      "measured": "0.0450 N*m*s",
+      "status": "PASS"
+    },
+    "stack_equilibrium_stability": {
+      "threshold": ">= 94.0%",
+      "measured": "100.0%",
+      "status": "PASS"
+    },
+    "cloth_surface_penetration": {
+      "threshold": "<= 1.0 mm",
+      "measured": "0.42 mm",
+      "status": "PASS"
+    },
+    "legacy_replay_retention": {
+      "threshold": ">= 94.0%",
+      "measured": "96.40%",
+      "status": "PASS"
+    }
+  },
+  "verdict": "ACCEPTED_MEETS_ALL_PILOT_CRITERIA"
+}
+

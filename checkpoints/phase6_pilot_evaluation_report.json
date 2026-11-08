@@ -1,0 +1,74 @@
+{
+  "timestamp": "2026-11-02T14:30:00Z",
+  "checkpoint": {
+    "path": "/content/blender_s1_v4/checkpoints/blender_s1_v4_animation_pilot.pt",
+    "parameters": 1493932
+  },
+  "held_out_test_evaluation": {
+    "test_decisions": 313,
+    "action_accuracy": 65.18,
+    "bone_accuracy": 57.69,
+    "param_mse": 0.0426,
+    "cpu_latency_p50_ms": 8.66,
+    "cpu_latency_p95_ms": 11.01
+  },
+  "model_controlled_demonstrations": {
+    "walk": {
+      "task_type": "WALK",
+      "total_steps_executed": 12,
+      "metrics": {
+        "stride_m": 0.0526,
+        "lift_m": 0.0,
+        "loop_drift_m": 0.0,
+        "foot_sliding_m": 0.0,
+        "passed": false
+      },
+      "passed": false
+    },
+    "run": {
+      "task_type": "RUN",
+      "total_steps_executed": 11,
+      "metrics": {
+        "flight_phase_verified": false,
+        "r_foot_flight_z": 0.1056,
+        "l_foot_flight_z": 0.1,
+        "loop_drift_m": 0.0,
+        "passed": false
+      },
+      "passed": false
+    },
+    "gesture": {
+      "task_type": "GESTURE",
+      "total_steps_executed": 13,
+      "metrics": {
+        "hand_elevation_m": 0.0,
+        "smile_expression_val": 1.0,
+        "passed": false
+      },
+      "passed": false
+    },
+    "pickup": {
+      "task_type": "PICKUP",
+      "total_steps_executed": 14,
+      "metrics": {
+        "initial_prop_z": 1.05,
+        "lifted_prop_z": 1.05,
+        "elevation_gain_m": 0.0,
+        "passed": false
+      },
+      "passed": false
+    },
+    "transition": {
+      "task_type": "TRANSITION",
+      "total_steps_executed": 6,
+      "metrics": {
+        "clip_blend_continuity": 0.98,
+        "limb_penetration_resolved": true,
+        "passed": true
+      },
+      "passed": true
+    }
+  },
+  "all_five_demonstrations_passed": false
+}
+

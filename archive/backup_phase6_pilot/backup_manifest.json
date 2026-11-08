@@ -1,0 +1,29 @@
+{
+  "files": {
+    "blender_s1_v3_character_rigging.pt": {
+      "sha256": "705107b2f9431be65eeafe59b30eb3c0dc4e77bb4ffcd6af946f53f7e892960e",
+      "size_bytes": 5838982
+    },
+    "character_benchmark_report.json": {
+      "sha256": "6daa2eb4f9cf26d3e0d56a47c6bd2cabbe89f5458b46ae1dd38ddfdfc261e1da",
+      "size_bytes": 798
+    },
+    "training_v3_report.json": {
+      "sha256": "b70700521ac8adf9e16e44b01fb410077377323ff67db1bf005196d93e7c1ab2",
+      "size_bytes": 2789
+    },
+    "blender_s1_v4_animation_pilot.pt": {
+      "sha256": "8f4b71e39512f5bec7b8943b15de709fc5cc02c493e2acc5d0aadbbd24bac813",
+      "size_bytes": 6004510
+    },
+    "pilot_training_report.json": {
+      "sha256": "c91dd83c8d3562f2c6025e9689225f4da72857c10a8b94112f29c132a095eb97",
+      "size_bytes": 1384
+    },
+    "phase6_pilot_evaluation_report.json": {
+      "sha256": "6552ca2f26e961f0eac7339ecb50bbd9386bfb09db8cc1d7a6419de3f15e946f",
+      "size_bytes": 17187
+    }
+  }
+}
+

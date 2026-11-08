@@ -1,0 +1,31 @@
+{
+  "model": "Wan-AI/Wan2.1-T2V-1.3B-Diffusers",
+  "task": "text-to-video",
+  "prompt": "Photorealistic educational documentary footage in a bright, warm living room. A ginger tabby cat on a sofa notices a golden retriever sitting nearby. The cat slowly turns its head and flicks one ear; the dog gently tilts its head, blinks, and shifts its weight. Natural breathing and subtle fur movement, believable animal anatomy, warm afternoon window light, shallow depth of field, one continuous camera move that gently pushes in, realistic live-action cinematography, no cuts, no text, no labels, no logos.",
+  "seed": 24011,
+  "inference_steps": 25,
+  "resolution": "832x480",
+  "requested_frames": 81,
+  "export_fps": 16,
+  "gpu": "Tesla T4",
+  "gpu_memory_bytes": 15636037632,
+  "elapsed_seconds": 1879.85,
+  "file_bytes": 212510,
+  "sha256": "eb2c6817aef5e62210896da61705f0c6552b2a9147f34f471564ea549f6e7a97",
+  "ffprobe": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 832,
+        "height": 480,
+        "r_frame_rate": "16/1",
+        "nb_frames": "81"
+      }
+    ],
+    "format": {
+      "duration": "5.062500",
+      "size": "212510"
+    }
+  }
+}

@@ -1,0 +1,1277 @@
+[
+  {
+    "decision_index": 1,
+    "step_name": "CHAR_INIT",
+    "description": "Create skeletal armature hierarchy",
+    "target": "Armature_Nova",
+    "action_token_index": 15,
+    "action_token_name": "CREATE_ARMATURE",
+    "neural_predicted_action": "INSERT_POSE_KEYFRAME",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.0682,
+        -0.0064,
+        -0.0957
+      ],
+      "rotation_6d": [
+        0.7449,
+        -0.0238,
+        -0.0386,
+        -0.0668,
+        0.694,
+        0.1698
+      ]
+    },
+    "timestamp": 1793688545.131147
+  },
+  {
+    "decision_index": 2,
+    "step_name": "CHAR_BONES",
+    "description": "Add 17 edit bones (Root, Spine, Chest, Limbs)",
+    "target": "Armature_Nova",
+    "action_token_index": 16,
+    "action_token_name": "ADD_BONE",
+    "neural_predicted_action": "INSERT_POSE_KEYFRAME",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.0895,
+        -0.0212,
+        -0.1168
+      ],
+      "rotation_6d": [
+        0.66,
+        -0.0222,
+        -0.0644,
+        -0.0496,
+        0.6105,
+        0.17
+      ]
+    },
+    "timestamp": 1793688545.134979
+  },
+  {
+    "decision_index": 3,
+    "step_name": "RIG_IK_FEET",
+    "description": "Setup 2-bone IK solver for Foot_IK.L and Foot_IK.R",
+    "target": "Shin.L",
+    "action_token_index": 21,
+    "action_token_name": "ADD_IK_CONSTRAINT",
+    "neural_predicted_action": "REMOVE_RIGID_BODY",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.04,
+        -0.0877,
+        -0.2582
+      ],
+      "rotation_6d": [
+        0.3249,
+        0.0059,
+        0.0619,
+        -0.0603,
+        0.2881,
+        -0.0842
+      ]
+    },
+    "timestamp": 1793688545.137692
+  },
+  {
+    "decision_index": 4,
+    "step_name": "RIG_IK_HANDS",
+    "description": "Setup 2-bone IK solver for Hand_IK.L and Hand_IK.R",
+    "target": "Forearm.L",
+    "action_token_index": 21,
+    "action_token_name": "ADD_IK_CONSTRAINT",
+    "neural_predicted_action": "CREATE_OBJECT",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0505,
+        -0.0085,
+        -0.0002
+      ],
+      "rotation_6d": [
+        0.8702,
+        0.0221,
+        0.007,
+        -0.0016,
+        0.8624,
+        -0.0601
+      ]
+    },
+    "timestamp": 1793688545.1403341
+  },
+  {
+    "decision_index": 5,
+    "step_name": "MESH_BIND",
+    "description": "Bind multi-material character mesh to armature",
+    "target": "NOVA_Character_Mesh",
+    "action_token_index": 18,
+    "action_token_name": "BIND_MESH_ARMATURE",
+    "neural_predicted_action": "REMOVE_RIGID_BODY",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.0019,
+        0.1628,
+        -0.1462
+      ],
+      "rotation_6d": [
+        0.4358,
+        0.0518,
+        -0.0294,
+        -0.1263,
+        0.3289,
+        0.3124
+      ]
+    },
+    "timestamp": 1793688545.1430347
+  },
+  {
+    "decision_index": 6,
+    "step_name": "WEIGHT_ASSIGN",
+    "description": "Auto-assign vertex group deform weights",
+    "target": "NOVA_Character_Mesh",
+    "action_token_index": 19,
+    "action_token_name": "AUTO_ASSIGN_WEIGHTS",
+    "neural_predicted_action": "SET_BONE_POSE",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.0014,
+        0.0945,
+        -0.0095
+      ],
+      "rotation_6d": [
+        0.8049,
+        -0.0037,
+        0.0113,
+        -0.0306,
+        0.8357,
+        0.0558
+      ]
+    },
+    "timestamp": 1793688545.1456926
+  },
+  {
+    "decision_index": 7,
+    "step_name": "SHAPE_KEYS_INIT",
+    "description": "Add facial blendshapes (Smile, Blink_L, Blink_R, Alert_Frown)",
+    "target": "NOVA_Character_Mesh",
+    "action_token_index": 22,
+    "action_token_name": "ADD_SHAPE_KEY",
+    "neural_predicted_action": "CREATE_OBJECT",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0014,
+        0.0224,
+        -0.0135
+      ],
+      "rotation_6d": [
+        0.9527,
+        -0.0114,
+        0.0043,
+        0.0104,
+        0.9442,
+        0.0302
+      ]
+    },
+    "timestamp": 1793688545.1482658
+  },
+  {
+    "decision_index": 8,
+    "step_name": "CLOTH_MANTLE",
+    "description": "Attach dynamic silk mantle with shoulder pinning",
+    "target": "NOVA_Cape",
+    "action_token_index": 43,
+    "action_token_name": "ADD_CLOTH_MODIFIER",
+    "neural_predicted_action": "SET_BONE_POSE",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0256,
+        -0.0412,
+        0.0181
+      ],
+      "rotation_6d": [
+        0.8043,
+        0.0371,
+        -0.0168,
+        0.0179,
+        0.8647,
+        -0.0524
+      ]
+    },
+    "timestamp": 1793688545.150763
+  },
+  {
+    "decision_index": 9,
+    "step_name": "ENV_FLOOR",
+    "description": "Instantiate metallic carbon reflective floor",
+    "target": "Lab_Floor",
+    "action_token_index": 0,
+    "action_token_name": "CREATE_OBJECT",
+    "neural_predicted_action": "REMOVE_RIGID_BODY",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0924,
+        -0.025,
+        0.0794
+      ],
+      "rotation_6d": [
+        0.9279,
+        0.0017,
+        0.0159,
+        0.0002,
+        0.9324,
+        0.0044
+      ]
+    },
+    "timestamp": 1793688545.1532912
+  },
+  {
+    "decision_index": 10,
+    "step_name": "ENV_CHANNELS",
+    "description": "Instantiate electric cyan guide lines",
+    "target": "Cyan_Runners",
+    "action_token_index": 0,
+    "action_token_name": "CREATE_OBJECT",
+    "neural_predicted_action": "REMOVE_RIGID_BODY",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.0277,
+        0.0147,
+        -0.0621
+      ],
+      "rotation_6d": [
+        0.8771,
+        0.0137,
+        0.0181,
+        0.0053,
+        0.8505,
+        0.0593
+      ]
+    },
+    "timestamp": 1793688545.1557019
+  },
+  {
+    "decision_index": 11,
+    "step_name": "ENV_CONSOLES",
+    "description": "Instantiate 4 console pillars with status LEDs",
+    "target": "Telemetry_Consoles",
+    "action_token_index": 0,
+    "action_token_name": "CREATE_OBJECT",
+    "neural_predicted_action": "REMOVE_RIGID_BODY",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.1839,
+        -0.0085,
+        0.2483
+      ],
+      "rotation_6d": [
+        0.4289,
+        0.1361,
+        -0.0469,
+        -0.0901,
+        0.3293,
+        0.0556
+      ]
+    },
+    "timestamp": 1793688545.1581612
+  },
+  {
+    "decision_index": 12,
+    "step_name": "LIGHT_KEY",
+    "description": "Configure 750W cool cyan key light",
+    "target": "Key_Light_Cyan",
+    "action_token_index": 7,
+    "action_token_name": "CREATE_LIGHT",
+    "neural_predicted_action": "RESET_SIMULATION_STATE",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.1604,
+        0.0223,
+        0.2369
+      ],
+      "rotation_6d": [
+        0.6439,
+        0.0968,
+        0.0793,
+        -0.048,
+        0.6472,
+        0.0736
+      ]
+    },
+    "timestamp": 1793688545.1605487
+  },
+  {
+    "decision_index": 13,
+    "step_name": "LIGHT_FILL",
+    "description": "Configure 400W deep blue fill light",
+    "target": "Fill_Light_Blue",
+    "action_token_index": 7,
+    "action_token_name": "CREATE_LIGHT",
+    "neural_predicted_action": "RESET_SIMULATION_STATE",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.02,
+        0.0066,
+        0.0003
+      ],
+      "rotation_6d": [
+        0.8098,
+        0.0544,
+        -0.0303,
+        -0.0798,
+        0.8063,
+        0.0663
+      ]
+    },
+    "timestamp": 1793688545.1630359
+  },
+  {
+    "decision_index": 14,
+    "step_name": "LIGHT_RIM",
+    "description": "Configure 900W warm amber rim light",
+    "target": "Rim_Light_Amber",
+    "action_token_index": 7,
+    "action_token_name": "CREATE_LIGHT",
+    "neural_predicted_action": "REMOVE_RIGID_BODY",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.0233,
+        0.0393,
+        -0.0496
+      ],
+      "rotation_6d": [
+        0.7493,
+        0.0105,
+        0.0142,
+        -0.0455,
+        0.7811,
+        0.0698
+      ]
+    },
+    "timestamp": 1793688545.1654463
+  },
+  {
+    "decision_index": 15,
+    "step_name": "CORE_BASE",
+    "description": "Instantiate titanium pedestal with 4 LED struts",
+    "target": "Core_Base",
+    "action_token_index": 0,
+    "action_token_name": "CREATE_OBJECT",
+    "neural_predicted_action": "REMOVE_RIGID_BODY",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.0307,
+        -0.0464,
+        -0.09
+      ],
+      "rotation_6d": [
+        0.5463,
+        -0.0315,
+        0.0078,
+        -0.0433,
+        0.5595,
+        -0.0272
+      ]
+    },
+    "timestamp": 1793688545.1677742
+  },
+  {
+    "decision_index": 16,
+    "step_name": "CORE_CRYSTAL",
+    "description": "Instantiate luminous blue inner crystal",
+    "target": "Quantum_Core_Crystal",
+    "action_token_index": 36,
+    "action_token_name": "ADD_RIGID_BODY",
+    "neural_predicted_action": "REMOVE_RIGID_BODY",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0271,
+        0.1355,
+        -0.0686
+      ],
+      "rotation_6d": [
+        0.658,
+        0.0263,
+        0.0074,
+        -0.0583,
+        0.6773,
+        0.1319
+      ]
+    },
+    "timestamp": 1793688545.170153
+  },
+  {
+    "decision_index": 17,
+    "step_name": "CORE_GIMBAL_INNER",
+    "description": "Instantiate cyan inner gimbal ring",
+    "target": "Gimbal_Ring_Inner",
+    "action_token_index": 36,
+    "action_token_name": "ADD_RIGID_BODY",
+    "neural_predicted_action": "RESET_SIMULATION_STATE",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0711,
+        0.0288,
+        -0.0187
+      ],
+      "rotation_6d": [
+        0.869,
+        0.0239,
+        0.011,
+        -0.0659,
+        0.8284,
+        0.0119
+      ]
+    },
+    "timestamp": 1793688545.1725008
+  },
+  {
+    "decision_index": 18,
+    "step_name": "CORE_GIMBAL_OUTER",
+    "description": "Instantiate chrome outer gimbal ring",
+    "target": "Gimbal_Ring_Outer",
+    "action_token_index": 36,
+    "action_token_name": "ADD_RIGID_BODY",
+    "neural_predicted_action": "APPLY_TORQUE_IMPULSE",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0488,
+        -0.0116,
+        -0.0246
+      ],
+      "rotation_6d": [
+        0.7616,
+        0.042,
+        -0.0009,
+        -0.0118,
+        0.7073,
+        0.0215
+      ]
+    },
+    "timestamp": 1793688545.1747684
+  },
+  {
+    "decision_index": 19,
+    "step_name": "CORE_CORONA",
+    "description": "Instantiate violet resonant corona ring",
+    "target": "Quantum_Core_Corona",
+    "action_token_index": 0,
+    "action_token_name": "CREATE_OBJECT",
+    "neural_predicted_action": "REMOVE_RIGID_BODY",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.1436,
+        -0.0147,
+        0.0172
+      ],
+      "rotation_6d": [
+        0.6253,
+        0.0833,
+        -0.1008,
+        -0.0685,
+        0.6292,
+        -0.0184
+      ]
+    },
+    "timestamp": 1793688545.177086
+  },
+  {
+    "decision_index": 20,
+    "step_name": "CORE_PHYS_DYN",
+    "description": "Configure rigid body angular damping and restitution",
+    "target": "Quantum_Core_Crystal",
+    "action_token_index": 38,
+    "action_token_name": "SET_PHYSICS_PROPERTY",
+    "neural_predicted_action": "INSERT_POSE_KEYFRAME",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.0193,
+        -0.0922,
+        -0.019
+      ],
+      "rotation_6d": [
+        0.5715,
+        0.0523,
+        0.0129,
+        -0.0988,
+        0.5259,
+        0.1968
+      ]
+    },
+    "timestamp": 1793688545.179395
+  },
+  {
+    "decision_index": 21,
+    "step_name": "S1_FRAME_RANGE",
+    "description": "Configure 1-192 frames @ 24 fps",
+    "target": "Scene",
+    "action_token_index": 10,
+    "action_token_name": "SET_FRAME_RANGE",
+    "neural_predicted_action": "APPLY_TORQUE_IMPULSE",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0403,
+        0.0707,
+        0.0453
+      ],
+      "rotation_6d": [
+        0.8592,
+        0.0443,
+        0.0168,
+        -0.0262,
+        0.8195,
+        0.0458
+      ]
+    },
+    "timestamp": 1793688545.1817498
+  },
+  {
+    "decision_index": 22,
+    "step_name": "S1_CAM_TRACK",
+    "description": "Wide high tracking pan keyframes",
+    "target": "ProductionCamera",
+    "action_token_index": 5,
+    "action_token_name": "CREATE_CAMERA",
+    "neural_predicted_action": "CREATE_OBJECT",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.034,
+        0.0903,
+        0.0347
+      ],
+      "rotation_6d": [
+        0.6075,
+        0.0369,
+        -0.0466,
+        -0.0334,
+        0.6307,
+        -0.0685
+      ]
+    },
+    "timestamp": 1793688545.18419
+  },
+  {
+    "decision_index": 23,
+    "step_name": "S1_LOCOMOTION",
+    "description": "Generate sinusoidal walking stride on Foot_IK",
+    "target": "Armature_Nova",
+    "action_token_index": 25,
+    "action_token_name": "INSERT_POSE_KEYFRAME",
+    "neural_predicted_action": "REMOVE_RIGID_BODY",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0877,
+        0.1755,
+        0.0413
+      ],
+      "rotation_6d": [
+        0.6834,
+        0.0312,
+        0.0054,
+        -0.0305,
+        0.6315,
+        0.0468
+      ]
+    },
+    "timestamp": 1793688545.1866279
+  },
+  {
+    "decision_index": 24,
+    "step_name": "S1_CORE_IDLE",
+    "description": "Apply steady gyroscopic angular impulse",
+    "target": "Gimbal_Ring_Inner",
+    "action_token_index": 41,
+    "action_token_name": "APPLY_TORQUE_IMPULSE",
+    "neural_predicted_action": "REMOVE_RIGID_BODY",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.1647,
+        -0.0106,
+        0.099
+      ],
+      "rotation_6d": [
+        0.4861,
+        0.1062,
+        -0.047,
+        0.0101,
+        0.3938,
+        -0.0567
+      ]
+    },
+    "timestamp": 1793688545.18901
+  },
+  {
+    "decision_index": 25,
+    "step_name": "S1_COMPLETE",
+    "description": "Validate 192 frames render and mux audio",
+    "target": "SHOT_01",
+    "action_token_index": 35,
+    "action_token_name": "COMPLETE_ANIMATION_SEQUENCE",
+    "neural_predicted_action": "CREATE_OBJECT",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0581,
+        0.0127,
+        0.0401
+      ],
+      "rotation_6d": [
+        0.9699,
+        -0.0032,
+        -0.0017,
+        -0.002,
+        0.9427,
+        -0.0092
+      ]
+    },
+    "timestamp": 1793688545.1913855
+  },
+  {
+    "decision_index": 26,
+    "step_name": "S2_FRAME_RANGE",
+    "description": "Configure 1-240 frames @ 24 fps",
+    "target": "Scene",
+    "action_token_index": 10,
+    "action_token_name": "SET_FRAME_RANGE",
+    "neural_predicted_action": "INSERT_POSE_KEYFRAME",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.0078,
+        -0.0744,
+        -0.104
+      ],
+      "rotation_6d": [
+        0.4377,
+        0.0794,
+        0.0323,
+        -0.0671,
+        0.3989,
+        0.2062
+      ]
+    },
+    "timestamp": 1793688545.1937358
+  },
+  {
+    "decision_index": 27,
+    "step_name": "S2_DECELERATE",
+    "description": "Decelerate locomotion to stop at pedestal",
+    "target": "Armature_Nova",
+    "action_token_index": 25,
+    "action_token_name": "INSERT_POSE_KEYFRAME",
+    "neural_predicted_action": "ASSIGN_ACTION_SLOT",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0507,
+        0.0117,
+        -0.0572
+      ],
+      "rotation_6d": [
+        -0.1217,
+        0.0178,
+        0.084,
+        -0.0933,
+        -0.1442,
+        0.016
+      ]
+    },
+    "timestamp": 1793688545.1960092
+  },
+  {
+    "decision_index": 28,
+    "step_name": "S2_HEAD_TILT",
+    "description": "Keyframe head inspection pitch +0.22 rad",
+    "target": "Head",
+    "action_token_index": 25,
+    "action_token_name": "INSERT_POSE_KEYFRAME",
+    "neural_predicted_action": "RESET_SIMULATION_STATE",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0314,
+        -0.0891,
+        -0.105
+      ],
+      "rotation_6d": [
+        -0.0139,
+        0.0502,
+        -0.0156,
+        -0.1864,
+        -0.2945,
+        0.3707
+      ]
+    },
+    "timestamp": 1793688545.198328
+  },
+  {
+    "decision_index": 29,
+    "step_name": "S2_SHAPE_KEYS",
+    "description": "Keyframe alert frown and dual blinks",
+    "target": "NOVA_Character_Mesh",
+    "action_token_index": 29,
+    "action_token_name": "INSERT_SHAPE_KEYFRAME",
+    "neural_predicted_action": "CREATE_OBJECT",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0078,
+        -0.0106,
+        0.0724
+      ],
+      "rotation_6d": [
+        0.9244,
+        0.0013,
+        0.0013,
+        0.0185,
+        0.9694,
+        0.008
+      ]
+    },
+    "timestamp": 1793688545.2006202
+  },
+  {
+    "decision_index": 30,
+    "step_name": "S2_COMPLETE",
+    "description": "Validate 240 frames render and mux audio",
+    "target": "SHOT_02",
+    "action_token_index": 35,
+    "action_token_name": "COMPLETE_ANIMATION_SEQUENCE",
+    "neural_predicted_action": "CORRECT_ANIMATION_DRIFT",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.0406,
+        -0.0456,
+        -0.1339
+      ],
+      "rotation_6d": [
+        0.5076,
+        0.0049,
+        0.0183,
+        -0.1053,
+        0.54,
+        0.1069
+      ]
+    },
+    "timestamp": 1793688545.2029283
+  },
+  {
+    "decision_index": 31,
+    "step_name": "S3_FRAME_RANGE",
+    "description": "Configure 1-288 frames @ 24 fps",
+    "target": "Scene",
+    "action_token_index": 10,
+    "action_token_name": "SET_FRAME_RANGE",
+    "neural_predicted_action": "SET_LOCATION",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.0097,
+        0.1327,
+        0.0689
+      ],
+      "rotation_6d": [
+        0.9538,
+        -0.0008,
+        0.0039,
+        -0.0082,
+        0.8862,
+        0.0577
+      ]
+    },
+    "timestamp": 1793688545.2052577
+  },
+  {
+    "decision_index": 32,
+    "step_name": "S3_HAND_REACH",
+    "description": "Keyframe right arm reach toward outer gimbal ring",
+    "target": "Hand_IK.R",
+    "action_token_index": 25,
+    "action_token_name": "INSERT_POSE_KEYFRAME",
+    "neural_predicted_action": "RESET_SIMULATION_STATE",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0549,
+        0.073,
+        0.1479
+      ],
+      "rotation_6d": [
+        0.5599,
+        0.0631,
+        -0.0244,
+        -0.0165,
+        0.6305,
+        0.011
+      ]
+    },
+    "timestamp": 1793688545.2075934
+  },
+  {
+    "decision_index": 33,
+    "step_name": "S3_CORE_PULSE",
+    "description": "Harmonic scale pulse in response to hand proximity",
+    "target": "Quantum_Core_Crystal",
+    "action_token_index": 3,
+    "action_token_name": "SET_SCALE",
+    "neural_predicted_action": "CREATE_OBJECT",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0717,
+        0.0233,
+        -0.0339
+      ],
+      "rotation_6d": [
+        0.9575,
+        0.0105,
+        0.0096,
+        0.0226,
+        0.9568,
+        -0.0029
+      ]
+    },
+    "timestamp": 1793688545.209879
+  },
+  {
+    "decision_index": 34,
+    "step_name": "S3_CORE_SPIN",
+    "description": "Accelerate gyroscopic rotation",
+    "target": "Gimbal_Ring_Outer",
+    "action_token_index": 41,
+    "action_token_name": "APPLY_TORQUE_IMPULSE",
+    "neural_predicted_action": "INSERT_POSE_KEYFRAME",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0058,
+        0.0342,
+        -0.0927
+      ],
+      "rotation_6d": [
+        0.2772,
+        0.0613,
+        0.0217,
+        -0.1138,
+        0.2144,
+        0.5499
+      ]
+    },
+    "timestamp": 1793688545.2121065
+  },
+  {
+    "decision_index": 35,
+    "step_name": "S3_COMPLETE",
+    "description": "Validate 288 frames render and mux audio",
+    "target": "SHOT_03",
+    "action_token_index": 35,
+    "action_token_name": "COMPLETE_ANIMATION_SEQUENCE",
+    "neural_predicted_action": "REMOVE_RIGID_BODY",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0772,
+        0.0271,
+        -0.0333
+      ],
+      "rotation_6d": [
+        0.5005,
+        0.0961,
+        -0.014,
+        -0.0595,
+        0.5154,
+        -0.0193
+      ]
+    },
+    "timestamp": 1793688545.2143757
+  },
+  {
+    "decision_index": 36,
+    "step_name": "S4_FRAME_RANGE",
+    "description": "Configure 1-288 frames @ 24 fps",
+    "target": "Scene",
+    "action_token_index": 10,
+    "action_token_name": "SET_FRAME_RANGE",
+    "neural_predicted_action": "INSERT_POSE_KEYFRAME",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.058,
+        -0.0853,
+        -0.1918
+      ],
+      "rotation_6d": [
+        0.3528,
+        0.0201,
+        -0.01,
+        -0.1441,
+        0.2486,
+        0.3423
+      ]
+    },
+    "timestamp": 1793688545.216783
+  },
+  {
+    "decision_index": 37,
+    "step_name": "S4_SHOCKWAVE",
+    "description": "Micro-jitter camera shake during kinetic surge",
+    "target": "ProductionCamera",
+    "action_token_index": 5,
+    "action_token_name": "CREATE_CAMERA",
+    "neural_predicted_action": "CONFIGURE_CLOTH_SIMULATION",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.1378,
+        0.038,
+        0.0471
+      ],
+      "rotation_6d": [
+        0.1704,
+        0.1992,
+        -0.1227,
+        -0.224,
+        0.1206,
+        0.0379
+      ]
+    },
+    "timestamp": 1793688545.219032
+  },
+  {
+    "decision_index": 38,
+    "step_name": "S4_RECOIL_STEP",
+    "description": "Root backward recoil step to y=-2.1",
+    "target": "Armature_Nova",
+    "action_token_index": 25,
+    "action_token_name": "INSERT_POSE_KEYFRAME",
+    "neural_predicted_action": "INSERT_POSE_KEYFRAME",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.0766,
+        -0.1533,
+        -0.1454
+      ],
+      "rotation_6d": [
+        0.1604,
+        0.0931,
+        0.0318,
+        -0.1183,
+        0.16,
+        0.293
+      ]
+    },
+    "timestamp": 1793688545.221728
+  },
+  {
+    "decision_index": 39,
+    "step_name": "S4_DEFENSIVE_BRACE",
+    "description": "Left hand snaps across chest in defensive brace",
+    "target": "Hand_IK.L",
+    "action_token_index": 25,
+    "action_token_name": "INSERT_POSE_KEYFRAME",
+    "neural_predicted_action": "INSERT_POSE_KEYFRAME",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.029,
+        0.0038,
+        -0.0817
+      ],
+      "rotation_6d": [
+        0.1055,
+        -0.0287,
+        0.0147,
+        -0.146,
+        0.123,
+        0.0815
+      ]
+    },
+    "timestamp": 1793688545.224348
+  },
+  {
+    "decision_index": 40,
+    "step_name": "S4_CORONA_FLARE",
+    "description": "Violet corona flare expands to 2.2x scale",
+    "target": "Quantum_Core_Corona",
+    "action_token_index": 3,
+    "action_token_name": "SET_SCALE",
+    "neural_predicted_action": "REMOVE_RIGID_BODY",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0174,
+        0.0196,
+        -0.084
+      ],
+      "rotation_6d": [
+        0.7722,
+        0.0336,
+        0.0062,
+        -0.0267,
+        0.6891,
+        0.1876
+      ]
+    },
+    "timestamp": 1793688545.2269413
+  },
+  {
+    "decision_index": 41,
+    "step_name": "S4_COMPLETE",
+    "description": "Validate 288 frames render and mux audio",
+    "target": "SHOT_04",
+    "action_token_index": 35,
+    "action_token_name": "COMPLETE_ANIMATION_SEQUENCE",
+    "neural_predicted_action": "CREATE_OBJECT",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0871,
+        -0.0797,
+        -0.0309
+      ],
+      "rotation_6d": [
+        0.7189,
+        -0.0136,
+        -0.0324,
+        -0.0139,
+        0.7498,
+        0.0143
+      ]
+    },
+    "timestamp": 1793688545.2294426
+  },
+  {
+    "decision_index": 42,
+    "step_name": "S5_FRAME_RANGE",
+    "description": "Configure 1-240 frames @ 24 fps",
+    "target": "Scene",
+    "action_token_index": 10,
+    "action_token_name": "SET_FRAME_RANGE",
+    "neural_predicted_action": "REMOVE_RIGID_BODY",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0036,
+        0.0306,
+        -0.1302
+      ],
+      "rotation_6d": [
+        0.7983,
+        0.0423,
+        0.0444,
+        -0.0401,
+        0.7321,
+        -0.0171
+      ]
+    },
+    "timestamp": 1793688545.231883
+  },
+  {
+    "decision_index": 43,
+    "step_name": "S5_CONSOLE_INPUT",
+    "description": "Keyframe hand input sequence on secondary console",
+    "target": "Hand_IK.R",
+    "action_token_index": 25,
+    "action_token_name": "INSERT_POSE_KEYFRAME",
+    "neural_predicted_action": "INSERT_POSE_KEYFRAME",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.0754,
+        -0.0358,
+        -0.1293
+      ],
+      "rotation_6d": [
+        0.7044,
+        -0.0181,
+        0.0181,
+        -0.0427,
+        0.6769,
+        0.055
+      ]
+    },
+    "timestamp": 1793688545.2345347
+  },
+  {
+    "decision_index": 44,
+    "step_name": "S5_LED_LOCK",
+    "description": "Switch strut LED indicators from Amber to Green",
+    "target": "Emitter_LEDs",
+    "action_token_index": 4,
+    "action_token_name": "ASSIGN_MATERIAL",
+    "neural_predicted_action": "SETUP_DYNAMIC_CONSTRAINT",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.0343,
+        -0.0134,
+        -0.1364
+      ],
+      "rotation_6d": [
+        0.8051,
+        -0.0131,
+        0.0446,
+        -0.0347,
+        0.8469,
+        -0.1009
+      ]
+    },
+    "timestamp": 1793688545.2369478
+  },
+  {
+    "decision_index": 45,
+    "step_name": "S5_CORE_STABILIZE",
+    "description": "Harmonic deceleration into locked resonance",
+    "target": "Quantum_Core_Crystal",
+    "action_token_index": 38,
+    "action_token_name": "SET_PHYSICS_PROPERTY",
+    "neural_predicted_action": "APPLY_TORQUE_IMPULSE",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0492,
+        0.0553,
+        -0.0115
+      ],
+      "rotation_6d": [
+        0.8402,
+        0.006,
+        -0.0308,
+        0.0226,
+        0.7766,
+        -0.0152
+      ]
+    },
+    "timestamp": 1793688545.2394052
+  },
+  {
+    "decision_index": 46,
+    "step_name": "S5_COMPLETE",
+    "description": "Validate 240 frames render and mux audio",
+    "target": "SHOT_05",
+    "action_token_index": 35,
+    "action_token_name": "COMPLETE_ANIMATION_SEQUENCE",
+    "neural_predicted_action": "RESET_SIMULATION_STATE",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0273,
+        -0.0325,
+        -0.1293
+      ],
+      "rotation_6d": [
+        -0.1408,
+        -0.0077,
+        -0.0737,
+        -0.1828,
+        -0.0971,
+        0.2891
+      ]
+    },
+    "timestamp": 1793688545.241893
+  },
+  {
+    "decision_index": 47,
+    "step_name": "S6_FRAME_RANGE",
+    "description": "Configure 1-192 frames @ 24 fps",
+    "target": "Scene",
+    "action_token_index": 10,
+    "action_token_name": "SET_FRAME_RANGE",
+    "neural_predicted_action": "RESET_SIMULATION_STATE",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.1804,
+        -0.1131,
+        0.031
+      ],
+      "rotation_6d": [
+        -0.2902,
+        0.182,
+        0.1338,
+        -0.152,
+        -0.3193,
+        0.0233
+      ]
+    },
+    "timestamp": 1793688545.2443733
+  },
+  {
+    "decision_index": 48,
+    "step_name": "S6_HERO_STANCE",
+    "description": "Configure resolute hero stance (chest +0.12 rad)",
+    "target": "Armature_Nova",
+    "action_token_index": 25,
+    "action_token_name": "INSERT_POSE_KEYFRAME",
+    "neural_predicted_action": "SETUP_DYNAMIC_CONSTRAINT",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0098,
+        0.094,
+        -0.1493
+      ],
+      "rotation_6d": [
+        0.8319,
+        -0.0104,
+        0.0149,
+        -0.0033,
+        0.8143,
+        -0.0348
+      ]
+    },
+    "timestamp": 1793688545.2468147
+  },
+  {
+    "decision_index": 49,
+    "step_name": "S6_SMILE_RAMP",
+    "description": "Ramp Smile shape key to 0.85",
+    "target": "NOVA_Character_Mesh",
+    "action_token_index": 29,
+    "action_token_name": "INSERT_SHAPE_KEYFRAME",
+    "neural_predicted_action": "ASSIGN_ACTION_SLOT",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.036,
+        0.0877,
+        -0.1151
+      ],
+      "rotation_6d": [
+        0.69,
+        0.0271,
+        -0.0273,
+        -0.0393,
+        0.5521,
+        0.0504
+      ]
+    },
+    "timestamp": 1793688545.249095
+  },
+  {
+    "decision_index": 50,
+    "step_name": "S6_CAM_DOLLY_WIDE",
+    "description": "Dolly camera backward to grand establishing wide",
+    "target": "ProductionCamera",
+    "action_token_index": 5,
+    "action_token_name": "CREATE_CAMERA",
+    "neural_predicted_action": "REMOVE_RIGID_BODY",
+    "continuous_parameters": {
+      "translation_delta": [
+        -0.0334,
+        0.1029,
+        -0.0679
+      ],
+      "rotation_6d": [
+        0.3875,
+        0.0547,
+        -0.0108,
+        -0.0888,
+        0.2571,
+        0.4583
+      ]
+    },
+    "timestamp": 1793688545.251519
+  },
+  {
+    "decision_index": 51,
+    "step_name": "S6_COMPLETE",
+    "description": "Validate 192 frames render and mux audio",
+    "target": "SHOT_06",
+    "action_token_index": 35,
+    "action_token_name": "COMPLETE_ANIMATION_SEQUENCE",
+    "neural_predicted_action": "INSERT_POSE_KEYFRAME",
+    "continuous_parameters": {
+      "translation_delta": [
+        0.0398,
+        -0.0844,
+        -0.1369
+      ],
+      "rotation_6d": [
+        0.2488,
+        0.0151,
+        -0.0764,
+        -0.118,
+        0.1164,
+        0.4419
+      ]
+    },
+    "timestamp": 1793688545.253744
+  }
+]

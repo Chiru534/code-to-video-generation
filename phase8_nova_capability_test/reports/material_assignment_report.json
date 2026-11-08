@@ -1,0 +1,215 @@
+{
+  "production_id": "NOVA_FIRST_CONTACT_P8_TEST",
+  "verified_materials": [
+    {
+      "material_name": "Nova_Skin",
+      "rgba_color": [
+        0.91,
+        0.71,
+        0.58,
+        1.0
+      ],
+      "is_emissive": false,
+      "is_metallic": false,
+      "assigned_geometry_types": [
+        "NOVA_Character_Mesh"
+      ]
+    },
+    {
+      "material_name": "Nova_Hair",
+      "rgba_color": [
+        0.11,
+        0.08,
+        0.12,
+        1.0
+      ],
+      "is_emissive": false,
+      "is_metallic": false,
+      "assigned_geometry_types": [
+        "NOVA_Character_Mesh"
+      ]
+    },
+    {
+      "material_name": "Nova_Navy",
+      "rgba_color": [
+        0.078,
+        0.133,
+        0.22,
+        1.0
+      ],
+      "is_emissive": false,
+      "is_metallic": false,
+      "assigned_geometry_types": [
+        "NOVA_Character_Mesh"
+      ]
+    },
+    {
+      "material_name": "Nova_Silver",
+      "rgba_color": [
+        0.749,
+        0.78,
+        0.835,
+        1.0
+      ],
+      "is_emissive": false,
+      "is_metallic": true,
+      "assigned_geometry_types": [
+        "NOVA_Character_Mesh"
+      ]
+    },
+    {
+      "material_name": "Cyan_Glow",
+      "rgba_color": [
+        0.2,
+        0.839,
+        0.91,
+        1.0
+      ],
+      "is_emissive": true,
+      "is_metallic": false,
+      "assigned_geometry_types": [
+        "NOVA_Character_Mesh"
+      ]
+    },
+    {
+      "material_name": "Eye_White",
+      "rgba_color": [
+        0.95,
+        0.95,
+        0.98,
+        1.0
+      ],
+      "is_emissive": false,
+      "is_metallic": false,
+      "assigned_geometry_types": [
+        "NOVA_Character_Mesh"
+      ]
+    },
+    {
+      "material_name": "Violet_Accent",
+      "rgba_color": [
+        0.608,
+        0.361,
+        1.0,
+        1.0
+      ],
+      "is_emissive": false,
+      "is_metallic": false,
+      "assigned_geometry_types": [
+        "Laboratory"
+      ]
+    },
+    {
+      "material_name": "Core_Blue",
+      "rgba_color": [
+        0.157,
+        0.482,
+        1.0,
+        1.0
+      ],
+      "is_emissive": true,
+      "is_metallic": false,
+      "assigned_geometry_types": [
+        "Quantum_Core"
+      ]
+    },
+    {
+      "material_name": "Core_Cyan",
+      "rgba_color": [
+        0.0,
+        0.851,
+        1.0,
+        1.0
+      ],
+      "is_emissive": true,
+      "is_metallic": false,
+      "assigned_geometry_types": [
+        "Quantum_Core"
+      ]
+    },
+    {
+      "material_name": "Gimbal_Chrome",
+      "rgba_color": [
+        0.85,
+        0.87,
+        0.92,
+        1.0
+      ],
+      "is_emissive": false,
+      "is_metallic": true,
+      "assigned_geometry_types": [
+        "Quantum_Core"
+      ]
+    },
+    {
+      "material_name": "Lab_Floor",
+      "rgba_color": [
+        0.078,
+        0.102,
+        0.141,
+        1.0
+      ],
+      "is_emissive": false,
+      "is_metallic": true,
+      "assigned_geometry_types": [
+        "Laboratory"
+      ]
+    },
+    {
+      "material_name": "Lab_Wall",
+      "rgba_color": [
+        0.05,
+        0.07,
+        0.1,
+        1.0
+      ],
+      "is_emissive": false,
+      "is_metallic": false,
+      "assigned_geometry_types": [
+        "Laboratory"
+      ]
+    },
+    {
+      "material_name": "LED_Green",
+      "rgba_color": [
+        0.0,
+        0.9,
+        0.46,
+        1.0
+      ],
+      "is_emissive": true,
+      "is_metallic": false,
+      "assigned_geometry_types": [
+        "Laboratory"
+      ]
+    },
+    {
+      "material_name": "LED_Amber",
+      "rgba_color": [
+        1.0,
+        0.67,
+        0.0,
+        1.0
+      ],
+      "is_emissive": true,
+      "is_metallic": false,
+      "assigned_geometry_types": [
+        "Laboratory"
+      ]
+    },
+    {
+      "material_name": "LED_Red",
+      "rgba_color": [
+        1.0,
+        0.09,
+        0.27,
+        1.0
+      ],
+      "is_emissive": true,
+      "is_metallic": false,
+      "assigned_geometry_types": [
+        "Laboratory"
+      ]
+    }
+  ]
+}

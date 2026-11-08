@@ -1,0 +1,47 @@
+{
+  "asset_name": "NOVA_CHARACTER",
+  "mesh_name": "NOVA_Character_Mesh",
+  "armature_name": "Armature_Nova",
+  "bone_count": 23,
+  "vertex_count": 4488,
+  "polygon_count": 4458,
+  "vertex_groups_count": 17,
+  "ik_constraints": [
+    "Shin.L -> Foot_IK.L",
+    "Shin.R -> Foot_IK.R",
+    "Forearm.L -> Hand_IK.L",
+    "Forearm.R -> Hand_IK.R"
+  ],
+  "shape_keys": [
+    "Smile",
+    "Blink_L",
+    "Blink_R",
+    "Alert_Frown"
+  ],
+  "arm_reach_deformation_test": {
+    "target_location": [
+      -0.08,
+      -0.45,
+      1.3
+    ],
+    "max_vertex_displacement_meters": 0.9481,
+    "mean_vertex_displacement_meters": 0.6504,
+    "deformation_verified": true
+  },
+  "leg_stride_deformation_test": {
+    "target_location": [
+      -0.14,
+      0.35,
+      0.15
+    ],
+    "max_vertex_displacement_meters": 0.4158,
+    "mean_vertex_displacement_meters": 0.2875,
+    "deformation_verified": true
+  },
+  "facial_shape_key_deformation_test": {
+    "tested_key": "Smile",
+    "max_facial_displacement_meters": 0.055,
+    "deformation_verified": true
+  },
+  "overall_rig_validation_status": "PASS"
+}

@@ -1,0 +1,86 @@
+﻿[
+    {
+        "Id":  "01",
+        "StartSeconds":  0,
+        "DurationSeconds":  7.093152,
+        "Narration":  "Hey, I\u0027m Nova. In the next two minutes, we\u0027ll compare machine learning with deep learning and see what each is good at.",
+        "Caption":  "Hey, I\u0027m Nova. In the next two minutes,\nwe\u0027ll compare machine learning with deep learning and see what each is good at."
+    },
+    {
+        "Id":  "02",
+        "StartSeconds":  10,
+        "DurationSeconds":  7.532971,
+        "Narration":  "AI is the broad goal. Machine learning is one way computers learn patterns from examples instead of following every hand-written rule.",
+        "Caption":  "AI is the broad goal. Machine learning is one way computers learn patterns from examples`ninstead of following every hand-written rule."
+    },
+    {
+        "Id":  "03",
+        "StartSeconds":  20,
+        "DurationSeconds":  7.788073,
+        "Narration":  "Give a model many labeled cat and dog photos. It learns patterns from those examples, then uses them to classify new pictures.",
+        "Caption":  "Give a model many labeled cat and dog photos. It learns patterns from those examples,`nthen uses them to classify new pictures."
+    },
+    {
+        "Id":  "04",
+        "StartSeconds":  30,
+        "DurationSeconds":  7.858005,
+        "Narration":  "In traditional machine learning, people choose features such as ear shape, fur color, body outline, and size before training.",
+        "Caption":  "In traditional machine learning, people choose features such as ear shape,`nfur color, body outline, and size before training."
+    },
+    {
+        "Id":  "05",
+        "StartSeconds":  40,
+        "DurationSeconds":  8.183039,
+        "Narration":  "Deep learning is a type of machine learning. Layered neural networks learn useful features directly from raw data, including images and sound.",
+        "Caption":  "Deep learning is a type of machine learning. Layered neural networks learn useful features`ndirectly from raw data, including images and sound."
+    },
+    {
+        "Id":  "06",
+        "StartSeconds":  50,
+        "DurationSeconds":  8.308073,
+        "Narration":  "Early layers detect edges and shapes. Later layers combine them into patterns like whiskers, eyes, faces, and objects.",
+        "Caption":  "Early layers detect edges and shapes. Later layers combine them into patterns`nlike whiskers, eyes, faces, and objects."
+    },
+    {
+        "Id":  "07",
+        "StartSeconds":  60,
+        "DurationSeconds":  8.012925,
+        "Narration":  "This helps analyze images, speech, and video, powering tools for medical scans, face recognition, and driver assistance.",
+        "Caption":  "This helps analyze images, speech, and video, powering tools for medical scans,`nface recognition, and driver assistance."
+    },
+    {
+        "Id":  "08",
+        "StartSeconds":  70,
+        "DurationSeconds":  6.93805,
+        "Narration":  "Deep learning often needs more data and computing power. Traditional machine learning can be faster and easier to inspect.",
+        "Caption":  "Deep learning often needs more data and computing power. Traditional machine learning`ncan be faster and easier to inspect."
+    },
+    {
+        "Id":  "09",
+        "StartSeconds":  80,
+        "DurationSeconds":  7.403129,
+        "Narration":  "For a small dataset and clear features, start with a machine-learning baseline. It might already solve the problem well.",
+        "Caption":  "For a small dataset and clear features, start with a machine-learning baseline.`nIt might already solve the problem well."
+    },
+    {
+        "Id":  "10",
+        "StartSeconds":  90,
+        "DurationSeconds":  7.607982,
+        "Narration":  "For complicated patterns and plenty of examples, deep learning may perform better. It still needs careful training and fair testing.",
+        "Caption":  "For complicated patterns and plenty of examples, deep learning may perform better.`nIt still needs careful training and fair testing."
+    },
+    {
+        "Id":  "11",
+        "StartSeconds":  100,
+        "DurationSeconds":  7.623265,
+        "Narration":  "Compare both on data the model has never seen. Check accuracy, reliability, cost, and the mistakes each approach makes.",
+        "Caption":  "Compare both on data the model has never seen. Check accuracy, reliability, cost,`nand the mistakes each approach makes."
+    },
+    {
+        "Id":  "12",
+        "StartSeconds":  110,
+        "DurationSeconds":  7.633016,
+        "Narration":  "Deep learning is part of machine learning. Both learn from data. Choose the simplest method that reliably solves your task.",
+        "Caption":  "Deep learning is part of machine learning. Both learn from data.`nChoose the simplest method that reliably solves your task."
+    }
+]

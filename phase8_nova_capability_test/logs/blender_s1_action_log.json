@@ -1,0 +1,1766 @@
+[
+  {
+    "step_index": 1,
+    "step_id": "NOVA_ARMATURE",
+    "description": "Create skeletal armature hierarchy with Root, Spine, Chest, Neck, Head, Limbs",
+    "target_object": "Armature_Nova",
+    "selected_action_token": 15,
+    "selected_action_name": "CREATE_ARMATURE",
+    "model_predicted_token": 47,
+    "model_predicted_name": "RESET_SIMULATION_STATE",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.1553,
+        -0.0156,
+        0.0818
+      ],
+      "rotation_6d": [
+        0.4381,
+        0.1241,
+        -0.0315,
+        -0.0948,
+        0.4464,
+        0.0604
+      ],
+      "physics_properties": [
+        0.1685,
+        -0.1008,
+        0.1405,
+        -0.1734
+      ],
+      "shape_key_weights": [
+        -0.0501,
+        0.0501,
+        -0.2395,
+        0.0078,
+        -0.0352,
+        0.2504,
+        -0.2302
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.2489727
+  },
+  {
+    "step_index": 2,
+    "step_id": "NOVA_BONES",
+    "description": "Add 17 edit bones with anatomical humanoid proportions",
+    "target_object": "Armature_Nova",
+    "selected_action_token": 16,
+    "selected_action_name": "ADD_BONE",
+    "model_predicted_token": 37,
+    "model_predicted_name": "REMOVE_RIGID_BODY",
+    "predicted_parameters": {
+      "translation_delta": [
+        0.0045,
+        0.1269,
+        -0.0725
+      ],
+      "rotation_6d": [
+        0.8411,
+        -0.0019,
+        0.0108,
+        -0.0337,
+        0.8186,
+        0.1054
+      ],
+      "physics_properties": [
+        0.0475,
+        0.1873,
+        0.3374,
+        -0.0233
+      ],
+      "shape_key_weights": [
+        0.0426,
+        -0.1174,
+        -0.2743,
+        -0.0387,
+        -0.1345,
+        -0.0888,
+        0.1292
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.25189
+  },
+  {
+    "step_index": 3,
+    "step_id": "NOVA_IK_LEGS",
+    "description": "Add 2-bone IK constraint targeting Foot_IK.L and Foot_IK.R",
+    "target_object": "Shin.L",
+    "selected_action_token": 21,
+    "selected_action_name": "ADD_IK_CONSTRAINT",
+    "model_predicted_token": 41,
+    "model_predicted_name": "APPLY_TORQUE_IMPULSE",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0121,
+        -0.1088,
+        -0.0224
+      ],
+      "rotation_6d": [
+        0.9742,
+        0.0122,
+        0.0297,
+        -0.0352,
+        0.9404,
+        0.0085
+      ],
+      "physics_properties": [
+        -0.2109,
+        0.2889,
+        0.4274,
+        0.0754
+      ],
+      "shape_key_weights": [
+        -0.1014,
+        -0.1312,
+        -0.3402,
+        -0.02,
+        -0.0815,
+        -0.0796,
+        -0.2062
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.2546687
+  },
+  {
+    "step_index": 4,
+    "step_id": "NOVA_IK_ARMS",
+    "description": "Add 2-bone IK constraint targeting Hand_IK.L and Hand_IK.R",
+    "target_object": "Forearm.R",
+    "selected_action_token": 21,
+    "selected_action_name": "ADD_IK_CONSTRAINT",
+    "model_predicted_token": 34,
+    "model_predicted_name": "RESOLVE_MESH_PENETRATION",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.1827,
+        -0.1386,
+        -0.0108
+      ],
+      "rotation_6d": [
+        -0.0503,
+        0.1786,
+        -0.0365,
+        -0.0727,
+        -0.1002,
+        -0.057
+      ],
+      "physics_properties": [
+        0.1927,
+        -0.6207,
+        -0.3921,
+        -0.3799
+      ],
+      "shape_key_weights": [
+        -0.0292,
+        -0.2095,
+        -0.2966,
+        -0.2015,
+        -0.3789,
+        0.1001,
+        -0.4934
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.2573605
+  },
+  {
+    "step_index": 5,
+    "step_id": "NOVA_MESH_BIND",
+    "description": "Bind multi-material character mesh to Armature_Nova",
+    "target_object": "NOVA_Character_Mesh",
+    "selected_action_token": 18,
+    "selected_action_name": "BIND_MESH_ARMATURE",
+    "model_predicted_token": 25,
+    "model_predicted_name": "INSERT_POSE_KEYFRAME",
+    "predicted_parameters": {
+      "translation_delta": [
+        0.03,
+        0.0199,
+        -0.0762
+      ],
+      "rotation_6d": [
+        0.8115,
+        0.031,
+        0.0183,
+        -0.0517,
+        0.747,
+        0.0867
+      ],
+      "physics_properties": [
+        -0.0712,
+        0.1636,
+        0.3047,
+        -0.0537
+      ],
+      "shape_key_weights": [
+        0.1405,
+        -0.0938,
+        -0.2986,
+        -0.0363,
+        -0.1472,
+        -0.0933,
+        -0.0444
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.259961
+  },
+  {
+    "step_index": 6,
+    "step_id": "NOVA_WEIGHTS",
+    "description": "Assign normalized vertex weights to 17 bone groups",
+    "target_object": "NOVA_Character_Mesh",
+    "selected_action_token": 19,
+    "selected_action_name": "AUTO_ASSIGN_WEIGHTS",
+    "model_predicted_token": 1,
+    "model_predicted_name": "SET_LOCATION",
+    "predicted_parameters": {
+      "translation_delta": [
+        0.0043,
+        -0.0073,
+        0.0143
+      ],
+      "rotation_6d": [
+        0.9548,
+        -0.0103,
+        -0.006,
+        0.0009,
+        0.9378,
+        0.0355
+      ],
+      "physics_properties": [
+        -0.0438,
+        0.3801,
+        0.5098,
+        0.1068
+      ],
+      "shape_key_weights": [
+        -0.1286,
+        0.0444,
+        0.0362,
+        -0.2264,
+        -0.1074,
+        -0.3,
+        -0.0887
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.262589
+  },
+  {
+    "step_index": 7,
+    "step_id": "NOVA_SHAPE_KEYS",
+    "description": "Initialize facial shape keys (Smile, Blink_L, Blink_R, Alert_Frown)",
+    "target_object": "NOVA_Character_Mesh",
+    "selected_action_token": 22,
+    "selected_action_name": "ADD_SHAPE_KEY",
+    "model_predicted_token": 47,
+    "model_predicted_name": "RESET_SIMULATION_STATE",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0452,
+        -0.0641,
+        0.0787
+      ],
+      "rotation_6d": [
+        0.5015,
+        0.0613,
+        0.0372,
+        -0.0662,
+        0.6162,
+        0.109
+      ],
+      "physics_properties": [
+        -0.0593,
+        0.0256,
+        0.4927,
+        -0.124
+      ],
+      "shape_key_weights": [
+        -0.1641,
+        0.163,
+        -0.2206,
+        0.1772,
+        0.0535,
+        -0.0226,
+        -0.6637
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.2651935
+  },
+  {
+    "step_index": 8,
+    "step_id": "NOVA_MANTLE_CLOTH",
+    "description": "Add Cloth modifier with pinned shoulders and silk physics preset",
+    "target_object": "NOVA_Cape",
+    "selected_action_token": 43,
+    "selected_action_name": "ADD_CLOTH_MODIFIER",
+    "model_predicted_token": 37,
+    "model_predicted_name": "REMOVE_RIGID_BODY",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0773,
+        -0.1207,
+        -0.0412
+      ],
+      "rotation_6d": [
+        0.1816,
+        0.1181,
+        -0.0011,
+        -0.1783,
+        -0.0064,
+        0.3264
+      ],
+      "physics_properties": [
+        0.0242,
+        -0.5529,
+        -0.2835,
+        -0.5008
+      ],
+      "shape_key_weights": [
+        0.0451,
+        0.0321,
+        -0.651,
+        0.1312,
+        -0.2465,
+        0.2522,
+        -0.0232
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.2677407
+  },
+  {
+    "step_index": 9,
+    "step_id": "MAT_NAVY",
+    "description": "Assign Nova_Navy (#142238) to jacket, pants, and glove surfaces",
+    "target_object": "NOVA_Character_Mesh",
+    "selected_action_token": 4,
+    "selected_action_name": "ASSIGN_MATERIAL",
+    "model_predicted_token": 15,
+    "model_predicted_name": "CREATE_ARMATURE",
+    "predicted_parameters": {
+      "translation_delta": [
+        0.0434,
+        0.0718,
+        -0.0477
+      ],
+      "rotation_6d": [
+        0.9568,
+        -0.0089,
+        -0.0011,
+        -0.0025,
+        0.9407,
+        0.0467
+      ],
+      "physics_properties": [
+        0.1959,
+        0.3361,
+        0.358,
+        0.0914
+      ],
+      "shape_key_weights": [
+        -0.1097,
+        -0.3871,
+        0.0394,
+        -0.0107,
+        -0.2426,
+        -0.5039,
+        -0.0539
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.270389
+  },
+  {
+    "step_index": 10,
+    "step_id": "MAT_SILVER",
+    "description": "Assign Nova_Silver (#BFC7D5) to armor plate, pauldrons, knee guards",
+    "target_object": "NOVA_Character_Mesh",
+    "selected_action_token": 4,
+    "selected_action_name": "ASSIGN_MATERIAL",
+    "model_predicted_token": 47,
+    "model_predicted_name": "RESET_SIMULATION_STATE",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0537,
+        0.0568,
+        -0.1203
+      ],
+      "rotation_6d": [
+        0.4987,
+        0.0788,
+        -0.001,
+        -0.1214,
+        0.4856,
+        0.0342
+      ],
+      "physics_properties": [
+        -0.0121,
+        -0.1145,
+        0.2429,
+        -0.1622
+      ],
+      "shape_key_weights": [
+        -0.1535,
+        0.2293,
+        -0.5046,
+        -0.051,
+        0.0287,
+        0.228,
+        -0.4738
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.2728946
+  },
+  {
+    "step_index": 11,
+    "step_id": "MAT_CYAN",
+    "description": "Assign Cyan_Glow (#33D6E8) to visor, chest circuit, boot sole runners",
+    "target_object": "NOVA_Character_Mesh",
+    "selected_action_token": 4,
+    "selected_action_name": "ASSIGN_MATERIAL",
+    "model_predicted_token": 0,
+    "model_predicted_name": "CREATE_OBJECT",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0923,
+        -0.0293,
+        0.0308
+      ],
+      "rotation_6d": [
+        0.7891,
+        0.0721,
+        -0.0281,
+        -0.0106,
+        0.7876,
+        -0.0651
+      ],
+      "physics_properties": [
+        0.1209,
+        0.2009,
+        0.3231,
+        -0.017
+      ],
+      "shape_key_weights": [
+        -0.0639,
+        -0.1526,
+        -0.3916,
+        -0.1962,
+        -0.4282,
+        0.3186,
+        -0.4847
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.2753472
+  },
+  {
+    "step_index": 12,
+    "step_id": "MAT_SKIN",
+    "description": "Assign Nova_Skin (#E8B595) to face and neck geometry",
+    "target_object": "NOVA_Character_Mesh",
+    "selected_action_token": 4,
+    "selected_action_name": "ASSIGN_MATERIAL",
+    "model_predicted_token": 47,
+    "model_predicted_name": "RESET_SIMULATION_STATE",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.2269,
+        -0.0593,
+        0.0366
+      ],
+      "rotation_6d": [
+        -0.1137,
+        0.129,
+        -0.0129,
+        -0.1593,
+        -0.2595,
+        0.009
+      ],
+      "physics_properties": [
+        0.2839,
+        -0.5503,
+        -0.2673,
+        -0.0206
+      ],
+      "shape_key_weights": [
+        -0.1022,
+        0.1529,
+        -0.2337,
+        0.1585,
+        -0.1193,
+        0.1043,
+        -0.3729
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.2777271
+  },
+  {
+    "step_index": 13,
+    "step_id": "MAT_HAIR",
+    "description": "Assign Nova_Hair (#1C1620) to sculpted coif mesh",
+    "target_object": "NOVA_Character_Mesh",
+    "selected_action_token": 4,
+    "selected_action_name": "ASSIGN_MATERIAL",
+    "model_predicted_token": 47,
+    "model_predicted_name": "RESET_SIMULATION_STATE",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0699,
+        -0.1241,
+        -0.0431
+      ],
+      "rotation_6d": [
+        0.4038,
+        0.0282,
+        0.0028,
+        -0.0277,
+        0.524,
+        0.0871
+      ],
+      "physics_properties": [
+        0.1147,
+        -0.1194,
+        0.3268,
+        -0.1124
+      ],
+      "shape_key_weights": [
+        -0.1757,
+        0.2102,
+        -0.2622,
+        0.4995,
+        0.3276,
+        -0.0413,
+        -0.5931
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.280038
+  },
+  {
+    "step_index": 14,
+    "step_id": "MAT_MANTLE",
+    "description": "Assign Violet_Accent (#9B5CFF) to dynamic shoulder cape",
+    "target_object": "NOVA_Cape",
+    "selected_action_token": 4,
+    "selected_action_name": "ASSIGN_MATERIAL",
+    "model_predicted_token": 37,
+    "model_predicted_name": "REMOVE_RIGID_BODY",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0317,
+        0.2112,
+        -0.0495
+      ],
+      "rotation_6d": [
+        0.6904,
+        0.0509,
+        0.0355,
+        -0.0554,
+        0.6149,
+        0.1833
+      ],
+      "physics_properties": [
+        0.5987,
+        -0.2984,
+        -0.3265,
+        -0.1713
+      ],
+      "shape_key_weights": [
+        0.2106,
+        -0.282,
+        -0.1783,
+        0.1263,
+        -0.2903,
+        -0.1147,
+        -0.0014
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.28243
+  },
+  {
+    "step_index": 15,
+    "step_id": "ENV_FLOOR",
+    "description": "Create metallic carbon floor plane (30m x 30m) with material Lab_Floor",
+    "target_object": "Lab_Floor",
+    "selected_action_token": 0,
+    "selected_action_name": "CREATE_OBJECT",
+    "model_predicted_token": 33,
+    "model_predicted_name": "CORRECT_ANIMATION_DRIFT",
+    "predicted_parameters": {
+      "translation_delta": [
+        0.0371,
+        0.0674,
+        -0.0373
+      ],
+      "rotation_6d": [
+        0.8688,
+        0.0163,
+        0.0064,
+        -0.0208,
+        0.9005,
+        0.0894
+      ],
+      "physics_properties": [
+        -0.0663,
+        0.3299,
+        0.5441,
+        0.0931
+      ],
+      "shape_key_weights": [
+        -0.2653,
+        -0.2019,
+        -0.0451,
+        0.0938,
+        0.3082,
+        -0.0534,
+        -0.5885
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.2846973
+  },
+  {
+    "step_index": 16,
+    "step_id": "ENV_RUNNERS",
+    "description": "Create electric cyan floor guide channels with Cyan_Glow material",
+    "target_object": "Cyan_Runners",
+    "selected_action_token": 0,
+    "selected_action_name": "CREATE_OBJECT",
+    "model_predicted_token": 35,
+    "model_predicted_name": "COMPLETE_ANIMATION_SEQUENCE",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0858,
+        -0.0266,
+        -0.0572
+      ],
+      "rotation_6d": [
+        0.3396,
+        0.0385,
+        -0.0308,
+        -0.1299,
+        0.3047,
+        -0.0391
+      ],
+      "physics_properties": [
+        -0.022,
+        -0.0961,
+        0.3473,
+        -0.1805
+      ],
+      "shape_key_weights": [
+        -0.1296,
+        0.3139,
+        -0.2805,
+        0.1347,
+        0.2388,
+        0.1732,
+        -0.5608
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.2869883
+  },
+  {
+    "step_index": 17,
+    "step_id": "ENV_CONSOLES",
+    "description": "Create workstation pillars with holographic telemetry screens and LEDs",
+    "target_object": "Telemetry_Consoles",
+    "selected_action_token": 0,
+    "selected_action_name": "CREATE_OBJECT",
+    "model_predicted_token": 47,
+    "model_predicted_name": "RESET_SIMULATION_STATE",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0249,
+        0.0417,
+        0.0983
+      ],
+      "rotation_6d": [
+        0.6451,
+        0.0523,
+        -0.0221,
+        0.0297,
+        0.741,
+        -0.0565
+      ],
+      "physics_properties": [
+        -0.006,
+        0.2237,
+        0.6354,
+        -0.0168
+      ],
+      "shape_key_weights": [
+        -0.2038,
+        0.2298,
+        -0.0398,
+        0.1491,
+        0.252,
+        -0.0166,
+        -0.4958
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.2893465
+  },
+  {
+    "step_index": 18,
+    "step_id": "LIGHT_SETUP",
+    "description": "Configure 750W cyan key, 400W blue fill, and 900W amber rim light",
+    "target_object": "Key_Light_Cyan",
+    "selected_action_token": 7,
+    "selected_action_name": "CREATE_LIGHT",
+    "model_predicted_token": 0,
+    "model_predicted_name": "CREATE_OBJECT",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0151,
+        -0.0293,
+        -0.0058
+      ],
+      "rotation_6d": [
+        0.9413,
+        0.005,
+        0.0056,
+        0.0071,
+        0.9591,
+        -0.0173
+      ],
+      "physics_properties": [
+        0.0831,
+        0.375,
+        0.4977,
+        0.1262
+      ],
+      "shape_key_weights": [
+        -0.3226,
+        0.1866,
+        -0.0111,
+        -0.348,
+        -0.238,
+        -0.2685,
+        -0.3889
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.2916248
+  },
+  {
+    "step_index": 19,
+    "step_id": "CORE_BASE",
+    "description": "Create titanium pedestal base and 4 emitter struts with LEDs",
+    "target_object": "Core_Base",
+    "selected_action_token": 0,
+    "selected_action_name": "CREATE_OBJECT",
+    "model_predicted_token": 0,
+    "model_predicted_name": "CREATE_OBJECT",
+    "predicted_parameters": {
+      "translation_delta": [
+        0.0038,
+        0.0539,
+        0.0068
+      ],
+      "rotation_6d": [
+        0.861,
+        -0.0002,
+        0.0049,
+        -0.0093,
+        0.8631,
+        0.0816
+      ],
+      "physics_properties": [
+        0.1675,
+        0.238,
+        0.3381,
+        -0.0013
+      ],
+      "shape_key_weights": [
+        -0.0544,
+        -0.0819,
+        -0.2344,
+        -0.0872,
+        -0.2308,
+        -0.163,
+        -0.0471
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.2944272
+  },
+  {
+    "step_index": 20,
+    "step_id": "CORE_CRYSTAL",
+    "description": "Create luminous blue inner crystal with rigid body support",
+    "target_object": "Quantum_Core_Crystal",
+    "selected_action_token": 36,
+    "selected_action_name": "ADD_RIGID_BODY",
+    "model_predicted_token": 41,
+    "model_predicted_name": "APPLY_TORQUE_IMPULSE",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0783,
+        -0.0126,
+        -0.0552
+      ],
+      "rotation_6d": [
+        0.6442,
+        0.0677,
+        -0.0804,
+        -0.1552,
+        0.6155,
+        -0.0366
+      ],
+      "physics_properties": [
+        0.0267,
+        -0.0094,
+        0.1906,
+        -0.0955
+      ],
+      "shape_key_weights": [
+        0.0154,
+        -0.0961,
+        -0.1468,
+        -0.4863,
+        -0.2357,
+        0.2855,
+        -0.631
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.2970266
+  },
+  {
+    "step_index": 21,
+    "step_id": "CORE_RINGS",
+    "description": "Create counter-rotating inner cyan and outer chrome gimbal rings",
+    "target_object": "Gimbal_Ring_Outer",
+    "selected_action_token": 36,
+    "selected_action_name": "ADD_RIGID_BODY",
+    "model_predicted_token": 47,
+    "model_predicted_name": "RESET_SIMULATION_STATE",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.1257,
+        -0.0709,
+        0.0212
+      ],
+      "rotation_6d": [
+        -0.1693,
+        0.1299,
+        0.0208,
+        -0.2434,
+        -0.0702,
+        -0.0324
+      ],
+      "physics_properties": [
+        -0.0501,
+        -0.4131,
+        0.1428,
+        -0.2622
+      ],
+      "shape_key_weights": [
+        -0.1064,
+        0.0849,
+        -0.3282,
+        -0.2157,
+        -0.0429,
+        0.2749,
+        -0.5995
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.300039
+  },
+  {
+    "step_index": 22,
+    "step_id": "CORE_CORONA",
+    "description": "Create resonant violet corona ring with emission 4.5",
+    "target_object": "Quantum_Core_Corona",
+    "selected_action_token": 0,
+    "selected_action_name": "CREATE_OBJECT",
+    "model_predicted_token": 44,
+    "model_predicted_name": "CONFIGURE_CLOTH_SIMULATION",
+    "predicted_parameters": {
+      "translation_delta": [
+        0.0206,
+        0.0115,
+        -0.0882
+      ],
+      "rotation_6d": [
+        0.4537,
+        -0.0276,
+        -0.0607,
+        -0.116,
+        0.3855,
+        0.2526
+      ],
+      "physics_properties": [
+        0.1227,
+        -0.2971,
+        -0.1633,
+        -0.4986
+      ],
+      "shape_key_weights": [
+        0.11,
+        -0.2959,
+        -0.4246,
+        -0.2891,
+        -0.3559,
+        0.1826,
+        -0.3622
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3026106
+  },
+  {
+    "step_index": 23,
+    "step_id": "S1_FRAME_RANGE",
+    "description": "Set frame range 1 to 120 @ 24 fps",
+    "target_object": "Scene",
+    "selected_action_token": 10,
+    "selected_action_name": "SET_FRAME_RANGE",
+    "model_predicted_token": 25,
+    "model_predicted_name": "INSERT_POSE_KEYFRAME",
+    "predicted_parameters": {
+      "translation_delta": [
+        0.045,
+        -0.0921,
+        -0.1093
+      ],
+      "rotation_6d": [
+        0.2077,
+        0.1011,
+        0.0375,
+        -0.14,
+        0.1714,
+        0.3196
+      ],
+      "physics_properties": [
+        -0.1383,
+        -0.2761,
+        -0.112,
+        -0.3781
+      ],
+      "shape_key_weights": [
+        0.0677,
+        -0.021,
+        -0.6159,
+        0.1179,
+        -0.1323,
+        0.2436,
+        -0.1398
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3051894
+  },
+  {
+    "step_index": 24,
+    "step_id": "S1_CAM_TRACK",
+    "description": "Track camera from (0, -7.5, 2.6) to (0, -5.5, 2.0) looking at Core",
+    "target_object": "ProductionCamera",
+    "selected_action_token": 5,
+    "selected_action_name": "CREATE_CAMERA",
+    "model_predicted_token": 1,
+    "model_predicted_name": "SET_LOCATION",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0069,
+        -0.0026,
+        -0.0245
+      ],
+      "rotation_6d": [
+        0.896,
+        -0.0106,
+        0.0166,
+        0.0189,
+        0.8674,
+        0.035
+      ],
+      "physics_properties": [
+        -0.0252,
+        0.3017,
+        0.4951,
+        0.1589
+      ],
+      "shape_key_weights": [
+        0.1038,
+        -0.2473,
+        -0.0027,
+        -0.0185,
+        -0.2795,
+        -0.2982,
+        0.0791
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.307773
+  },
+  {
+    "step_index": 25,
+    "step_id": "S1_NOVA_WALK_IN",
+    "description": "Keyframe sinusoidal walking stride from y=-5.5 to y=-3.2",
+    "target_object": "Armature_Nova",
+    "selected_action_token": 25,
+    "selected_action_name": "INSERT_POSE_KEYFRAME",
+    "model_predicted_token": 24,
+    "model_predicted_name": "SET_BONE_POSE",
+    "predicted_parameters": {
+      "translation_delta": [
+        0.0167,
+        0.0834,
+        -0.06
+      ],
+      "rotation_6d": [
+        0.7533,
+        -0.0239,
+        -0.0084,
+        -0.0881,
+        0.724,
+        0.0382
+      ],
+      "physics_properties": [
+        0.0721,
+        -0.0965,
+        0.0237,
+        -0.247
+      ],
+      "shape_key_weights": [
+        0.0919,
+        -0.3332,
+        -0.3873,
+        -0.2639,
+        -0.3752,
+        0.0214,
+        -0.1862
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.310376
+  },
+  {
+    "step_index": 26,
+    "step_id": "S1_HEAD_TURN",
+    "description": "Keyframe head and neck pitch +0.18 rad turning toward Quantum Core",
+    "target_object": "Head",
+    "selected_action_token": 25,
+    "selected_action_name": "INSERT_POSE_KEYFRAME",
+    "model_predicted_token": 24,
+    "model_predicted_name": "SET_BONE_POSE",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0291,
+        0.1504,
+        0.0054
+      ],
+      "rotation_6d": [
+        0.6521,
+        0.02,
+        0.0121,
+        -0.0516,
+        0.584,
+        0.0792
+      ],
+      "physics_properties": [
+        0.2417,
+        -0.1846,
+        -0.2524,
+        -0.2632
+      ],
+      "shape_key_weights": [
+        0.0644,
+        -0.5833,
+        -0.2023,
+        -0.39,
+        -0.6102,
+        -0.115,
+        -0.3168
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3128867
+  },
+  {
+    "step_index": 27,
+    "step_id": "S1_CORE_IDLE_SPIN",
+    "description": "Apply steady gyroscopic idle torque (1.2 rad/s)",
+    "target_object": "Gimbal_Ring_Inner",
+    "selected_action_token": 41,
+    "selected_action_name": "APPLY_TORQUE_IMPULSE",
+    "model_predicted_token": 0,
+    "model_predicted_name": "CREATE_OBJECT",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.012,
+        0.0028,
+        -0.0025
+      ],
+      "rotation_6d": [
+        0.8082,
+        -0.0134,
+        0.0042,
+        -0.0188,
+        0.8746,
+        0.018
+      ],
+      "physics_properties": [
+        0.2261,
+        0.2153,
+        0.3439,
+        -0.0409
+      ],
+      "shape_key_weights": [
+        -0.112,
+        -0.0095,
+        -0.222,
+        -0.2835,
+        -0.2787,
+        -0.0144,
+        -0.3218
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.315444
+  },
+  {
+    "step_index": 28,
+    "step_id": "S1_FINISH",
+    "description": "Validate Shot 1 render (120 frames)",
+    "target_object": "SHOT_01",
+    "selected_action_token": 11,
+    "selected_action_name": "FINISH_SUBTASK",
+    "model_predicted_token": 25,
+    "model_predicted_name": "INSERT_POSE_KEYFRAME",
+    "predicted_parameters": {
+      "translation_delta": [
+        0.0065,
+        0.0647,
+        -0.1376
+      ],
+      "rotation_6d": [
+        0.7097,
+        0.0001,
+        -0.0044,
+        -0.0303,
+        0.6116,
+        0.2129
+      ],
+      "physics_properties": [
+        0.1404,
+        -0.1521,
+        0.1065,
+        -0.3154
+      ],
+      "shape_key_weights": [
+        0.1202,
+        -0.1487,
+        -0.3839,
+        0.2663,
+        -0.1632,
+        -0.115,
+        -0.0969
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3179266
+  },
+  {
+    "step_index": 29,
+    "step_id": "S2_FRAME_RANGE",
+    "description": "Set frame range 121 to 240 @ 24 fps",
+    "target_object": "Scene",
+    "selected_action_token": 10,
+    "selected_action_name": "SET_FRAME_RANGE",
+    "model_predicted_token": 0,
+    "model_predicted_name": "CREATE_OBJECT",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0941,
+        0.0747,
+        0.0534
+      ],
+      "rotation_6d": [
+        0.8078,
+        0.033,
+        0.0052,
+        -0.0257,
+        0.7567,
+        -0.0072
+      ],
+      "physics_properties": [
+        0.3862,
+        -0.0647,
+        0.0922,
+        0.0057
+      ],
+      "shape_key_weights": [
+        0.0031,
+        -0.1783,
+        -0.2054,
+        0.055,
+        -0.1564,
+        0.0014,
+        0.1796
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3204963
+  },
+  {
+    "step_index": 30,
+    "step_id": "S2_CAM_MEDIUM",
+    "description": "Position medium 45-deg camera from (1.8, -2.6, 1.6) to (1.3, -1.8, 1.45)",
+    "target_object": "ProductionCamera",
+    "selected_action_token": 5,
+    "selected_action_name": "CREATE_CAMERA",
+    "model_predicted_token": 37,
+    "model_predicted_name": "REMOVE_RIGID_BODY",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.162,
+        -0.0121,
+        0.0205
+      ],
+      "rotation_6d": [
+        0.7098,
+        0.0885,
+        -0.0631,
+        -0.052,
+        0.5897,
+        -0.0149
+      ],
+      "physics_properties": [
+        0.284,
+        -0.1433,
+        0.0367,
+        -0.2496
+      ],
+      "shape_key_weights": [
+        -0.0683,
+        -0.3026,
+        -0.3068,
+        -0.2104,
+        -0.179,
+        0.3811,
+        -0.2204
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3230631
+  },
+  {
+    "step_index": 31,
+    "step_id": "S2_NOVA_APPROACH",
+    "description": "Walk forward to pedestal at y=-1.2 and decelerate into grounded stance",
+    "target_object": "Armature_Nova",
+    "selected_action_token": 25,
+    "selected_action_name": "INSERT_POSE_KEYFRAME",
+    "model_predicted_token": 44,
+    "model_predicted_name": "CONFIGURE_CLOTH_SIMULATION",
+    "predicted_parameters": {
+      "translation_delta": [
+        0.008,
+        0.0376,
+        -0.1215
+      ],
+      "rotation_6d": [
+        0.3316,
+        0.0048,
+        0.0023,
+        -0.1391,
+        0.2654,
+        0.4149
+      ],
+      "physics_properties": [
+        0.1584,
+        -0.3276,
+        -0.137,
+        -0.5331
+      ],
+      "shape_key_weights": [
+        0.0486,
+        -0.2098,
+        -0.4462,
+        -0.1287,
+        -0.2895,
+        0.1625,
+        -0.1752
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3257058
+  },
+  {
+    "step_index": 32,
+    "step_id": "S2_ARM_ELEVATE",
+    "description": "Elevate right arm from side starting at frame 170",
+    "target_object": "Hand_IK.R",
+    "selected_action_token": 25,
+    "selected_action_name": "INSERT_POSE_KEYFRAME",
+    "model_predicted_token": 37,
+    "model_predicted_name": "REMOVE_RIGID_BODY",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0517,
+        0.2133,
+        -0.1092
+      ],
+      "rotation_6d": [
+        0.6691,
+        0.0079,
+        -0.0309,
+        -0.0536,
+        0.5807,
+        0.3301
+      ],
+      "physics_properties": [
+        0.2189,
+        -0.0632,
+        0.0441,
+        -0.2288
+      ],
+      "shape_key_weights": [
+        0.0813,
+        -0.1185,
+        -0.4415,
+        0.2592,
+        -0.1178,
+        -0.0154,
+        0.2774
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3283176
+  },
+  {
+    "step_index": 33,
+    "step_id": "S2_HAND_TOUCH",
+    "description": "Extend right hand to (0.0, -0.44, 1.30) making direct contact with outer ring at frame 210",
+    "target_object": "Hand_IK.R",
+    "selected_action_token": 25,
+    "selected_action_name": "INSERT_POSE_KEYFRAME",
+    "model_predicted_token": 35,
+    "model_predicted_name": "COMPLETE_ANIMATION_SEQUENCE",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0005,
+        0.0049,
+        -0.0961
+      ],
+      "rotation_6d": [
+        0.4292,
+        -0.0292,
+        -0.0014,
+        -0.084,
+        0.4354,
+        0.0031
+      ],
+      "physics_properties": [
+        0.0166,
+        0.071,
+        0.4702,
+        -0.0316
+      ],
+      "shape_key_weights": [
+        -0.1859,
+        0.1607,
+        -0.1098,
+        0.272,
+        0.329,
+        0.0876,
+        -0.6026
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3309817
+  },
+  {
+    "step_index": 34,
+    "step_id": "S2_FACIAL_FOCUSED",
+    "description": "Ramp Alert_Frown shape key to 0.70 during approach",
+    "target_object": "NOVA_Character_Mesh",
+    "selected_action_token": 29,
+    "selected_action_name": "INSERT_SHAPE_KEYFRAME",
+    "model_predicted_token": 37,
+    "model_predicted_name": "REMOVE_RIGID_BODY",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.1586,
+        -0.0379,
+        0.0784
+      ],
+      "rotation_6d": [
+        0.6466,
+        0.1351,
+        -0.0208,
+        -0.0239,
+        0.6115,
+        -0.0841
+      ],
+      "physics_properties": [
+        0.2807,
+        -0.1082,
+        0.0274,
+        -0.2015
+      ],
+      "shape_key_weights": [
+        -0.0349,
+        -0.2754,
+        -0.3928,
+        -0.1803,
+        -0.1878,
+        0.6104,
+        -0.3304
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3347259
+  },
+  {
+    "step_index": 35,
+    "step_id": "S2_FINISH",
+    "description": "Validate Shot 2 render and contact proximity (<0.02m)",
+    "target_object": "SHOT_02",
+    "selected_action_token": 11,
+    "selected_action_name": "FINISH_SUBTASK",
+    "model_predicted_token": 0,
+    "model_predicted_name": "CREATE_OBJECT",
+    "predicted_parameters": {
+      "translation_delta": [
+        0.0042,
+        0.0452,
+        -0.0167
+      ],
+      "rotation_6d": [
+        0.873,
+        -0.0085,
+        0.0128,
+        -0.0022,
+        0.8986,
+        0.0577
+      ],
+      "physics_properties": [
+        0.2703,
+        0.1963,
+        0.3162,
+        0.0097
+      ],
+      "shape_key_weights": [
+        -0.0914,
+        -0.0817,
+        -0.073,
+        -0.2819,
+        -0.4094,
+        -0.2527,
+        -0.3602
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3374653
+  },
+  {
+    "step_index": 36,
+    "step_id": "S3_FRAME_RANGE",
+    "description": "Set frame range 241 to 360 @ 24 fps",
+    "target_object": "Scene",
+    "selected_action_token": 10,
+    "selected_action_name": "SET_FRAME_RANGE",
+    "model_predicted_token": 37,
+    "model_predicted_name": "REMOVE_RIGID_BODY",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0812,
+        -0.0282,
+        0.0166
+      ],
+      "rotation_6d": [
+        0.7826,
+        0.048,
+        -0.0281,
+        -0.0282,
+        0.7587,
+        -0.0273
+      ],
+      "physics_properties": [
+        0.1591,
+        0.0701,
+        0.2621,
+        -0.0685
+      ],
+      "shape_key_weights": [
+        -0.0339,
+        -0.1951,
+        -0.371,
+        -0.2037,
+        -0.1974,
+        0.5537,
+        -0.3003
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3401024
+  },
+  {
+    "step_index": 37,
+    "step_id": "S3_CAM_HERO",
+    "description": "Frame hero close-up from (-1.1, -1.6, 1.45) to (-0.85, -1.35, 1.40)",
+    "target_object": "ProductionCamera",
+    "selected_action_token": 5,
+    "selected_action_name": "CREATE_CAMERA",
+    "model_predicted_token": 0,
+    "model_predicted_name": "CREATE_OBJECT",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0144,
+        0.0087,
+        0.0068
+      ],
+      "rotation_6d": [
+        0.8481,
+        -0.0118,
+        -0.0092,
+        -0.0088,
+        0.8928,
+        0.0428
+      ],
+      "physics_properties": [
+        0.1314,
+        0.2664,
+        0.4382,
+        -0.0204
+      ],
+      "shape_key_weights": [
+        0.0463,
+        -0.1322,
+        -0.2014,
+        -0.3766,
+        -0.4473,
+        -0.075,
+        -0.4004
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3427355
+  },
+  {
+    "step_index": 38,
+    "step_id": "S3_CORE_SURGE",
+    "description": "Scale crystal 1.0 -> 1.35 and accelerate gimbal spin to 12.0 rad/s",
+    "target_object": "Quantum_Core_Crystal",
+    "selected_action_token": 3,
+    "selected_action_name": "SET_SCALE",
+    "model_predicted_token": 37,
+    "model_predicted_name": "REMOVE_RIGID_BODY",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0382,
+        0.1187,
+        -0.0054
+      ],
+      "rotation_6d": [
+        0.6552,
+        0.0137,
+        -0.0037,
+        -0.0002,
+        0.6451,
+        -0.0274
+      ],
+      "physics_properties": [
+        0.4689,
+        -0.2645,
+        -0.0198,
+        -0.2146
+      ],
+      "shape_key_weights": [
+        0.0704,
+        -0.1996,
+        -0.3398,
+        -0.0463,
+        -0.4251,
+        0.2864,
+        -0.1865
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3452222
+  },
+  {
+    "step_index": 39,
+    "step_id": "S3_CORONA_FLARE",
+    "description": "Expand violet corona flare to 1.8x scale",
+    "target_object": "Quantum_Core_Corona",
+    "selected_action_token": 3,
+    "selected_action_name": "SET_SCALE",
+    "model_predicted_token": 37,
+    "model_predicted_name": "REMOVE_RIGID_BODY",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0187,
+        0.0643,
+        -0.1435
+      ],
+      "rotation_6d": [
+        0.8079,
+        0.0123,
+        0.0124,
+        -0.0304,
+        0.7239,
+        0.1837
+      ],
+      "physics_properties": [
+        -0.0351,
+        0.0366,
+        0.3011,
+        -0.1466
+      ],
+      "shape_key_weights": [
+        0.0474,
+        -0.1603,
+        -0.3908,
+        -0.0444,
+        -0.1932,
+        -0.0715,
+        0.0683
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3480155
+  },
+  {
+    "step_index": 40,
+    "step_id": "S3_NOVA_RECOIL_HERO",
+    "description": "Nova absorbs energy pulse, chest elevates +0.12 rad into heroic stance",
+    "target_object": "Armature_Nova",
+    "selected_action_token": 25,
+    "selected_action_name": "INSERT_POSE_KEYFRAME",
+    "model_predicted_token": 0,
+    "model_predicted_name": "CREATE_OBJECT",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.1426,
+        0.0797,
+        0.0716
+      ],
+      "rotation_6d": [
+        0.8824,
+        0.0117,
+        -0.0539,
+        -0.0164,
+        0.8764,
+        -0.0282
+      ],
+      "physics_properties": [
+        0.1451,
+        0.2671,
+        0.3215,
+        0.1131
+      ],
+      "shape_key_weights": [
+        -0.0809,
+        -0.0817,
+        -0.0852,
+        -0.206,
+        -0.3066,
+        -0.1309,
+        -0.1331
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.351689
+  },
+  {
+    "step_index": 41,
+    "step_id": "S3_NOVA_SMILE",
+    "description": "Alert_Frown drops to 0.0; Smile ramps to 0.85 by frame 290 and holds",
+    "target_object": "NOVA_Character_Mesh",
+    "selected_action_token": 29,
+    "selected_action_name": "INSERT_SHAPE_KEYFRAME",
+    "model_predicted_token": 0,
+    "model_predicted_name": "CREATE_OBJECT",
+    "predicted_parameters": {
+      "translation_delta": [
+        -0.0327,
+        0.0164,
+        -0.0219
+      ],
+      "rotation_6d": [
+        0.8095,
+        0.025,
+        -0.001,
+        -0.0358,
+        0.8387,
+        -0.029
+      ],
+      "physics_properties": [
+        0.2629,
+        0.156,
+        0.3291,
+        -0.0259
+      ],
+      "shape_key_weights": [
+        -0.0619,
+        -0.007,
+        -0.2819,
+        -0.3667,
+        -0.3327,
+        0.1571,
+        -0.4416
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3543882
+  },
+  {
+    "step_index": 42,
+    "step_id": "S3_FINISH",
+    "description": "Complete 15-second animation sequence (360 frames total)",
+    "target_object": "SHOT_03",
+    "selected_action_token": 35,
+    "selected_action_name": "COMPLETE_ANIMATION_SEQUENCE",
+    "model_predicted_token": 15,
+    "model_predicted_name": "CREATE_ARMATURE",
+    "predicted_parameters": {
+      "translation_delta": [
+        0.0314,
+        -0.0541,
+        -0.0661
+      ],
+      "rotation_6d": [
+        0.9311,
+        -0.0137,
+        0.0296,
+        0.0046,
+        0.8888,
+        0.0167
+      ],
+      "physics_properties": [
+        -0.0084,
+        0.2956,
+        0.3906,
+        0.0801
+      ],
+      "shape_key_weights": [
+        -0.0487,
+        -0.2923,
+        0.1074,
+        -0.1532,
+        -0.2955,
+        -0.345,
+        -0.1537
+      ]
+    },
+    "execution_outcome": "SUCCESS",
+    "timestamp": 1793691713.3569088
+  }
+]

@@ -1,0 +1,170 @@
+{
+  "FINAL_QUANTUM_CORE_60S": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "24/1",
+        "nb_frames": "1440"
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "r_frame_rate": "0/0",
+        "nb_frames": "2814"
+      }
+    ],
+    "format": {
+      "duration": "60.000000",
+      "size": "7544546",
+      "bit_rate": "1005939"
+    }
+  },
+  "SHOT_01": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "24/1",
+        "nb_frames": "192"
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "r_frame_rate": "0/0",
+        "nb_frames": "376"
+      }
+    ],
+    "format": {
+      "duration": "8.000000",
+      "size": "513654",
+      "bit_rate": "513654"
+    }
+  },
+  "SHOT_02": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "24/1",
+        "nb_frames": "240"
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "r_frame_rate": "0/0",
+        "nb_frames": "470"
+      }
+    ],
+    "format": {
+      "duration": "10.000000",
+      "size": "844416",
+      "bit_rate": "675532"
+    }
+  },
+  "SHOT_03": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "24/1",
+        "nb_frames": "288"
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "r_frame_rate": "0/0",
+        "nb_frames": "564"
+      }
+    ],
+    "format": {
+      "duration": "12.000000",
+      "size": "1659054",
+      "bit_rate": "1106036"
+    }
+  },
+  "SHOT_04": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "24/1",
+        "nb_frames": "288"
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "r_frame_rate": "0/0",
+        "nb_frames": "564"
+      }
+    ],
+    "format": {
+      "duration": "12.000000",
+      "size": "1184862",
+      "bit_rate": "789908"
+    }
+  },
+  "SHOT_05": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "24/1",
+        "nb_frames": "240"
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "r_frame_rate": "0/0",
+        "nb_frames": "470"
+      }
+    ],
+    "format": {
+      "duration": "10.000000",
+      "size": "534255",
+      "bit_rate": "427404"
+    }
+  },
+  "SHOT_06": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "24/1",
+        "nb_frames": "192"
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "r_frame_rate": "0/0",
+        "nb_frames": "376"
+      }
+    ],
+    "format": {
+      "duration": "8.000000",
+      "size": "673149",
+      "bit_rate": "673149"
+    }
+  }
+}

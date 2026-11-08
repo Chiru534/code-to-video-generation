@@ -1,0 +1,21 @@
+﻿{
+  "benchmark_name": "Blender-S1 v3 Independent Physical Character Benchmark",
+  "num_episodes": 50,
+  "checkpoint_evaluated": "/content/blender_s1_v3/checkpoints/blender_s1_v3_character_rigging.pt",
+  "task_success_rate": 0.46,
+  "action_accuracy": 0.9486125385405961,
+  "object_pointer_accuracy": 0.9715789473684211,
+  "bone_pointer_accuracy": 0.9532062391681109,
+  "invalid_action_rate": 0.0,
+  "avg_mesh_displacement_m": 0.8418380000000001,
+  "avg_deformed_vertices": 436.52,
+  "avg_ik_movement_delta_m": 0.21735,
+  "avg_shape_key_delta_m": 0.052424,
+  "multi_rig_isolation_verified": true,
+  "cpu_latency_p50_ms": 5.241749000560958,
+  "cpu_latency_p90_ms": 7.523434000177077,
+  "cpu_latency_p95_ms": 7.936802398762666,
+  "completed_tasks": 23,
+  "failed_tasks": 27,
+  "total_decisions": 973
+}

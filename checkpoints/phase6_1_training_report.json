@@ -1,0 +1,73 @@
+{
+  "checkpoint": "D:/New folder/checkpoints/blender_s1_v4_1_continuous_motion.pt",
+  "sha256": "5affbb45db4c2c4b1a5ee6ed0f44048c19a6fcee2c4c114608b1ef16160ca854",
+  "total_parameters": 1606064,
+  "best_val_acc": 64.33,
+  "best_bone_acc": 71.29,
+  "final_trans_mae_m": 0.2193,
+  "final_rot_mae_deg": 3.71,
+  "final_frame_mae_f": 3.61,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 9.4093,
+      "train_acc": 31.63,
+      "val_loss": 7.6369,
+      "val_acc": 34.99,
+      "val_bone_acc": 62.26,
+      "trans_mae_m": 0.348,
+      "rot_mae_deg": 4.27,
+      "frame_mae_f": 10.36,
+      "duration_s": 34.77
+    },
+    {
+      "epoch": 2,
+      "train_loss": 6.6403,
+      "train_acc": 35.05,
+      "val_loss": 5.2112,
+      "val_acc": 44.47,
+      "val_bone_acc": 67.74,
+      "trans_mae_m": 0.2627,
+      "rot_mae_deg": 4.18,
+      "frame_mae_f": 10.56,
+      "duration_s": 33.33
+    },
+    {
+      "epoch": 3,
+      "train_loss": 5.1752,
+      "train_acc": 46.85,
+      "val_loss": 3.2681,
+      "val_acc": 63.66,
+      "val_bone_acc": 65.48,
+      "trans_mae_m": 0.2232,
+      "rot_mae_deg": 4.69,
+      "frame_mae_f": 4.68,
+      "duration_s": 34.8
+    },
+    {
+      "epoch": 4,
+      "train_loss": 3.5165,
+      "train_acc": 61.85,
+      "val_loss": 2.7151,
+      "val_acc": 62.3,
+      "val_bone_acc": 71.29,
+      "trans_mae_m": 0.1994,
+      "rot_mae_deg": 3.68,
+      "frame_mae_f": 3.43,
+      "duration_s": 33.36
+    },
+    {
+      "epoch": 5,
+      "train_loss": 3.3827,
+      "train_acc": 63.27,
+      "val_loss": 2.9949,
+      "val_acc": 64.33,
+      "val_bone_acc": 66.45,
+      "trans_mae_m": 0.2193,
+      "rot_mae_deg": 3.71,
+      "frame_mae_f": 3.61,
+      "duration_s": 34.33
+    }
+  ]
+}
+

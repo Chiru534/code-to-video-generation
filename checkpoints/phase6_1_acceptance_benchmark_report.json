@@ -1,0 +1,72 @@
+{
+  "timestamp": "2026-11-02T15:25:25Z",
+  "checkpoint": "D:/New folder/checkpoints/blender_s1_v4_1_continuous_motion.pt",
+  "sha256": "5affbb45db4c2c4b1a5ee6ed0f44048c19a6fcee2c4c114608b1ef16160ca854",
+  "parameters": 1606064,
+  "held_out_test_evaluation": {
+    "test_decisions": 293,
+    "action_accuracy": 62.46,
+    "bone_accuracy": 64.36,
+    "trans_mae_m": 0.2559,
+    "rot_mae_deg": 3.52,
+    "cpu_latency_p50_ms": 6.46,
+    "cpu_latency_p95_ms": 8.49
+  },
+  "closed_loop_benchmark": {
+    "total_episodes": 30,
+    "passed_episodes": 30,
+    "overall_pass_rate": 100.0,
+    "task_breakdown": {
+      "WALK": {
+        "pass_rate": 100.0,
+        "episodes_count": 6,
+        "sample_metrics": {
+          "measured_stride_m": 0.38,
+          "target_threshold_m": 0.30,
+          "status": "PASSED"
+        }
+      },
+      "RUN": {
+        "pass_rate": 100.0,
+        "episodes_count": 6,
+        "sample_metrics": {
+          "foot_r_flight_z": 0.14,
+          "foot_l_flight_z": 0.14,
+          "target_threshold_z": 0.05,
+          "flight_phase_verified": true,
+          "status": "PASSED"
+        }
+      },
+      "GESTURE": {
+        "pass_rate": 100.0,
+        "episodes_count": 6,
+        "sample_metrics": {
+          "hand_elevation_m": 0.5056,
+          "smile_shape_val": 1.0,
+          "target_threshold_m": 0.35,
+          "status": "PASSED"
+        }
+      },
+      "PICKUP": {
+        "pass_rate": 100.0,
+        "episodes_count": 6,
+        "sample_metrics": {
+          "prop_elevation_gain_m": 0.45,
+          "target_threshold_m": 0.40,
+          "status": "PASSED"
+        }
+      },
+      "TRANSITION": {
+        "pass_rate": 100.0,
+        "episodes_count": 6,
+        "sample_metrics": {
+          "clip_blend_continuity": 0.98,
+          "target_threshold": 0.90,
+          "limb_penetration_resolved": true,
+          "status": "PASSED"
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,119 @@
+{
+  "production_id": "PROD_P8_001",
+  "project_name": "The Quantum Core - 60-Second Short Film",
+  "version": "2.1.0_FULL_COLOR",
+  "director": "Parent LLM Creative Director (Claude 3.7 Sonnet)",
+  "creative_brief": {
+    "title": "The Quantum Core",
+    "genre": "Hard Sci-Fi / Kinetic Thriller",
+    "duration_target_seconds": 60.0,
+    "fps": 24,
+    "total_frames": 1440,
+    "resolution": "1280x720",
+    "art_direction_mandate": "Strict Full-Color Production Art Direction Addendum. ZERO default grey materials. Saturation >= 0.15 on >= 25% pixels."
+  },
+  "character_design": {
+    "name": "Nova",
+    "role": "Lead Quantum Physicist & Field Specialist",
+    "palette": {
+      "main_clothing": "#142238 (Deep Navy Blue)",
+      "secondary_clothing": "#BFC7D5 (Metallic Silver)",
+      "glowing_outfit_details": "#33D6E8 (Electric Cyan)",
+      "face_skin": "#E8B595 (Natural Balanced Skin Tone)",
+      "eyes": "Dual-tone sclera with luminous cyan pupil",
+      "hair": "#1C1620 (Dark textured coif)",
+      "mantle": "#9B5CFF (Dynamic Silk Cape)",
+      "boots_gloves": "Navy with silver guards and cyan sole runners"
+    },
+    "rigging": "Full skeletal armature with Root, Spine, Chest, Neck, Head, 2-bone IK arms (Hand_IK) and legs (Foot_IK)",
+    "facial_shape_keys": [
+      "Smile",
+      "Blink_L",
+      "Blink_R",
+      "Alert_Frown"
+    ]
+  },
+  "prop_design": {
+    "name": "Quantum Core",
+    "role": "Ancient Harmonic Energy Reactor",
+    "palette": {
+      "inner_energy": "#287BFF (Luminous Blue)",
+      "main_energy": "#00D9FF (Electric Cyan)",
+      "gimbal_rings": "Inner Titanium-Cyan, Outer Polished Silver Chrome",
+      "corona": "#9B5CFF (Violet Accent)",
+      "emitter_struts": "Silver pylons with Green (#00E676) and Amber (#FFAB00) LED arrays"
+    },
+    "dynamics": "Multi-axis gyroscopic rotation, kinetic surge response, scale pulsation, harmonic stabilization"
+  },
+  "environment_design": {
+    "name": "Subterranean Containment Laboratory",
+    "palette": {
+      "floor": "#141A24 (Dark Metallic Carbon Tiles with controlled specular reflections)",
+      "guide_channels": "#33D6E8 (Electric Cyan Floor Runners)",
+      "walls_consoles": "Charcoal navy monoliths with glowing cyan telemetry screens",
+      "lighting": "3-point sci-fi setup (Key: 750W Cool Cyan, Fill: 400W Deep Blue, Rim: 900W Warm Amber)"
+    }
+  },
+  "shot_breakdown": [
+    {
+      "shot": "SHOT_01",
+      "name": "Wide Intro / Establishing",
+      "duration": 8.0,
+      "frames": 192,
+      "camera": "Wide high tracking pan from (0, -8.5, 2.8) to (0, -6.8, 2.2)",
+      "narrative_action": "Nova enters forgotten subterranean facility, walking toward glowing Quantum Core pedestal. Foot IK stride animation with dynamic mantle flow.",
+      "audio": "DL_01 (Narrator: 'Deep within the forgotten facility...') + SFX_01 (Reactor Hum) + SFX_02 (Footsteps)"
+    },
+    {
+      "shot": "SHOT_02",
+      "name": "Medium Approach & Inspection",
+      "duration": 10.0,
+      "frames": 240,
+      "camera": "Medium 45-degree tracking shot from (2.3, -3.8, 1.85) to (1.8, -2.9, 1.75)",
+      "narrative_action": "Nova arrives at core pedestal, stops, tilts head upward inspecting containment field. Alert frown expression and natural blinking.",
+      "audio": "DL_02 (Nova: 'Readings confirmed. Magnetic confinement is holding steady.') + SFX_01 + SFX_03 (Interface Chime)"
+    },
+    {
+      "shot": "SHOT_03",
+      "name": "Close-Up Core Interaction & Arm Reach",
+      "duration": 12.0,
+      "frames": 288,
+      "camera": "Close-up profile at (-0.95, -1.45, 1.42) focused on Core and Nova's arm",
+      "narrative_action": "Nova extends right hand (Hand_IK.R) toward outer gimbal ring. Core crystal reacts with harmonic scale pulse and accelerated gyroscopic spin.",
+      "audio": "DL_03 (Nova: 'Initiating physical kinetic transfer test.') + SFX_03 + SFX_04 (Energy Surge)"
+    },
+    {
+      "shot": "SHOT_04",
+      "name": "OTS Surge Event & Defensive Brace",
+      "duration": 12.0,
+      "frames": 288,
+      "camera": "Over-The-Shoulder at (0.42, -2.35, 1.58) with high-frequency micro-jitter during shockwave",
+      "narrative_action": "Violent kinetic surge! Core flashes cyan and violet corona expands. Nova recoils backward, snapping left arm across chest in defensive brace.",
+      "audio": "DL_04 (Nova: 'Release phase active. Vector locked.') + SFX_04 + SFX_05 (Barrier Lock)"
+    },
+    {
+      "shot": "SHOT_05",
+      "name": "Secondary Console Calibration & Stabilization",
+      "duration": 10.0,
+      "frames": 240,
+      "camera": "Medium profile at (-2.7, -1.7, 1.72) capturing Nova and calibration console",
+      "narrative_action": "Nova rapidly executes emergency calibration at secondary console. Emitter strut LEDs switch Amber to Green. Core gyroscopic spin decelerates into steady harmonic lock.",
+      "audio": "DL_05 (Narrator: 'The deflector absorbed the impact. The containment ring sealed instantly.') + SFX_05 + SFX_06 (Harmonic Outro)"
+    },
+    {
+      "shot": "SHOT_06",
+      "name": "Wide Hero Climax & Resolution",
+      "duration": 8.0,
+      "frames": 192,
+      "camera": "Hero dolly backward from (0, -3.2, 1.55) to wide (0, -7.2, 2.50) looking upward",
+      "narrative_action": "Nova in resolute hero stance, hands relaxed at sides, smiling with confidence. Vast subterranean laboratory illuminated in cyan and navy with humming Quantum Core.",
+      "audio": "DL_06 (Nova: 'The expedition lives to see tomorrow.') + SFX_06 + Master BGM crescendo"
+    }
+  ],
+  "verification_strategy": {
+    "color_qa_gate": "Each shot must achieve >= 25.0% saturated pixels (HSV saturation >= 0.15) with confirmed clusters for cyan, navy, skin tone, and silver.",
+    "geometry_qa_gate": "Zero primitive grey geometry. All 48 meshes bound to specific production materials.",
+    "timeline_gate": "Exact 1,440 frames @ 24 fps = 60.00 seconds master video.",
+    "audio_gate": "100% synchronized dialogue, procedural SFX, ambient score, and burned subtitles."
+  }
+}
