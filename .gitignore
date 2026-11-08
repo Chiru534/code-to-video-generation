@@ -56,3 +56,8 @@ production/renders/
 *.jpg
 *.jpeg
 
+
+# Node / Remotion build artifacts
+video/node_modules/
+video/out/
+video/.remotion/
