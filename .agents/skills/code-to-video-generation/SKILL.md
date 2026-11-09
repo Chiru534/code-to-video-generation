@@ -169,6 +169,68 @@ Notes:
 - Service-account fallback still works for slot-overwrite, but it can never create
   the first file, so it is not the primary path.
 
+## Auditing a render (who checks the video)
+
+An integrity gate is not a quality gate. The pipeline can prove the file is a
+valid 1080p30 MP4 with audio and still ship a wrong, boring, or unreadable video.
+Treat these as separate layers.
+
+### Layer 1 — deterministic, blocking, no AI
+
+The unusual advantage of code-rendered video: **the ground truth is in the repo.**
+You know the exact string that was drawn, so the frame can be checked against a
+spec instead of judged. This is a round-trip test, not an opinion.
+
+```
+scene source (exact text)  ->  render  ->  OCR the frame  ->  compare
+```
+
+| Failure | Detector |
+|---|---|
+| black frames | `ffmpeg -vf blackdetect` |
+| frozen shot / dead air | `ffmpeg -vf freezedetect` (pixel-identical frames) |
+| silent scene | `ffmpeg -af silencedetect` |
+| loudness / clipping | `ffmpeg -af ebur128` |
+| empty or near-empty composition | frame variance over time |
+| unreadable / smeared text | Tesseract OCR (classic CV, CPU, offline) |
+| wrong number on screen | OCR vs the source string |
+| grey untextured frames | HSV saturation stats |
+| nothing moves for >8 s | frame-diff rate per scene |
+
+Tesseract is not an LLM; it is an old OCR engine. Installs with apt, ~30 s for a
+2-minute video, no API key, no GPU. These checks catch every defect found by eye
+in the first render (16 s frozen end card, under-filled scenes, silent build).
+
+### Layer 2 — advisory only, never blocking
+
+Taste has no ground truth and a vision model cannot be made deterministic. Use it
+to annotate a run, never to gate it — a nondeterministic judge failing a
+deterministic build is how you get a red job at 2 a.m. for no reason.
+
+Free options already verified in this workspace:
+
+- Gemini free tier, vision **input** (`gemini-2.5-flash`), ~1,500 req/day.
+- Cloudflare Workers AI vision (`llama-3.2-11b-vision`), ~10k neurons/day.
+
+Careful with the distinction: Gemini **image generation** ("Nano Banana") is paid
+tier only; Gemini **vision understanding** on the free tier is not. Do not
+conflate them.
+
+### Layer 3 — the human
+
+Voice pleasantness, whether the explanation lands, whether it deserves publishing.
+Not delegable. Keep it to ~30 s per video by making layers 1–2 trustworthy first.
+
+### The self-review trap
+
+The agent that wrote the scenes must not be the only auditor: it will pass its own
+mistakes, because they look correct to it. If a reviewer agent is used, give it a
+**fresh context and an adversarial brief** ("find what is wrong"), not a
+confirmation brief ("check this is good").
+
+**Status:** Layer 1 is designed but not implemented. Until it exists, a green run
+means the file is intact, not that the video is right.
+
 ## Also read
 
 - `GOOGLE_DRIVE.md` — Drive storage, current authorization **BROKEN** (needs re-authorization; see file)
