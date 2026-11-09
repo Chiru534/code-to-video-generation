@@ -50,7 +50,7 @@ jobs:
             // Push trigger: selective rendering based on changed files
             let changed = [];
             try {
-              changed = execSync("git diff --name-only HEAD~1 HEAD", { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] }).trim().split("\n").filter(Boolean);
+              changed = execSync(`git diff --name-only ${before} ${after}`, { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] }).trim().split("\n").filter(Boolean);
             } catch (e) {
               changed = [];
             }
@@ -71,7 +71,7 @@ jobs:
             let oldEpisodes = {};
             if (episodesJsonChanged) {
               try {
-                const old = execSync("git show HEAD~1:video/episodes.json", { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] });
+                const old = execSync(`git show ${before}:video/episodes.json`, { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] });
                 oldEpisodes = JSON.parse(old);
               } catch (e) {
                 oldEpisodes = {};
