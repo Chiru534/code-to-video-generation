@@ -497,6 +497,7 @@ const BudgetScene: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const c = spring({ frame: frame - 8, fps, config: { damping: 200 } });
+  const e = spring({ frame: frame - 150, fps, config: { damping: 200 } });
   const steps = [
     { label: "DNS", time: "40 ms", color: C.cyan, done: true },
     { label: "TCP", time: "30 ms", color: C.amber, done: true },
@@ -540,44 +541,51 @@ const BudgetScene: React.FC = () => {
         })}
       </div>
       <Caption text="DNS, TCP, TLS, HTTP. They all fit inside the two hundred milliseconds you started with." />
-    </Stage>
-  );
-};
-
-const EndCard: React.FC = () => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const s = spring({ frame: frame - 6, fps, config: { damping: 200 } });
-  return (
-    <Stage>
-      <Kicker text="EPISODE 04 · STEP 4 OF 25" />
+      {/* End-card teaser for the next episode. Fades in over the final frames of the last scene. */}
       <div
         style={{
-          fontFamily: F.sans,
-          fontWeight: 800,
-          fontSize: 60,
-          color: C.text,
-          opacity: s,
-          transform: `translateY(${(1 - s) * 20}px)`,
-          textAlign: "center",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          opacity: e,
+          pointerEvents: "none",
         }}
       >
-        Next
+        <Kicker text="EPISODE 04 · STEP 4 OF 25" />
+        <div
+          style={{
+            fontFamily: F.sans,
+            fontWeight: 800,
+            fontSize: 60,
+            color: C.text,
+            opacity: e,
+            transform: `translateY(${(1 - e) * 20}px)`,
+            textAlign: "center",
+          }}
+        >
+          Next
+        </div>
+        <div
+          style={{
+            fontFamily: F.sans,
+            fontWeight: 600,
+            fontSize: 36,
+            color: C.cyan,
+            marginTop: 20,
+            opacity: e,
+            textAlign: "center",
+          }}
+        >
+          Reaching millions at once. CDN.
+        </div>
+        <Caption text="Next: how those bytes reach millions of users at once. CDNs and the edge." />
       </div>
-      <div
-        style={{
-          fontFamily: F.sans,
-          fontWeight: 600,
-          fontSize: 36,
-          color: C.cyan,
-          marginTop: 20,
-          opacity: s,
-          textAlign: "center",
-        }}
-      >
-        Reaching millions at once. CDN.
-      </div>
-      <Caption text="Next: how those bytes reach millions of users at once. CDNs and the edge." />
     </Stage>
   );
 };
@@ -597,7 +605,6 @@ const SCENE_NODES: Record<string, React.ReactNode> = {
   s08: <ReturnScene />,
   s09: <RenderScene />,
   s10: <BudgetScene />,
-  s11: <EndCard />,
 };
 
 type Plan = { id: string; from: number; dur: number };
