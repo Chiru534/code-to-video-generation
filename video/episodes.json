@@ -1,0 +1,16 @@
+{
+  "ep01": {
+    "title": "Finding the Address",
+    "srcDir": "src/episode",
+    "audioDir": "public/audio/ep01",
+    "composition": "FindingTheAddress",
+    "output": "finding-the-address.mp4"
+  },
+  "ep02": {
+    "title": "The Handshake",
+    "srcDir": "src/episode02",
+    "audioDir": "public/audio/ep02",
+    "composition": "TheHandshake",
+    "output": "the-handshake.mp4"
+  }
+}

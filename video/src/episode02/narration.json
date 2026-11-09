@@ -1,0 +1,46 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "The handshake. Last time, your computer turned a name into a number. That solved one problem. It did not open a single connection."
+    },
+    {
+      "id": "s02",
+      "text": "Right now, two machines know each other's address, and nothing else. Nothing is open. Nothing is agreed. One of them has to say hello."
+    },
+    {
+      "id": "s03",
+      "text": "And you cannot just shout hello into the network. A packet can be lost, arrive twice, or arrive out of order. So before you send anything real, you agree on the rules."
+    },
+    {
+      "id": "s04",
+      "text": "The client sends one packet. Syn. It carries a random number, its starting point for counting bytes. Not a password. Just a place to start counting."
+    },
+    {
+      "id": "s05",
+      "text": "The server answers with two things at once. Syn, ack. Yes, I hear you, and here is my own starting number. And it repeats yours back, plus one."
+    },
+    {
+      "id": "s06",
+      "text": "The client replies with a single acknowledgment. Three packets. One round trip. Now both sides have proved they can send, and that they can be heard."
+    },
+    {
+      "id": "s07",
+      "text": "Three is the minimum. Two would leave one direction untested. The client would know the server can talk, but the server would never learn that the client's path works too."
+    },
+    {
+      "id": "s08",
+      "text": "One round trip costs about thirty milliseconds. The budget is now seventy of two hundred. Thirty five percent, spent on saying hello."
+    },
+    {
+      "id": "s09",
+      "text": "And still nothing is safe. Everything you are about to send is plain text, readable by every machine the packets cross. That is the next problem."
+    },
+    {
+      "id": "s10",
+      "text": "Next, proving it is safe. Certificates, keys, and one more round trip."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2877,
+  "scenes": {
+    "s01": { "sec": 8.5, "frames": 255, "text": "The handshake. Last time, your computer turned a name into a number. That solved one problem. It did not open a single connection." },
+    "s02": { "sec": 9.0, "frames": 270, "text": "Right now, two machines know each other's address, and nothing else. Nothing is open. Nothing is agreed. One of them has to say hello." },
+    "s03": { "sec": 12.0, "frames": 360, "text": "And you cannot just shout hello into the network. A packet can be lost, arrive twice, or arrive out of order. So before you send anything real, you agree on the rules." },
+    "s04": { "sec": 10.4, "frames": 312, "text": "The client sends one packet. Syn. It carries a random number, its starting point for counting bytes. Not a password. Just a place to start counting." },
+    "s05": { "sec": 11.0, "frames": 330, "text": "The server answers with two things at once. Syn, ack. Yes, I hear you, and here is my own starting number. And it repeats yours back, plus one." },
+    "s06": { "sec": 10.0, "frames": 300, "text": "The client replies with a single acknowledgment. Three packets. One round trip. Now both sides have proved they can send, and that they can be heard." },
+    "s07": { "sec": 11.5, "frames": 345, "text": "Three is the minimum. Two would leave one direction untested. The client would know the server can talk, but the server would never learn that the client's path works too." },
+    "s08": { "sec": 8.5, "frames": 255, "text": "One round trip costs about thirty milliseconds. The budget is now seventy of two hundred. Thirty five percent, spent on saying hello." },
+    "s09": { "sec": 10.0, "frames": 300, "text": "And still nothing is safe. Everything you are about to send is plain text, readable by every machine the packets cross. That is the next problem." },
+    "s10": { "sec": 5.0, "frames": 150, "text": "Next, proving it is safe. Certificates, keys, and one more round trip." }
+  }
+}

@@ -1,0 +1,938 @@
+import React from "react";
+import {
+  AbsoluteFill,
+  Audio,
+  Easing,
+  Sequence,
+  interpolate,
+  spring,
+  staticFile,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
+import { C, F } from "../theme";
+import { Backdrop, Kicker, Stage, Watermark, wobble } from "../chrome";
+import timings from "./timings.json";
+
+const ease = Easing.bezier(0.22, 1, 0.36, 1);
+
+const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
+
+/* ---------------- primitives ---------------- */
+
+const Node: React.FC<{
+  title: string;
+  sub: string;
+  accent?: string;
+  opacity?: number;
+  width?: number;
+}> = ({ title, sub, accent = C.text, opacity = 1, width = 400 }) => (
+  <div
+    style={{
+      width,
+      padding: "30px 0",
+      borderRadius: 16,
+      backgroundColor: C.panel,
+      border: `1px solid ${C.panelEdge}`,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: 10,
+      opacity,
+    }}
+  >
+    <div style={{ fontFamily: F.mono, fontSize: 22, letterSpacing: "0.12em", color: accent }}>
+      {title}
+    </div>
+    <div style={{ fontFamily: F.mono, fontSize: 15, color: C.faint }}>{sub}</div>
+  </div>
+);
+
+const Line: React.FC<{ width: number; color?: string; dashed?: boolean; opacity?: number }> = ({
+  width,
+  color = C.panelEdge,
+  dashed = false,
+  opacity = 1,
+}) => {
+  const frame = useCurrentFrame();
+  if (!dashed) {
+    return <div style={{ width, height: 2, backgroundColor: color, opacity }} />;
+  }
+  return (
+    <div
+      style={{
+        width,
+        height: 2,
+        opacity,
+        backgroundImage: `repeating-linear-gradient(90deg, ${color} 0 16px, transparent 16px 30px)`,
+        backgroundPositionX: -(frame * 1.4),
+      }}
+    />
+  );
+};
+
+const Card: React.FC<{
+  head: string;
+  rows: { k: string; v: string }[];
+  color: string;
+  lit?: number;
+  width?: number;
+}> = ({ head, rows, color, lit = 1, width = 420 }) => (
+  <div
+    style={{
+      width,
+      borderRadius: 14,
+      backgroundColor: "rgba(18,20,28,0.96)",
+      border: `1px solid ${color}`,
+      boxShadow: `0 24px 70px rgba(0,0,0,0.55), 0 0 40px ${color}22`,
+      padding: "20px 24px",
+      display: "flex",
+      flexDirection: "column",
+      gap: 12,
+      opacity: lit,
+    }}
+  >
+    <div style={{ fontFamily: F.mono, fontSize: 15, letterSpacing: "0.26em", color }}>{head}</div>
+    {rows.map((r, i) => (
+      <div key={r.k} style={{ display: "flex", justifyContent: "space-between", gap: 24 }}>
+        <span style={{ fontFamily: F.mono, fontSize: 18, color: C.dim }}>{r.k}</span>
+        <span style={{ fontFamily: F.mono, fontSize: 22, color: i === 0 ? C.text : color }}>
+          {r.v}
+        </span>
+      </div>
+    ))}
+  </div>
+);
+
+/* ---------------- scenes ---------------- */
+
+const TitleScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const words = ["The", "Handshake"];
+  const chip = spring({ frame: frame - 46, fps, config: { damping: 200 } });
+  return (
+    <Stage>
+      <Kicker text="EPISODE 02 · STEP 2 OF 8" />
+      <div style={{ display: "flex", marginTop: 30, gap: 24 }}>
+        {words.map((w, i) => {
+          const s = spring({
+            frame: frame - 6 - i * 6,
+            fps,
+            config: { damping: 15, stiffness: 120 },
+          });
+          return (
+            <span
+              key={w}
+              style={{
+                fontFamily: F.sans,
+                fontWeight: 800,
+                fontSize: 138,
+                letterSpacing: "-0.045em",
+                lineHeight: 1,
+                color: i === 1 ? C.cyan : C.text,
+                opacity: clamp01(s),
+                transform: `translateY(${(1 - s) * 40}px)`,
+                filter: `blur(${(1 - s) * 5}px)`,
+              }}
+            >
+              {w}
+            </span>
+          );
+        })}
+      </div>
+      <div style={{ display: "flex", gap: 18, marginTop: 40, opacity: chip }}>
+        <div
+          style={{
+            fontFamily: F.mono,
+            fontSize: 20,
+            color: C.green,
+            border: `1px solid ${C.green}55`,
+            backgroundColor: `${C.green}12`,
+            borderRadius: 10,
+            padding: "10px 18px",
+          }}
+        >
+          address ✓ 93.184.216.34
+        </div>
+        <div
+          style={{
+            fontFamily: F.mono,
+            fontSize: 20,
+            color: C.red,
+            border: `1px solid ${C.red}55`,
+            backgroundColor: `${C.red}12`,
+            borderRadius: 10,
+            padding: "10px 18px",
+          }}
+        >
+          connection ✗ none
+        </div>
+      </div>
+    </Stage>
+  );
+};
+
+const GapScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const a = spring({ frame, fps, config: { damping: 200 } });
+  const b = spring({ frame: frame - 14, fps, config: { damping: 200 } });
+  const travel = interpolate(frame % 150, [20, 120], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: ease,
+  });
+  return (
+    <Stage caption="Two machines. Two addresses. Nothing agreed between them.">
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40 }}>
+        <Node title="YOUR COMPUTER" sub="knows the address" opacity={a} />
+        <div style={{ position: "relative", width: 420, height: 120 }}>
+          <div style={{ position: "absolute", top: 59, left: 0, width: "100%" }}>
+            <Line width={420} dashed color="#2A2E3B" />
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              top: 40,
+              left: 10 + travel * 300,
+              height: 38,
+              padding: "0 16px",
+              borderRadius: 38,
+              border: `1px solid ${C.violet}80`,
+              backgroundColor: "rgba(167,139,250,0.14)",
+              display: "flex",
+              alignItems: "center",
+              fontFamily: F.mono,
+              fontSize: 18,
+              color: C.violet,
+              opacity: travel > 0.02 && travel < 0.99 ? 1 : 0,
+              transform: `translateY(${Math.sin(frame / 8) * 3}px)`,
+            }}
+          >
+            ?
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              top: 96,
+              left: 0,
+              width: "100%",
+              textAlign: "center",
+              fontFamily: F.mono,
+              fontSize: 15,
+              letterSpacing: "0.2em",
+              color: C.faint,
+              opacity: 0.8,
+            }}
+          >
+            NO CONNECTION
+          </div>
+        </div>
+        <Node title="example.com" sub=":443 · listening" accent={C.cyan} opacity={b} />
+      </div>
+    </Stage>
+  );
+};
+
+const UnreliableScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const W = 1500;
+  const labels = ["1", "2", "3", "3", "4"];
+  const behaviours = ["ok", "lost", "late", "dup", "ok"];
+  const cycle = 210;
+  const t = frame % cycle;
+  return (
+    <Stage caption="Packets get lost, arrive twice, or arrive out of order.">
+      <div style={{ position: "relative", height: 300, width: W }}>
+        <div style={{ position: "absolute", top: 148, left: 0, width: W }}>
+          <Line width={W} dashed color="#2A2E3B" />
+        </div>
+        {labels.map((label, i) => {
+          const start = i * 26;
+          const p = clamp01((t - start) / 120);
+          const kind = behaviours[i];
+          const lost = kind === "lost";
+          const dropped = lost ? clamp01((p - 0.42) / 0.3) : 0;
+          const dupOffset = kind === "dup" ? 46 : 0;
+          const lateShift = kind === "late" ? -34 : 0;
+          const x = p * (W - 120) - dupOffset + lateShift;
+          const visible = t > start && p < 1;
+          return (
+            <div
+              key={`${label}-${i}`}
+              style={{
+                position: "absolute",
+                top: 108 + dropped * 56 + (kind === "dup" ? -54 : 0),
+                left: x,
+                width: 86,
+                height: 60,
+                borderRadius: 10,
+                backgroundColor: lost ? "rgba(251,113,133,0.10)" : "rgba(34,211,238,0.12)",
+                border: `1px solid ${lost ? C.red : C.cyan}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontFamily: F.mono,
+                fontSize: 22,
+                color: lost ? C.red : C.cyan,
+                opacity: visible ? (lost ? 1 - dropped * 0.9 : 1) : 0,
+                transform: `rotate(${lost ? -dropped * 14 : 0}deg)`,
+              }}
+            >
+              {label}
+            </div>
+          );
+        })}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            display: "flex",
+            gap: 34,
+            fontFamily: F.mono,
+            fontSize: 16,
+            letterSpacing: "0.16em",
+          }}
+        >
+          <span style={{ color: C.red }}>LOST</span>
+          <span style={{ color: C.amber }}>LATE / REORDERED</span>
+          <span style={{ color: C.violet }}>DUPLICATED</span>
+        </div>
+      </div>
+    </Stage>
+  );
+};
+
+const SynScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const a = spring({ frame, fps, config: { damping: 200 } });
+  const b = spring({ frame: frame - 12, fps, config: { damping: 200 } });
+  const p = interpolate(frame, [26, 96], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: ease,
+  });
+  const settled = frame >= 78;
+  const seq = settled
+    ? "1000"
+    : "1000"
+        .split("")
+        .map((_, i) => String(Math.floor(wobble(i + 1, frame) * 10)))
+        .join("");
+
+  return (
+    <Stage caption="Syn. One packet, carrying a random starting number.">
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40 }}>
+        <Node title="CLIENT" sub="chooses a number" opacity={a} width={340} />
+        <div style={{ position: "relative", width: 700, height: 200 }}>
+          <div style={{ position: "absolute", top: 99, left: 0, width: 700 }}>
+            <Line width={700} color="#2A2E3B" />
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              top: 62,
+              left: interpolate(p, [0, 1], [0, 300]),
+            }}
+          >
+            <Card
+              head="SYN"
+              rows={[
+                { k: "seq", v: seq },
+                { k: "flags", v: "SYN = 1" },
+              ]}
+              color={C.cyan}
+            />
+          </div>
+        </div>
+        <Node title="SERVER" sub="not yet listening to you" opacity={b} width={340} />
+      </div>
+      <div
+        style={{
+          textAlign: "center",
+          marginTop: 26,
+          fontFamily: F.mono,
+          fontSize: 18,
+          color: C.dim,
+          opacity: clamp01((frame - 90) / 20),
+        }}
+      >
+        not a password — a place to start counting bytes
+      </div>
+    </Stage>
+  );
+};
+
+const SynAckScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const p = interpolate(frame, [20, 90], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: ease,
+  });
+  const row2 = clamp01((frame - 70) / 24);
+  const echo = clamp01((frame - 100) / 22);
+
+  return (
+    <Stage caption="Syn, ack. I hear you — and here is my number.">
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40 }}>
+        <Node title="CLIENT" sub="seq 1000 sent" width={340} />
+        <div style={{ position: "relative", width: 700, height: 210 }}>
+          <div style={{ position: "absolute", top: 104, left: 0, width: 700 }}>
+            <Line width={700} color="#2A2E3B" />
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              top: 64,
+              left: interpolate(p, [0, 1], [300, 0]),
+            }}
+          >
+            <Card
+              head="SYN · ACK"
+              rows={[
+                { k: "seq", v: "5000" },
+                row2 > 0.5 ? { k: "ack", v: "1001" } : { k: "ack", v: "····" },
+              ]}
+              color={C.violet}
+            />
+          </div>
+        </div>
+        <Node title="SERVER" sub="picks its own number" opacity={1} width={340} />
+      </div>
+      <div
+        style={{
+          textAlign: "center",
+          marginTop: 24,
+          fontFamily: F.mono,
+          fontSize: 20,
+          color: C.dim,
+          opacity: echo,
+        }}
+      >
+        your 1000 <span style={{ color: C.violet }}>+ 1</span> = 1001
+      </div>
+    </Stage>
+  );
+};
+
+const AckScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const p = interpolate(frame, [10, 66], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: ease,
+  });
+  const done = clamp01((frame - 80) / 26);
+  const s = spring({ frame: frame - 84, fps, config: { damping: 18, stiffness: 110 } });
+
+  return (
+    <Stage caption="Three packets. One round trip. Both directions proven.">
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40 }}>
+        <Node title="CLIENT" sub="can send ✓" accent={done > 0.5 ? C.green : C.text} width={340} />
+        <div style={{ position: "relative", width: 700, height: 260 }}>
+          <div style={{ position: "absolute", top: 60, left: 0, width: 700 }}>
+            <Line width={700} color={done > 0.4 ? C.green : "#2A2E3B"} />
+          </div>
+          <div style={{ position: "absolute", top: 150, left: 0, width: 700 }}>
+            <Line width={700} color={done > 0.7 ? C.green : "#2A2E3B"} />
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              top: 22,
+              left: interpolate(p, [0, 1], [0, 300]),
+              padding: "8px 16px",
+              borderRadius: 10,
+              border: `1px solid ${C.green}`,
+              backgroundColor: "rgba(52,211,153,0.12)",
+              fontFamily: F.mono,
+              fontSize: 18,
+              color: C.green,
+            }}
+          >
+            ACK 5001
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              top: 58,
+              left: 690,
+              fontFamily: F.mono,
+              fontSize: 26,
+              color: C.green,
+              opacity: done,
+              transform: `translateX(${(1 - s) * 20}px)`,
+            }}
+          >
+            ✓
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              top: 148,
+              left: 0,
+              fontFamily: F.mono,
+              fontSize: 26,
+              color: C.green,
+              opacity: clamp01((frame - 100) / 20),
+            }}
+          >
+            ✓
+          </div>
+        </div>
+        <Node title="SERVER" sub="can send ✓" accent={done > 0.5 ? C.green : C.text} width={340} />
+      </div>
+      <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 30 }}>
+        {["1 SYN", "2 SYN-ACK", "3 ACK"].map((label, i) => {
+          const on = clamp01((frame - 96 - i * 10) / 16);
+          return (
+            <div
+              key={label}
+              style={{
+                fontFamily: F.mono,
+                fontSize: 17,
+                letterSpacing: "0.12em",
+                color: on > 0.5 ? C.green : C.faint,
+                border: `1px solid ${on > 0.5 ? C.green + "66" : C.panelEdge}`,
+                borderRadius: 8,
+                padding: "8px 14px",
+                opacity: 0.4 + on * 0.6,
+              }}
+            >
+              {label}
+            </div>
+          );
+        })}
+      </div>
+    </Stage>
+  );
+};
+
+const WhyThreeScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const two = spring({ frame, fps, config: { damping: 200 } });
+  const three = spring({ frame: frame - 96, fps, config: { damping: 200 } });
+  const cross = clamp01((frame - 46) / 22);
+
+  const panel = (
+    label: string,
+    sub: string,
+    opacity: number,
+    right: string,
+    left: string,
+    rightColor: string,
+    showCross: boolean,
+    showTicks: boolean,
+  ) => (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 28,
+        opacity,
+        padding: "22px 30px",
+        borderRadius: 14,
+        border: `1px solid ${C.panelEdge}`,
+        backgroundColor: C.panel,
+      }}
+    >
+      <div style={{ width: 300 }}>
+        <div style={{ fontFamily: F.mono, fontSize: 20, letterSpacing: "0.14em", color: C.text }}>
+          {label}
+        </div>
+        <div style={{ fontFamily: F.mono, fontSize: 15, color: C.faint, marginTop: 6 }}>{sub}</div>
+      </div>
+      <div style={{ position: "relative", width: 760, height: 96 }}>
+        <div style={{ position: "absolute", top: 24, left: 0, width: 760 }}>
+          <Line width={760} color="#2A2E3B" />
+        </div>
+        <div style={{ position: "absolute", top: 70, left: 0, width: 760 }}>
+          <Line width={760} dashed color="#2A2E3B" />
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            top: 4,
+            left: 0,
+            fontFamily: F.mono,
+            fontSize: 16,
+            color: C.cyan,
+          }}
+        >
+          → {right}
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            top: 78,
+            left: 0,
+            fontFamily: F.mono,
+            fontSize: 16,
+            color: rightColor,
+          }}
+        >
+          ← {left}
+        </div>
+        {showCross ? (
+          <div
+            style={{
+              position: "absolute",
+              top: 52,
+              right: 10,
+              fontFamily: F.mono,
+              fontSize: 30,
+              color: C.red,
+              opacity: cross,
+            }}
+          >
+            ✗
+          </div>
+        ) : null}
+        {showTicks ? (
+          <>
+            <div style={{ position: "absolute", top: 2, right: 6, fontFamily: F.mono, fontSize: 24, color: C.green }}>
+              ✓
+            </div>
+            <div style={{ position: "absolute", top: 76, right: 6, fontFamily: F.mono, fontSize: 24, color: C.green }}>
+              ✓
+            </div>
+          </>
+        ) : null}
+      </div>
+    </div>
+  );
+
+  return (
+    <Stage caption="Two packets would leave one direction untested.">
+      <div style={{ display: "flex", flexDirection: "column", gap: 26 }}>
+        {panel("TWO PACKETS", "reverse path never tested", two, "SYN", "no answer", C.red, true, false)}
+        {panel("THREE PACKETS", "both paths confirmed", three, "SYN", "SYN-ACK · ACK", C.green, false, true)}
+      </div>
+    </Stage>
+  );
+};
+
+const BudgetScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const spent = interpolate(frame, [16, 96], [0, 0.35], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: ease,
+  });
+  const tcp = clamp01((spent - 0.2) / 0.15);
+  const num = spring({ frame: frame - 86, fps, config: { damping: 200 } });
+  const pct = Math.round(interpolate(frame, [16, 96], [0, 35], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: ease,
+  }));
+
+  return (
+    <Stage caption="Seventy of two hundred milliseconds, spent on saying hello.">
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+        <div style={{ fontFamily: F.mono, fontSize: 17, letterSpacing: "0.24em", color: C.dim }}>
+          200 ms BUDGET
+        </div>
+        <div style={{ fontFamily: F.mono, fontSize: 44, color: C.text, opacity: num }}>
+          {pct}%
+        </div>
+      </div>
+      <div
+        style={{
+          marginTop: 18,
+          height: 84,
+          borderRadius: 10,
+          backgroundColor: "#14161F",
+          border: `1px solid ${C.panelEdge}`,
+          overflow: "hidden",
+          display: "flex",
+          position: "relative",
+        }}
+      >
+        <div
+          style={{
+            width: `${0.2 * 100}%`,
+            height: "100%",
+            background: `linear-gradient(90deg, ${C.cyan}, ${C.violet})`,
+            opacity: spent > 0.02 ? 1 : 0.15,
+          }}
+        />
+        <div
+          style={{
+            width: `${tcp * 0.15 * 100}%`,
+            height: "100%",
+            background: `linear-gradient(90deg, ${C.violet}, ${C.amber})`,
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: `${spent * 100}%`,
+            width: 2,
+            backgroundColor: C.text,
+            boxShadow: "0 0 18px rgba(255,255,255,0.85)",
+          }}
+        />
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: 12,
+          fontFamily: F.mono,
+          fontSize: 15,
+          color: C.faint,
+        }}
+      >
+        <span>0 ms · start</span>
+        <span style={{ color: C.cyan }}>40 ms · address</span>
+        <span style={{ color: C.amber }}>70 ms · connection</span>
+        <span>200 ms</span>
+      </div>
+      <div style={{ display: "flex", gap: 40, marginTop: 40, opacity: num }}>
+        <div>
+          <div style={{ fontFamily: F.mono, fontSize: 15, letterSpacing: "0.2em", color: C.cyan }}>
+            DNS
+          </div>
+          <div style={{ fontFamily: F.mono, fontSize: 32, color: C.text }}>40 ms</div>
+        </div>
+        <div>
+          <div style={{ fontFamily: F.mono, fontSize: 15, letterSpacing: "0.2em", color: C.amber }}>
+            TCP HANDSHAKE
+          </div>
+          <div style={{ fontFamily: F.mono, fontSize: 32, color: C.text }}>30 ms</div>
+        </div>
+        <div>
+          <div style={{ fontFamily: F.mono, fontSize: 15, letterSpacing: "0.2em", color: C.faint }}>
+            REMAINING
+          </div>
+          <div style={{ fontFamily: F.mono, fontSize: 32, color: C.faint }}>130 ms</div>
+        </div>
+      </div>
+    </Stage>
+  );
+};
+
+const HOP_X = [40, 420, 800, 1180];
+
+const PlaintextScene: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const p = interpolate(frame % 190, [24, 150], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+    easing: ease,
+  });
+  const x = interpolate(p, [0, 1], [HOP_X[0], HOP_X[3]]);
+  const reading = clamp01((1 - Math.abs(x - HOP_X[1]) / 150) * 1.4);
+  const glow = spring({ frame: frame - 10, fps, config: { damping: 200 } });
+
+  const hop = (label: string, i: number) => (
+    <div
+      key={label}
+      style={{
+        position: "absolute",
+        left: HOP_X[i],
+        top: 232,
+        width: 260,
+        textAlign: "center",
+        fontFamily: F.mono,
+        fontSize: 16,
+        letterSpacing: "0.16em",
+        color: C.dim,
+        opacity: glow,
+      }}
+    >
+      <div
+        style={{
+          height: 56,
+          borderRadius: 10,
+          border: `1px solid ${C.panelEdge}`,
+          backgroundColor: C.panel,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginBottom: 12,
+        }}
+      >
+        {label}
+      </div>
+    </div>
+  );
+
+  return (
+    <Stage caption="Plain text. Every machine on the path can read it.">
+      <div style={{ position: "relative", height: 360, width: 1500 }}>
+        <div style={{ position: "absolute", top: 62, left: 40, width: 1180 }}>
+          <Line width={1180} color="#2A2E3B" />
+        </div>
+        {["YOU", "ROUTER", "ISP", "SERVER"].map(hop)}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: x,
+            width: 300,
+            borderRadius: 12,
+            border: `1px solid ${C.red}`,
+            backgroundColor: "rgba(18,20,28,0.97)",
+            boxShadow: `0 0 ${24 + reading * 50}px rgba(251,113,133,${0.15 + reading * 0.5})`,
+            padding: "16px 20px",
+            fontFamily: F.mono,
+            fontSize: 15,
+            color: reading > 0.4 ? C.red : C.text,
+            lineHeight: 1.6,
+          }}
+        >
+          <div>GET / HTTP/1.1</div>
+          <div>Host: example.com</div>
+          <div>Cookie: session=8f3a…</div>
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            top: 176,
+            left: HOP_X[1] + 20,
+            fontFamily: F.mono,
+            fontSize: 15,
+            letterSpacing: "0.18em",
+            color: C.red,
+            opacity: reading,
+          }}
+        >
+          READABLE
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: 1500,
+            height: 360,
+            background: `radial-gradient(300px 120px at ${x + 150}px 40px, rgba(251,113,133,${reading * 0.22}), transparent 70%)`,
+            pointerEvents: "none",
+          }}
+        />
+      </div>
+    </Stage>
+  );
+};
+
+const EndCard: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const a = spring({ frame, fps, config: { damping: 200 } });
+  const b = spring({ frame: frame - 34, fps, config: { damping: 200 } });
+  const c = spring({ frame: frame - 60, fps, config: { damping: 200 } });
+  return (
+    <Stage>
+      <div
+        style={{
+          fontFamily: F.sans,
+          fontWeight: 800,
+          fontSize: 92,
+          letterSpacing: "-0.04em",
+          color: C.text,
+          opacity: a,
+        }}
+      >
+        Next: proving it is safe.
+      </div>
+      <div
+        style={{
+          marginTop: 26,
+          fontFamily: F.mono,
+          fontSize: 24,
+          letterSpacing: "0.2em",
+          color: C.dim,
+          opacity: b,
+        }}
+      >
+        CERTIFICATES · KEYS · ONE ROUND TRIP
+      </div>
+      <div
+        style={{
+          marginTop: 46,
+          display: "flex",
+          alignItems: "center",
+          gap: 18,
+          opacity: c,
+        }}
+      >
+        <div style={{ fontFamily: F.mono, fontSize: 20, color: C.green }}>70 ms spent</div>
+        <div style={{ width: 2, height: 22, backgroundColor: C.panelEdge }} />
+        <div style={{ fontFamily: F.mono, fontSize: 20, color: C.amber }}>130 ms left</div>
+        <div style={{ width: 2, height: 22, backgroundColor: C.panelEdge }} />
+        <div style={{ fontFamily: F.mono, fontSize: 20, color: C.dim }}>page not requested</div>
+      </div>
+      <div
+        style={{
+          marginTop: 54,
+          height: 2,
+          width: 640,
+          background: `linear-gradient(90deg, ${C.cyan}, ${C.violet} 60%, transparent)`,
+          opacity: c,
+        }}
+      />
+    </Stage>
+  );
+};
+
+/* ---------------- timeline (driven by measured narration) ---------------- */
+
+const TAIL_FRAMES = 12; // 0.4s of air after each line
+
+const SCENE_NODES: Record<string, React.ReactNode> = {
+  s01: <TitleScene />,
+  s02: <GapScene />,
+  s03: <UnreliableScene />,
+  s04: <SynScene />,
+  s05: <SynAckScene />,
+  s06: <AckScene />,
+  s07: <WhyThreeScene />,
+  s08: <BudgetScene />,
+  s09: <PlaintextScene />,
+  s10: <EndCard />,
+};
+
+type Plan = { id: string; from: number; dur: number };
+
+const buildPlan = (): Plan[] => {
+  let cursor = 0;
+  return Object.keys(SCENE_NODES).map((id) => {
+    const measured = timings.scenes[id as keyof typeof timings.scenes];
+    const dur = (measured?.frames ?? 240) + TAIL_FRAMES;
+    const item = { id, from: cursor, dur };
+    cursor += dur;
+    return item;
+  });
+};
+
+const PLAN = buildPlan();
+
+export const DURATION = PLAN.reduce((n, p) => n + p.dur, 0);
+
+export const HandshakeEpisode: React.FC = () => {
+  return (
+    <AbsoluteFill style={{ backgroundColor: C.bg }}>
+      <Backdrop />
+      {PLAN.map((p) => (
+        <Sequence key={p.id} from={p.from} durationInFrames={p.dur}>
+          <Audio src={staticFile(`audio/ep02/${p.id}.wav`)} />
+          {SCENE_NODES[p.id]}
+        </Sequence>
+      ))}
+      <Watermark text="EP 02 · THE HANDSHAKE" />
+    </AbsoluteFill>
+  );
+};

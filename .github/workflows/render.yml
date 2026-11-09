@@ -2,6 +2,12 @@ name: render
 
 on:
   workflow_dispatch:
+    inputs:
+      episode:
+        description: "Which episode to render"
+        type: choice
+        default: all
+        options: [all, ep01, ep02]
   push:
     branches: [main]
     paths:
@@ -13,9 +19,42 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Resolve episodes.json into a matrix so adding an episode is a data change,
+  # not a workflow rewrite. Two parallel jobs, each ~6 minutes.
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.build.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: build
+        env:
+          WANT: ${{ github.event.inputs.episode || 'all' }}
+        run: |
+          node -e '
+            const all = require("./video/episodes.json");
+            const want = process.env.WANT || "all";
+            const keys = want === "all" ? Object.keys(all) : [want];
+            for (const k of keys) {
+              if (!all[k]) { console.error("unknown episode: " + k); process.exit(1); }
+            }
+            const include = keys.map((k) => ({ key: k, ...all[k] }));
+            console.log("matrix=" + JSON.stringify({ include }));
+          ' >> "$GITHUB_OUTPUT"
+
   render:
+    needs: plan
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    env:
+      SRC_DIR: ${{ matrix.srcDir }}
+      AUDIO_DIR: ${{ matrix.audioDir }}
+      COMPOSITION: ${{ matrix.composition }}
+      OUTPUT: ${{ matrix.output }}
+      TITLE: ${{ matrix.title }}
     steps:
       - uses: actions/checkout@v4
 
@@ -63,7 +102,7 @@ jobs:
 
       - name: Generate narration
         working-directory: video
-        run: python tools/tts.py
+        run: python tools/tts.py --src-dir "$SRC_DIR" --audio-dir "$AUDIO_DIR"
 
       - name: Ensure headless browser
         working-directory: video
@@ -73,21 +112,22 @@ jobs:
         working-directory: video
         run: |
           START=$(date +%s)
-          npx remotion render FindingTheAddress out/raw.mp4
+          npx remotion render "$COMPOSITION" "out/$OUTPUT"
           END=$(date +%s)
           echo "RENDER_SECONDS=$((END-START))" >> "$GITHUB_ENV"
 
       - name: Master audio to -14 LUFS
         working-directory: video
         run: |
-          ffmpeg -y -v error -i out/raw.mp4 \
+          ffmpeg -y -v error -i "out/$OUTPUT" \
             -c:v copy \
             -af "loudnorm=I=-14:TP=-1.5:LRA=11" \
             -ar 48000 -c:a aac -b:a 192k \
             -movflags +faststart \
-            out/finding-the-address.mp4
+            "out/master.mp4"
+          mv "out/master.mp4" "out/$OUTPUT"
           echo "--- integrated loudness ---"
-          ffmpeg -hide_banner -nostats -i out/finding-the-address.mp4 \
+          ffmpeg -hide_banner -nostats -i "out/$OUTPUT" \
             -af ebur128 -f null - 2>&1 | grep -A6 "Summary:" | head -12
 
       - name: Verify output
@@ -95,20 +135,18 @@ jobs:
         run: |
           ffprobe -v error -show_entries format=duration,size,bit_rate \
             -show_entries stream=codec_type,codec_name,width,height,r_frame_rate,pix_fmt \
-            -of default=noprint_wrappers=1 out/finding-the-address.mp4
-          ls -lh out/finding-the-address.mp4
-          DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 out/finding-the-address.mp4)
-          AUDIO=$(ffprobe -v error -select_streams a -show_entries stream=codec_name -of csv=p=0 out/finding-the-address.mp4)
+            -of default=noprint_wrappers=1 "out/$OUTPUT"
+          ls -lh "out/$OUTPUT"
+          DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "out/$OUTPUT")
+          AUDIO=$(ffprobe -v error -select_streams a -show_entries stream=codec_name -of csv=p=0 "out/$OUTPUT")
+          DIMS=$(ffprobe -v error -select_streams v -show_entries stream=width,height -of csv=p=0 "out/$OUTPUT")
           echo "HEARD_AUDIO=${AUDIO:-none}" >> "$GITHUB_ENV"
-          {
-            echo "### Episode render"
-            echo ""
-            echo "| metric | value |"
-            echo "|---|---|"
-            echo "| duration | ${DUR}s |"
-            echo "| audio track | ${AUDIO:-NONE} |"
-            echo "| render wall clock | ${RENDER_SECONDS}s |"
-          } >> "$GITHUB_STEP_SUMMARY"
+          echo "DURATION=${DUR}" >> "$GITHUB_ENV"
+          echo "DIMS=${DIMS}" >> "$GITHUB_ENV"
+          if [ "${DIMS}" != "1920,1080" ]; then
+            echo "::error::expected 1920x1080, got ${DIMS}"
+            exit 1
+          fi
 
       - name: Fail if silent
         run: |
@@ -125,15 +163,31 @@ jobs:
           GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
           GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
           GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
-          GDRIVE_FILE_NAME: finding-the-address.mp4
           GDRIVE_SA_JSON: ${{ secrets.GDRIVE_SA_JSON }}
-        run: python tools/gdrive_upload.py out/finding-the-address.mp4 --name "$GDRIVE_FILE_NAME"
+        run: python tools/gdrive_upload.py "out/$OUTPUT" --name "$OUTPUT"
+
+      - name: Run summary
+        if: always()
+        run: |
+          {
+            echo "### $TITLE"
+            echo ""
+            echo "| field | value |"
+            echo "|---|---|"
+            echo "| episode | \`${{ matrix.key }}\` |"
+            echo "| composition | \`$COMPOSITION\` |"
+            echo "| file | \`$OUTPUT\` |"
+            echo "| duration | ${DURATION:-?}s |"
+            echo "| resolution | ${DIMS:-?} |"
+            echo "| audio | ${HEARD_AUDIO:-NONE} |"
+            echo "| render wall clock | ${RENDER_SECONDS:-?}s |"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: finding-the-address
+          name: ${{ matrix.key }}-${{ matrix.output }}
           path: |
-            video/out/finding-the-address.mp4
-            video/public/audio/*.wav
-            video/src/episode/timings.json
+            video/out/${{ matrix.output }}
+            video/${{ matrix.audioDir }}/*.wav
+            video/${{ matrix.srcDir }}/timings.json
           retention-days: 30
