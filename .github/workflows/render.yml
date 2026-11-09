@@ -1,10 +1,27 @@
 name: render
 
+# ============================================================
+# ZERO-WASTE RENDER POLICY (LOCKED — human decision, do not override silently)
+#
+# We are NOT allowed to render an already-existing video when we
+# render a new one. We only render an episode when we THINK WE
+# NEED TO CHANGE THE VIDEO:
+#   - a source edit for that specific episode,
+#   - a shared source change (chrome/theme) we decide warrants a re-render,
+#   - a new episode registered in episodes.json,
+#   - or an explicit manual workflow_dispatch re-render decision.
+#
+# Finished episodes are NEVER re-rendered implicitly. A push that
+# touches nothing relevant to finished episodes must not trigger
+# their re-render. Manual dispatch with an explicit episode choice
+# is the deliberate escape hatch.
+# ============================================================
+
 on:
   workflow_dispatch:
     inputs:
       episode:
-        description: "Which episode to render"
+        description: "Which episode to render (manual dispatch = deliberate re-render decision)"
         type: choice
         default: all
         options: [all, ep01, ep02, ep03, ep04]
@@ -55,17 +72,21 @@ jobs:
               changed = [];
             }
 
-            // No changed files detected (first commit, shallow clone, etc.) -> render all
+            // No changed files detected (first commit, shallow clone, etc.) -> SKIP.
+            // ZERO-WASTE RENDER POLICY: never fall back to rendering all episodes.
+            // Only render episodes we think we need to change; otherwise render none.
             if (changed.length === 0) {
-              const keys = Object.keys(all);
-              const include = keys.map((k) => ({ key: k, ...all[k] }));
-              console.log("matrix=" + JSON.stringify({ include }));
+              console.log("matrix=" + JSON.stringify({ include: [] }));
               process.exit(0);
             }
 
             // Shared files that affect every episode
             const sharedPatterns = ["video/src/chrome", "video/src/theme", "video/tools/"];
             const episodesJsonChanged = changed.includes("video/episodes.json");
+
+            // ZERO-WASTE RENDER POLICY: shared-source changes are the explicit
+            // "we think we need to change the video" signal -> render all. Anything
+            // else renders only the episodes whose sources actually changed.
 
             // If episodes.json changed, determine which episodes are new or modified
             let oldEpisodes = {};

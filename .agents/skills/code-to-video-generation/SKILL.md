@@ -67,6 +67,13 @@ episodes.json                     registry: srcDir, audioDir, composition, outpu
 Deterministic code renders only. No AI/diffusion video models anywhere in this pipeline.
 ```
 
+**ZERO-WASTE RENDER POLICY (LOCKED — user decision 2026-11-09):** we are **not allowed
+to render an already-existing video when rendering a new one. We only render episodes
+**when we think we need to change the video**. Finished episodes are never re-rendered
+implicitly; the plan job maps changed files to specific episodes and renders nothing
+when no relevant change is detected. A manual `workflow_dispatch` with an explicit
+episode is the deliberate escape hatch for an intentional re-render.
+
 **Nothing renders on the laptop.** The laptop holds source only. TTS, render,
 loudness and upload all run on the runner, and the runner's disk is destroyed
 afterwards, so the only permanent copy is the Drive file. A local `out/*.mp4`
@@ -236,31 +243,38 @@ An integrity gate is not a quality gate. The pipeline can prove the file is a
 valid 1080p30 MP4 with audio and still ship a wrong, boring, or unreadable video.
 Treat these as separate layers.
 
-### Layer 1 — deterministic, blocking, no AI
+`video/tools/audit.py` is the implemented Layer 1 (2026-11-09). Stdlib-only, no
+new dependencies. Run in CI twice per episode:
 
-The unusual advantage of code-rendered video: **the ground truth is in the repo.**
-You know the exact string that was drawn, so the frame can be checked against a
-spec instead of judged. This is a round-trip test, not an opinion.
+- **Audit (pre-flight)** — right after setup-python, before any spend:
+  `python tools/audit.py --static`. Fails in seconds, not after a 7-minute render.
+- **Audit (render)** — on the finished MP4, **before the Drive upload**:
+  `python tools/audit.py --static --video out/<output> --episode <key>`.
+  Nothing reaches Drive unless this passes.
 
-```
-scene source (exact text)  ->  render  ->  OCR the frame  ->  compare
-```
+What it enforces:
 
-| Failure | Detector |
+| Area | Checks |
 |---|---|
-| black frames | `ffmpeg -vf blackdetect` |
-| frozen shot / dead air | `ffmpeg -vf freezedetect` (pixel-identical frames) |
-| silent scene | `ffmpeg -af silencedetect` |
-| loudness / clipping | `ffmpeg -af ebur128` |
-| empty or near-empty composition | frame variance over time |
-| unreadable / smeared text | Tesseract OCR (classic CV, CPU, offline) |
-| wrong number on screen | OCR vs the source string |
-| grey untextured frames | HSV saturation stats |
-| nothing moves for >8 s | frame-diff rate per scene |
+| registry | `episodes.json` parses; every entry has all 5 fields; output filenames and audio directories **unique**; composition registered in `src/Root.tsx` |
+| narration | every id has a timing and a wav; ids unique and contiguous; sec/frames/fps agree; `totalFrames` is the sum |
+| staleness | committed `timings.json` text must equal `narration.json` text |
+| determinism | the known **`?? 240` silent fallback** in `buildPlan()` is pre-empted — a missing scene id is a hard failure |
+| consistency | slate `STEP n OF m` total matches the arc length stated in narration ("one step out of five"), and the step number matches the episode's position |
+| render | 1920×1080, H.264 + yuv420p, ~30 fps, AAC 48 kHz; duration vs frames+tail timeline (±1 s); integrated loudness within −15.5…−12.5 LUFS |
+| Drive | upload verifies md5 and byte size; `::notice::` prints routing and destination |
 
-Tesseract is not an LLM; it is an old OCR engine. Installs with apt, ~30 s for a
-2-minute video, no API key, no GPU. These checks catch every defect found by eye
-in the first render (16 s frozen end card, under-filled scenes, silent build).
+Both Layer 1 failure modes that shipped were reproduced locally and confirmed
+red: reverting the slate to "OF 8", and deleting a scene from `timings.json`.
+An audit that has never failed is not a gate — `audit.py` was negative-tested
+against the exact bugs it exists to catch.
+
+Not yet implemented (by design, optional): blackdetect, freezedetect, silencedetect,
+OCR-vs-source comparison, saturation stats, per-scene frame-diff rates. The
+implemented subset already blocks both known silent-corruption paths.
+
+Rule of thumb: a green run now means **intact and self-consistent**, not
+"correct, good, or publishable". Layers 2 and 3 still apply.
 
 ### Layer 2 — advisory only, never blocking
 
