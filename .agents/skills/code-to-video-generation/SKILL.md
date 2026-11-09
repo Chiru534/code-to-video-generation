@@ -53,16 +53,24 @@ The external state (COVID of knowledge) lives in:
 
 **Not using (why):** paid API video ($), Wan2.1/Wan2.2/LTX/any diffusion model (prohibited), Seedance "open weights" (closed model), AnimateDiff (stale), Mochi-1, 15-min neural video, AI lip-sync/Avatar (LivePortrait/MuseTalk/LatentSync) — all outside this selection.
 
-## Episode pipeline (target $0)
+## Episode pipeline (working as of 2026-11-09)
 
 ```
-timecoded script → scenes (Remotion / Manim / VHS / D2)
-  -> Kokoro voiceover (CPU)
-  -> FFmpeg concat + loudnorm (-14 LUFS)
-  -> GitHub Actions or Kaggle CPU render
-  -> MP4 → GitHub Release → YouTube upload
+episodes.json                     registry: srcDir, audioDir, composition, output
+  -> plan job resolves it into a matrix
+  -> per episode, in parallel on GitHub Actions:
+       narration.json -> tools/tts.py (Kokoro CPU) -> public/audio/<ep>/*.wav
+                                                     -> src/<ep>/timings.json
+       -> remotion render <composition>   (scene length = measured line + 0.4s)
+       -> ffmpeg loudnorm I=-14           -> out/<output>.mp4
+       -> tools/gdrive_upload.py          -> the human's Drive
 Deterministic code renders only. No AI/diffusion video models anywhere in this pipeline.
 ```
+
+**Nothing renders on the laptop.** The laptop holds source only. TTS, render,
+loudness and upload all run on the runner, and the runner's disk is destroyed
+afterwards, so the only permanent copy is the Drive file. A local `out/*.mp4`
+is a debugging artifact, never part of production.
 
 ## Proven render pipeline (verified 2026-11-09)
 
@@ -70,25 +78,25 @@ End-to-end on GitHub Actions, $0, no GPU. Repo: `Chiru534/code-to-video-generati
 
 ```
 narration.json (one line per scene)
-  -> video/tools/tts.py  (Kokoro-82M ONNX, CPU)  -> video/public/audio/*.wav
-                                                 -> video/src/episode/timings.json
+  -> video/tools/tts.py --src-dir src/<ep> --audio-dir public/audio/<ep>
+                         (Kokoro-82M ONNX, CPU)  -> public/audio/<ep>/*.wav
+                                                 -> src/<ep>/timings.json
   -> Remotion reads timings  (scene length = measured line length + 0.4s)
-  -> npx remotion render FindingTheAddress
+  -> npx remotion render <composition>
   -> ffmpeg loudnorm I=-14:TP=-1.5:LRA=11  -> final MP4
+  -> gdrive_upload.py                      -> Drive
 ```
 
-Measured on a 4-core `ubuntu-latest` runner (episode 01, 2910 frames):
+Measured on a 4-core `ubuntu-latest` runner:
 
-| Stage | Time |
-|---|---|
-| `npm ci` | ~50 s |
-| Kokoro model (cached) | ~5 s cached, ~35 s cold |
-| TTS, 10 lines / 93 s of audio | ~60 s |
-| Remotion render, 1080p30 | ~200 s |
-| loudnorm master | ~5 s |
-| **whole job** | **~6 min** |
+| Episode | Frames | Duration | Whole job |
+|---|---|---|---|
+| ep01 Finding the Address | 2910 | 97.0 s | ~6 min |
+| ep02 The Handshake | 2718 | 94.5 s | ~6 min |
 
-Output verified: 1920x1080, 30 fps, H.264 + AAC 48 kHz stereo, **−14.2 LUFS** integrated, LRA 2.4.
+Both verified 1920×1080, 30 fps, H.264 + AAC 48 kHz stereo, **−14.1 / −14.2 LUFS**.
+Episodes run as **parallel matrix jobs**, so two episodes cost roughly the wall
+clock of one (~7 min total), not double.
 
 ### Non-obvious requirements (learned by failing)
 
@@ -99,6 +107,38 @@ Output verified: 1920x1080, 30 fps, H.264 + AAC 48 kHz stereo, **−14.2 LUFS** 
 - The workflow **fails the build if the MP4 has no audio stream** (`ffprobe -select_streams a`).
 - Remotion and `@remotion/cli` must resolve to the same version — pin both to the same range.
 - Audio is gitignored; it is regenerated deterministically by the TTS step on every run.
+- **Audio must live in a per-episode folder.** Scene ids restart at `s01` in every
+  episode, so a shared `public/audio/` lets episode 2 silently overwrite episode
+  1's voice tracks — and every render still looks green. Paths are
+  `public/audio/<ep>/`.
+- **Adding an episode is a data change**, not a workflow change: create
+  `src/<ep>/{narration.json,<Name>.tsx}`, register one `<Composition>` in
+  `src/Root.tsx`, add 4 lines to `video/episodes.json`.
+- A committed `timings.json` is required for an episode's first build because the
+  composition imports it; bundling fails if it is missing. CI overwrites it with
+  measured values before rendering, so a placeholder with `"note"` is fine.
+
+### Lookdev: what frame review caught in episode 02
+
+These scenes compiled, rendered, passed every automated check, and were still
+wrong. Only looking at frames found them:
+
+| Defect | Symptom in the video |
+|---|---|
+| packet loop hid finished packets | the wire sat empty for ~half of every loop |
+| packet card wider than a hop box | it covered the machine it was describing, exactly at the moment of narration |
+| container 180px narrower than the safe area | content hugged the left edge with a dead quarter-frame on the right |
+
+Method, no extra dependencies: pull the artifact, then
+
+```
+ffmpeg -i in.mp4 -vf "select='eq(n\,165)+eq(n\,435)+...',scale=960:-1,tile=2x3" \
+       -vsync 0 -frames:v 1 sheet.png
+```
+
+and read the sheet. One frame per shot, taken *after* the entrance animation
+settles. Sizing rule of thumb at 1080p: scene elements below ~300 px read as
+decoration, and mono text under 15 px is not legible on a phone.
 
 ## Channel strategy (condensed, from multi-agent research)
 
