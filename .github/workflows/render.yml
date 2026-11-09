@@ -23,8 +23,8 @@ on:
       episode:
         description: "Which episode to render (manual dispatch = deliberate re-render decision)"
         type: choice
-        default: all
-        options: [all, ep01, ep02, ep03, ep04]
+        default: none
+        options: [none, all, ep01, ep02, ep03, ep04, ep05]
   push:
     branches: [main]
     paths:
@@ -42,95 +42,104 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.build.outputs.matrix }}
+      count: ${{ steps.build.outputs.count }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The changed-file diff needs both push SHAs in history.
+          fetch-depth: 0
       - id: build
         env:
-          WANT: ${{ github.event.inputs.episode || 'all' }}
+          WANT: ${{ github.event.inputs.episode || 'none' }}
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.event.after }}
         run: |
           node -e '
             const all = require("./video/episodes.json");
             const { execSync } = require("child_process");
-            const want = process.env.WANT || "all";
 
-            // Manual trigger: explicit selection
-            if (want !== "all") {
-              const keys = want === "all" ? Object.keys(all) : [want];
-              for (const k of keys) {
-                if (!all[k]) { console.error("unknown episode: " + k); process.exit(1); }
-              }
+            const emit = (keys, reason) => {
               const include = keys.map((k) => ({ key: k, ...all[k] }));
+              console.log("reason: " + reason);
               console.log("matrix=" + JSON.stringify({ include }));
-              process.exit(0);
-            }
+              console.log("count=" + include.length);
+            };
 
-            // Push trigger: selective rendering based on changed files
-            let changed = [];
-            try {
-              changed = execSync(`git diff --name-only ${before} ${after}`, { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] }).trim().split("\n").filter(Boolean);
-            } catch (e) {
-              changed = [];
-            }
+            const want = (process.env.WANT || "none").trim();
+            const event = process.env.EVENT || "";
+            const before = (process.env.BEFORE || "").trim();
+            const after = (process.env.AFTER || "").trim();
+            const isZero = (s) => !s || /^0+$/.test(s);
 
-            // No changed files detected (first commit, shallow clone, etc.) -> SKIP.
-            // ZERO-WASTE RENDER POLICY: never fall back to rendering all episodes.
-            // Only render episodes we think we need to change; otherwise render none.
-            if (changed.length === 0) {
-              console.log("matrix=" + JSON.stringify({ include: [] }));
-              process.exit(0);
-            }
+            // ---- manual dispatch: explicit, deliberate choice ----
+            if (event === "workflow_dispatch") {
+              if (want === "none") {
+                emit([], "dispatch:none");
+              } else if (want === "all") {
+                emit(Object.keys(all), "dispatch:all");
+              } else if (!all[want]) {
+                console.error("unknown episode: " + want);
+                process.exit(1);
+              } else {
+                emit([want], "dispatch:" + want);
+              }
+            } else {
+              // ---- push: render only what the diff says changed ----
+              let changed = [];
+              if (!isZero(before) && !isZero(after)) {
+                try {
+                  changed = execSync(`git diff --name-only ${before} ${after}`, { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] }).trim().split("\n").filter(Boolean);
+                } catch (e) {
+                  changed = [];
+                }
+              }
 
-            // Shared files that affect every episode
-            const sharedPatterns = ["video/src/chrome", "video/src/theme", "video/tools/"];
-            const episodesJsonChanged = changed.includes("video/episodes.json");
+              if (changed.length === 0) {
+                // ZERO-WASTE RENDER POLICY: no file diff -> render nothing.
+                emit([], "push:no-file-diff");
+              } else {
+                // Shared files that affect every episode.
+                const sharedPatterns = ["video/src/chrome", "video/src/theme", "video/tools/"];
+                const episodesJsonChanged = changed.includes("video/episodes.json");
 
-            // ZERO-WASTE RENDER POLICY: shared-source changes are the explicit
-            // "we think we need to change the video" signal -> render all. Anything
-            // else renders only the episodes whose sources actually changed.
+                // If episodes.json changed, determine which episodes are new or modified.
+                let oldEpisodes = {};
+                if (episodesJsonChanged && !isZero(before)) {
+                  try {
+                    oldEpisodes = JSON.parse(execSync(`git show ${before}:video/episodes.json`, { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] }));
+                  } catch (e) {
+                    oldEpisodes = {};
+                  }
+                }
 
-            // If episodes.json changed, determine which episodes are new or modified
-            let oldEpisodes = {};
-            if (episodesJsonChanged) {
-              try {
-                const old = execSync(`git show ${before}:video/episodes.json`, { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] });
-                oldEpisodes = JSON.parse(old);
-              } catch (e) {
-                oldEpisodes = {};
+                let keys;
+                if (episodesJsonChanged) {
+                  const newEps = Object.keys(all).filter((k) => !oldEpisodes[k]);
+                  const changedEps = Object.keys(all).filter((k) => {
+                    const srcDir = all[k].srcDir;
+                    return changed.some((f) => f.startsWith("video/" + srcDir + "/"));
+                  });
+                  keys = [...new Set([...newEps, ...changedEps])];
+                } else if (changed.some((f) => sharedPatterns.some((p) => f.startsWith(p)))) {
+                  // Shared code changed -> the explicit "we need to change the videos" signal.
+                  keys = Object.keys(all);
+                } else {
+                  keys = Object.keys(all).filter((k) => {
+                    const srcDir = all[k].srcDir;
+                    return changed.some((f) => f.startsWith("video/" + srcDir + "/"));
+                  });
+                }
+
+                emit(keys, keys.length ? "push:" + keys.join(",") : "push:nothing-relevant");
               }
             }
-
-            let keys;
-            if (episodesJsonChanged) {
-              // New episodes + episodes with changed source files
-              const newEps = Object.keys(all).filter(k => !oldEpisodes[k]);
-              const changedEps = Object.keys(all).filter(k => {
-                const srcDir = all[k].srcDir;
-                return changed.some(f => f.startsWith("video/" + srcDir + "/"));
-              });
-              keys = [...new Set([...newEps, ...changedEps])];
-            } else if (changed.some(f => sharedPatterns.some(p => f.startsWith(p)))) {
-              // Shared code changed -> render all
-              keys = Object.keys(all);
-            } else {
-              // Only specific episode source files changed
-              keys = Object.keys(all).filter(k => {
-                const srcDir = all[k].srcDir;
-                return changed.some(f => f.startsWith("video/" + srcDir + "/"));
-              });
-            }
-
-            // If no episodes changed (e.g. workflow-only or docs-only change), skip rendering
-            if (keys.length === 0) {
-              console.log("matrix=" + JSON.stringify({ include: [] }));
-              process.exit(0);
-            }
-
-            const include = keys.map((k) => ({ key: k, ...all[k] }));
-            console.log("matrix=" + JSON.stringify({ include }));
           ' >> "$GITHUB_OUTPUT"
 
   render:
     needs: plan
+    # ZERO-WASTE: skip the whole job when the plan resolved to zero episodes.
+    if: needs.plan.outputs.count != '' && needs.plan.outputs.count != '0'
     runs-on: ubuntu-latest
     timeout-minutes: 60
     strategy:
