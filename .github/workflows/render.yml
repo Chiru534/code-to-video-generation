@@ -55,7 +55,7 @@ jobs:
           ls -lh kokoro-v1.0.onnx voices-v1.0.bin
 
       - name: Install TTS dependencies
-        run: pip install -q kokoro-onnx soundfile numpy
+        run: pip install -q kokoro-onnx soundfile numpy google-api-python-client google-auth
 
       - name: Install node dependencies
         working-directory: video
@@ -116,6 +116,15 @@ jobs:
             echo "::error::Rendered video has no audio stream"
             exit 1
           fi
+
+      - name: Upload to Google Drive
+        if: success()
+        working-directory: video
+        env:
+          GDRIVE_SA_JSON: ${{ secrets.GDRIVE_SA_JSON }}
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+          GDRIVE_FILE_NAME: finding-the-address.mp4
+        run: python tools/gdrive_upload.py out/finding-the-address.mp4 --name "$GDRIVE_FILE_NAME"
 
       - uses: actions/upload-artifact@v4
         with:
