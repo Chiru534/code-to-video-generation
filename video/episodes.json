@@ -40,5 +40,12 @@
     "audioDir": "public/audio/wifi",
     "composition": "WifiAirtime",
     "output": "wifi-airtime.mp4"
+  },
+  "wifi-film": {
+    "title": "Your Wi-Fi Isn't Slow. It's Waiting. — The Full Breakdown",
+    "srcDir": "src/wifi/film",
+    "audioDir": "public/audio/wifi-film",
+    "composition": "WifiFilm",
+    "output": "wifi-film.mp4"
   }
 }

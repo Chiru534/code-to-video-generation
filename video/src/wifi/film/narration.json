@@ -1,0 +1,246 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "You pay for five hundred megabits. Your phone shows two bars. You move closer to the router and nothing changes, so you buy a better router, and nothing changes again."
+    },
+    {
+      "id": "s02",
+      "text": "The problem was never speed. Here is your actual network: four devices, one channel, and a ten dollar smart plug at the far end of the house."
+    },
+    {
+      "id": "s03",
+      "text": "That plug talks at one megabit. It carries roughly four percent of everything your network moves, and it is the reason the other three devices are waiting."
+    },
+    {
+      "id": "s04",
+      "text": "Wi-Fi does not share speed. It shares time. Every strange thing a home network does follows from that one sentence, and this film is about where the time goes."
+    },
+    {
+      "id": "s05",
+      "text": "The number on the box is the link rate. It is what the radio can do with a perfect signal, one client, no interference, and nobody else asking for the channel."
+    },
+    {
+      "id": "s06",
+      "text": "Twelve hundred megabits is not a lie. It is a measurement of a situation that never happens in a real house with neighbours, walls, microwaves and a dozen devices."
+    },
+    {
+      "id": "s07",
+      "text": "The moment a second device joins, the channel stops being yours. It becomes a shared room, and a room does not have bandwidth. It has airtime."
+    },
+    {
+      "id": "s08",
+      "text": "Airtime is the real currency of Wi-Fi: the milliseconds per second that are actually free to carry your data. Every frame, every acknowledgement, every retry is paid for in it."
+    },
+    {
+      "id": "s09",
+      "text": "Your router does not run out of speed. It runs out of milliseconds. Once you see the medium as time, the behaviour of home Wi-Fi stops being strange."
+    },
+    {
+      "id": "s10",
+      "text": "Wi-Fi uses a protocol called carrier sense multiple access with collision avoidance. In plain terms it means one thing: listen before you talk."
+    },
+    {
+      "id": "s11",
+      "text": "A device that wants to send listens first. If it hears traffic it waits. If it hears nothing, it waits a little longer, then speaks. That extra pause is called DIFS."
+    },
+    {
+      "id": "s12",
+      "text": "DIFS gives a busy network one predictable gap where a new conversation can start, and lets priority traffic jump the queue."
+    },
+    {
+      "id": "s13",
+      "text": "If two devices pick the same moment, their signals overlap, both frames are destroyed, and neither gets an acknowledgement. That is a collision."
+    },
+    {
+      "id": "s14",
+      "text": "Then both back off. Each picks a random number of slots and waits that long. Randomness is the whole trick, because it stops them colliding the same way twice."
+    },
+    {
+      "id": "s15",
+      "text": "Every failed attempt roughly doubles the range they choose from. Fifteen slots, thirty one, sixty three, up to a limit. That is exponential backoff, and it is why busy networks still get through."
+    },
+    {
+      "id": "s16",
+      "text": "It works, and it has worked since nineteen ninety seven. But notice what it optimises for. Not fairness in time, but fairness between devices, measured in packets. There is no queue and no scheduler. There is a room full of devices all trying their luck, and the luck is counted in packets."
+    },
+    {
+      "id": "s17",
+      "text": "And packets do not all take the same time to send. That single detail is about to cost you half of your network, and almost nobody notices it happening."
+    },
+    {
+      "id": "s18",
+      "text": "Let us make it concrete. Four clients, one access point, one channel. We will count milliseconds, because milliseconds are what the channel actually spends."
+    },
+    {
+      "id": "s19",
+      "text": "Client one is a laptop three metres away. Good signal, high modulation, eleven hundred megabits of link rate. Client two is a phone behind one wall, six hundred."
+    },
+    {
+      "id": "s20",
+      "text": "Client three is a television streaming video at three hundred. Client four is the smart plug: twelve metres away, through two walls, at one megabit."
+    },
+    {
+      "id": "s21",
+      "text": "One frame from the laptop occupies the channel for about a tenth of a millisecond. One frame from the plug occupies it for about twelve. A hundred times longer, for the same frame."
+    },
+    {
+      "id": "s22",
+      "text": "So the plug does not take four percent of the airtime. It takes four percent of the traffic, and roughly eighty percent of the time. The two numbers are not the same number."
+    },
+    {
+      "id": "s23",
+      "text": "This is the part that feels unfair, and it is worth sitting with, because it is not a bug. It is the direct consequence of a fair rule applied to unequal devices. A rule that is fair to devices cannot be fair to time."
+    },
+    {
+      "id": "s24",
+      "text": "The protocol gives every device an equal chance to win the channel. Equal in packets. But each packet holds time in proportion to how slowly it was sent."
+    },
+    {
+      "id": "s25",
+      "text": "Give them equal turns and the slow device consumes a hundred times more of the shared resource for the same amount of data. Fairness in packets becomes unfairness in time."
+    },
+    {
+      "id": "s26",
+      "text": "A device at one megabit needs about twelve milliseconds to move a fifteen hundred byte frame. A device at eleven hundred needs a tenth of a millisecond. Same frame, a hundred times the cost."
+    },
+    {
+      "id": "s27",
+      "text": "While the plug is transmitting, every other device must stay silent. Not out of politeness. A transmission in progress is a lock on the channel."
+    },
+    {
+      "id": "s28",
+      "text": "The technical name is the network allocation vector. The practical name is: everyone waits. When the plug finishes, the fast devices have been holding data the whole time."
+    },
+    {
+      "id": "s29",
+      "text": "That time does not come back. There is no catch up pass at the end of the second. The channel is a schedule, and the schedule was spent on the slowest client."
+    },
+    {
+      "id": "s30",
+      "text": "Moving closer to the router does not help you. Your signal improves, your link rate rises, and the plug is still holding the channel for twelve milliseconds at a time."
+    },
+    {
+      "id": "s31",
+      "text": "The signal bars measure how well your device hears the access point. They say nothing about how much of the channel is left for you. You can have full bars and still be last in line."
+    },
+    {
+      "id": "s32",
+      "text": "It is also why a faster internet plan does nothing. The bottleneck is not the fibre into the house. It is the air between your devices and the access point."
+    },
+    {
+      "id": "s33",
+      "text": "So what helps? Four things, in order of impact, and the first is a setting you probably already have and have never turned on."
+    },
+    {
+      "id": "s34",
+      "text": "First, airtime fairness. Instead of scheduling packets, the access point schedules time. Each client gets a slice of the channel; a slow client gets fewer packets inside its slice."
+    },
+    {
+      "id": "s35",
+      "text": "Nothing is starved. The plug still works exactly as well as it needs to. It just stops being the loudest thing in the room."
+    },
+    {
+      "id": "s36",
+      "text": "Second, band steering. Push capable devices to five or six gigahertz, where there is more spectrum and less competition from neighbours and old equipment."
+    },
+    {
+      "id": "s37",
+      "text": "Third, stop treating channel width as a free win. Doubling the width doubles your peak rate and doubles the noise you have to dodge. In a dense area the trade is usually bad."
+    },
+    {
+      "id": "s38",
+      "text": "In a block of flats, eighty megahertz is often slower than forty. Wider is not better. Wider is louder, and louder means more collisions, more retries, and less time for your data."
+    },
+    {
+      "id": "s39",
+      "text": "Fourth, move the cheap devices where they belong. A smart plug does not need five gigahertz. It needs two point four, a narrow channel, and to be left alone."
+    },
+    {
+      "id": "s40",
+      "text": "Be careful with mesh. A node that talks back to the base over the same radio spends the airtime twice: once to receive, once to forward. Without a wired backhaul, a mesh node does not add capacity. It adds another conversation to a full room."
+    },
+    {
+      "id": "s41",
+      "text": "Six gigahertz is the exception worth knowing. It is a new band with no legacy devices and no neighbours, so the channel is quiet. But it does not travel as far through walls, and older devices cannot see it. It is a fast lane, not a replacement."
+    },
+    {
+      "id": "s42",
+      "text": "Newer standards help as well. Orthogonal frequency division multiple access splits a channel into resource units so that small frames can share one transmission instead of queuing for their own."
+    },
+    {
+      "id": "s43",
+      "text": "Multi-user M I M O lets the access point talk to several clients at once. Basic service set colouring lets neighbouring networks share a channel without deferring constantly."
+    },
+    {
+      "id": "s44",
+      "text": "But none of it saves you if a slow client is allowed to hog the medium. Airtime fairness is the one setting that changes the shape of the graph."
+    },
+    {
+      "id": "s45",
+      "text": "There is a second bill nobody shows you: overhead. Every data frame is followed by an acknowledgement, and every acknowledgement is another transmission carrying no data."
+    },
+    {
+      "id": "s46",
+      "text": "Every access point announces itself ten times a second with a beacon. Every client runs a handshake of management frames before it can send anything. None of it is your traffic."
+    },
+    {
+      "id": "s47",
+      "text": "And every retry is a frame sent twice. In a noisy home, retries can quietly eat a fifth of your airtime before a single byte of data is counted."
+    },
+    {
+      "id": "s48",
+      "text": "This is why a link that reports eight hundred megabits can deliver two hundred, and why the number in your speed test moves around so much from one minute to the next."
+    },
+    {
+      "id": "s49",
+      "text": "A speed test hides all of this. It measures the best case: one device, a short burst, an empty channel. Your video call is the other case: long, continuous, and arriving while the plug is mid-transmission."
+    },
+    {
+      "id": "s50",
+      "text": "Here is the checklist. It takes about ten minutes and costs nothing. One: turn on airtime fairness, in the wireless or QoS settings. It is almost always off."
+    },
+    {
+      "id": "s51",
+      "text": "Two: separate your devices. Phones, laptops and televisions on five or six gigahertz. Plugs, sensors and bulbs on two point four, where they interfere least."
+    },
+    {
+      "id": "s52",
+      "text": "Three: stop chasing channel width. Twenty megahertz on two point four. Forty is the sweet spot on five in a dense area. Eighty is for when you live in a field."
+    },
+    {
+      "id": "s53",
+      "text": "Four: put the access point where the traffic is, not where the cable enters. Height and line of sight matter more than transmit power."
+    },
+    {
+      "id": "s54",
+      "text": "Five: wire the things that never move. A television on ethernet is one less client competing for airtime, every second, forever."
+    },
+    {
+      "id": "s55",
+      "text": "Before you change anything, measure. Run a speed test on a laptop plugged into the router, then on Wi-Fi in the same room. If the wired number is fine and the wireless number is not, the problem is the air."
+    },
+    {
+      "id": "s56",
+      "text": "Then ping the router while the house is busy. When the reply time jumps from two milliseconds to two hundred, you are not looking at a bandwidth problem. You are looking at a queue. And a queue can be fixed."
+    },
+    {
+      "id": "s57",
+      "text": "The internet is not a pipe. A pipe carries everything you put in it, in parallel, without negotiation. A wireless channel is a conversation in a room with one microphone."
+    },
+    {
+      "id": "s58",
+      "text": "Everyone can speak. Only one can be heard. So the next time a video stalls while the smart plug does nothing at all, remember it is not doing nothing. It is holding the channel, one slow frame at a time."
+    },
+    {
+      "id": "s59",
+      "text": "The layer below your Wi-Fi is not bandwidth. It is time, and permission to use it. Once you can see the queue, you can stop buying routers and start fixing the room."
+    },
+    {
+      "id": "s60",
+      "text": "That is the layer below."
+    }
+  ]
+}

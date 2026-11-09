@@ -24,7 +24,7 @@ on:
         description: "Which episode to render (manual dispatch = deliberate re-render decision)"
         type: choice
         default: none
-        options: [none, all, ep01, ep02, ep03, ep04, ep05, wifi]
+        options: [none, all, ep01, ep02, ep03, ep04, ep05, wifi, wifi-film]
   push:
     branches: [main]
     paths:
@@ -113,22 +113,31 @@ jobs:
                   }
                 }
 
+                // A file can sit inside more than one srcDir (the film lives
+                // under src/wifi/film, inside the short's src/wifi). The most
+                // specific srcDir owns it, so a film edit never re-renders the
+                // short, and a short edit never renders the film.
+                const owner = (file) => {
+                  let best = null;
+                  for (const k of Object.keys(all)) {
+                    const prefix = "video/" + all[k].srcDir + "/";
+                    if (file.startsWith(prefix) && (!best || prefix.length > best.len)) {
+                      best = { key: k, len: prefix.length };
+                    }
+                  }
+                  return best ? best.key : null;
+                };
+                const owners = (files) => [...new Set(files.map(owner).filter(Boolean))];
+
                 let keys;
                 if (episodesJsonChanged) {
                   const newEps = Object.keys(all).filter((k) => !oldEpisodes[k]);
-                  const changedEps = Object.keys(all).filter((k) => {
-                    const srcDir = all[k].srcDir;
-                    return changed.some((f) => f.startsWith("video/" + srcDir + "/"));
-                  });
-                  keys = [...new Set([...newEps, ...changedEps])];
+                  keys = [...new Set([...newEps, ...owners(changed)])];
                 } else if (changed.some((f) => sharedPatterns.some((p) => f.startsWith(p)))) {
                   // Shared code changed -> the explicit "we need to change the videos" signal.
                   keys = Object.keys(all);
                 } else {
-                  keys = Object.keys(all).filter((k) => {
-                    const srcDir = all[k].srcDir;
-                    return changed.some((f) => f.startsWith("video/" + srcDir + "/"));
-                  });
+                  keys = owners(changed);
                 }
 
                 emit(keys, keys.length ? "push:" + keys.join(",") : "push:nothing-relevant");
