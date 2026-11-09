@@ -901,7 +901,7 @@ const S44: React.FC = () => {
           <Toggle on={t > 0.5} at={60} label="AIRTIME FAIRNESS ON" />
         </div>
         <div style={{ display: "flex", gap: 20 }}>
-          <div style={{ flex: 1, padding: "18px 22px", borderRadius: 14, backgroundColor: C.panel, border: `1px solid ${C.panelEdge}`, opacity: 1 - t }}>
+          <div style={{ flex: 1, padding: "18px 22px", borderRadius: 14, backgroundColor: C.panel, border: `1px solid ${C.panelEdge}`, opacity: 0.45 + 0.55 * (1 - t) }}>
             {chart(false)}
           </div>
           <div

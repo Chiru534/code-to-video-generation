@@ -3,7 +3,7 @@
   "fps": 30,
   "voice": "af_heart",
   "speed": 0.95,
-  "totalFrames": 19210,
+  "totalFrames": 18030,
   "scenes": {
     "s01": {
       "sec": 10.0,
@@ -61,9 +61,9 @@
       "text": "A device that wants to send listens first. If it hears traffic it waits. If it hears nothing, it waits a little longer, then speaks. That extra pause is called DIFS."
     },
     "s12": {
-      "sec": 10.0,
-      "frames": 300,
-      "text": "DIFS exists so that a busy network has one predictable gap where a new conversation can start, and so that high priority traffic can jump the queue when it must."
+      "sec": 7.0,
+      "frames": 210,
+      "text": "DIFS gives a busy network one predictable gap where a new conversation can start, and lets priority traffic jump the queue."
     },
     "s13": {
       "sec": 7.667,
@@ -81,9 +81,9 @@
       "text": "Every failed attempt roughly doubles the range they choose from. Fifteen slots, thirty one, sixty three, up to a limit. That is exponential backoff, and it is why busy networks still get through."
     },
     "s16": {
-      "sec": 20.667,
-      "frames": 620,
-      "text": "It works, and it has worked since nineteen ninety seven. But notice what it optimises for. Not fairness in time, and not fairness in usefulness. Fairness between devices, measured in packets. There is no queue and no scheduler deciding who deserves the next turn. There is a room full of devices all trying their luck, and the luck is counted in packets."
+      "sec": 17.333,
+      "frames": 520,
+      "text": "It works, and it has worked since nineteen ninety seven. But notice what it optimises for. Not fairness in time, but fairness between devices, measured in packets. There is no queue and no scheduler. There is a room full of devices all trying their luck, and the luck is counted in packets."
     },
     "s17": {
       "sec": 9.667,
@@ -91,9 +91,9 @@
       "text": "And packets do not all take the same time to send. That single detail is about to cost you half of your network, and almost nobody notices it happening."
     },
     "s18": {
-      "sec": 9.0,
-      "frames": 270,
-      "text": "Let us make it concrete. Four clients, one access point, one channel. We will count milliseconds instead of megabits, because milliseconds are what the channel actually spends."
+      "sec": 8.0,
+      "frames": 240,
+      "text": "Let us make it concrete. Four clients, one access point, one channel. We will count milliseconds, because milliseconds are what the channel actually spends."
     },
     "s19": {
       "sec": 9.333,
@@ -116,9 +116,9 @@
       "text": "So the plug does not take four percent of the airtime. It takes four percent of the traffic, and roughly eighty percent of the time. The two numbers are not the same number."
     },
     "s23": {
-      "sec": 16.667,
-      "frames": 500,
-      "text": "This is the part that feels unfair, and it is worth sitting with, because it is not a bug. It is the direct consequence of a fair rule applied to unequal devices. A rule that is fair to devices cannot be fair to time when the devices are not equal."
+      "sec": 14.667,
+      "frames": 440,
+      "text": "This is the part that feels unfair, and it is worth sitting with, because it is not a bug. It is the direct consequence of a fair rule applied to unequal devices. A rule that is fair to devices cannot be fair to time."
     },
     "s24": {
       "sec": 9.333,
@@ -136,14 +136,14 @@
       "text": "A device at one megabit needs about twelve milliseconds to move a fifteen hundred byte frame. A device at eleven hundred needs a tenth of a millisecond. Same frame, a hundred times the cost."
     },
     "s27": {
-      "sec": 9.333,
-      "frames": 280,
-      "text": "It gets worse. While the plug is transmitting, every other device must stay silent. Not out of politeness. A transmission in progress is a lock on the channel."
+      "sec": 8.333,
+      "frames": 250,
+      "text": "While the plug is transmitting, every other device must stay silent. Not out of politeness. A transmission in progress is a lock on the channel."
     },
     "s28": {
-      "sec": 10.0,
-      "frames": 300,
-      "text": "The technical name is the network allocation vector. The practical name is: everyone waits. And when the plug finally finishes, the fast devices have been holding data the whole time."
+      "sec": 9.333,
+      "frames": 280,
+      "text": "The technical name is the network allocation vector. The practical name is: everyone waits. When the plug finishes, the fast devices have been holding data the whole time."
     },
     "s29": {
       "sec": 10.667,
@@ -151,44 +151,44 @@
       "text": "That time does not come back. There is no catch up pass at the end of the second. The channel is a schedule, and the schedule was spent on the slowest client."
     },
     "s30": {
-      "sec": 11.0,
-      "frames": 330,
-      "text": "This is why moving closer to the router does not help you. Your signal improves, your link rate rises, and the plug is still holding the channel for twelve milliseconds at a time."
+      "sec": 10.0,
+      "frames": 300,
+      "text": "Moving closer to the router does not help you. Your signal improves, your link rate rises, and the plug is still holding the channel for twelve milliseconds at a time."
     },
     "s31": {
-      "sec": 14.0,
-      "frames": 420,
-      "text": "This is the trap of the signal bars. Bars measure how well your device hears the access point. They say nothing about how much of the channel is left for you. You can have full bars and still be last in line."
+      "sec": 12.0,
+      "frames": 360,
+      "text": "The signal bars measure how well your device hears the access point. They say nothing about how much of the channel is left for you. You can have full bars and still be last in line."
     },
     "s32": {
-      "sec": 10.333,
-      "frames": 310,
-      "text": "It is also why a faster internet plan does nothing. The bottleneck is not the fibre coming into the house. It is the air between your devices and the access point."
+      "sec": 10.0,
+      "frames": 300,
+      "text": "It is also why a faster internet plan does nothing. The bottleneck is not the fibre into the house. It is the air between your devices and the access point."
     },
     "s33": {
-      "sec": 8.667,
-      "frames": 260,
-      "text": "So what actually helps? Four things, in order of impact, and the first one is a setting you probably already have and have never turned on."
+      "sec": 8.0,
+      "frames": 240,
+      "text": "So what helps? Four things, in order of impact, and the first is a setting you probably already have and have never turned on."
     },
     "s34": {
-      "sec": 10.333,
-      "frames": 310,
-      "text": "First, airtime fairness. Instead of scheduling packets, the access point schedules time. Each client gets a slice of the channel, and a slow client simply gets fewer packets inside its slice."
+      "sec": 9.667,
+      "frames": 290,
+      "text": "First, airtime fairness. Instead of scheduling packets, the access point schedules time. Each client gets a slice of the channel; a slow client gets fewer packets inside its slice."
     },
     "s35": {
-      "sec": 9.0,
-      "frames": 270,
-      "text": "Nothing is starved and nothing monopolises. The plug still works exactly as well as it needs to. It just stops being the loudest thing in the room."
+      "sec": 8.0,
+      "frames": 240,
+      "text": "Nothing is starved. The plug still works exactly as well as it needs to. It just stops being the loudest thing in the room."
     },
     "s36": {
-      "sec": 8.667,
-      "frames": 260,
-      "text": "Second, band steering. Push capable devices to five or six gigahertz, where there is more spectrum and far less competition from neighbours and from old equipment."
+      "sec": 8.0,
+      "frames": 240,
+      "text": "Second, band steering. Push capable devices to five or six gigahertz, where there is more spectrum and less competition from neighbours and old equipment."
     },
     "s37": {
-      "sec": 11.333,
-      "frames": 340,
-      "text": "Third, stop treating channel width as a free win. Doubling the width doubles your peak rate and doubles the noise you have to dodge, and in a dense area the trade is usually bad."
+      "sec": 11.0,
+      "frames": 330,
+      "text": "Third, stop treating channel width as a free win. Doubling the width doubles your peak rate and doubles the noise you have to dodge. In a dense area the trade is usually bad."
     },
     "s38": {
       "sec": 10.667,
@@ -201,14 +201,14 @@
       "text": "Fourth, move the cheap devices where they belong. A smart plug does not need five gigahertz. It needs two point four, a narrow channel, and to be left alone."
     },
     "s40": {
-      "sec": 18.333,
-      "frames": 550,
-      "text": "Be careful with mesh, too. A mesh node that talks back to the base over the same radio spends the same airtime twice: once to receive your data, and once to forward it. Without a wired backhaul, a mesh node does not add capacity. It adds another conversation to a room that was already full."
+      "sec": 15.0,
+      "frames": 450,
+      "text": "Be careful with mesh. A node that talks back to the base over the same radio spends the airtime twice: once to receive, once to forward. Without a wired backhaul, a mesh node does not add capacity. It adds another conversation to a full room."
     },
     "s41": {
-      "sec": 19.333,
-      "frames": 580,
-      "text": "Six gigahertz is the exception worth knowing. It is a new band with no legacy devices, no microwave ovens, and no neighbours running equipment from two thousand and three. The channel is quiet. But it does not travel as far through walls, and older devices cannot see it at all. It is a fast lane, not a replacement."
+      "sec": 15.667,
+      "frames": 470,
+      "text": "Six gigahertz is the exception worth knowing. It is a new band with no legacy devices and no neighbours, so the channel is quiet. But it does not travel as far through walls, and older devices cannot see it. It is a fast lane, not a replacement."
     },
     "s42": {
       "sec": 10.0,
@@ -216,9 +216,9 @@
       "text": "Newer standards help as well. Orthogonal frequency division multiple access splits a channel into resource units so that small frames can share one transmission instead of queuing for their own."
     },
     "s43": {
-      "sec": 10.333,
-      "frames": 310,
-      "text": "Multi-user M I M O lets the access point talk to several clients at once. Basic service set colouring lets neighbouring networks share a channel without deferring to each other constantly."
+      "sec": 9.333,
+      "frames": 280,
+      "text": "Multi-user M I M O lets the access point talk to several clients at once. Basic service set colouring lets neighbouring networks share a channel without deferring constantly."
     },
     "s44": {
       "sec": 9.667,
@@ -226,19 +226,19 @@
       "text": "But none of it saves you if a slow client is allowed to hog the medium. Airtime fairness is the one setting that changes the shape of the graph."
     },
     "s45": {
-      "sec": 9.333,
-      "frames": 280,
-      "text": "There is a second bill nobody shows you: overhead. Every data frame is followed by an acknowledgement, and every acknowledgement is another transmission carrying no data at all."
+      "sec": 8.667,
+      "frames": 260,
+      "text": "There is a second bill nobody shows you: overhead. Every data frame is followed by an acknowledgement, and every acknowledgement is another transmission carrying no data."
     },
     "s46": {
       "sec": 10.333,
       "frames": 310,
-      "text": "Every access point announces itself ten times a second with a beacon. Every client runs a handshake of management frames before it can send anything. None of that is your traffic."
+      "text": "Every access point announces itself ten times a second with a beacon. Every client runs a handshake of management frames before it can send anything. None of it is your traffic."
     },
     "s47": {
-      "sec": 10.333,
-      "frames": 310,
-      "text": "And every retry is a frame sent twice. In a noisy home, retries can quietly eat a fifth of your airtime before a single byte of your data has been counted."
+      "sec": 9.667,
+      "frames": 290,
+      "text": "And every retry is a frame sent twice. In a noisy home, retries can quietly eat a fifth of your airtime before a single byte of data is counted."
     },
     "s48": {
       "sec": 10.667,
@@ -246,44 +246,44 @@
       "text": "This is why a link that reports eight hundred megabits can deliver two hundred, and why the number in your speed test moves around so much from one minute to the next."
     },
     "s49": {
-      "sec": 14.667,
-      "frames": 440,
-      "text": "A speed test hides all of this. It measures the best case: one device, a short burst, nobody else asking for the channel. Your video call is the other case. It is long, it is continuous, and it arrives while the plug is mid-transmission."
+      "sec": 12.0,
+      "frames": 360,
+      "text": "A speed test hides all of this. It measures the best case: one device, a short burst, an empty channel. Your video call is the other case: long, continuous, and arriving while the plug is mid-transmission."
     },
     "s50": {
-      "sec": 10.0,
-      "frames": 300,
-      "text": "Here is the checklist. It takes about ten minutes and costs nothing. One: turn on airtime fairness, in the wireless or QoS settings. It is almost always off by default."
+      "sec": 9.333,
+      "frames": 280,
+      "text": "Here is the checklist. It takes about ten minutes and costs nothing. One: turn on airtime fairness, in the wireless or QoS settings. It is almost always off."
     },
     "s51": {
-      "sec": 8.667,
-      "frames": 260,
-      "text": "Two: separate your devices. Phones, laptops and televisions on five or six gigahertz. Plugs, sensors and bulbs on two point four, where they interfere with least."
+      "sec": 8.333,
+      "frames": 250,
+      "text": "Two: separate your devices. Phones, laptops and televisions on five or six gigahertz. Plugs, sensors and bulbs on two point four, where they interfere least."
     },
     "s52": {
-      "sec": 10.667,
-      "frames": 320,
-      "text": "Three: stop chasing channel width. Twenty megahertz on two point four. Forty is usually the sweet spot on five in a dense area. Eighty is for when you live in a field."
+      "sec": 10.333,
+      "frames": 310,
+      "text": "Three: stop chasing channel width. Twenty megahertz on two point four. Forty is the sweet spot on five in a dense area. Eighty is for when you live in a field."
     },
     "s53": {
-      "sec": 10.0,
-      "frames": 300,
-      "text": "Four: put the access point where the traffic is, not where the cable enters the house. Height and line of sight matter more than the transmit power on the box."
-    },
-    "s54": {
       "sec": 8.0,
       "frames": 240,
-      "text": "Five: wire the things that never move. A television on ethernet is one less client competing for airtime, every second of every day, forever."
+      "text": "Four: put the access point where the traffic is, not where the cable enters. Height and line of sight matter more than transmit power."
+    },
+    "s54": {
+      "sec": 7.0,
+      "frames": 210,
+      "text": "Five: wire the things that never move. A television on ethernet is one less client competing for airtime, every second, forever."
     },
     "s55": {
-      "sec": 15.333,
-      "frames": 460,
-      "text": "Before you change anything, measure. Run a speed test on a laptop plugged into the router, then run it again on Wi-Fi in the same room. If the wired number is fine and the wireless number is not, the problem is the air, not your provider."
+      "sec": 13.333,
+      "frames": 400,
+      "text": "Before you change anything, measure. Run a speed test on a laptop plugged into the router, then on Wi-Fi in the same room. If the wired number is fine and the wireless number is not, the problem is the air."
     },
     "s56": {
-      "sec": 14.333,
-      "frames": 430,
-      "text": "Then ping the router while the house is busy. When the reply time jumps from two milliseconds to two hundred, you are not looking at a bandwidth problem. You are looking at a queue. And a queue is a thing you can fix."
+      "sec": 13.333,
+      "frames": 400,
+      "text": "Then ping the router while the house is busy. When the reply time jumps from two milliseconds to two hundred, you are not looking at a bandwidth problem. You are looking at a queue. And a queue can be fixed."
     },
     "s57": {
       "sec": 10.0,
@@ -291,9 +291,9 @@
       "text": "The internet is not a pipe. A pipe carries everything you put in it, in parallel, without negotiation. A wireless channel is a conversation in a room with one microphone."
     },
     "s58": {
-      "sec": 15.667,
-      "frames": 470,
-      "text": "Everyone can speak. Only one can be heard. So the next time a video stalls while the smart plug is doing nothing at all, remember that it is not doing nothing. It is holding the channel, one slow frame at a time, and everybody else is waiting."
+      "sec": 13.333,
+      "frames": 400,
+      "text": "Everyone can speak. Only one can be heard. So the next time a video stalls while the smart plug does nothing at all, remember it is not doing nothing. It is holding the channel, one slow frame at a time."
     },
     "s59": {
       "sec": 10.667,

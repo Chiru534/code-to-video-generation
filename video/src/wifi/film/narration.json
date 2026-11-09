@@ -48,7 +48,7 @@
     },
     {
       "id": "s12",
-      "text": "DIFS exists so that a busy network has one predictable gap where a new conversation can start, and so that high priority traffic can jump the queue when it must."
+      "text": "DIFS gives a busy network one predictable gap where a new conversation can start, and lets priority traffic jump the queue."
     },
     {
       "id": "s13",
@@ -64,7 +64,7 @@
     },
     {
       "id": "s16",
-      "text": "It works, and it has worked since nineteen ninety seven. But notice what it optimises for. Not fairness in time, and not fairness in usefulness. Fairness between devices, measured in packets. There is no queue and no scheduler deciding who deserves the next turn. There is a room full of devices all trying their luck, and the luck is counted in packets."
+      "text": "It works, and it has worked since nineteen ninety seven. But notice what it optimises for. Not fairness in time, but fairness between devices, measured in packets. There is no queue and no scheduler. There is a room full of devices all trying their luck, and the luck is counted in packets."
     },
     {
       "id": "s17",
@@ -72,7 +72,7 @@
     },
     {
       "id": "s18",
-      "text": "Let us make it concrete. Four clients, one access point, one channel. We will count milliseconds instead of megabits, because milliseconds are what the channel actually spends."
+      "text": "Let us make it concrete. Four clients, one access point, one channel. We will count milliseconds, because milliseconds are what the channel actually spends."
     },
     {
       "id": "s19",
@@ -92,7 +92,7 @@
     },
     {
       "id": "s23",
-      "text": "This is the part that feels unfair, and it is worth sitting with, because it is not a bug. It is the direct consequence of a fair rule applied to unequal devices. A rule that is fair to devices cannot be fair to time when the devices are not equal."
+      "text": "This is the part that feels unfair, and it is worth sitting with, because it is not a bug. It is the direct consequence of a fair rule applied to unequal devices. A rule that is fair to devices cannot be fair to time."
     },
     {
       "id": "s24",
@@ -108,11 +108,11 @@
     },
     {
       "id": "s27",
-      "text": "It gets worse. While the plug is transmitting, every other device must stay silent. Not out of politeness. A transmission in progress is a lock on the channel."
+      "text": "While the plug is transmitting, every other device must stay silent. Not out of politeness. A transmission in progress is a lock on the channel."
     },
     {
       "id": "s28",
-      "text": "The technical name is the network allocation vector. The practical name is: everyone waits. And when the plug finally finishes, the fast devices have been holding data the whole time."
+      "text": "The technical name is the network allocation vector. The practical name is: everyone waits. When the plug finishes, the fast devices have been holding data the whole time."
     },
     {
       "id": "s29",
@@ -120,35 +120,35 @@
     },
     {
       "id": "s30",
-      "text": "This is why moving closer to the router does not help you. Your signal improves, your link rate rises, and the plug is still holding the channel for twelve milliseconds at a time."
+      "text": "Moving closer to the router does not help you. Your signal improves, your link rate rises, and the plug is still holding the channel for twelve milliseconds at a time."
     },
     {
       "id": "s31",
-      "text": "This is the trap of the signal bars. Bars measure how well your device hears the access point. They say nothing about how much of the channel is left for you. You can have full bars and still be last in line."
+      "text": "The signal bars measure how well your device hears the access point. They say nothing about how much of the channel is left for you. You can have full bars and still be last in line."
     },
     {
       "id": "s32",
-      "text": "It is also why a faster internet plan does nothing. The bottleneck is not the fibre coming into the house. It is the air between your devices and the access point."
+      "text": "It is also why a faster internet plan does nothing. The bottleneck is not the fibre into the house. It is the air between your devices and the access point."
     },
     {
       "id": "s33",
-      "text": "So what actually helps? Four things, in order of impact, and the first one is a setting you probably already have and have never turned on."
+      "text": "So what helps? Four things, in order of impact, and the first is a setting you probably already have and have never turned on."
     },
     {
       "id": "s34",
-      "text": "First, airtime fairness. Instead of scheduling packets, the access point schedules time. Each client gets a slice of the channel, and a slow client simply gets fewer packets inside its slice."
+      "text": "First, airtime fairness. Instead of scheduling packets, the access point schedules time. Each client gets a slice of the channel; a slow client gets fewer packets inside its slice."
     },
     {
       "id": "s35",
-      "text": "Nothing is starved and nothing monopolises. The plug still works exactly as well as it needs to. It just stops being the loudest thing in the room."
+      "text": "Nothing is starved. The plug still works exactly as well as it needs to. It just stops being the loudest thing in the room."
     },
     {
       "id": "s36",
-      "text": "Second, band steering. Push capable devices to five or six gigahertz, where there is more spectrum and far less competition from neighbours and from old equipment."
+      "text": "Second, band steering. Push capable devices to five or six gigahertz, where there is more spectrum and less competition from neighbours and old equipment."
     },
     {
       "id": "s37",
-      "text": "Third, stop treating channel width as a free win. Doubling the width doubles your peak rate and doubles the noise you have to dodge, and in a dense area the trade is usually bad."
+      "text": "Third, stop treating channel width as a free win. Doubling the width doubles your peak rate and doubles the noise you have to dodge. In a dense area the trade is usually bad."
     },
     {
       "id": "s38",
@@ -160,11 +160,11 @@
     },
     {
       "id": "s40",
-      "text": "Be careful with mesh, too. A mesh node that talks back to the base over the same radio spends the same airtime twice: once to receive your data, and once to forward it. Without a wired backhaul, a mesh node does not add capacity. It adds another conversation to a room that was already full."
+      "text": "Be careful with mesh. A node that talks back to the base over the same radio spends the airtime twice: once to receive, once to forward. Without a wired backhaul, a mesh node does not add capacity. It adds another conversation to a full room."
     },
     {
       "id": "s41",
-      "text": "Six gigahertz is the exception worth knowing. It is a new band with no legacy devices, no microwave ovens, and no neighbours running equipment from two thousand and three. The channel is quiet. But it does not travel as far through walls, and older devices cannot see it at all. It is a fast lane, not a replacement."
+      "text": "Six gigahertz is the exception worth knowing. It is a new band with no legacy devices and no neighbours, so the channel is quiet. But it does not travel as far through walls, and older devices cannot see it. It is a fast lane, not a replacement."
     },
     {
       "id": "s42",
@@ -172,7 +172,7 @@
     },
     {
       "id": "s43",
-      "text": "Multi-user M I M O lets the access point talk to several clients at once. Basic service set colouring lets neighbouring networks share a channel without deferring to each other constantly."
+      "text": "Multi-user M I M O lets the access point talk to several clients at once. Basic service set colouring lets neighbouring networks share a channel without deferring constantly."
     },
     {
       "id": "s44",
@@ -180,15 +180,15 @@
     },
     {
       "id": "s45",
-      "text": "There is a second bill nobody shows you: overhead. Every data frame is followed by an acknowledgement, and every acknowledgement is another transmission carrying no data at all."
+      "text": "There is a second bill nobody shows you: overhead. Every data frame is followed by an acknowledgement, and every acknowledgement is another transmission carrying no data."
     },
     {
       "id": "s46",
-      "text": "Every access point announces itself ten times a second with a beacon. Every client runs a handshake of management frames before it can send anything. None of that is your traffic."
+      "text": "Every access point announces itself ten times a second with a beacon. Every client runs a handshake of management frames before it can send anything. None of it is your traffic."
     },
     {
       "id": "s47",
-      "text": "And every retry is a frame sent twice. In a noisy home, retries can quietly eat a fifth of your airtime before a single byte of your data has been counted."
+      "text": "And every retry is a frame sent twice. In a noisy home, retries can quietly eat a fifth of your airtime before a single byte of data is counted."
     },
     {
       "id": "s48",
@@ -196,35 +196,35 @@
     },
     {
       "id": "s49",
-      "text": "A speed test hides all of this. It measures the best case: one device, a short burst, nobody else asking for the channel. Your video call is the other case. It is long, it is continuous, and it arrives while the plug is mid-transmission."
+      "text": "A speed test hides all of this. It measures the best case: one device, a short burst, an empty channel. Your video call is the other case: long, continuous, and arriving while the plug is mid-transmission."
     },
     {
       "id": "s50",
-      "text": "Here is the checklist. It takes about ten minutes and costs nothing. One: turn on airtime fairness, in the wireless or QoS settings. It is almost always off by default."
+      "text": "Here is the checklist. It takes about ten minutes and costs nothing. One: turn on airtime fairness, in the wireless or QoS settings. It is almost always off."
     },
     {
       "id": "s51",
-      "text": "Two: separate your devices. Phones, laptops and televisions on five or six gigahertz. Plugs, sensors and bulbs on two point four, where they interfere with least."
+      "text": "Two: separate your devices. Phones, laptops and televisions on five or six gigahertz. Plugs, sensors and bulbs on two point four, where they interfere least."
     },
     {
       "id": "s52",
-      "text": "Three: stop chasing channel width. Twenty megahertz on two point four. Forty is usually the sweet spot on five in a dense area. Eighty is for when you live in a field."
+      "text": "Three: stop chasing channel width. Twenty megahertz on two point four. Forty is the sweet spot on five in a dense area. Eighty is for when you live in a field."
     },
     {
       "id": "s53",
-      "text": "Four: put the access point where the traffic is, not where the cable enters the house. Height and line of sight matter more than the transmit power on the box."
+      "text": "Four: put the access point where the traffic is, not where the cable enters. Height and line of sight matter more than transmit power."
     },
     {
       "id": "s54",
-      "text": "Five: wire the things that never move. A television on ethernet is one less client competing for airtime, every second of every day, forever."
+      "text": "Five: wire the things that never move. A television on ethernet is one less client competing for airtime, every second, forever."
     },
     {
       "id": "s55",
-      "text": "Before you change anything, measure. Run a speed test on a laptop plugged into the router, then run it again on Wi-Fi in the same room. If the wired number is fine and the wireless number is not, the problem is the air, not your provider."
+      "text": "Before you change anything, measure. Run a speed test on a laptop plugged into the router, then on Wi-Fi in the same room. If the wired number is fine and the wireless number is not, the problem is the air."
     },
     {
       "id": "s56",
-      "text": "Then ping the router while the house is busy. When the reply time jumps from two milliseconds to two hundred, you are not looking at a bandwidth problem. You are looking at a queue. And a queue is a thing you can fix."
+      "text": "Then ping the router while the house is busy. When the reply time jumps from two milliseconds to two hundred, you are not looking at a bandwidth problem. You are looking at a queue. And a queue can be fixed."
     },
     {
       "id": "s57",
@@ -232,7 +232,7 @@
     },
     {
       "id": "s58",
-      "text": "Everyone can speak. Only one can be heard. So the next time a video stalls while the smart plug is doing nothing at all, remember that it is not doing nothing. It is holding the channel, one slow frame at a time, and everybody else is waiting."
+      "text": "Everyone can speak. Only one can be heard. So the next time a video stalls while the smart plug does nothing at all, remember it is not doing nothing. It is holding the channel, one slow frame at a time."
     },
     {
       "id": "s59",

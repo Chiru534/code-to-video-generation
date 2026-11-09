@@ -252,7 +252,7 @@ const Scene03: React.FC = () => {
                 Smart plug
               </div>
               <div style={{ fontFamily: F.mono, fontSize: 21, color: C.faint, letterSpacing: "0.12em" }}>
-                802.11n · 2.4 GHz · 12 m · 2 walls
+                802.11n · 2.4 GHz · 12 m
               </div>
             </div>
           </div>

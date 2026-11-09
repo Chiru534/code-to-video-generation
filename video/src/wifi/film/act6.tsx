@@ -144,7 +144,7 @@ const S46: React.FC = () => {
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 22 }}>
-          <div style={{ fontFamily: F.mono, fontSize: 18, color: C.faint, letterSpacing: "0.14em", width: 190 }}>
+          <div style={{ fontFamily: F.mono, fontSize: 18, color: C.faint, letterSpacing: "0.14em", width: 230 }}>
             JOINING A NETWORK
           </div>
           {join.map((j, i) => (

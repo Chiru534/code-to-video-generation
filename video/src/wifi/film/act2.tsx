@@ -571,7 +571,7 @@ const S15: React.FC = () => {
             const p = prog(frame, 18 + i * 22, 18);
             return (
               <div key={n} style={{ display: "flex", alignItems: "center", gap: 22, opacity: p * (i === 4 ? 0.85 : 1) }}>
-                <div style={{ width: 190, fontFamily: F.mono, fontSize: 20, color: i === 4 ? C.red : C.dim }}>
+                <div style={{ width: 230, fontFamily: F.mono, fontSize: 20, color: i === 4 ? C.red : C.dim }}>
                   TRY {i + 1} · {n} SLOTS
                 </div>
                 <div style={{ flex: 1, height: 34, backgroundColor: "#0B0D14", borderRadius: 6, overflow: "hidden" }}>
@@ -695,8 +695,8 @@ const S17: React.FC = () => {
         </div>
 
         {[
-          { name: "LAPTOP · 1100 Mbps", ms: "0.1 ms", frac: 0.1 / 12, color: C.cyan, w: 12 },
-          { name: "PLUG · 1 Mbps", ms: "12 ms", frac: 1, color: C.amber, w: 1480 },
+          { name: "LAPTOP · 1100 Mbps", ms: "0.1 ms", frac: 0.1 / 12, color: C.cyan },
+          { name: "PLUG · 1 Mbps", ms: "12 ms", frac: 1, color: C.amber },
         ].map((r, i) => (
           <div key={r.name} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ display: "flex", justifyContent: "space-between", fontFamily: F.mono, fontSize: 21 }}>
@@ -723,29 +723,37 @@ const S17: React.FC = () => {
               </div>
               <div
                 style={{
-                  width: 1480 * p,
+                  flex: 1,
                   height: 46,
                   borderRadius: 6,
-                  backgroundColor: r.color,
-                  opacity: 0.85,
-                  minWidth: 6,
-                  flex: "0 0 auto",
+                  backgroundColor: "#0B0D14",
+                  overflow: "hidden",
                 }}
-              />
-              {i === 0 ? (
+              >
                 <div
                   style={{
-                    fontFamily: F.mono,
-                    fontSize: 18,
-                    color: C.faint,
-                    opacity: prog(frame, 70, 14),
-                    whiteSpace: "nowrap",
+                    width: `${Math.max(0.7, r.frac * 100 * p)}%`,
+                    height: 46,
+                    borderRadius: 6,
+                    backgroundColor: r.color,
+                    opacity: 0.85,
                   }}
-                >
-                  ← TO SCALE, YOU CAN BARELY SEE IT
-                </div>
-              ) : null}
+                />
+              </div>
             </div>
+            {i === 0 ? (
+              <div
+                style={{
+                  marginLeft: 246,
+                  fontFamily: F.mono,
+                  fontSize: 18,
+                  color: C.faint,
+                  opacity: prog(frame, 70, 14),
+                }}
+              >
+                ← to scale, you can barely see it
+              </div>
+            ) : null}
           </div>
         ))}
         <div style={{ display: "flex", gap: 34, alignItems: "center", marginTop: 8 }}>

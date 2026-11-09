@@ -522,7 +522,7 @@ const S22: React.FC = () => {
 
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 10 }}>
           <Note
-            text="MODELLED · 4 CLIENTS · 1,500-BYTE FRAMES · 1 Mbps VS 300–1100 Mbps · CONTENTION AND OVERHEAD INCLUDED"
+            text="MODELLED · 4 CLIENTS · 1,500-BYTE FRAMES · 1 Mbps VS 300–1100 Mbps"
             at={120}
             width={1200}
           />

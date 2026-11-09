@@ -60,7 +60,7 @@ const S57: React.FC = () => {
                   {d.on ? <Rings cx={d.x} cy={d.y} color={d.c} frame={frame} max={90} /> : null}
                 </g>
               ))}
-              <text x={370} y={232} textAnchor="middle" fill={C.faint} style={{ fontFamily: F.mono, fontSize: 17, letterSpacing: "0.16em" }}>
+              <text x={370} y={262} textAnchor="middle" fill={C.faint} style={{ fontFamily: F.mono, fontSize: 17, letterSpacing: "0.16em" }}>
                 ONE MICROPHONE
               </text>
             </svg>
