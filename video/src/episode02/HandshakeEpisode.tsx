@@ -793,7 +793,7 @@ const PlaintextScene: React.FC = () => {
       style={{
         position: "absolute",
         left: HOP_X[i],
-        top: 258,
+        top: 330,
         width: 320,
         height: 96,
         borderRadius: 12,
@@ -814,11 +814,11 @@ const PlaintextScene: React.FC = () => {
 
   return (
     <Stage caption="Plain text. Every machine on the path can read it.">
-      <div style={{ position: "relative", height: 430, width: W }}>
+      <div style={{ position: "relative", height: 470, width: W }}>
         <div
           style={{
             position: "absolute",
-            top: 305,
+            top: 250,
             left: centers[0],
             width: centers[3] - centers[0],
           }}
@@ -829,7 +829,7 @@ const PlaintextScene: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            top: 246,
+            top: 190,
             left: cx - 150,
             width: 300,
             borderRadius: 12,
@@ -850,7 +850,7 @@ const PlaintextScene: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            top: 196,
+            top: 140,
             left: centers[2] - 90,
             width: 180,
             textAlign: "center",
@@ -867,7 +867,7 @@ const PlaintextScene: React.FC = () => {
           style={{
             position: "absolute",
             inset: 0,
-            background: `radial-gradient(360px 170px at ${cx}px 305px, rgba(251,113,133,${reading * 0.2}), transparent 70%)`,
+            background: `radial-gradient(360px 170px at ${cx}px 250px, rgba(251,113,133,${reading * 0.2}), transparent 70%)`,
             pointerEvents: "none",
           }}
         />
