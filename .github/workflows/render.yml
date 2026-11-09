@@ -33,11 +33,74 @@ jobs:
         run: |
           node -e '
             const all = require("./video/episodes.json");
+            const { execSync } = require("child_process");
             const want = process.env.WANT || "all";
-            const keys = want === "all" ? Object.keys(all) : [want];
-            for (const k of keys) {
-              if (!all[k]) { console.error("unknown episode: " + k); process.exit(1); }
+
+            // Manual trigger: explicit selection
+            if (want !== "all") {
+              const keys = want === "all" ? Object.keys(all) : [want];
+              for (const k of keys) {
+                if (!all[k]) { console.error("unknown episode: " + k); process.exit(1); }
+              }
+              const include = keys.map((k) => ({ key: k, ...all[k] }));
+              console.log("matrix=" + JSON.stringify({ include }));
+              process.exit(0);
             }
+
+            // Push trigger: selective rendering based on changed files
+            let changed = [];
+            try {
+              changed = execSync("git diff --name-only HEAD~1 HEAD", { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] }).trim().split("\n").filter(Boolean);
+            } catch (e) {
+              changed = [];
+            }
+
+            // No changed files detected (first commit, shallow clone, etc.) -> render all
+            if (changed.length === 0) {
+              const keys = Object.keys(all);
+              const include = keys.map((k) => ({ key: k, ...all[k] }));
+              console.log("matrix=" + JSON.stringify({ include }));
+              process.exit(0);
+            }
+
+            // Shared files that affect every episode
+            const sharedPatterns = ["video/src/chrome", "video/src/theme", "video/tools/", "video/.github/"];
+            const episodesJsonChanged = changed.includes("video/episodes.json");
+
+            // If episodes.json changed, determine which episodes are new or modified
+            let oldEpisodes = {};
+            if (episodesJsonChanged) {
+              try {
+                const old = execSync("git show HEAD~1:video/episodes.json", { encoding: "utf-8", stdio: ["pipe", "pipe", "pipe"] });
+                oldEpisodes = JSON.parse(old);
+              } catch (e) {
+                oldEpisodes = {};
+              }
+            }
+
+            let keys;
+            if (episodesJsonChanged) {
+              // New episodes + episodes with changed source files
+              const newEps = Object.keys(all).filter(k => !oldEpisodes[k]);
+              const changedEps = Object.keys(all).filter(k => {
+                const srcDir = all[k].srcDir;
+                return changed.some(f => f.startsWith("video/" + srcDir + "/"));
+              });
+              keys = [...new Set([...newEps, ...changedEps])];
+            } else if (changed.some(f => sharedPatterns.some(p => f.startsWith(p)))) {
+              // Shared code changed -> render all
+              keys = Object.keys(all);
+            } else {
+              // Only specific episode source files changed
+              keys = Object.keys(all).filter(k => {
+                const srcDir = all[k].srcDir;
+                return changed.some(f => f.startsWith("video/" + srcDir + "/"));
+              });
+            }
+
+            // Safety: never render nothing
+            if (keys.length === 0) keys = Object.keys(all);
+
             const include = keys.map((k) => ({ key: k, ...all[k] }));
             console.log("matrix=" + JSON.stringify({ include }));
           ' >> "$GITHUB_OUTPUT"
