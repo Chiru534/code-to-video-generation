@@ -25,7 +25,7 @@ const TitleScene: React.FC = () => {
   const sub = spring({ frame: frame - 30, fps, config: { damping: 200 } });
   return (
     <Stage>
-      <Kicker text="EPISODE 01 · STEP 1 OF 8" />
+      <Kicker text="EPISODE 01 · STEP 1 OF 5" />
       <div style={{ display: "flex", marginTop: 30, gap: 22 }}>
         {words.map((w, i) => {
           const s = spring({
