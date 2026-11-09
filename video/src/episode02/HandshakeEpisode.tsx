@@ -26,25 +26,25 @@ const Node: React.FC<{
   accent?: string;
   opacity?: number;
   width?: number;
-}> = ({ title, sub, accent = C.text, opacity = 1, width = 400 }) => (
+}> = ({ title, sub, accent = C.text, opacity = 1, width = 440 }) => (
   <div
     style={{
       width,
-      padding: "30px 0",
+      padding: "34px 0",
       borderRadius: 16,
       backgroundColor: C.panel,
       border: `1px solid ${C.panelEdge}`,
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      gap: 10,
+      gap: 12,
       opacity,
     }}
   >
-    <div style={{ fontFamily: F.mono, fontSize: 22, letterSpacing: "0.12em", color: accent }}>
+    <div style={{ fontFamily: F.mono, fontSize: 24, letterSpacing: "0.12em", color: accent }}>
       {title}
     </div>
-    <div style={{ fontFamily: F.mono, fontSize: 15, color: C.faint }}>{sub}</div>
+    <div style={{ fontFamily: F.mono, fontSize: 16, color: C.faint }}>{sub}</div>
   </div>
 );
 
@@ -77,32 +77,37 @@ const Card: React.FC<{
   color: string;
   lit?: number;
   width?: number;
-}> = ({ head, rows, color, lit = 1, width = 420 }) => (
-  <div
-    style={{
-      width,
-      borderRadius: 14,
-      backgroundColor: "rgba(18,20,28,0.96)",
-      border: `1px solid ${color}`,
-      boxShadow: `0 24px 70px rgba(0,0,0,0.55), 0 0 40px ${color}22`,
-      padding: "20px 24px",
-      display: "flex",
-      flexDirection: "column",
-      gap: 12,
-      opacity: lit,
-    }}
-  >
-    <div style={{ fontFamily: F.mono, fontSize: 15, letterSpacing: "0.26em", color }}>{head}</div>
-    {rows.map((r, i) => (
-      <div key={r.k} style={{ display: "flex", justifyContent: "space-between", gap: 24 }}>
-        <span style={{ fontFamily: F.mono, fontSize: 18, color: C.dim }}>{r.k}</span>
-        <span style={{ fontFamily: F.mono, fontSize: 22, color: i === 0 ? C.text : color }}>
-          {r.v}
-        </span>
-      </div>
-    ))}
-  </div>
-);
+}> = ({ head, rows, color, lit = 1, width = 470 }) => {
+  const frame = useCurrentFrame();
+  // Slow glow so a card parked on screen never reads as a frozen frame.
+  const pulse = 0.5 + 0.5 * Math.sin(frame / 18);
+  return (
+    <div
+      style={{
+        width,
+        borderRadius: 14,
+        backgroundColor: "rgba(18,20,28,0.96)",
+        border: `1px solid ${color}`,
+        boxShadow: `0 24px 70px rgba(0,0,0,0.55), 0 0 ${28 + pulse * 26}px ${color}33`,
+        padding: "22px 26px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 12,
+        opacity: lit,
+      }}
+    >
+      <div style={{ fontFamily: F.mono, fontSize: 16, letterSpacing: "0.26em", color }}>{head}</div>
+      {rows.map((r, i) => (
+        <div key={r.k} style={{ display: "flex", justifyContent: "space-between", gap: 24 }}>
+          <span style={{ fontFamily: F.mono, fontSize: 19, color: C.dim }}>{r.k}</span>
+          <span style={{ fontFamily: F.mono, fontSize: 24, color: i === 0 ? C.text : color }}>
+            {r.v}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 /* ---------------- scenes ---------------- */
 
@@ -237,68 +242,76 @@ const GapScene: React.FC = () => {
 
 const UnreliableScene: React.FC = () => {
   const frame = useCurrentFrame();
-  const W = 1500;
-  const labels = ["1", "2", "3", "3", "4"];
-  const behaviours = ["ok", "lost", "late", "dup", "ok"];
-  const cycle = 210;
-  const t = frame % cycle;
+  const W = 1560;
+  const packets = [
+    { label: "1", kind: "ok" },
+    { label: "2", kind: "lost" },
+    { label: "3", kind: "ok" },
+    { label: "3", kind: "dup" },
+    { label: "4", kind: "ok" },
+  ];
+  const CYCLE = 150;
   return (
     <Stage caption="Packets get lost, arrive twice, or arrive out of order.">
-      <div style={{ position: "relative", height: 300, width: W }}>
-        <div style={{ position: "absolute", top: 148, left: 0, width: W }}>
+      <div style={{ position: "relative", height: 340, width: W }}>
+        <div style={{ position: "absolute", top: 168, left: 0, width: W }}>
           <Line width={W} dashed color="#2A2E3B" />
         </div>
-        {labels.map((label, i) => {
-          const start = i * 26;
-          const p = clamp01((t - start) / 120);
-          const kind = behaviours[i];
-          const lost = kind === "lost";
-          const dropped = lost ? clamp01((p - 0.42) / 0.3) : 0;
-          const dupOffset = kind === "dup" ? 46 : 0;
-          const lateShift = kind === "late" ? -34 : 0;
-          const x = p * (W - 120) - dupOffset + lateShift;
-          const visible = t > start && p < 1;
+        {packets.map((pkt, i) => {
+          const phase = ((frame + i * 30) % CYCLE) / CYCLE;
+          const x = phase * (W - 110);
+          const lost = pkt.kind === "lost";
+          const dup = pkt.kind === "dup";
+          const dropped = lost ? clamp01((phase - 0.42) / 0.26) : 0;
+          const top = 132 - (dup ? 70 : 0) + dropped * 74;
+          const color = lost ? C.red : dup ? C.violet : C.cyan;
           return (
             <div
-              key={`${label}-${i}`}
+              key={`${pkt.label}-${i}`}
               style={{
                 position: "absolute",
-                top: 108 + dropped * 56 + (kind === "dup" ? -54 : 0),
+                top,
                 left: x,
-                width: 86,
-                height: 60,
+                width: 104,
+                height: 72,
                 borderRadius: 10,
-                backgroundColor: lost ? "rgba(251,113,133,0.10)" : "rgba(34,211,238,0.12)",
-                border: `1px solid ${lost ? C.red : C.cyan}`,
+                backgroundColor: `${color}1F`,
+                border: `1px solid ${color}`,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 fontFamily: F.mono,
-                fontSize: 22,
-                color: lost ? C.red : C.cyan,
-                opacity: visible ? (lost ? 1 - dropped * 0.9 : 1) : 0,
-                transform: `rotate(${lost ? -dropped * 14 : 0}deg)`,
+                fontSize: 26,
+                color,
+                opacity: lost ? clamp01(1 - dropped * 1.1) : 1,
+                transform: `rotate(${lost ? -dropped * 16 : 0}deg)`,
               }}
             >
-              {label}
+              {pkt.label}
             </div>
           );
         })}
         <div
           style={{
             position: "absolute",
-            bottom: 0,
+            bottom: 4,
             left: 0,
             display: "flex",
-            gap: 34,
+            gap: 26,
             fontFamily: F.mono,
-            fontSize: 16,
+            fontSize: 17,
             letterSpacing: "0.16em",
           }}
         >
-          <span style={{ color: C.red }}>LOST</span>
-          <span style={{ color: C.amber }}>LATE / REORDERED</span>
-          <span style={{ color: C.violet }}>DUPLICATED</span>
+          <span style={{ color: C.red, border: `1px solid ${C.red}44`, borderRadius: 6, padding: "6px 12px" }}>
+            LOST
+          </span>
+          <span style={{ color: C.amber, border: `1px solid ${C.amber}44`, borderRadius: 6, padding: "6px 12px" }}>
+            REORDERED
+          </span>
+          <span style={{ color: C.violet, border: `1px solid ${C.violet}44`, borderRadius: 6, padding: "6px 12px" }}>
+            DUPLICATED
+          </span>
         </div>
       </div>
     </Stage>
@@ -326,7 +339,7 @@ const SynScene: React.FC = () => {
   return (
     <Stage caption="Syn. One packet, carrying a random starting number.">
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40 }}>
-        <Node title="CLIENT" sub="chooses a number" opacity={a} width={340} />
+        <Node title="CLIENT" sub="chooses a number" opacity={a} width={400} />
         <div style={{ position: "relative", width: 700, height: 200 }}>
           <div style={{ position: "absolute", top: 99, left: 0, width: 700 }}>
             <Line width={700} color="#2A2E3B" />
@@ -348,7 +361,7 @@ const SynScene: React.FC = () => {
             />
           </div>
         </div>
-        <Node title="SERVER" sub="not yet listening to you" opacity={b} width={340} />
+        <Node title="SERVER" sub="not yet listening to you" opacity={b} width={400} />
       </div>
       <div
         style={{
@@ -380,7 +393,7 @@ const SynAckScene: React.FC = () => {
   return (
     <Stage caption="Syn, ack. I hear you — and here is my number.">
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40 }}>
-        <Node title="CLIENT" sub="seq 1000 sent" width={340} />
+        <Node title="CLIENT" sub="seq 1000 sent" width={400} />
         <div style={{ position: "relative", width: 700, height: 210 }}>
           <div style={{ position: "absolute", top: 104, left: 0, width: 700 }}>
             <Line width={700} color="#2A2E3B" />
@@ -402,7 +415,7 @@ const SynAckScene: React.FC = () => {
             />
           </div>
         </div>
-        <Node title="SERVER" sub="picks its own number" opacity={1} width={340} />
+        <Node title="SERVER" sub="picks its own number" opacity={1} width={400} />
       </div>
       <div
         style={{
@@ -422,87 +435,122 @@ const SynAckScene: React.FC = () => {
 
 const AckScene: React.FC = () => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
   const p = interpolate(frame, [10, 66], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: ease,
   });
-  const done = clamp01((frame - 80) / 26);
-  const s = spring({ frame: frame - 84, fps, config: { damping: 18, stiffness: 110 } });
+  const up = clamp01((frame - 74) / 24);
+  const down = clamp01((frame - 96) / 24);
+  const pulse = 0.6 + 0.4 * Math.sin(frame / 14);
+  const accentA = up > 0.5 ? C.green : "#2A2E3B";
+  const accentB = down > 0.5 ? C.green : "#2A2E3B";
 
   return (
     <Stage caption="Three packets. One round trip. Both directions proven.">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40 }}>
-        <Node title="CLIENT" sub="can send ✓" accent={done > 0.5 ? C.green : C.text} width={340} />
-        <div style={{ position: "relative", width: 700, height: 260 }}>
-          <div style={{ position: "absolute", top: 60, left: 0, width: 700 }}>
-            <Line width={700} color={done > 0.4 ? C.green : "#2A2E3B"} />
-          </div>
-          <div style={{ position: "absolute", top: 150, left: 0, width: 700 }}>
-            <Line width={700} color={done > 0.7 ? C.green : "#2A2E3B"} />
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 36 }}>
+        <Node title="CLIENT" sub="can send ✓" accent={up > 0.5 ? C.green : C.text} width={380} />
+        <div style={{ position: "relative", width: 760, height: 320 }}>
+          <div style={{ position: "absolute", top: 96, left: 0 }}>
+            <Line width={760} color={accentA} />
           </div>
           <div
             style={{
               position: "absolute",
-              top: 22,
-              left: interpolate(p, [0, 1], [0, 300]),
-              padding: "8px 16px",
+              top: 26,
+              left: 0,
+              fontFamily: F.mono,
+              fontSize: 16,
+              letterSpacing: "0.18em",
+              color: up > 0.5 ? C.green : C.dim,
+            }}
+          >
+            CLIENT → SERVER
+          </div>
+          <div style={{ position: "absolute", top: 82, right: 34, fontFamily: F.mono, fontSize: 24, color: accentA }}>
+            ▶
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              top: 82,
+              right: 2,
+              fontFamily: F.mono,
+              fontSize: 26,
+              color: C.green,
+              opacity: up * pulse,
+            }}
+          >
+            ✓
+          </div>
+
+          <div style={{ position: "absolute", top: 232, left: 0 }}>
+            <Line width={760} color={accentB} />
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              top: 192,
+              left: 0,
+              fontFamily: F.mono,
+              fontSize: 16,
+              letterSpacing: "0.18em",
+              color: down > 0.5 ? C.green : C.dim,
+            }}
+          >
+            SERVER → CLIENT
+          </div>
+          <div style={{ position: "absolute", top: 218, left: 34, fontFamily: F.mono, fontSize: 24, color: accentB }}>
+            ◀
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              top: 218,
+              left: 2,
+              fontFamily: F.mono,
+              fontSize: 26,
+              color: C.green,
+              opacity: down * pulse,
+            }}
+          >
+            ✓
+          </div>
+
+          <div
+            style={{
+              position: "absolute",
+              top: 62,
+              left: interpolate(p, [0, 1], [0, 560]),
+              padding: "10px 20px",
               borderRadius: 10,
               border: `1px solid ${C.green}`,
-              backgroundColor: "rgba(52,211,153,0.12)",
+              backgroundColor: "rgba(52,211,153,0.14)",
               fontFamily: F.mono,
-              fontSize: 18,
+              fontSize: 20,
               color: C.green,
             }}
           >
             ACK 5001
           </div>
-          <div
-            style={{
-              position: "absolute",
-              top: 58,
-              left: 690,
-              fontFamily: F.mono,
-              fontSize: 26,
-              color: C.green,
-              opacity: done,
-              transform: `translateX(${(1 - s) * 20}px)`,
-            }}
-          >
-            ✓
-          </div>
-          <div
-            style={{
-              position: "absolute",
-              top: 148,
-              left: 0,
-              fontFamily: F.mono,
-              fontSize: 26,
-              color: C.green,
-              opacity: clamp01((frame - 100) / 20),
-            }}
-          >
-            ✓
-          </div>
         </div>
-        <Node title="SERVER" sub="can send ✓" accent={done > 0.5 ? C.green : C.text} width={340} />
+        <Node title="SERVER" sub="can send ✓" accent={down > 0.5 ? C.green : C.text} width={380} />
       </div>
-      <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 30 }}>
+      <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 34 }}>
         {["1 SYN", "2 SYN-ACK", "3 ACK"].map((label, i) => {
-          const on = clamp01((frame - 96 - i * 10) / 16);
+          const on = clamp01((frame - 104 - i * 10) / 16);
           return (
             <div
               key={label}
               style={{
                 fontFamily: F.mono,
-                fontSize: 17,
+                fontSize: 18,
                 letterSpacing: "0.12em",
                 color: on > 0.5 ? C.green : C.faint,
                 border: `1px solid ${on > 0.5 ? C.green + "66" : C.panelEdge}`,
                 borderRadius: 8,
-                padding: "8px 14px",
-                opacity: 0.4 + on * 0.6,
+                padding: "9px 16px",
+                opacity: 0.35 + on * 0.65,
               }}
             >
               {label}
@@ -723,19 +771,21 @@ const BudgetScene: React.FC = () => {
   );
 };
 
-const HOP_X = [40, 420, 800, 1180];
+const HOP_X = [0, 453, 906, 1360];
 
 const PlaintextScene: React.FC = () => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const p = interpolate(frame % 190, [24, 150], [0, 1], {
+  const W = 1680;
+  const centers = [160, 613, 1066, 1520];
+  const CYCLE = 220;
+  const p = (frame % CYCLE) / CYCLE;
+  const travel = interpolate(p, [0.12, 0.92], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
     easing: ease,
   });
-  const x = interpolate(p, [0, 1], [HOP_X[0], HOP_X[3]]);
-  const reading = clamp01((1 - Math.abs(x - HOP_X[1]) / 150) * 1.4);
-  const glow = spring({ frame: frame - 10, fps, config: { damping: 200 } });
+  const cx = interpolate(travel, [0, 1], [centers[0], centers[3]]);
+  const reading = clamp01((1 - Math.abs(cx - centers[2]) / 240) * 1.6);
 
   const hop = (label: string, i: number) => (
     <div
@@ -743,54 +793,53 @@ const PlaintextScene: React.FC = () => {
       style={{
         position: "absolute",
         left: HOP_X[i],
-        top: 232,
-        width: 260,
-        textAlign: "center",
+        top: 258,
+        width: 320,
+        height: 96,
+        borderRadius: 12,
+        border: `1px solid ${i === 2 && reading > 0.3 ? C.red + "66" : C.panelEdge}`,
+        backgroundColor: C.panel,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         fontFamily: F.mono,
-        fontSize: 16,
+        fontSize: 20,
         letterSpacing: "0.16em",
-        color: C.dim,
-        opacity: glow,
+        color: i === 2 && reading > 0.3 ? C.red : C.dim,
       }}
     >
-      <div
-        style={{
-          height: 56,
-          borderRadius: 10,
-          border: `1px solid ${C.panelEdge}`,
-          backgroundColor: C.panel,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: 12,
-        }}
-      >
-        {label}
-      </div>
+      {label}
     </div>
   );
 
   return (
     <Stage caption="Plain text. Every machine on the path can read it.">
-      <div style={{ position: "relative", height: 360, width: 1500 }}>
-        <div style={{ position: "absolute", top: 62, left: 40, width: 1180 }}>
-          <Line width={1180} color="#2A2E3B" />
+      <div style={{ position: "relative", height: 430, width: W }}>
+        <div
+          style={{
+            position: "absolute",
+            top: 305,
+            left: centers[0],
+            width: centers[3] - centers[0],
+          }}
+        >
+          <Line width={centers[3] - centers[0]} color="#2A2E3B" />
         </div>
         {["YOU", "ROUTER", "ISP", "SERVER"].map(hop)}
         <div
           style={{
             position: "absolute",
-            top: 0,
-            left: x,
+            top: 246,
+            left: cx - 150,
             width: 300,
             borderRadius: 12,
-            border: `1px solid ${C.red}`,
-            backgroundColor: "rgba(18,20,28,0.97)",
-            boxShadow: `0 0 ${24 + reading * 50}px rgba(251,113,133,${0.15 + reading * 0.5})`,
+            border: `1px solid ${reading > 0.35 ? C.red : C.cyan}`,
+            backgroundColor: "rgba(14,16,23,0.97)",
+            boxShadow: `0 0 ${26 + reading * 60}px rgba(251,113,133,${0.12 + reading * 0.55})`,
             padding: "16px 20px",
             fontFamily: F.mono,
-            fontSize: 15,
-            color: reading > 0.4 ? C.red : C.text,
+            fontSize: 16,
+            color: reading > 0.35 ? C.red : C.text,
             lineHeight: 1.6,
           }}
         >
@@ -801,11 +850,13 @@ const PlaintextScene: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            top: 176,
-            left: HOP_X[1] + 20,
+            top: 196,
+            left: centers[2] - 90,
+            width: 180,
+            textAlign: "center",
             fontFamily: F.mono,
-            fontSize: 15,
-            letterSpacing: "0.18em",
+            fontSize: 16,
+            letterSpacing: "0.2em",
             color: C.red,
             opacity: reading,
           }}
@@ -815,11 +866,8 @@ const PlaintextScene: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            top: 0,
-            left: 0,
-            width: 1500,
-            height: 360,
-            background: `radial-gradient(300px 120px at ${x + 150}px 40px, rgba(251,113,133,${reading * 0.22}), transparent 70%)`,
+            inset: 0,
+            background: `radial-gradient(360px 170px at ${cx}px 305px, rgba(251,113,133,${reading * 0.2}), transparent 70%)`,
             pointerEvents: "none",
           }}
         />
