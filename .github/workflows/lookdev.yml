@@ -1,0 +1,122 @@
+name: lookdev
+
+# ZERO-WASTE LOOKDEV GATE.
+# Renders individual stills only. No full video, no Drive upload.
+# The frames are chosen at scene midpoints from the MEASURED narration
+# timings, so what you inspect is exactly where the film will be.
+#
+#   gh workflow run lookdev.yml --ref lookdev
+#   gh run watch --exit-status
+
+on:
+  workflow_dispatch:
+    inputs:
+      composition:
+        description: "Composition id"
+        required: true
+        default: "WifiFilm"
+      scenes:
+        description: "Comma separated scene ids to still-render"
+        required: true
+        default: "s01,s03,s06,s09,s12,s15,s17,s20,s22,s25,s27,s29,s31,s34,s37,s40,s42,s44,s46,s48,s50,s52,s55,s57,s59,s60"
+
+jobs:
+  lookdev:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      COMPOSITION: ${{ github.event.inputs.composition }}
+      PICK: ${{ github.event.inputs.scenes }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: video/package-lock.json
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cache Kokoro model
+        uses: actions/cache@v4
+        with:
+          path: |
+            video/kokoro-v1.0.onnx
+            video/voices-v1.0.bin
+          key: kokoro-v1.0-model-files-v1.1
+
+      - name: Download Kokoro model
+        working-directory: video
+        run: |
+          BASE=https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.1
+          [ -f kokoro-v1.0.onnx ] || curl -L --retry 3 -o kokoro-v1.0.onnx "$BASE/kokoro-v1.0.onnx"
+          [ -f voices-v1.0.bin ] || curl -L --retry 3 -o voices-v1.0.bin "$BASE/voices-v1.0.bin"
+          ls -lh kokoro-v1.0.onnx voices-v1.0.bin
+
+      - name: Install TTS dependencies
+        run: pip install -q kokoro-onnx soundfile numpy
+
+      - name: Install node dependencies
+        working-directory: video
+        run: npm ci --no-audit --no-fund
+
+      # Measured narration timings are what the film plan uses, so the stills
+      # land at the same frames the real render will.
+      - name: Generate narration
+        working-directory: video
+        run: python tools/tts.py --src-dir src/wifi/film --audio-dir public/audio/wifi-film
+
+      # Same gate the render job runs pre-flight, now with the real wavs.
+      - name: Audit (static)
+        working-directory: video
+        run: python tools/audit.py --static
+
+      - name: Ensure headless browser
+        working-directory: video
+        run: npx remotion browser ensure
+
+      - name: Render stills at measured scene midpoints
+        working-directory: video
+        run: |
+          mkdir -p out/lookdev
+          python - <<'PY'
+          import json, os, subprocess, sys
+
+          t = json.load(open("src/wifi/film/timings.json"))
+          order = sorted(t["scenes"], key=lambda s: int(s[1:]))
+          pick = {s.strip() for s in os.environ["PICK"].split(",") if s.strip()}
+
+          off = 0
+          frames = []
+          for sid in order:
+              d = t["scenes"][sid]["frames"] + 12
+              if sid in pick:
+                  frames.append((sid, off + d // 2))
+              off += d
+
+          print(f"composition duration: {off} frames = {off/30:.1f}s")
+          n = 0
+          for sid, f in frames:
+              if f > off - 20:
+                  print(f"skip {sid} at {f}: past the end")
+                  continue
+              out = f"out/lookdev/{n:02d}-{sid}-{f}.png"
+              print(f"render {out}")
+              subprocess.run(
+                  ["npx", "remotion", "still", os.environ["COMPOSITION"], out, "--frame", str(f)],
+                  check=True,
+              )
+              n += 1
+          print(f"rendered {n} stills")
+          if n == 0:
+              sys.exit("no stills rendered")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lookdev-stills
+          path: video/out/lookdev/*.png
+          retention-days: 7
