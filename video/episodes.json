@@ -33,5 +33,12 @@
     "audioDir": "public/audio/ep05",
     "composition": "RenderEpisode",
     "output": "render.mp4"
+  },
+  "wifi": {
+    "title": "Your Wi-Fi Is Not Slow. It's Waiting.",
+    "srcDir": "src/wifi",
+    "audioDir": "public/audio/wifi",
+    "composition": "WifiAirtime",
+    "output": "wifi-airtime.mp4"
   }
 }

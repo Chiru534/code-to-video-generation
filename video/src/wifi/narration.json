@@ -1,0 +1,54 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Your Wi-Fi is not slow. It's waiting."
+    },
+    {
+      "id": "s02",
+      "text": "Four devices, one channel, and one ten dollar smart plug."
+    },
+    {
+      "id": "s03",
+      "text": "It sits at the far end of the house, so it talks slowly. One megabit."
+    },
+    {
+      "id": "s04",
+      "text": "You'd think that costs you almost nothing. It doesn't."
+    },
+    {
+      "id": "s05",
+      "text": "Wi-Fi doesn't share speed. It shares time."
+    },
+    {
+      "id": "s06",
+      "text": "A fast device sends a packet in half a millisecond. The plug needs forty."
+    },
+    {
+      "id": "s07",
+      "text": "And while the plug is talking, the channel is busy. Everyone waits."
+    },
+    {
+      "id": "s08",
+      "text": "Four percent of the data. Eighty percent of the airtime."
+    },
+    {
+      "id": "s09",
+      "text": "That's why walking closer to the router doesn't help."
+    },
+    {
+      "id": "s10",
+      "text": "Your router isn't out of bandwidth. It's out of silence."
+    },
+    {
+      "id": "s11",
+      "text": "Turn on airtime fairness. Or move the plug to two point four gigahertz."
+    },
+    {
+      "id": "s12",
+      "text": "The full breakdown is eleven minutes. It's on the channel."
+    }
+  ]
+}

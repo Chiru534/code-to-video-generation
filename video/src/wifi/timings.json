@@ -1,0 +1,21 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 1515,
+  "scenes": {
+    "s01": { "sec": 2.2, "frames": 66, "text": "Your Wi-Fi is not slow. It's waiting." },
+    "s02": { "sec": 3.8, "frames": 114, "text": "Four devices, one channel, and one ten dollar smart plug." },
+    "s03": { "sec": 5.2, "frames": 156, "text": "It sits at the far end of the house, so it talks slowly. One megabit." },
+    "s04": { "sec": 3.6, "frames": 108, "text": "You'd think that costs you almost nothing. It doesn't." },
+    "s05": { "sec": 3.0, "frames": 90, "text": "Wi-Fi doesn't share speed. It shares time." },
+    "s06": { "sec": 5.5, "frames": 165, "text": "A fast device sends a packet in half a millisecond. The plug needs forty." },
+    "s07": { "sec": 4.6, "frames": 138, "text": "And while the plug is talking, the channel is busy. Everyone waits." },
+    "s08": { "sec": 4.2, "frames": 126, "text": "Four percent of the data. Eighty percent of the airtime." },
+    "s09": { "sec": 4.0, "frames": 120, "text": "That's why walking closer to the router doesn't help." },
+    "s10": { "sec": 4.4, "frames": 132, "text": "Your router isn't out of bandwidth. It's out of silence." },
+    "s11": { "sec": 5.6, "frames": 168, "text": "Turn on airtime fairness. Or move the plug to two point four gigahertz." },
+    "s12": { "sec": 4.4, "frames": 132, "text": "The full breakdown is eleven minutes. It's on the channel." }
+  }
+}
