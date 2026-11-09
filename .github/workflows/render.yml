@@ -64,7 +64,7 @@ jobs:
             }
 
             // Shared files that affect every episode
-            const sharedPatterns = ["video/src/chrome", "video/src/theme", "video/tools/", "video/.github/"];
+            const sharedPatterns = ["video/src/chrome", "video/src/theme", "video/tools/"];
             const episodesJsonChanged = changed.includes("video/episodes.json");
 
             // If episodes.json changed, determine which episodes are new or modified
@@ -98,8 +98,11 @@ jobs:
               });
             }
 
-            // Safety: never render nothing
-            if (keys.length === 0) keys = Object.keys(all);
+            // If no episodes changed (e.g. workflow-only or docs-only change), skip rendering
+            if (keys.length === 0) {
+              console.log("matrix=" + JSON.stringify({ include: [] }));
+              process.exit(0);
+            }
 
             const include = keys.map((k) => ({ key: k, ...all[k] }));
             console.log("matrix=" + JSON.stringify({ include }));
