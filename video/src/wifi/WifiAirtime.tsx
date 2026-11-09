@@ -269,10 +269,10 @@ const HouseScene: React.FC = () => {
           <DeviceDot x={230} y={640} label="TV" color={C.cyan} at={26} />
           <DeviceDot x={750} y={690} label="PLUG" color={C.amber} at={34} />
 
-          <rect x={640} y={742} width={196} height={54} rx={12} fill="rgba(251,191,36,0.14)" />
+          <rect x={510} y={663} width={196} height={54} rx={12} fill="rgba(251,191,36,0.16)" />
           <text
-            x={738}
-            y={778}
+            x={608}
+            y={699}
             textAnchor="middle"
             fill={C.amber}
             opacity={prog(frame, 46, 18)}
@@ -728,7 +728,7 @@ const WaitScene: React.FC = () => {
                   color: C.cyan,
                 }}
               >
-                wait {Math.round(waits[i] * 46)} ms
+                wait {Math.round(waits[i] * (14 + i * 16))} ms
               </span>
             </div>
           ))}
