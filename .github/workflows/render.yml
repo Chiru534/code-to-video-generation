@@ -7,7 +7,7 @@ on:
         description: "Which episode to render"
         type: choice
         default: all
-        options: [all, ep01, ep02]
+        options: [all, ep01, ep02, ep03, ep04]
   push:
     branches: [main]
     paths:
