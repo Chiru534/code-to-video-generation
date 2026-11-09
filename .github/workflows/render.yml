@@ -61,7 +61,7 @@ jobs:
 
             const emit = (keys, reason) => {
               const include = keys.map((k) => ({ key: k, ...all[k] }));
-              console.log("reason: " + reason);
+              console.error("plan reason: " + reason);
               console.log("matrix=" + JSON.stringify({ include }));
               console.log("count=" + include.length);
             };
