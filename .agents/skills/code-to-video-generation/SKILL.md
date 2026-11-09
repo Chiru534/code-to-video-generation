@@ -112,60 +112,62 @@ Output verified: 1920x1080, 30 fps, H.264 + AAC 48 kHz stereo, **−14.2 LUFS** 
 
 Goal: render finishes on Actions, the MP4 lands in Drive with no manual step.
 
-### The hard constraint (verified 2026-11-09, with real API calls)
+### Use OAuth as the Drive owner. Not a service account.
 
-A **service account cannot create files in a personal Drive**, no matter what
-folder permissions it has:
+Quota follows the **identity that creates the bytes**, not the folder:
 
 ```
-storageQuota = {'limit': '0', 'usage': '0', ...}
+m.chiranjeevi.adarsh@gmail.com            5.5 TB
+antirgavity@blender-s1...serviceaccount      0 B
+```
+
+Sharing a folder with the service account as Writer gives it *permission* but not
+*storage*. Every create still dies:
+
+```
 files.create -> 403 storageQuotaExceeded
   "Service Accounts do not have storage quota. Leverage shared drives, or use
    OAuth delegation instead."
 ```
 
-Sharing the folder with the service account as **Writer** does not change this —
-the quota is the blocker, not the permission. A Shared Drive would work, but that
-needs Google Workspace; personal accounts have no Shared Drives.
+Boundary measured empirically (2026-11-09), so nobody re-derives it:
 
-### What does work: overwrite a file the user owns
+| Operation | Service account |
+|---|---|
+| create folder | OK (0 bytes) |
+| create 0-byte file | OK |
+| create 2 KB file | 403 storageQuotaExceeded |
+| force `owners` = human | 403 fieldNotWritable |
+| transfer ownership to human | 403 consentRequiredForOwnershipTransfer |
+| **update content of a human-owned file** | **OK** (bills the owner) |
 
-The bytes are charged to the **owner**, not the uploader, so a zero-quota service
-account can replace the content of an existing user-owned file:
+### The working path: one-time consent, then create-or-update
 
-```
-files.update(fileId, media_body=...)  -> 200 OK, version bumped, md5 verified
-```
+`scripts/drive_authorize.py --client <client_secret_*.json>` opens consent, catches
+the loopback redirect, and writes `~/.gdrive/authorized_user.json` (never in git).
+Consent was granted 2026-11-09; verified: identity = the human, 5.5 TB quota,
+`files.create` OK, `files.delete` OK.
 
-Verified on `productions/nova_preview_frame_0001.png`: downloaded, re-uploaded
-identical bytes, `version: 6`, `md5Checksum` unchanged. No OAuth consent used.
+`video/tools/gdrive_upload.py` then does create-or-update by name:
 
-So the contract is **one Drive slot per deliverable**:
+- name exists in the folder -> `files.update` (same link, new version, history kept)
+- name absent -> `files.create` (OAuth only)
 
-1. Upload the file by hand **once** (user action — service accounts cannot create).
-2. Share the folder with the service account as Writer (already done for
-   `productions` = `1XA5f1asH3nMji3PBsUa6QP0_VJ1zucsD`).
-3. Every render overwrites that file in place: same link, same name, new version.
-   Drive's version history keeps every previous render, so nothing is lost.
+Secrets in `Chiru534/code-to-video-generation`:
+`GDRIVE_REFRESH_TOKEN`, `GDRIVE_CLIENT_ID`, `GDRIVE_CLIENT_SECRET`,
+`GDRIVE_FOLDER_ID`, plus `GDRIVE_SA_JSON` as an unused fallback.
 
-Implemented in `video/tools/gdrive_upload.py`, called from `render.yml`:
-
-```
-GDRIVE_SA_JSON     service-account key JSON (Actions secret)
-GDRIVE_FOLDER_ID   folder to search (Actions secret)
-GDRIVE_FILE_NAME   slot name, e.g. finding-the-address.mp4
-```
-
-The step exits 0 with a `::warning::` when Drive is unconfigured (so the pipeline
-stays green before setup), and fails loudly once configured but broken. It
-verifies size and md5 after upload.
+It verifies size and md5 after upload, exits 0 with a `::warning::` when Drive is
+unconfigured, and fails loudly once configured but broken — so a green job means
+the file really landed.
 
 Notes:
-- OAuth client secrets (`client_secret_*.json`) are the **app's** credentials, not
-  the user's permission. They still need one browser consent to mint a refresh
-  token. Don't confuse them with authorization.
-- Prefer a rename-proof handle: `GDRIVE_FILE_ID` + `--file-id` is unambiguous;
-  name lookup is a convenience and picks the newest match.
+- OAuth **client** secrets are the app's credentials, not the user's permission.
+  They do nothing until a human consents once.
+- A refresh token is revocable at <https://myaccount.google.com/permissions>.
+  Revoke it if the repo is ever compromised, then re-run the authorize script.
+- Service-account fallback still works for slot-overwrite, but it can never create
+  the first file, so it is not the primary path.
 
 ## Also read
 

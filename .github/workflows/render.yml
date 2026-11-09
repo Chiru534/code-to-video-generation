@@ -121,9 +121,12 @@ jobs:
         if: success()
         working-directory: video
         env:
-          GDRIVE_SA_JSON: ${{ secrets.GDRIVE_SA_JSON }}
+          GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+          GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
+          GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
           GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
           GDRIVE_FILE_NAME: finding-the-address.mp4
+          GDRIVE_SA_JSON: ${{ secrets.GDRIVE_SA_JSON }}
         run: python tools/gdrive_upload.py out/finding-the-address.mp4 --name "$GDRIVE_FILE_NAME"
 
       - uses: actions/upload-artifact@v4
