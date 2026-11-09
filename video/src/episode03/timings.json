@@ -1,0 +1,19 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2700,
+  "scenes": {
+    "s01": { "sec": 8.0, "frames": 240, "text": "Proving it is safe. Last time we opened a connection. But everything we send is still plain text, readable by every machine the packets cross." },
+    "s02": { "sec": 9.0, "frames": 270, "text": "You typed a password, and it traveled the wire in the open. Every router, every proxy, every coffee shop Wi-Fi in between could read it." },
+    "s03": { "sec": 10.0, "frames": 300, "text": "So before you send anything real, you prove who you are. That is what a certificate does. It is a digital ID that says this server really is who it claims to be." },
+    "s04": { "sec": 9.0, "frames": 270, "text": "A certificate authority signs it. Someone your computer already trusts vouches for the identity. Your browser ships with a list of about two hundred of them." },
+    "s05": { "sec": 9.5, "frames": 285, "text": "Public and private keys. The math that proves ownership without ever sending the secret. You can share the public key with the world and still keep the private one safe." },
+    "s06": { "sec": 10.0, "frames": 300, "text": "The TLS handshake. Client hello, server hello, certificate, key exchange. Four messages. One more round trip. Now both sides have agreed on a session key." },
+    "s07": { "sec": 10.0, "frames": 300, "text": "The session key never crossed the wire. Each side derived it from numbers they exchanged. An eavesdropper saw the conversation but cannot recompute the secret." },
+    "s08": { "sec": 9.0, "frames": 270, "text": "From this point on, every byte is encrypted with symmetric encryption. Fast, efficient, and readable only to the two parties who hold the key." },
+    "s09": { "sec": 9.5, "frames": 285, "text": "That is what the padlock means. Not that the site is honest, not that it is safe to buy from. Just that the connection between you and the server is encrypted." },
+    "s10": { "sec": 6.0, "frames": 180, "text": "Next, asking for the page. HTTP. The request, the response, and the two hundred milliseconds you started with." }
+  }
+}

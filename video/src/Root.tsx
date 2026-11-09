@@ -3,6 +3,7 @@ import { Composition } from "remotion";
 import { QualityProbe } from "./QualityProbe";
 import { DnsEpisode, DURATION as DNS_DURATION } from "./episode/DnsEpisode";
 import { HandshakeEpisode, DURATION as HANDSHAKE_DURATION } from "./episode02/HandshakeEpisode";
+import { TlsEpisode, DURATION as TLS_DURATION } from "./episode03/TlsEpisode";
 
 /* bundled fonts — no network at render time, byte-identical every build */
 import "@fontsource/inter/400.css";
@@ -35,6 +36,14 @@ export const RemotionRoot: React.FC = () => {
         id="TheHandshake"
         component={HandshakeEpisode}
         durationInFrames={HANDSHAKE_DURATION}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="ProvingItsSafe"
+        component={TlsEpisode}
+        durationInFrames={TLS_DURATION}
         fps={30}
         width={1920}
         height={1080}

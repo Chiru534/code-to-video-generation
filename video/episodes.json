@@ -12,5 +12,12 @@
     "audioDir": "public/audio/ep02",
     "composition": "TheHandshake",
     "output": "the-handshake.mp4"
+  },
+  "ep03": {
+    "title": "Proving It's Safe",
+    "srcDir": "src/episode03",
+    "audioDir": "public/audio/ep03",
+    "composition": "ProvingItsSafe",
+    "output": "tls.mp4"
   }
 }
