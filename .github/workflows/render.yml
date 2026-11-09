@@ -68,6 +68,13 @@ jobs:
         with:
           python-version: "3.12"
 
+      # Stdlib-only gate: fail in seconds, not after a 7-minute render.
+      # Catches crossed-file contradictions (slate vs narration) that each
+      # look correct in isolation. Placed after setup-python so `python` exists.
+      - name: Audit (pre-flight)
+        working-directory: video
+        run: python tools/audit.py --static
+
       - name: System packages
         run: |
           sudo apt-get update -qq
@@ -154,6 +161,13 @@ jobs:
             echo "::error::Rendered video has no audio stream"
             exit 1
           fi
+
+      # Full gate on the finished file: resolution, codec, timeline-vs-duration,
+      # loudness, and all static checks against the freshly generated wavs.
+      # Nothing reaches Drive unless this passes.
+      - name: Audit (render)
+        working-directory: video
+        run: python tools/audit.py --static --video "out/$OUTPUT" --episode "${{ matrix.key }}"
 
       - name: Upload to Google Drive
         if: success()
