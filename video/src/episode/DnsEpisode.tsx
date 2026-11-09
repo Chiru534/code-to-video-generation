@@ -15,6 +15,7 @@ import { Backdrop, Caption, Kicker, Stage, Watermark } from "../chrome";
 import timings from "./timings.json";
 
 const ease = Easing.bezier(0.22, 1, 0.36, 1);
+const CENTER_X = 540;
 
 /* ---------------- scenes ---------------- */
 
@@ -26,7 +27,7 @@ const TitleScene: React.FC = () => {
   return (
     <Stage>
       <Kicker text="EPISODE 01 · STEP 1 OF 5" />
-      <div style={{ display: "flex", marginTop: 30, gap: 22 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
         {words.map((w, i) => {
           const s = spring({
             frame: frame - 6 - i * 5,
@@ -39,7 +40,7 @@ const TitleScene: React.FC = () => {
               style={{
                 fontFamily: F.sans,
                 fontWeight: 800,
-                fontSize: 138,
+                fontSize: 128,
                 letterSpacing: "-0.045em",
                 lineHeight: 1,
                 color: i === 2 ? C.cyan : C.text,
@@ -57,9 +58,10 @@ const TitleScene: React.FC = () => {
         style={{
           marginTop: 34,
           fontFamily: F.mono,
-          fontSize: 34,
+          fontSize: 32,
           color: C.dim,
           opacity: sub,
+          textAlign: "center",
         }}
       >
         example.com <span style={{ color: C.violet }}>→</span> 93.184.216.34
@@ -80,11 +82,12 @@ const HookScene: React.FC = () => {
         style={{
           fontFamily: F.sans,
           fontWeight: 800,
-          fontSize: 106,
+          fontSize: 96,
           letterSpacing: "-0.04em",
           color: C.text,
           opacity: a,
           transform: `translateY(${(1 - a) * 26}px)`,
+          textAlign: "center",
         }}
       >
         11 characters. One key press.
@@ -93,12 +96,13 @@ const HookScene: React.FC = () => {
         style={{
           fontFamily: F.sans,
           fontWeight: 800,
-          fontSize: 106,
+          fontSize: 96,
           letterSpacing: "-0.04em",
           color: C.cyan,
-          marginTop: 10,
+          marginTop: 14,
           opacity: Math.max(0, Math.min(1, b)),
           transform: `translateY(${(1 - b) * 34}px)`,
+          textAlign: "center",
         }}
       >
         200 milliseconds.
@@ -106,10 +110,11 @@ const HookScene: React.FC = () => {
       <div
         style={{
           fontFamily: F.sans,
-          fontSize: 36,
+          fontSize: 34,
           color: C.dim,
-          marginTop: 30,
+          marginTop: 34,
           opacity: c,
+          textAlign: "center",
         }}
       >
         That is the entire budget your computer has to make the page appear.
@@ -135,8 +140,8 @@ const NameVsNumber: React.FC = () => {
   ) => (
     <div
       style={{
-        width: 620,
-        height: 260,
+        width: 900,
+        height: 240,
         borderRadius: 18,
         backgroundColor: C.panel,
         border: `1px solid ${opacity > 0.5 ? color : C.panelEdge}`,
@@ -154,7 +159,7 @@ const NameVsNumber: React.FC = () => {
       <div style={{ fontFamily: F.mono, fontSize: 15, letterSpacing: "0.24em", color: C.faint }}>
         {label}
       </div>
-      <div style={{ fontFamily: F.mono, fontSize: 46, color, letterSpacing: "-0.01em" }}>{value}</div>
+      <div style={{ fontFamily: F.mono, fontSize: 44, color, letterSpacing: "-0.01em" }}>{value}</div>
       {label === "A NAME" ? (
         <div
           style={{
@@ -168,7 +173,7 @@ const NameVsNumber: React.FC = () => {
         >
           <div
             style={{
-              width: 660,
+              width: 900,
               height: 2,
               backgroundColor: C.red,
               transform: `rotate(-14deg) scaleX(${cross})`,
@@ -182,12 +187,12 @@ const NameVsNumber: React.FC = () => {
 
   return (
     <Stage caption="Your computer cannot use a name. It needs a number.">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 46 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 30 }}>
         {card("A NAME", "example.com", C.text, left, (1 - left) * 30)}
         <div
           style={{
             fontFamily: F.mono,
-            fontSize: 44,
+            fontSize: 42,
             color: C.violet,
             opacity: arrow,
             transform: `translateX(${(1 - arrow) * -20}px)`,
@@ -202,7 +207,7 @@ const NameVsNumber: React.FC = () => {
           textAlign: "center",
           marginTop: 54,
           fontFamily: F.sans,
-          fontSize: 34,
+          fontSize: 32,
           color: C.dim,
           opacity: cross,
         }}
@@ -227,8 +232,8 @@ const ResolverScene: React.FC = () => {
   const node = (title: string, sub: string, opacity: number, color: string) => (
     <div
       style={{
-        width: 420,
-        height: 190,
+        width: 860,
+        height: 170,
         borderRadius: 16,
         backgroundColor: C.panel,
         border: `1px solid ${C.panelEdge}`,
@@ -241,21 +246,21 @@ const ResolverScene: React.FC = () => {
       }}
     >
       <div style={{ fontFamily: F.mono, fontSize: 24, letterSpacing: "0.12em", color }}>{title}</div>
-      <div style={{ fontFamily: F.mono, fontSize: 15, color: C.faint }}>{sub}</div>
+      <div style={{ fontFamily: F.mono, fontSize: 14, color: C.faint }}>{sub}</div>
     </div>
   );
 
   return (
     <Stage caption="It asks one machine — a resolver. Usually your ISP runs it.">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 120 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
         {node("YOUR COMPUTER", "knows nothing yet", you, C.text)}
-        <div style={{ position: "relative", width: 300, height: 80 }}>
-          <div style={{ position: "absolute", top: 39, left: 0, right: 0, height: 1, backgroundColor: C.panelEdge }} />
+        <div style={{ position: "relative", width: 900, height: 60 }}>
+          <div style={{ position: "absolute", top: 29, left: 0, right: 0, height: 1, backgroundColor: C.panelEdge }} />
           <div
             style={{
               position: "absolute",
-              top: 20,
-              left: travel * 250,
+              top: 10,
+              left: travel * 800,
               width: 40,
               height: 40,
               borderRadius: 40,
@@ -267,7 +272,7 @@ const ResolverScene: React.FC = () => {
           <div
             style={{
               position: "absolute",
-              top: -34,
+              top: -42,
               left: 40,
               fontFamily: F.mono,
               fontSize: 16,
@@ -303,15 +308,15 @@ const ChainScene: React.FC = () => {
 
   return (
     <Stage caption="Three questions. Each one is a round trip across the network.">
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
         {CHAIN.map((n, i) => {
           const s = spring({ frame: frame - i * 10, fps, config: { damping: 200 } });
           const active = progress >= i - 0.05;
           return (
-            <div key={n.t} style={{ width: 320, opacity: s }}>
+            <div key={n.t} style={{ width: 900, opacity: s }}>
               <div
                 style={{
-                  height: 170,
+                  height: 150,
                   borderRadius: 16,
                   backgroundColor: C.panel,
                   border: `1px solid ${active ? "rgba(34,211,238,0.6)" : C.panelEdge}`,
@@ -341,7 +346,7 @@ const ChainScene: React.FC = () => {
               </div>
               <div
                 style={{
-                  marginTop: 14,
+                  marginTop: 10,
                   height: 3,
                   width: "100%",
                   backgroundColor: active ? C.cyan : "#1B1E28",
@@ -350,7 +355,7 @@ const ChainScene: React.FC = () => {
               />
               <div
                 style={{
-                  marginTop: 14,
+                  marginTop: 10,
                   fontFamily: F.mono,
                   fontSize: 15,
                   letterSpacing: "0.18em",
@@ -395,7 +400,7 @@ const AnswerScene: React.FC = () => {
           justifyContent: "center",
           alignItems: "baseline",
           gap: 10,
-          marginTop: 22,
+          marginTop: 26,
         }}
       >
         {parts.map((p, i) => {
@@ -405,7 +410,7 @@ const AnswerScene: React.FC = () => {
               <span
                 style={{
                   fontFamily: F.mono,
-                  fontSize: 132,
+                  fontSize: 124,
                   color: C.cyan,
                   opacity: Math.max(0, Math.min(1, s)),
                   transform: `translateY(${(1 - s) * 30}px)`,
@@ -416,7 +421,7 @@ const AnswerScene: React.FC = () => {
                 {p}
               </span>
               {i < 3 ? (
-                <span style={{ fontFamily: F.mono, fontSize: 110, color: C.faint }}>.</span>
+                <span style={{ fontFamily: F.mono, fontSize: 100, color: C.faint }}>.</span>
               ) : null}
             </React.Fragment>
           );
@@ -427,7 +432,7 @@ const AnswerScene: React.FC = () => {
           textAlign: "center",
           marginTop: 26,
           fontFamily: F.sans,
-          fontSize: 32,
+          fontSize: 30,
           color: C.dim,
           opacity: label,
         }}
@@ -452,9 +457,9 @@ const CacheScene: React.FC = () => {
   const note = spring({ frame: frame - 100, fps, config: { damping: 200 } });
 
   const row = (label: string, value: string, w: number, color: string, opacity: number) => (
-    <div style={{ display: "flex", alignItems: "center", gap: 26, opacity }}>
-      <div style={{ width: 260, fontFamily: F.mono, fontSize: 19, color: C.dim, textAlign: "right" }}>{label}</div>
-      <div style={{ width: 900, height: 46, backgroundColor: "#14161F", borderRadius: 8, overflow: "hidden" }}>
+    <div style={{ width: 900, display: "flex", alignItems: "center", gap: 24, opacity }}>
+      <div style={{ width: 260, fontFamily: F.mono, fontSize: 18, color: C.dim, textAlign: "right" }}>{label}</div>
+      <div style={{ width: 480, height: 44, backgroundColor: "#14161F", borderRadius: 8, overflow: "hidden" }}>
         <div
           style={{
             width: `${w * 100}%`,
@@ -464,13 +469,13 @@ const CacheScene: React.FC = () => {
           }}
         />
       </div>
-      <div style={{ width: 150, fontFamily: F.mono, fontSize: 19, color, textAlign: "left" }}>{value}</div>
+      <div style={{ width: 120, fontFamily: F.mono, fontSize: 18, color, textAlign: "left" }}>{value}</div>
     </div>
   );
 
   return (
     <Stage caption="The answer gets remembered — so the next lookup is instant.">
-      <div style={{ display: "flex", flexDirection: "column", gap: 30 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
         {row("first lookup", "40 ms", first * 0.95, C.amber, 1)}
         {row("second lookup", "0 ms", Math.max(0.012, second * 0.02), C.green, second > 0 ? 1 : 0.25)}
       </div>
@@ -478,7 +483,7 @@ const CacheScene: React.FC = () => {
         style={{
           marginTop: 52,
           fontFamily: F.sans,
-          fontSize: 34,
+          fontSize: 32,
           color: C.dim,
           opacity: note,
           textAlign: "center",
@@ -502,18 +507,19 @@ const BudgetScene: React.FC = () => {
 
   return (
     <Stage caption="We are 20% through the budget, and nothing has connected yet.">
-      <div style={{ fontFamily: F.mono, fontSize: 17, letterSpacing: "0.24em", color: C.dim }}>
+      <div style={{ width: 900, fontFamily: F.mono, fontSize: 16, letterSpacing: "0.24em", color: C.dim }}>
         200 ms BUDGET
       </div>
       <div
         style={{
           marginTop: 18,
-          height: 74,
+          height: 70,
           borderRadius: 10,
           backgroundColor: "#14161F",
           border: `1px solid ${C.panelEdge}`,
           overflow: "hidden",
           position: "relative",
+          width: 900,
         }}
       >
         <div
@@ -535,7 +541,7 @@ const BudgetScene: React.FC = () => {
           }}
         />
       </div>
-      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 12, fontFamily: F.mono, fontSize: 16, color: C.faint }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginTop: 12, fontFamily: F.mono, fontSize: 15, color: C.faint }}>
         <span>0 ms</span>
         <span>100 ms</span>
         <span>200 ms</span>
@@ -544,9 +550,10 @@ const BudgetScene: React.FC = () => {
         style={{
           marginTop: 44,
           fontFamily: F.sans,
-          fontSize: 40,
+          fontSize: 36,
           color: C.text,
           opacity: n,
+          textAlign: "center",
         }}
       >
         40 ms spent. <span style={{ color: C.cyan }}>3 round trips.</span> Still no connection.
@@ -561,24 +568,24 @@ const RecapScene: React.FC = () => {
   const steps = ["Find the address", "Open a connection", "Prove it is safe", "Ask for the page", "Draw it on screen"];
   return (
     <Stage caption="We have only finished the first of five steps.">
-      <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div style={{ width: 900, display: "flex", flexDirection: "column", gap: 16 }}>
         {steps.map((s, i) => {
           const a = spring({ frame: frame - i * 14, fps, config: { damping: 200 } });
           const done = i === 0;
           return (
-            <div key={s} style={{ display: "flex", alignItems: "center", gap: 22, opacity: a }}>
+            <div key={s} style={{ display: "flex", alignItems: "center", gap: 20, opacity: a }}>
               <div
                 style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 44,
+                  width: 40,
+                  height: 40,
+                  borderRadius: 40,
                   border: `1px solid ${done ? C.cyan : C.panelEdge}`,
                   backgroundColor: done ? "rgba(34,211,238,0.14)" : "transparent",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   fontFamily: F.mono,
-                  fontSize: 18,
+                  fontSize: 16,
                   color: done ? C.cyan : C.faint,
                 }}
               >
@@ -587,7 +594,7 @@ const RecapScene: React.FC = () => {
               <div
                 style={{
                   fontFamily: F.sans,
-                  fontSize: 40,
+                  fontSize: 36,
                   color: done ? C.text : C.faint,
                   letterSpacing: "-0.02em",
                 }}
@@ -613,10 +620,11 @@ const EndCard: React.FC = () => {
         style={{
           fontFamily: F.sans,
           fontWeight: 800,
-          fontSize: 96,
+          fontSize: 90,
           letterSpacing: "-0.04em",
           color: C.text,
           opacity: a,
+          textAlign: "center",
         }}
       >
         Next: opening the connection.
@@ -625,10 +633,11 @@ const EndCard: React.FC = () => {
         style={{
           marginTop: 26,
           fontFamily: F.mono,
-          fontSize: 24,
+          fontSize: 22,
           letterSpacing: "0.2em",
           color: C.dim,
           opacity: b,
+          textAlign: "center",
         }}
       >
         THREE PACKETS · ONE ROUND TRIP

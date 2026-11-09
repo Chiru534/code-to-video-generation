@@ -21,32 +21,32 @@ export const RemotionRoot: React.FC = () => {
         component={QualityProbe}
         durationInFrames={450}
         fps={30}
-        width={1920}
-        height={1080}
+        width={1080}
+        height={1920}
       />
       <Composition
         id="FindingTheAddress"
         component={DnsEpisode}
         durationInFrames={DNS_DURATION}
         fps={30}
-        width={1920}
-        height={1080}
+        width={1080}
+        height={1920}
       />
       <Composition
         id="TheHandshake"
         component={HandshakeEpisode}
         durationInFrames={HANDSHAKE_DURATION}
         fps={30}
-        width={1920}
-        height={1080}
+        width={1080}
+        height={1920}
       />
       <Composition
         id="ProvingItsSafe"
         component={TlsEpisode}
         durationInFrames={TLS_DURATION}
         fps={30}
-        width={1920}
-        height={1080}
+        width={1080}
+        height={1920}
       />
     </>
   );

@@ -15,8 +15,8 @@ import { Backdrop, Kicker, Stage, Watermark, wobble } from "../chrome";
 import timings from "./timings.json";
 
 const ease = Easing.bezier(0.22, 1, 0.36, 1);
-
 const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
+const CENTER_X = 540;
 
 /* ---------------- primitives ---------------- */
 
@@ -25,12 +25,11 @@ const Node: React.FC<{
   sub: string;
   accent?: string;
   opacity?: number;
-  width?: number;
-}> = ({ title, sub, accent = C.text, opacity = 1, width = 440 }) => (
+}> = ({ title, sub, accent = C.text, opacity = 1 }) => (
   <div
     style={{
-      width,
-      padding: "34px 0",
+      width: 860,
+      padding: "30px 0",
       borderRadius: 16,
       backgroundColor: C.panel,
       border: `1px solid ${C.panelEdge}`,
@@ -44,7 +43,7 @@ const Node: React.FC<{
     <div style={{ fontFamily: F.mono, fontSize: 24, letterSpacing: "0.12em", color: accent }}>
       {title}
     </div>
-    <div style={{ fontFamily: F.mono, fontSize: 16, color: C.faint }}>{sub}</div>
+    <div style={{ fontFamily: F.mono, fontSize: 15, color: C.faint }}>{sub}</div>
   </div>
 );
 
@@ -76,15 +75,13 @@ const Card: React.FC<{
   rows: { k: string; v: string }[];
   color: string;
   lit?: number;
-  width?: number;
-}> = ({ head, rows, color, lit = 1, width = 470 }) => {
+}> = ({ head, rows, color, lit = 1 }) => {
   const frame = useCurrentFrame();
-  // Slow glow so a card parked on screen never reads as a frozen frame.
   const pulse = 0.5 + 0.5 * Math.sin(frame / 18);
   return (
     <div
       style={{
-        width,
+        width: 860,
         borderRadius: 14,
         backgroundColor: "rgba(18,20,28,0.96)",
         border: `1px solid ${color}`,
@@ -99,8 +96,8 @@ const Card: React.FC<{
       <div style={{ fontFamily: F.mono, fontSize: 16, letterSpacing: "0.26em", color }}>{head}</div>
       {rows.map((r, i) => (
         <div key={r.k} style={{ display: "flex", justifyContent: "space-between", gap: 24 }}>
-          <span style={{ fontFamily: F.mono, fontSize: 19, color: C.dim }}>{r.k}</span>
-          <span style={{ fontFamily: F.mono, fontSize: 24, color: i === 0 ? C.text : color }}>
+          <span style={{ fontFamily: F.mono, fontSize: 18, color: C.dim }}>{r.k}</span>
+          <span style={{ fontFamily: F.mono, fontSize: 22, color: i === 0 ? C.text : color }}>
             {r.v}
           </span>
         </div>
@@ -119,7 +116,7 @@ const TitleScene: React.FC = () => {
   return (
     <Stage>
       <Kicker text="EPISODE 02 · STEP 2 OF 5" />
-      <div style={{ display: "flex", marginTop: 30, gap: 24 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
         {words.map((w, i) => {
           const s = spring({
             frame: frame - 6 - i * 6,
@@ -132,7 +129,7 @@ const TitleScene: React.FC = () => {
               style={{
                 fontFamily: F.sans,
                 fontWeight: 800,
-                fontSize: 138,
+                fontSize: 128,
                 letterSpacing: "-0.045em",
                 lineHeight: 1,
                 color: i === 1 ? C.cyan : C.text,
@@ -146,16 +143,17 @@ const TitleScene: React.FC = () => {
           );
         })}
       </div>
-      <div style={{ display: "flex", gap: 18, marginTop: 40, opacity: chip }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, marginTop: 44, opacity: chip }}>
         <div
           style={{
             fontFamily: F.mono,
-            fontSize: 20,
+            fontSize: 18,
             color: C.green,
             border: `1px solid ${C.green}55`,
             backgroundColor: `${C.green}12`,
             borderRadius: 10,
             padding: "10px 18px",
+            textAlign: "center",
           }}
         >
           address ✓ 93.184.216.34
@@ -163,12 +161,13 @@ const TitleScene: React.FC = () => {
         <div
           style={{
             fontFamily: F.mono,
-            fontSize: 20,
+            fontSize: 18,
             color: C.red,
             border: `1px solid ${C.red}55`,
             backgroundColor: `${C.red}12`,
             borderRadius: 10,
             padding: "10px 18px",
+            textAlign: "center",
           }}
         >
           connection ✗ none
@@ -190,26 +189,26 @@ const GapScene: React.FC = () => {
   });
   return (
     <Stage caption="Two machines. Two addresses. Nothing agreed between them.">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
         <Node title="YOUR COMPUTER" sub="knows the address" opacity={a} />
-        <div style={{ position: "relative", width: 420, height: 120 }}>
-          <div style={{ position: "absolute", top: 59, left: 0, width: "100%" }}>
-            <Line width={420} dashed color="#2A2E3B" />
+        <div style={{ position: "relative", width: 900, height: 100 }}>
+          <div style={{ position: "absolute", top: 49, left: 0, width: "100%" }}>
+            <Line width={900} dashed color="#2A2E3B" />
           </div>
           <div
             style={{
               position: "absolute",
-              top: 40,
-              left: 10 + travel * 300,
-              height: 38,
+              top: 30,
+              left: 10 + travel * 780,
+              height: 34,
               padding: "0 16px",
-              borderRadius: 38,
+              borderRadius: 34,
               border: `1px solid ${C.violet}80`,
               backgroundColor: "rgba(167,139,250,0.14)",
               display: "flex",
               alignItems: "center",
               fontFamily: F.mono,
-              fontSize: 18,
+              fontSize: 16,
               color: C.violet,
               opacity: travel > 0.02 && travel < 0.99 ? 1 : 0,
               transform: `translateY(${Math.sin(frame / 8) * 3}px)`,
@@ -220,12 +219,12 @@ const GapScene: React.FC = () => {
           <div
             style={{
               position: "absolute",
-              top: 96,
+              top: 84,
               left: 0,
               width: "100%",
               textAlign: "center",
               fontFamily: F.mono,
-              fontSize: 15,
+              fontSize: 14,
               letterSpacing: "0.2em",
               color: C.faint,
               opacity: 0.8,
@@ -242,7 +241,7 @@ const GapScene: React.FC = () => {
 
 const UnreliableScene: React.FC = () => {
   const frame = useCurrentFrame();
-  const W = 1560;
+  const W = 900;
   const packets = [
     { label: "1", kind: "ok" },
     { label: "2", kind: "lost" },
@@ -253,17 +252,17 @@ const UnreliableScene: React.FC = () => {
   const CYCLE = 150;
   return (
     <Stage caption="Packets get lost, arrive twice, or arrive out of order.">
-      <div style={{ position: "relative", height: 340, width: W }}>
-        <div style={{ position: "absolute", top: 168, left: 0, width: W }}>
+      <div style={{ position: "relative", height: 420, width: W }}>
+        <div style={{ position: "absolute", top: 150, left: 0, width: W }}>
           <Line width={W} dashed color="#2A2E3B" />
         </div>
         {packets.map((pkt, i) => {
           const phase = ((frame + i * 30) % CYCLE) / CYCLE;
-          const x = phase * (W - 110);
+          const x = phase * (W - 104);
           const lost = pkt.kind === "lost";
           const dup = pkt.kind === "dup";
           const dropped = lost ? clamp01((phase - 0.42) / 0.26) : 0;
-          const top = 132 - (dup ? 70 : 0) + dropped * 74;
+          const top = 110 - (dup ? 60 : 0) + dropped * 64;
           const color = lost ? C.red : dup ? C.violet : C.cyan;
           return (
             <div
@@ -272,8 +271,8 @@ const UnreliableScene: React.FC = () => {
                 position: "absolute",
                 top,
                 left: x,
-                width: 104,
-                height: 72,
+                width: 96,
+                height: 64,
                 borderRadius: 10,
                 backgroundColor: `${color}1F`,
                 border: `1px solid ${color}`,
@@ -281,7 +280,7 @@ const UnreliableScene: React.FC = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 fontFamily: F.mono,
-                fontSize: 26,
+                fontSize: 24,
                 color,
                 opacity: lost ? clamp01(1 - dropped * 1.1) : 1,
                 transform: `rotate(${lost ? -dropped * 16 : 0}deg)`,
@@ -297,9 +296,11 @@ const UnreliableScene: React.FC = () => {
             bottom: 4,
             left: 0,
             display: "flex",
-            gap: 26,
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 10,
             fontFamily: F.mono,
-            fontSize: 17,
+            fontSize: 16,
             letterSpacing: "0.16em",
           }}
         >
@@ -338,16 +339,16 @@ const SynScene: React.FC = () => {
 
   return (
     <Stage caption="Syn. One packet, carrying a random starting number.">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40 }}>
-        <Node title="CLIENT" sub="chooses a number" opacity={a} width={400} />
-        <div style={{ position: "relative", width: 700, height: 200 }}>
-          <div style={{ position: "absolute", top: 99, left: 0, width: 700 }}>
-            <Line width={700} color="#2A2E3B" />
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
+        <Node title="CLIENT" sub="chooses a number" opacity={a} />
+        <div style={{ position: "relative", width: 900, height: 180 }}>
+          <div style={{ position: "absolute", top: 89, left: 0, width: 900 }}>
+            <Line width={900} color="#2A2E3B" />
           </div>
           <div
             style={{
               position: "absolute",
-              top: 62,
+              top: 52,
               left: interpolate(p, [0, 1], [0, 300]),
             }}
           >
@@ -361,14 +362,14 @@ const SynScene: React.FC = () => {
             />
           </div>
         </div>
-        <Node title="SERVER" sub="not yet listening to you" opacity={b} width={400} />
+        <Node title="SERVER" sub="not yet listening to you" opacity={b} />
       </div>
       <div
         style={{
           textAlign: "center",
           marginTop: 26,
           fontFamily: F.mono,
-          fontSize: 18,
+          fontSize: 16,
           color: C.dim,
           opacity: clamp01((frame - 90) / 20),
         }}
@@ -392,16 +393,16 @@ const SynAckScene: React.FC = () => {
 
   return (
     <Stage caption="Syn, ack. I hear you — and here is my number.">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40 }}>
-        <Node title="CLIENT" sub="seq 1000 sent" width={400} />
-        <div style={{ position: "relative", width: 700, height: 210 }}>
-          <div style={{ position: "absolute", top: 104, left: 0, width: 700 }}>
-            <Line width={700} color="#2A2E3B" />
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
+        <Node title="CLIENT" sub="seq 1000 sent" />
+        <div style={{ position: "relative", width: 900, height: 190 }}>
+          <div style={{ position: "absolute", top: 94, left: 0, width: 900 }}>
+            <Line width={900} color="#2A2E3B" />
           </div>
           <div
             style={{
               position: "absolute",
-              top: 64,
+              top: 54,
               left: interpolate(p, [0, 1], [300, 0]),
             }}
           >
@@ -415,14 +416,14 @@ const SynAckScene: React.FC = () => {
             />
           </div>
         </div>
-        <Node title="SERVER" sub="picks its own number" opacity={1} width={400} />
+        <Node title="SERVER" sub="picks its own number" opacity={1} />
       </div>
       <div
         style={{
           textAlign: "center",
           marginTop: 24,
           fontFamily: F.mono,
-          fontSize: 20,
+          fontSize: 18,
           color: C.dim,
           opacity: echo,
         }}
@@ -448,35 +449,44 @@ const AckScene: React.FC = () => {
 
   return (
     <Stage caption="Three packets. One round trip. Both directions proven.">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 36 }}>
-        <Node title="CLIENT" sub="can send ✓" accent={up > 0.5 ? C.green : C.text} width={380} />
-        <div style={{ position: "relative", width: 760, height: 320 }}>
-          <div style={{ position: "absolute", top: 96, left: 0 }}>
-            <Line width={760} color={accentA} />
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
+        <Node title="CLIENT" sub="can send ✓" accent={up > 0.5 ? C.green : C.text} />
+        <div style={{ position: "relative", width: 900, height: 300 }}>
+          <div style={{ position: "absolute", top: 86, left: 0 }}>
+            <Line width={900} color={accentA} />
           </div>
           <div
             style={{
               position: "absolute",
-              top: 26,
+              top: 16,
               left: 0,
               fontFamily: F.mono,
-              fontSize: 16,
+              fontSize: 14,
               letterSpacing: "0.18em",
               color: up > 0.5 ? C.green : C.dim,
             }}
           >
             CLIENT → SERVER
           </div>
-          <div style={{ position: "absolute", top: 82, right: 34, fontFamily: F.mono, fontSize: 24, color: accentA }}>
+          <div
+            style={{
+              position: "absolute",
+              top: 72,
+              right: 34,
+              fontFamily: F.mono,
+              fontSize: 22,
+              color: accentA,
+            }}
+          >
             ▶
           </div>
           <div
             style={{
               position: "absolute",
-              top: 82,
+              top: 72,
               right: 2,
               fontFamily: F.mono,
-              fontSize: 26,
+              fontSize: 24,
               color: C.green,
               opacity: up * pulse,
             }}
@@ -484,32 +494,32 @@ const AckScene: React.FC = () => {
             ✓
           </div>
 
-          <div style={{ position: "absolute", top: 232, left: 0 }}>
-            <Line width={760} color={accentB} />
+          <div style={{ position: "absolute", top: 222, left: 0 }}>
+            <Line width={900} color={accentB} />
           </div>
           <div
             style={{
               position: "absolute",
-              top: 192,
+              top: 182,
               left: 0,
               fontFamily: F.mono,
-              fontSize: 16,
+              fontSize: 14,
               letterSpacing: "0.18em",
               color: down > 0.5 ? C.green : C.dim,
             }}
           >
             SERVER → CLIENT
           </div>
-          <div style={{ position: "absolute", top: 218, left: 34, fontFamily: F.mono, fontSize: 24, color: accentB }}>
+          <div style={{ position: "absolute", top: 208, left: 34, fontFamily: F.mono, fontSize: 22, color: accentB }}>
             ◀
           </div>
           <div
             style={{
               position: "absolute",
-              top: 218,
+              top: 208,
               left: 2,
               fontFamily: F.mono,
-              fontSize: 26,
+              fontSize: 24,
               color: C.green,
               opacity: down * pulse,
             }}
@@ -520,21 +530,21 @@ const AckScene: React.FC = () => {
           <div
             style={{
               position: "absolute",
-              top: 62,
+              top: 52,
               left: interpolate(p, [0, 1], [0, 560]),
               padding: "10px 20px",
               borderRadius: 10,
               border: `1px solid ${C.green}`,
               backgroundColor: "rgba(52,211,153,0.14)",
               fontFamily: F.mono,
-              fontSize: 20,
+              fontSize: 18,
               color: C.green,
             }}
           >
             ACK 5001
           </div>
         </div>
-        <Node title="SERVER" sub="can send ✓" accent={down > 0.5 ? C.green : C.text} width={380} />
+        <Node title="SERVER" sub="can send ✓" accent={down > 0.5 ? C.green : C.text} />
       </div>
       <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 34 }}>
         {["1 SYN", "2 SYN-ACK", "3 ACK"].map((label, i) => {
@@ -544,7 +554,7 @@ const AckScene: React.FC = () => {
               key={label}
               style={{
                 fontFamily: F.mono,
-                fontSize: 18,
+                fontSize: 16,
                 letterSpacing: "0.12em",
                 color: on > 0.5 ? C.green : C.faint,
                 border: `1px solid ${on > 0.5 ? C.green + "66" : C.panelEdge}`,
@@ -581,9 +591,11 @@ const WhyThreeScene: React.FC = () => {
   ) => (
     <div
       style={{
+        width: 900,
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
-        gap: 28,
+        gap: 20,
         opacity,
         padding: "22px 30px",
         borderRadius: 14,
@@ -591,18 +603,18 @@ const WhyThreeScene: React.FC = () => {
         backgroundColor: C.panel,
       }}
     >
-      <div style={{ width: 300 }}>
+      <div style={{ width: 260 }}>
         <div style={{ fontFamily: F.mono, fontSize: 20, letterSpacing: "0.14em", color: C.text }}>
           {label}
         </div>
-        <div style={{ fontFamily: F.mono, fontSize: 15, color: C.faint, marginTop: 6 }}>{sub}</div>
+        <div style={{ fontFamily: F.mono, fontSize: 14, color: C.faint, marginTop: 6 }}>{sub}</div>
       </div>
-      <div style={{ position: "relative", width: 760, height: 96 }}>
-        <div style={{ position: "absolute", top: 24, left: 0, width: 760 }}>
-          <Line width={760} color="#2A2E3B" />
+      <div style={{ width: 900, position: "relative", height: 86 }}>
+        <div style={{ position: "absolute", top: 24, left: 0, width: 900 }}>
+          <Line width={900} color="#2A2E3B" />
         </div>
-        <div style={{ position: "absolute", top: 70, left: 0, width: 760 }}>
-          <Line width={760} dashed color="#2A2E3B" />
+        <div style={{ position: "absolute", top: 60, left: 0, width: 900 }}>
+          <Line width={900} dashed color="#2A2E3B" />
         </div>
         <div
           style={{
@@ -610,7 +622,7 @@ const WhyThreeScene: React.FC = () => {
             top: 4,
             left: 0,
             fontFamily: F.mono,
-            fontSize: 16,
+            fontSize: 14,
             color: C.cyan,
           }}
         >
@@ -619,10 +631,10 @@ const WhyThreeScene: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            top: 78,
+            top: 68,
             left: 0,
             fontFamily: F.mono,
-            fontSize: 16,
+            fontSize: 14,
             color: rightColor,
           }}
         >
@@ -632,10 +644,10 @@ const WhyThreeScene: React.FC = () => {
           <div
             style={{
               position: "absolute",
-              top: 52,
+              top: 42,
               right: 10,
               fontFamily: F.mono,
-              fontSize: 30,
+              fontSize: 26,
               color: C.red,
               opacity: cross,
             }}
@@ -645,10 +657,10 @@ const WhyThreeScene: React.FC = () => {
         ) : null}
         {showTicks ? (
           <>
-            <div style={{ position: "absolute", top: 2, right: 6, fontFamily: F.mono, fontSize: 24, color: C.green }}>
+            <div style={{ position: "absolute", top: 2, right: 6, fontFamily: F.mono, fontSize: 22, color: C.green }}>
               ✓
             </div>
-            <div style={{ position: "absolute", top: 76, right: 6, fontFamily: F.mono, fontSize: 24, color: C.green }}>
+            <div style={{ position: "absolute", top: 66, right: 6, fontFamily: F.mono, fontSize: 22, color: C.green }}>
               ✓
             </div>
           </>
@@ -659,7 +671,7 @@ const WhyThreeScene: React.FC = () => {
 
   return (
     <Stage caption="Two packets would leave one direction untested.">
-      <div style={{ display: "flex", flexDirection: "column", gap: 26 }}>
+      <div style={{ width: 900, display: "flex", flexDirection: "column", gap: 20 }}>
         {panel("TWO PACKETS", "reverse path never tested", two, "SYN", "no answer", C.red, true, false)}
         {panel("THREE PACKETS", "both paths confirmed", three, "SYN", "SYN-ACK · ACK", C.green, false, true)}
       </div>
@@ -685,24 +697,25 @@ const BudgetScene: React.FC = () => {
 
   return (
     <Stage caption="Seventy of two hundred milliseconds, spent on saying hello.">
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
-        <div style={{ fontFamily: F.mono, fontSize: 17, letterSpacing: "0.24em", color: C.dim }}>
+      <div style={{ width: 900, display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+        <div style={{ fontFamily: F.mono, fontSize: 15, letterSpacing: "0.24em", color: C.dim }}>
           200 ms BUDGET
         </div>
-        <div style={{ fontFamily: F.mono, fontSize: 44, color: C.text, opacity: num }}>
+        <div style={{ fontFamily: F.mono, fontSize: 40, color: C.text, opacity: num }}>
           {pct}%
         </div>
       </div>
       <div
         style={{
           marginTop: 18,
-          height: 84,
+          height: 74,
           borderRadius: 10,
           backgroundColor: "#14161F",
           border: `1px solid ${C.panelEdge}`,
           overflow: "hidden",
           display: "flex",
           position: "relative",
+          width: 900,
         }}
       >
         <div
@@ -738,8 +751,9 @@ const BudgetScene: React.FC = () => {
           justifyContent: "space-between",
           marginTop: 12,
           fontFamily: F.mono,
-          fontSize: 15,
+          fontSize: 14,
           color: C.faint,
+          width: 900,
         }}
       >
         <span>0 ms · start</span>
@@ -747,36 +761,34 @@ const BudgetScene: React.FC = () => {
         <span style={{ color: C.amber }}>70 ms · connection</span>
         <span>200 ms</span>
       </div>
-      <div style={{ display: "flex", gap: 40, marginTop: 40, opacity: num }}>
-        <div>
-          <div style={{ fontFamily: F.mono, fontSize: 15, letterSpacing: "0.2em", color: C.cyan }}>
+      <div style={{ width: 900, display: "flex", gap: 30, marginTop: 40, opacity: num }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontFamily: F.mono, fontSize: 14, letterSpacing: "0.2em", color: C.cyan }}>
             DNS
           </div>
-          <div style={{ fontFamily: F.mono, fontSize: 32, color: C.text }}>40 ms</div>
+          <div style={{ fontFamily: F.mono, fontSize: 28, color: C.text }}>40 ms</div>
         </div>
-        <div>
-          <div style={{ fontFamily: F.mono, fontSize: 15, letterSpacing: "0.2em", color: C.amber }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontFamily: F.mono, fontSize: 14, letterSpacing: "0.2em", color: C.amber }}>
             TCP HANDSHAKE
           </div>
-          <div style={{ fontFamily: F.mono, fontSize: 32, color: C.text }}>30 ms</div>
+          <div style={{ fontFamily: F.mono, fontSize: 28, color: C.text }}>30 ms</div>
         </div>
-        <div>
-          <div style={{ fontFamily: F.mono, fontSize: 15, letterSpacing: "0.2em", color: C.faint }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontFamily: F.mono, fontSize: 14, letterSpacing: "0.2em", color: C.faint }}>
             REMAINING
           </div>
-          <div style={{ fontFamily: F.mono, fontSize: 32, color: C.faint }}>130 ms</div>
+          <div style={{ fontFamily: F.mono, fontSize: 28, color: C.faint }}>130 ms</div>
         </div>
       </div>
     </Stage>
   );
 };
 
-const HOP_X = [0, 453, 906, 1360];
-
 const PlaintextScene: React.FC = () => {
   const frame = useCurrentFrame();
-  const W = 1680;
-  const centers = [160, 613, 1066, 1520];
+  const W = 900;
+  const centers = [120, 270, 420, 570, 780];
   const CYCLE = 220;
   const p = (frame % CYCLE) / CYCLE;
   const travel = interpolate(p, [0.12, 0.92], [0, 1], {
@@ -784,18 +796,18 @@ const PlaintextScene: React.FC = () => {
     extrapolateRight: "clamp",
     easing: ease,
   });
-  const cx = interpolate(travel, [0, 1], [centers[0], centers[3]]);
-  const reading = clamp01((1 - Math.abs(cx - centers[2]) / 240) * 1.6);
+  const cx = interpolate(travel, [0, 1], [centers[0], centers[4]]);
+  const reading = clamp01((1 - Math.abs(cx - centers[2]) / 200) * 1.6);
 
   const hop = (label: string, i: number) => (
     <div
       key={label}
       style={{
         position: "absolute",
-        left: HOP_X[i],
-        top: 330,
-        width: 320,
-        height: 96,
+        left: centers[i] - 60,
+        top: 240,
+        width: 120,
+        height: 80,
         borderRadius: 12,
         border: `1px solid ${i === 2 && reading > 0.3 ? C.red + "66" : C.panelEdge}`,
         backgroundColor: C.panel,
@@ -803,7 +815,7 @@ const PlaintextScene: React.FC = () => {
         alignItems: "center",
         justifyContent: "center",
         fontFamily: F.mono,
-        fontSize: 20,
+        fontSize: 16,
         letterSpacing: "0.16em",
         color: i === 2 && reading > 0.3 ? C.red : C.dim,
       }}
@@ -814,31 +826,31 @@ const PlaintextScene: React.FC = () => {
 
   return (
     <Stage caption="Plain text. Every machine on the path can read it.">
-      <div style={{ position: "relative", height: 470, width: W }}>
+      <div style={{ position: "relative", height: 420, width: W }}>
         <div
           style={{
             position: "absolute",
-            top: 250,
-            left: centers[0],
-            width: centers[3] - centers[0],
+            top: 220,
+            left: 40,
+            width: W - 80,
           }}
         >
-          <Line width={centers[3] - centers[0]} color="#2A2E3B" />
+          <Line width={W - 80} color="#2A2E3B" />
         </div>
-        {["YOU", "ROUTER", "ISP", "SERVER"].map(hop)}
+        {["YOU", "ROUTER", "ISP", "IXP", "SERVER"].map(hop)}
         <div
           style={{
             position: "absolute",
-            top: 190,
-            left: cx - 150,
-            width: 300,
+            top: 160,
+            left: cx - 130,
+            width: 260,
             borderRadius: 12,
             border: `1px solid ${reading > 0.35 ? C.red : C.cyan}`,
             backgroundColor: "rgba(14,16,23,0.97)",
             boxShadow: `0 0 ${26 + reading * 60}px rgba(251,113,133,${0.12 + reading * 0.55})`,
-            padding: "16px 20px",
+            padding: "14px 18px",
             fontFamily: F.mono,
-            fontSize: 16,
+            fontSize: 14,
             color: reading > 0.35 ? C.red : C.text,
             lineHeight: 1.6,
           }}
@@ -850,12 +862,12 @@ const PlaintextScene: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            top: 140,
-            left: centers[2] - 90,
-            width: 180,
+            top: 120,
+            left: centers[2] - 80,
+            width: 160,
             textAlign: "center",
             fontFamily: F.mono,
-            fontSize: 16,
+            fontSize: 14,
             letterSpacing: "0.2em",
             color: C.red,
             opacity: reading,
@@ -867,7 +879,7 @@ const PlaintextScene: React.FC = () => {
           style={{
             position: "absolute",
             inset: 0,
-            background: `radial-gradient(360px 170px at ${cx}px 250px, rgba(251,113,133,${reading * 0.2}), transparent 70%)`,
+            background: `radial-gradient(360px 170px at ${cx}px 240px, rgba(251,113,133,${reading * 0.2}), transparent 70%)`,
             pointerEvents: "none",
           }}
         />
@@ -888,10 +900,11 @@ const EndCard: React.FC = () => {
         style={{
           fontFamily: F.sans,
           fontWeight: 800,
-          fontSize: 92,
+          fontSize: 88,
           letterSpacing: "-0.04em",
           color: C.text,
           opacity: a,
+          textAlign: "center",
         }}
       >
         Next: proving it is safe.
@@ -900,10 +913,11 @@ const EndCard: React.FC = () => {
         style={{
           marginTop: 26,
           fontFamily: F.mono,
-          fontSize: 24,
+          fontSize: 20,
           letterSpacing: "0.2em",
           color: C.dim,
           opacity: b,
+          textAlign: "center",
         }}
       >
         CERTIFICATES · KEYS · ONE ROUND TRIP
@@ -913,21 +927,22 @@ const EndCard: React.FC = () => {
           marginTop: 46,
           display: "flex",
           alignItems: "center",
-          gap: 18,
+          justifyContent: "center",
+          gap: 16,
           opacity: c,
         }}
       >
-        <div style={{ fontFamily: F.mono, fontSize: 20, color: C.green }}>70 ms spent</div>
-        <div style={{ width: 2, height: 22, backgroundColor: C.panelEdge }} />
-        <div style={{ fontFamily: F.mono, fontSize: 20, color: C.amber }}>130 ms left</div>
-        <div style={{ width: 2, height: 22, backgroundColor: C.panelEdge }} />
-        <div style={{ fontFamily: F.mono, fontSize: 20, color: C.dim }}>page not requested</div>
+        <div style={{ fontFamily: F.mono, fontSize: 18, color: C.green }}>70 ms spent</div>
+        <div style={{ width: 2, height: 20, backgroundColor: C.panelEdge }} />
+        <div style={{ fontFamily: F.mono, fontSize: 18, color: C.amber }}>130 ms left</div>
+        <div style={{ width: 2, height: 20, backgroundColor: C.panelEdge }} />
+        <div style={{ fontFamily: F.mono, fontSize: 18, color: C.dim }}>page not requested</div>
       </div>
       <div
         style={{
           marginTop: 54,
           height: 2,
-          width: 640,
+          width: 600,
           background: `linear-gradient(90deg, ${C.cyan}, ${C.violet} 60%, transparent)`,
           opacity: c,
         }}

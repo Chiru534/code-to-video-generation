@@ -16,60 +16,7 @@ import timings from "./timings.json";
 
 const ease = Easing.bezier(0.22, 1, 0.36, 1);
 const clamp01 = (n: number) => Math.max(0, Math.min(1, n));
-
-/* ---------------- primitives ---------------- */
-
-const Node: React.FC<{
-  title: string;
-  sub: string;
-  accent?: string;
-  opacity?: number;
-  width?: number;
-}> = ({ title, sub, accent = C.text, opacity = 1, width = 420 }) => (
-  <div
-    style={{
-      width,
-      padding: "30px 0",
-      borderRadius: 16,
-      backgroundColor: C.panel,
-      border: `1px solid ${C.panelEdge}`,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 10,
-      opacity,
-    }}
-  >
-    <span style={{ fontFamily: F.sans, fontWeight: 700, fontSize: 34, color: accent }}>
-      {title}
-    </span>
-    <span style={{ fontFamily: F.mono, fontSize: 22, color: C.muted }}>{sub}</span>
-  </div>
-);
-
-const Row: React.FC<{ children: React.ReactNode; gap?: number }> = ({
-  children,
-  gap = 40,
-}) => (
-  <div style={{ display: "flex", gap, alignItems: "center", justifyContent: "center" }}>
-    {children}
-  </div>
-);
-
-const Arrow: React.FC<{ opacity?: number; vertical?: boolean }> = ({
-  opacity = 1,
-  vertical = false,
-}) => (
-  <div
-    style={{
-      opacity,
-      width: vertical ? 2 : 120,
-      height: vertical ? 60 : 2,
-      backgroundColor: C.cyan,
-      position: "relative",
-    }}
-  />
-);
+const CENTER_X = 540;
 
 /* ---------------- scenes ---------------- */
 
@@ -80,7 +27,7 @@ const TitleScene: React.FC = () => {
   return (
     <Stage>
       <Kicker text="EPISODE 03 · STEP 3 OF 5" />
-      <div style={{ display: "flex", marginTop: 30, gap: 22 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
         {words.map((w, i) => {
           const s = spring({ frame: frame - 6 - i * 5, fps, config: { damping: 15, stiffness: 120 } });
           return (
@@ -89,7 +36,7 @@ const TitleScene: React.FC = () => {
               style={{
                 fontFamily: F.sans,
                 fontWeight: 800,
-                fontSize: 138,
+                fontSize: 128,
                 letterSpacing: "-0.045em",
                 lineHeight: 1,
                 color: i === 2 ? C.cyan : C.text,
@@ -115,25 +62,84 @@ const PlaintextScene: React.FC = () => {
   return (
     <Stage>
       <Kicker text="THE PROBLEM" />
-      <Row>
-        <Node title="Client" sub="your browser" accent={C.cyan} />
-        <div style={{ width: 200, height: 2, backgroundColor: C.muted, position: "relative" }}>
+      <div style={{ width: 900, display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
+        <div
+          style={{
+            width: 900,
+            padding: "40px 50px",
+            borderRadius: 20,
+            backgroundColor: C.panel,
+            border: `1px solid ${C.panelEdge}`,
+            opacity: c,
+            transform: `scale(${0.9 + 0.1 * c})`,
+          }}
+        >
+          <div style={{ fontFamily: F.mono, fontSize: 20, color: C.amber, marginBottom: 16 }}>
+            YOUR BROWSER
+          </div>
+          <div style={{ fontFamily: F.sans, fontSize: 28, color: C.text, textAlign: "center" }}>
+            password = secret123
+          </div>
+          <div style={{ fontFamily: F.mono, fontSize: 14, color: C.faint, marginTop: 12 }}>
+            traveling as plain text
+          </div>
+        </div>
+        <div
+          style={{
+            position: "relative",
+            width: 900,
+            height: 60,
+            opacity: c,
+          }}
+        >
+          <div style={{ position: "absolute", top: 29, left: 0, right: 0, height: 1, backgroundColor: C.panelEdge }} />
           <div
             style={{
               position: "absolute",
-              top: -20,
-              left: 60,
+              top: 10,
+              left: 40,
+              width: 40,
+              height: 40,
+              borderRadius: 40,
+              backgroundColor: C.amber,
+              boxShadow: "0 0 30px rgba(251,191,36,0.9)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              top: -40,
+              left: 40,
               fontFamily: F.mono,
-              fontSize: 20,
+              fontSize: 14,
               color: C.amber,
-              opacity: c,
             }}
           >
-            password=secret
+            readable by every machine
           </div>
         </div>
-        <Node title="Server" sub="the website" accent={C.violet} />
-      </Row>
+        <div
+          style={{
+            width: 900,
+            padding: "40px 50px",
+            borderRadius: 20,
+            backgroundColor: C.panel,
+            border: `1px solid ${C.panelEdge}`,
+            opacity: c,
+            transform: `scale(${0.9 + 0.1 * c})`,
+          }}
+        >
+          <div style={{ fontFamily: F.mono, fontSize: 20, color: C.violet, marginBottom: 16 }}>
+            THE WEBSITE
+          </div>
+          <div style={{ fontFamily: F.sans, fontSize: 28, color: C.text, textAlign: "center" }}>
+            receives secret123
+          </div>
+          <div style={{ fontFamily: F.mono, fontSize: 14, color: C.faint, marginTop: 12 }}>
+            anyone on the path could read it
+          </div>
+        </div>
+      </div>
       <Caption text="Every router, every proxy, every coffee shop Wi-Fi in between can read it." />
     </Stage>
   );
@@ -148,7 +154,7 @@ const CertificateScene: React.FC = () => {
       <Kicker text="CERTIFICATES" />
       <div
         style={{
-          width: 600,
+          width: 860,
           padding: "40px 50px",
           borderRadius: 20,
           backgroundColor: C.panel,
@@ -157,20 +163,20 @@ const CertificateScene: React.FC = () => {
           transform: `scale(${0.9 + 0.1 * c})`,
         }}
       >
-        <div style={{ fontFamily: F.mono, fontSize: 22, color: C.cyan, marginBottom: 16 }}>
+        <div style={{ fontFamily: F.mono, fontSize: 20, color: C.cyan, marginBottom: 16 }}>
           CERTIFICATE
         </div>
         <div style={{ fontFamily: F.sans, fontSize: 30, color: C.text, marginBottom: 8 }}>
           example.com
         </div>
-        <div style={{ fontFamily: F.mono, fontSize: 18, color: C.muted }}>
+        <div style={{ fontFamily: F.mono, fontSize: 16, color: C.muted }}>
           Issued by: DigiCert
         </div>
-        <div style={{ fontFamily: F.mono, fontSize: 18, color: C.muted }}>
+        <div style={{ fontFamily: F.mono, fontSize: 16, color: C.muted }}>
           Valid: 2024-01-01 to 2025-01-01
         </div>
-        <div style={{ fontFamily: F.mono, fontSize: 18, color: C.muted, marginTop: 12 }}>
-          Public Key: 0x4a3f...
+        <div style={{ fontFamily: F.mono, fontSize: 16, color: C.muted, marginTop: 12 }}>
+          Public Key: 0x4a3f…
         </div>
       </div>
       <Caption text="A digital ID that says this server really is who it claims to be." />
@@ -185,13 +191,39 @@ const CAScene: React.FC = () => {
   return (
     <Stage>
       <Kicker text="CERTIFICATE AUTHORITY" />
-      <Row gap={60}>
-        <Node title="CA" sub="DigiCert" accent={C.amber} />
-        <Arrow opacity={c} />
-        <Node title="Cert" sub="example.com" accent={C.cyan} />
-        <Arrow opacity={c} />
-        <Node title="Browser" sub="trusts CA" accent={C.violet} />
-      </Row>
+      <div style={{ width: 900, display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
+        <div style={{ width: 860, padding: "22px 30px", borderRadius: 14, border: `1px solid ${C.panelEdge}`, backgroundColor: C.panel, opacity: c }}>
+          <div style={{ fontFamily: F.mono, fontSize: 20, letterSpacing: "0.14em", color: C.amber }}>
+            CA · DigiCert
+          </div>
+          <div style={{ fontFamily: F.mono, fontSize: 14, color: C.faint, marginTop: 6 }}>
+            vouches for example.com
+          </div>
+        </div>
+        <div style={{ position: "relative", width: 860, height: 60 }}>
+          <div style={{ position: "absolute", top: 29, left: 0, right: 0, height: 1, backgroundColor: C.panelEdge }} />
+          <div
+            style={{
+              position: "absolute",
+              top: 40,
+              left: 400,
+              fontFamily: F.mono,
+              fontSize: 14,
+              color: C.cyan,
+            }}
+          >
+            → signs certificate
+          </div>
+        </div>
+        <div style={{ width: 860, padding: "22px 30px", borderRadius: 14, border: `1px solid ${C.panelEdge}`, backgroundColor: C.panel, opacity: c }}>
+          <div style={{ fontFamily: F.mono, fontSize: 20, letterSpacing: "0.14em", color: C.cyan }}>
+            Browser · example.com
+          </div>
+          <div style={{ fontFamily: F.mono, fontSize: 14, color: C.faint, marginTop: 6 }}>
+            trusts DigiCert root
+          </div>
+        </div>
+      </div>
       <Caption text="Someone your computer already trusts vouches for the identity." />
     </Stage>
   );
@@ -204,11 +236,11 @@ const KeyScene: React.FC = () => {
   return (
     <Stage>
       <Kicker text="PUBLIC / PRIVATE KEYS" />
-      <Row gap={80}>
+      <div style={{ width: 900, display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
         <div
           style={{
-            width: 300,
-            padding: "30px",
+            width: 400,
+            padding: "40px",
             borderRadius: 16,
             backgroundColor: C.panel,
             border: `1px solid ${C.cyan}`,
@@ -216,17 +248,17 @@ const KeyScene: React.FC = () => {
             textAlign: "center",
           }}
         >
-          <div style={{ fontFamily: F.mono, fontSize: 22, color: C.cyan, marginBottom: 8 }}>
+          <div style={{ fontFamily: F.mono, fontSize: 20, color: C.cyan, marginBottom: 8 }}>
             PUBLIC KEY
           </div>
-          <div style={{ fontFamily: F.sans, fontSize: 24, color: C.text }}>
+          <div style={{ fontFamily: F.sans, fontSize: 22, color: C.text }}>
             Share with anyone
           </div>
         </div>
         <div
           style={{
-            width: 300,
-            padding: "30px",
+            width: 400,
+            padding: "40px",
             borderRadius: 16,
             backgroundColor: C.panel,
             border: `1px solid ${C.violet}`,
@@ -234,14 +266,14 @@ const KeyScene: React.FC = () => {
             textAlign: "center",
           }}
         >
-          <div style={{ fontFamily: F.mono, fontSize: 22, color: C.violet, marginBottom: 8 }}>
+          <div style={{ fontFamily: F.mono, fontSize: 20, color: C.violet, marginBottom: 8 }}>
             PRIVATE KEY
           </div>
-          <div style={{ fontFamily: F.sans, fontSize: 24, color: C.text }}>
+          <div style={{ fontFamily: F.sans, fontSize: 22, color: C.text }}>
             Never leaves server
           </div>
         </div>
-      </Row>
+      </div>
       <Caption text="The math that proves ownership without ever sending the secret." />
     </Stage>
   );
@@ -254,16 +286,41 @@ const HandshakeScene: React.FC = () => {
   return (
     <Stage>
       <Kicker text="TLS HANDSHAKE" />
-      <Row gap={40}>
-        <Node title="Client" sub="hello" accent={C.cyan} />
-        <div style={{ display: "flex", flexDirection: "column", gap: 8, opacity: c }}>
-          <span style={{ fontFamily: F.mono, fontSize: 20, color: C.amber }}>Client Hello</span>
-          <span style={{ fontFamily: F.mono, fontSize: 20, color: C.amber }}>Server Hello + Cert</span>
-          <span style={{ fontFamily: F.mono, fontSize: 20, color: C.amber }}>Key Exchange</span>
-          <span style={{ fontFamily: F.mono, fontSize: 20, color: C.amber }}>Finished</span>
+      <div style={{ width: 900, display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+        <div style={{ width: 900, display: "flex", justifyContent: "space-between", opacity: c }}>
+          <div style={{ width: 400, textAlign: "center" }}>
+            <div style={{ fontFamily: F.mono, fontSize: 18, color: C.cyan }}>CLIENT</div>
+            <div style={{ fontFamily: F.mono, fontSize: 14, color: C.faint, marginTop: 4 }}>says hello</div>
+          </div>
+          <div style={{ width: 400, textAlign: "center" }}>
+            <div style={{ fontFamily: F.mono, fontSize: 18, color: C.violet }}>SERVER</div>
+            <div style={{ fontFamily: F.mono, fontSize: 14, color: C.faint, marginTop: 4 }}>responds</div>
+          </div>
         </div>
-        <Node title="Server" sub="hello + cert" accent={C.violet} />
-      </Row>
+        <div
+          style={{
+            width: 900,
+            position: "relative",
+            height: 200,
+            opacity: c,
+          }}
+        >
+          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, backgroundColor: C.panelEdge }} />
+          <div style={{ position: "absolute", top: 10, left: 40, fontFamily: F.mono, fontSize: 14, color: C.amber }}>
+            Client Hello
+          </div>
+          <div style={{ position: "absolute", top: 40, left: 400, fontFamily: F.mono, fontSize: 14, color: C.amber }}>
+            Server Hello + Cert
+          </div>
+          <div style={{ position: "absolute", top: 70, left: 40, fontFamily: F.mono, fontSize: 14, color: C.amber }}>
+            Key Exchange
+          </div>
+          <div style={{ position: "absolute", top: 100, left: 800, fontFamily: F.mono, fontSize: 14, color: C.amber }}>
+            Finished
+          </div>
+          <div style={{ position: "absolute", top: 50, left: 440, width: 20, height: 80, backgroundColor: C.amber, opacity: 0.4 }} />
+        </div>
+      </div>
       <Caption text="Four messages. One more round trip. Now both sides have agreed on a session key." />
     </Stage>
   );
@@ -276,15 +333,28 @@ const KeyExchangeScene: React.FC = () => {
   return (
     <Stage>
       <Kicker text="KEY EXCHANGE" />
-      <Row gap={60}>
-        <Node title="Client" sub="g^a mod p" accent={C.cyan} />
-        <Arrow opacity={c} />
-        <Node title="Server" sub="g^b mod p" accent={C.violet} />
-      </Row>
-      <div style={{ marginTop: 30, opacity: c }}>
-        <span style={{ fontFamily: F.mono, fontSize: 28, color: C.cyan }}>
-          Shared secret: g^(ab) mod p
-        </span>
+      <div style={{ width: 900, display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
+        <div style={{ width: 900, padding: "30px 0", backgroundColor: C.panel, borderRadius: 16, border: `1px solid ${C.panelEdge}`, opacity: c }}>
+          <div style={{ fontFamily: F.mono, fontSize: 18, color: C.cyan, textAlign: "center" }}>
+            Client sends: gᵃ mod p
+          </div>
+        </div>
+        <div style={{ width: 900, position: "relative", height: 60, marginTop: 20 }}>
+          <div style={{ position: "absolute", top: 29, left: 0, right: 0, height: 1, backgroundColor: C.panelEdge }} />
+          <div style={{ position: "absolute", top: 40, left: 400, fontFamily: F.mono, fontSize: 14, color: C.cyan }}>
+            → shared secret derivation
+          </div>
+        </div>
+        <div style={{ width: 900, padding: "30px 0", backgroundColor: C.panel, borderRadius: 16, border: `1px solid ${C.panelEdge}`, opacity: c }}>
+          <div style={{ fontFamily: F.mono, fontSize: 18, color: C.violet, textAlign: "center" }}>
+            Server sends: gᵇ mod p
+          </div>
+        </div>
+        <div style={{ marginTop: 24, opacity: c }}>
+          <span style={{ fontFamily: F.mono, fontSize: 26, color: C.cyan }}>
+            Shared secret: g^(ab) mod p
+          </span>
+        </div>
       </div>
       <Caption text="The session key never crossed the wire. Each side derived it from numbers they exchanged." />
     </Stage>
@@ -298,33 +368,51 @@ const EncryptionScene: React.FC = () => {
   return (
     <Stage>
       <Kicker text="ENCRYPTION" />
-      <Row gap={40}>
-        <Node title="Client" sub="encrypt" accent={C.cyan} />
+      <div style={{ width: 900, display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
         <div
           style={{
-            width: 240,
-            height: 4,
-            backgroundColor: C.cyan,
+            width: 900,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
             opacity: c,
-            position: "relative",
           }}
         >
           <div
             style={{
-              position: "absolute",
-              top: -18,
-              left: 70,
-              fontFamily: F.mono,
-              fontSize: 18,
-              color: C.cyan,
-              opacity: c,
+              width: 400,
+              padding: "40px",
+              borderRadius: 16,
+              backgroundColor: C.panel,
+              border: `1px solid ${C.cyan}`,
+              textAlign: "center",
             }}
           >
-            AES-256-GCM
+            <div style={{ fontFamily: F.mono, fontSize: 18, color: C.cyan }}>CLIENT</div>
+            <div style={{ fontFamily: F.mono, fontSize: 14, color: C.faint, marginTop: 4 }}>encrypts</div>
+          </div>
+          <div
+            style={{
+              width: 80,
+              height: 4,
+              backgroundColor: C.cyan,
+            }}
+          />
+          <div
+            style={{
+              width: 400,
+              padding: "40px",
+              borderRadius: 16,
+              backgroundColor: C.panel,
+              border: `1px solid ${C.violet}`,
+              textAlign: "center",
+            }}
+          >
+            <div style={{ fontFamily: F.mono, fontSize: 18, color: C.violet }}>SERVER</div>
+            <div style={{ fontFamily: F.mono, fontSize: 14, color: C.faint, marginTop: 4 }}>decrypts</div>
           </div>
         </div>
-        <Node title="Server" sub="decrypt" accent={C.violet} />
-      </Row>
+      </div>
       <Caption text="From this point on, every byte is encrypted. Fast, efficient, readable only to both parties." />
     </Stage>
   );
@@ -369,10 +457,11 @@ const EndCard: React.FC = () => {
         style={{
           fontFamily: F.sans,
           fontWeight: 800,
-          fontSize: 64,
+          fontSize: 60,
           color: C.text,
           opacity: s,
           transform: `translateY(${(1 - s) * 20}px)`,
+          textAlign: "center",
         }}
       >
         Next
@@ -381,10 +470,11 @@ const EndCard: React.FC = () => {
         style={{
           fontFamily: F.sans,
           fontWeight: 600,
-          fontSize: 40,
+          fontSize: 36,
           color: C.cyan,
           marginTop: 20,
           opacity: s,
+          textAlign: "center",
         }}
       >
         Asking for the page. HTTP.

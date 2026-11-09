@@ -3,7 +3,8 @@ import { AbsoluteFill, spring, useCurrentFrame } from "remotion";
 import { C, F } from "./theme";
 
 /* Shared episode chrome. Every episode imports these so the visual language
-   stays identical across the series — only the scenes differ. */
+   stays identical across the series — only the scenes differ. Designed for
+   vertical 9:16 Shorts format (1080×1920). */
 
 export const Backdrop: React.FC = () => {
   const frame = useCurrentFrame();
@@ -16,19 +17,19 @@ export const Backdrop: React.FC = () => {
             "linear-gradient(to right, rgba(255,255,255,0.028) 1px, transparent 1px)," +
             "linear-gradient(to bottom, rgba(255,255,255,0.028) 1px, transparent 1px)",
           backgroundSize: "80px 80px",
-          maskImage: "radial-gradient(ellipse 85% 75% at 50% 45%, black 15%, transparent 100%)",
+          maskImage: "radial-gradient(ellipse 60% 90% at 50% 45%, black 15%, transparent 100%)",
           WebkitMaskImage:
-            "radial-gradient(ellipse 85% 75% at 50% 45%, black 15%, transparent 100%)",
+            "radial-gradient(ellipse 60% 90% at 50% 45%, black 15%, transparent 100%)",
         }}
       />
       <AbsoluteFill
         style={{
-          background: `radial-gradient(820px 560px at ${560 + drift}px 200px, rgba(34,211,238,0.15), transparent 72%)`,
+          background: `radial-gradient(560px 820px at ${540 + drift}px 200px, rgba(34,211,238,0.15), transparent 72%)`,
         }}
       />
       <AbsoluteFill
         style={{
-          background: `radial-gradient(760px 540px at ${1360 - drift}px 860px, rgba(167,139,250,0.15), transparent 72%)`,
+          background: `radial-gradient(520px 760px at ${540 - drift}px 1600px, rgba(167,139,250,0.15), transparent 72%)`,
         }}
       />
       <AbsoluteFill
@@ -51,6 +52,10 @@ export const Kicker: React.FC<{ text: string }> = ({ text }) => {
         gap: 14,
         opacity: s,
         transform: `translateY(${(1 - s) * 14}px)`,
+        position: "absolute",
+        top: 64,
+        left: 540,
+        transformOrigin: "center",
       }}
     >
       <div style={{ width: 8, height: 8, borderRadius: 8, backgroundColor: C.cyan }} />
@@ -70,7 +75,7 @@ export const Caption: React.FC<{ text: string }> = ({ text }) => {
         position: "absolute",
         left: 0,
         right: 0,
-        bottom: 64,
+        bottom: 120,
         display: "flex",
         justifyContent: "center",
         opacity: s,
@@ -86,7 +91,7 @@ export const Caption: React.FC<{ text: string }> = ({ text }) => {
           border: `1px solid ${C.panelEdge}`,
           borderRadius: 12,
           padding: "14px 26px",
-          maxWidth: 1320,
+          maxWidth: 960,
           textAlign: "center",
           lineHeight: 1.35,
         }}
@@ -101,7 +106,7 @@ export const Stage: React.FC<{ children: React.ReactNode; caption?: string }> = 
   children,
   caption,
 }) => (
-  <AbsoluteFill style={{ padding: 96, justifyContent: "center" }}>
+  <AbsoluteFill style={{ padding: 64, justifyContent: "center" }}>
     {children}
     {caption ? <Caption text={caption} /> : null}
   </AbsoluteFill>
@@ -112,8 +117,8 @@ export const Watermark: React.FC<{ text: string }> = ({ text }) => (
     style={{
       position: "absolute",
       top: 48,
-      right: 72,
-      justifyContent: "flex-start",
+      right: 48,
+      justifyContent: "flex-end",
       alignItems: "flex-end",
     }}
   >
