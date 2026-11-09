@@ -25,7 +25,7 @@ const TitleScene: React.FC = () => {
   const words = ["Asking", "for", "the", "Page"];
   return (
     <Stage>
-      <Kicker text="EPISODE 04 · STEP 4 OF 25" />
+      <Kicker text="EPISODE 04 · STEP 4 OF 5" />
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
         {words.map((w, i) => {
           const s = spring({ frame: frame - 6 - i * 5, fps, config: { damping: 15, stiffness: 120 } });
@@ -557,7 +557,7 @@ const BudgetScene: React.FC = () => {
           pointerEvents: "none",
         }}
       >
-        <Kicker text="EPISODE 04 · STEP 4 OF 25" />
+        <Kicker text="EPISODE 04 · STEP 4 OF 5" />
         <div
           style={{
             fontFamily: F.sans,

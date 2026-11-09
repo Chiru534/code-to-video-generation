@@ -1,0 +1,46 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Everything so far has been about moving bytes. Now what can they do? They become pictures."
+    },
+    {
+      "id": "s02",
+      "text": "Your screen is a window. And every window is just pixels - tiny squares of light the computer paints fresh, every frame."
+    },
+    {
+      "id": "s03",
+      "text": "The GPU takes those instructions and turns them into geometry. Millions of triangles, rendered in real time."
+    },
+    {
+      "id": "s04",
+      "text": "The CPU prepares the scene. The GPU executes it. Together they translate bytes into motion."
+    },
+    {
+      "id": "s05",
+      "text": "Shaders run on the GPU. They decide color. Light. Texture. What the eye will see."
+    },
+    {
+      "id": "s06",
+      "text": "The frame buffer fills. Vertices become pixels. Triangles become images."
+    },
+    {
+      "id": "s07",
+      "text": "And the loop repeats - billions of times per second - turning code into motion."
+    },
+    {
+      "id": "s08",
+      "text": "Every pixel on your screen is the result of instructions. Code became light."
+    },
+    {
+      "id": "s09",
+      "text": "From bytes to pixels. That is the whole stack. One step out of five."
+    },
+    {
+      "id": "s10",
+      "text": "Next: how we make it beautiful. Color, light, and the frame."
+    }
+  ]
+}

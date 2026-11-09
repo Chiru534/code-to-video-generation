@@ -1,0 +1,19 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2610,
+  "scenes": {
+    "s01": { "sec": 8.0, "frames": 240, "text": "Everything so far has been about moving bytes. Now what can they do? They become pictures." },
+    "s02": { "sec": 9.0, "frames": 270, "text": "Your screen is a window. And every window is just pixels - tiny squares of light the computer paints fresh, every frame." },
+    "s03": { "sec": 9.0, "frames": 270, "text": "The GPU takes those instructions and turns them into geometry. Millions of triangles, rendered in real time." },
+    "s04": { "sec": 8.5, "frames": 255, "text": "The CPU prepares the scene. The GPU executes it. Together they translate bytes into motion." },
+    "s05": { "sec": 9.0, "frames": 270, "text": "Shaders run on the GPU. They decide color. Light. Texture. What the eye will see." },
+    "s06": { "sec": 8.5, "frames": 255, "text": "The frame buffer fills. Vertices become pixels. Triangles become images." },
+    "s07": { "sec": 8.5, "frames": 255, "text": "And the loop repeats - billions of times per second - turning code into motion." },
+    "s08": { "sec": 9.0, "frames": 270, "text": "Every pixel on your screen is the result of instructions. Code became light." },
+    "s09": { "sec": 8.5, "frames": 255, "text": "From bytes to pixels. That is the whole stack. One step out of five." },
+    "s10": { "sec": 9.0, "frames": 270, "text": "Next: how we make it beautiful. Color, light, and the frame." }
+  }
+}
