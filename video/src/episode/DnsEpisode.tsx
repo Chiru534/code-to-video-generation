@@ -195,7 +195,7 @@ const NameVsNumber: React.FC = () => {
             fontSize: 42,
             color: C.violet,
             opacity: arrow,
-            transform: `translateX(${(1 - arrow) * -20}px)`,
+            textAlign: "center",
           }}
         >
           →
