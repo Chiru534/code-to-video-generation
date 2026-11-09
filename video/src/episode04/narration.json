@@ -1,0 +1,46 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "You opened a connection. You proved it is safe. Now what? You ask for the page."
+    },
+    {
+      "id": "s02",
+      "text": "Your browser builds an HTTP request. Method, path, headers. A plain-text letter to the server."
+    },
+    {
+      "id": "s03",
+      "text": "It travels over your encrypted TLS tunnel. One packet at a time, across the internet."
+    },
+    {
+      "id": "s04",
+      "text": "The server receives it. Reads the route. Finds the handler. Starts working."
+    },
+    {
+      "id": "s05",
+      "text": "The application runs. Queries a database. Computes a response. Builds HTML or JSON."
+    },
+    {
+      "id": "s06",
+      "text": "The response comes back. Status line. 200 OK. Headers. Body. Encrypted, sent back."
+    },
+    {
+      "id": "s07",
+      "text": "Packets flow back across the same path. Your browser receives them, in order, thanks to TCP."
+    },
+    {
+      "id": "s08",
+      "text": "Your browser parses the HTML. Builds the DOM. Fetches CSS, images, JavaScript."
+    },
+    {
+      "id": "s09",
+      "text": "Remember the two hundred milliseconds? DNS, TCP, TLS, HTTP. They all fit inside it."
+    },
+    {
+      "id": "s10",
+      "text": "Next: how those bytes reach millions of users at once. CDNs and the edge."
+    }
+  ]
+}

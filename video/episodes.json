@@ -19,5 +19,12 @@
     "audioDir": "public/audio/ep03",
     "composition": "ProvingItsSafe",
     "output": "tls.mp4"
+  },
+  "ep04": {
+    "title": "Asking for the Page",
+    "srcDir": "src/episode04",
+    "audioDir": "public/audio/ep04",
+    "composition": "HttpEpisode",
+    "output": "http.mp4"
   }
 }

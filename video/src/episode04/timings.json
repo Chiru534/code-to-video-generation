@@ -1,0 +1,19 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2700,
+  "scenes": {
+    "s01": { "sec": 8.0, "frames": 240, "text": "You opened a connection. You proved it is safe. Now what? You ask for the page." },
+    "s02": { "sec": 9.0, "frames": 270, "text": "Your browser builds an HTTP request. Method, path, headers. A plain-text letter to the server." },
+    "s03": { "sec": 8.5, "frames": 255, "text": "It travels over your encrypted TLS tunnel. One packet at a time, across the internet." },
+    "s04": { "sec": 9.0, "frames": 270, "text": "The server receives it. Reads the route. Finds the handler. Starts working." },
+    "s05": { "sec": 9.5, "frames": 285, "text": "The application runs. Queries a database. Computes a response. Builds HTML or JSON." },
+    "s06": { "sec": 9.0, "frames": 270, "text": "The response comes back. Status line. 200 OK. Headers. Body. Encrypted, sent back." },
+    "s07": { "sec": 8.5, "frames": 255, "text": "Packets flow back across the same path. Your browser receives them, in order, thanks to TCP." },
+    "s08": { "sec": 9.0, "frames": 270, "text": "Your browser parses the HTML. Builds the DOM. Fetches CSS, images, JavaScript." },
+    "s09": { "sec": 8.5, "frames": 255, "text": "Remember the two hundred milliseconds? DNS, TCP, TLS, HTTP. They all fit inside it." },
+    "s10": { "sec": 9.0, "frames": 270, "text": "Next: how those bytes reach millions of users at once. CDNs and the edge." }
+  }
+}
