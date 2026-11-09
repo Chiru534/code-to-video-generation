@@ -114,9 +114,9 @@ jobs:
                 }
 
                 // A file can sit inside more than one srcDir (the film lives
-                // under src/wifi/film, inside the short's src/wifi). The most
-                // specific srcDir owns it, so a film edit never re-renders the
-                // short, and a short edit never renders the film.
+                // under src/wifi/film, inside the short srcDir src/wifi). The
+                // most specific srcDir owns it, so a film edit never re-renders
+                // the short, and a short edit never renders the film.
                 const owner = (file) => {
                   let best = null;
                   for (const k of Object.keys(all)) {

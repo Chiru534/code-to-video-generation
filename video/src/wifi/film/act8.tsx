@@ -1,7 +1,7 @@
 import React from "react";
-import { interpolate, useCurrentFrame } from "remotion";
+import { useCurrentFrame } from "remotion";
 import { C, F } from "../../theme";
-import { AirtimeRail, CLAMP, FILM, Kicker, Stage, Statement, prog } from "./kit";
+import { FILM, Kicker, Stage, prog } from "./kit";
 import { Note, Rings, Split } from "./bits";
 
 /* ACT 8 - the close. One idea, restated in the terms the film earned. */
@@ -282,7 +282,6 @@ const S59: React.FC = () => {
 
 const S60: React.FC = () => {
   const frame = useCurrentFrame();
-  const fill = interpolate(frame, [0, 44], [0, 1], CLAMP);
   return (
     <Stage>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 34 }}>
@@ -310,9 +309,6 @@ const S60: React.FC = () => {
           }}
         >
           That is the layer below.
-        </div>
-        <div style={{ width: 760, height: 8, borderRadius: 4, backgroundColor: "#151823", overflow: "hidden", marginTop: 10 }}>
-          <div style={{ width: `${fill * 100}%`, height: 8, backgroundColor: C.amber }} />
         </div>
         <div
           style={{
