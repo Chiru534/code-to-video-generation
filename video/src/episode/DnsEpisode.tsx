@@ -40,7 +40,7 @@ const TitleScene: React.FC = () => {
               style={{
                 fontFamily: F.sans,
                 fontWeight: 800,
-                fontSize: 128,
+                fontSize: 64,
                 letterSpacing: "-0.045em",
                 lineHeight: 1,
                 color: i === 2 ? C.cyan : C.text,
@@ -82,7 +82,7 @@ const HookScene: React.FC = () => {
         style={{
           fontFamily: F.sans,
           fontWeight: 800,
-          fontSize: 96,
+          fontSize: 72,
           letterSpacing: "-0.04em",
           color: C.text,
           opacity: a,
@@ -96,7 +96,7 @@ const HookScene: React.FC = () => {
         style={{
           fontFamily: F.sans,
           fontWeight: 800,
-          fontSize: 96,
+          fontSize: 72,
           letterSpacing: "-0.04em",
           color: C.cyan,
           marginTop: 14,
@@ -620,7 +620,7 @@ const EndCard: React.FC = () => {
         style={{
           fontFamily: F.sans,
           fontWeight: 800,
-          fontSize: 90,
+          fontSize: 64,
           letterSpacing: "-0.04em",
           color: C.text,
           opacity: a,

@@ -339,8 +339,13 @@ def audit_render(path: str, info: dict) -> None:
     audio = next((s for s in streams if s.get("codec_type") == "audio"), None)
 
     if check(video is not None, "has a video stream"):
-        check(video.get("width") == 1920 and video.get("height") == 1080, "is 1920x1080",
-              f"{video.get('width')}x{video.get('height')}")
+        # Shorts are rendered vertical 1080x1920; landscape 1920x1080 also accepted.
+        check(
+            (video.get("width") == 1920 and video.get("height") == 1080)
+            or (video.get("width") == 1080 and video.get("height") == 1920),
+            "is 1920x1080 or 1080x1920",
+            f"{video.get('width')}x{video.get('height')}",
+        )
         check(video.get("codec_name") == "h264", "is h264", str(video.get("codec_name")))
         check(video.get("pix_fmt") == "yuv420p", "is yuv420p", str(video.get("pix_fmt")))
         check(video.get("r_frame_rate") in ("30/1", "30000/1001"), "is ~30 fps",

@@ -171,7 +171,7 @@ const TitleScene: React.FC = () => {
               style={{
                 fontFamily: F.sans,
                 fontWeight: 800,
-                fontSize: 168,
+                fontSize: 84,
                 lineHeight: 1,
                 letterSpacing: "-0.045em",
                 display: "inline-block",
@@ -225,7 +225,7 @@ const TitleScene: React.FC = () => {
           opacity: sub,
         }}
       >
-        PROBE 001 · 15s · 1920×1080 · 30fps
+        PROBE 001 · 15s · 1080×1920 · 30fps
       </div>
     </AbsoluteFill>
   );
@@ -385,9 +385,9 @@ const StatsScene: React.FC = () => {
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: 26, height: 720 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 26, height: "100%" }}>
         {/* code panel */}
-        <Panel style={{ flex: 1.15, display: "flex", flexDirection: "column" }}>
+        <Panel style={{ flex: 1.15, display: "flex", flexDirection: "column", minHeight: 0 }}>
           <div
             style={{
               height: 58,
@@ -426,6 +426,7 @@ const StatsScene: React.FC = () => {
             display: "flex",
             flexDirection: "column",
             backgroundColor: "rgba(18,20,28,0.92)",
+            marginTop: 26,
           }}
         >
           <div style={{ fontFamily: F.mono, fontSize: 15, letterSpacing: "0.22em", color: C.dim }}>
@@ -484,7 +485,7 @@ const StatsScene: React.FC = () => {
 
           <div style={{ display: "flex", gap: 12, marginTop: "auto" }}>
             {[
-              { k: "RES", v: "1920×1080" },
+              { k: "RES", v: "1080×1920" },
               { k: "FPS", v: "30" },
               { k: "GPU", v: "0%" },
             ].map((s) => (
@@ -532,11 +533,12 @@ const PipelineScene: React.FC = () => {
     extrapolateRight: "clamp",
   });
 
-  const W = 1920 - 144;
-  const nodeW = 300;
-  const gap = (W - nodeW * NODES.length) / (NODES.length - 1);
-  const centers = NODES.map((_, i) => 72 + i * (nodeW + gap) + nodeW / 2);
-  const dotX = interpolate(p, [0, 1], [centers[0], centers[centers.length - 1]]);
+  const nodeW = 560;
+  const nodeH = 144;
+  const gap = 40;
+  const startY = 130;
+  const centers = NODES.map((_, i) => startY + i * (nodeH + gap) + nodeH / 2);
+  const dotY = interpolate(p, [0, 1], [centers[0], centers[centers.length - 1]]);
 
   return (
     <AbsoluteFill style={{ padding: 72, justifyContent: "center" }}>
@@ -556,13 +558,13 @@ const PipelineScene: React.FC = () => {
         Four deterministic stages. No model weights anywhere.
       </div>
 
-      <div style={{ position: "relative", height: 220, width: W }}>
+      <div style={{ position: "relative", height: 1000, width: 900 }}>
         <div
           style={{
             position: "absolute",
-            top: 72,
-            left: 0,
-            right: 0,
+            top: 90,
+            left: 170,
+            right: 170,
             height: 1,
             background: `linear-gradient(90deg, ${C.panelEdge}, ${C.panelEdge})`,
           }}
@@ -570,14 +572,14 @@ const PipelineScene: React.FC = () => {
 
         {NODES.map((n, i) => {
           const s = spring({ frame: local - 8 - i * 9, fps, config: { damping: 16, stiffness: 120 } });
-          const active = dotX >= centers[i];
+          const active = dotY >= centers[i];
           return (
             <div
               key={n.label}
               style={{
                 position: "absolute",
-                left: i * (nodeW + gap),
-                top: 0,
+                top: startY + i * (nodeH + gap),
+                left: (900 - nodeW) / 2,
                 width: nodeW,
                 opacity: Math.max(0, Math.min(1, s)),
                 transform: `translateY(${(1 - s) * 26}px)`,
@@ -609,8 +611,8 @@ const PipelineScene: React.FC = () => {
         <div
           style={{
             position: "absolute",
-            top: 63,
-            left: dotX - 9,
+            top: dotY - 9,
+            left: 426,
             width: 18,
             height: 18,
             borderRadius: 18,
@@ -619,24 +621,6 @@ const PipelineScene: React.FC = () => {
           }}
         />
 
-        {[0, 1, 2].map((i) => (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              top: 63 + 9 - 7,
-              left: centers[i],
-              width: centers[i + 1] - centers[i],
-              height: 14,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontFamily: F.mono,
-              fontSize: 15,
-              color: C.faint,
-            }}
-          />
-        ))}
       </div>
 
       <div

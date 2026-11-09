@@ -36,7 +36,7 @@ const TitleScene: React.FC = () => {
               style={{
                 fontFamily: F.sans,
                 fontWeight: 800,
-                fontSize: 128,
+                fontSize: 64,
                 letterSpacing: "-0.045em",
                 lineHeight: 1,
                 color: i === 2 ? C.cyan : C.text,
@@ -169,13 +169,13 @@ const CertificateScene: React.FC = () => {
         <div style={{ fontFamily: F.sans, fontSize: 30, color: C.text, marginBottom: 8 }}>
           example.com
         </div>
-        <div style={{ fontFamily: F.mono, fontSize: 16, color: C.muted }}>
+        <div style={{ fontFamily: F.mono, fontSize: 16, color: C.dim }}>
           Issued by: DigiCert
         </div>
-        <div style={{ fontFamily: F.mono, fontSize: 16, color: C.muted }}>
+        <div style={{ fontFamily: F.mono, fontSize: 16, color: C.dim }}>
           Valid: 2024-01-01 to 2025-01-01
         </div>
-        <div style={{ fontFamily: F.mono, fontSize: 16, color: C.muted, marginTop: 12 }}>
+        <div style={{ fontFamily: F.mono, fontSize: 16, color: C.dim, marginTop: 12 }}>
           Public Key: 0x4a3f…
         </div>
       </div>
@@ -301,7 +301,7 @@ const HandshakeScene: React.FC = () => {
           style={{
             width: 900,
             position: "relative",
-            height: 200,
+            height: 340,
             opacity: c,
           }}
         >
