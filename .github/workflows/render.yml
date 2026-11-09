@@ -163,6 +163,8 @@ jobs:
           GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
           GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
           GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+          GDRIVE_SHORTS_FOLDER_ID: ${{ secrets.GDRIVE_SHORTS_FOLDER_ID }}
+          GDRIVE_SHORTS_MAX_SECONDS: "180"
           GDRIVE_SA_JSON: ${{ secrets.GDRIVE_SA_JSON }}
         run: python tools/gdrive_upload.py "out/$OUTPUT" --name "$OUTPUT"
 

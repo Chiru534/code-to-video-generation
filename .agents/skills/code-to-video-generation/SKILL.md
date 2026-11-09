@@ -197,6 +197,27 @@ Secrets in `Chiru534/code-to-video-generation`:
 `GDRIVE_REFRESH_TOKEN`, `GDRIVE_CLIENT_ID`, `GDRIVE_CLIENT_SECRET`,
 `GDRIVE_FOLDER_ID`, plus `GDRIVE_SA_JSON` as an unused fallback.
 
+Destination is chosen per render from the **measured duration**, not from config:
+
+| Duration | Folder | Secret |
+|---|---|---|
+| under 180 s | `My Drive / blender_s1 / productions / shorts` | `GDRIVE_SHORTS_FOLDER_ID` = `1Uf3kapfkQ1lmAAWY7xLnelsBHzsPcSzw` |
+| 180 s and up | `My Drive / blender_s1 / productions` | `GDRIVE_FOLDER_ID` = `1XA5f1asH3nMji3PBsUa6QP0_VJ1zucsD` |
+
+`gdrive_upload.py` runs `ffprobe` on the file it is about to upload and routes on
+the result, so the folder always matches the bytes. Threshold override:
+`GDRIVE_SHORTS_MAX_SECONDS` (default `180`). The decision is logged on every run
+(`folder : <id> [94.5s < 180s -> shorts folder]`), so it is never invisible.
+
+`shorts/` exists because `productions/` also holds the Blender-S1 renders and
+previews; short-form deliverables stay separate from the long-form work.
+
+Moving a file in Drive changes its `parents` but keeps its `id`, so existing links
+keep working and only the secret has to follow. **Move files and forget the
+secret, and the next render finds no matching name in the old folder — so it
+silently creates a duplicate.** Folder-scoped lookup is the whole reason the id
+matters.
+
 It verifies size and md5 after upload, exits 0 with a `::warning::` when Drive is
 unconfigured, and fails loudly once configured but broken — so a green job means
 the file really landed.

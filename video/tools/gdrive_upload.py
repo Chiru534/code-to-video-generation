@@ -11,16 +11,24 @@ Credential order
 
 Behaviour
 ---------
-Look the name up in the target folder. If it exists, update it in place: same
-file id, same link, new version, and Drive keeps the previous renders in the
-file's version history. If it does not exist, create it (OAuth only).
+Pick the destination folder from the video's measured duration, then look the
+name up there. If the name exists, update it in place: same file id, same link,
+new version, and Drive keeps the previous renders in the file's version history.
+If it does not exist, create it (OAuth only).
+
+Routing: a video shorter than the threshold goes to the "shorts" folder,
+everything else to the main folder. Duration is read with ffprobe from the file
+that was actually rendered — not from a config value, so the folder always
+matches the bytes being uploaded.
 
 Environment:
     GDRIVE_REFRESH_TOKEN, GDRIVE_CLIENT_ID, GDRIVE_CLIENT_SECRET   (preferred)
     GDRIVE_SA_JSON / GDRIVE_SA_FILE                                (fallback)
-    GDRIVE_FOLDER_ID       destination folder
-    GDRIVE_FILE_ID         exact file to overwrite (skips the name lookup)
-    GDRIVE_FILE_NAME       name to look up / create
+    GDRIVE_FOLDER_ID          main destination folder
+    GDRIVE_SHORTS_FOLDER_ID   destination for videos under the threshold
+    GDRIVE_SHORTS_MAX_SECONDS threshold, default 180
+    GDRIVE_FILE_ID            exact file to overwrite (skips lookup and routing)
+    GDRIVE_FILE_NAME          name to look up / create
 
 Exit codes:
     0  uploaded, or Drive intentionally not configured (skipped with a warning)
@@ -30,6 +38,7 @@ import argparse
 import hashlib
 import json
 import os
+import subprocess
 import sys
 
 SCOPES = ["https://www.googleapis.com/auth/drive"]
@@ -129,12 +138,45 @@ def md5_of(path: str) -> str:
     return digest.hexdigest()
 
 
+def probe_duration(path: str):
+    """Duration in seconds, or None if ffprobe is missing or unhappy."""
+    try:
+        out = subprocess.run(
+            [
+                "ffprobe",
+                "-v",
+                "error",
+                "-show_entries",
+                "format=duration",
+                "-of",
+                "csv=p=0",
+                path,
+            ],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+        if out.returncode != 0:
+            return None
+        return float(out.stdout.strip())
+    except (OSError, ValueError, subprocess.SubprocessError):
+        return None
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Send a rendered video to Google Drive.")
     parser.add_argument("file", help="local video to upload")
     parser.add_argument("--file-id", default=os.environ.get("GDRIVE_FILE_ID", "").strip())
     parser.add_argument("--name", default=os.environ.get("GDRIVE_FILE_NAME", "").strip())
     parser.add_argument("--folder", default=os.environ.get("GDRIVE_FOLDER_ID", "").strip())
+    parser.add_argument(
+        "--shorts-folder", default=os.environ.get("GDRIVE_SHORTS_FOLDER_ID", "").strip()
+    )
+    parser.add_argument(
+        "--shorts-max-seconds",
+        type=float,
+        default=float(os.environ.get("GDRIVE_SHORTS_MAX_SECONDS", "180")),
+    )
     args = parser.parse_args()
 
     if not os.path.exists(args.file):
@@ -170,7 +212,25 @@ def main() -> int:
     log(f"auth     : {mode}")
     log(f"local    : {args.file} ({size_local} bytes, md5 {local_md5})")
 
-    existing = find_existing(svc, args.file_id, args.name, args.folder)
+    # Route by measured duration, so the folder always matches the real file.
+    duration = None if args.file_id else probe_duration(args.file)
+    target_folder = args.folder
+    routing = "explicit file id, folder not used"
+    if not args.file_id:
+        if duration is None:
+            routing = "duration unreadable -> main folder"
+            warn("could not read the video duration; uploading to the main folder")
+        elif args.shorts_folder and duration < args.shorts_max_seconds:
+            target_folder = args.shorts_folder
+            routing = f"{duration:.1f}s < {args.shorts_max_seconds:.0f}s -> shorts folder"
+        else:
+            routing = f"{duration:.1f}s >= {args.shorts_max_seconds:.0f}s -> main folder"
+        log(f"duration : {duration:.2f}s" if duration is not None else "duration : unknown")
+        log(f"folder   : {target_folder or '(none)'}  [{routing}]")
+        if target_folder == args.folder and not args.shorts_folder and duration is not None:
+            warn("GDRIVE_SHORTS_FOLDER_ID is not set; every video goes to the main folder")
+
+    existing = find_existing(svc, args.file_id, args.name, target_folder)
     media = MediaFileUpload(args.file, mimetype=MIME, resumable=True, chunksize=8 * 1024 * 1024)
 
     if existing:
@@ -182,13 +242,13 @@ def main() -> int:
             supportsAllDrives=True,
         )
     else:
-        if not args.folder:
-            fail("GDRIVE_FOLDER_ID is required to create a new file")
+        if not target_folder:
+            fail("no destination folder: set GDRIVE_FOLDER_ID (or GDRIVE_SHORTS_FOLDER_ID)")
         if not args.name:
             fail("GDRIVE_FILE_NAME is required to create a new file")
-        log(f"action   : create '{args.name}' in folder {args.folder}")
+        log(f"action   : create '{args.name}' in folder {target_folder}")
         request = svc.files().create(
-            body={"name": args.name, "parents": [args.folder], "mimeType": MIME},
+            body={"name": args.name, "parents": [target_folder], "mimeType": MIME},
             media_body=media,
             fields="id,name,size,version,md5Checksum,webViewLink",
             supportsAllDrives=True,
@@ -213,18 +273,22 @@ def main() -> int:
     log(f"link     : {link}")
     print(
         f"::notice::Drive upload verified: {response['name']} v{response.get('version')} "
-        f"({remote_size} bytes) {link}",
+        f"({remote_size} bytes) -> folder {target_folder} [{routing}] {link}",
         flush=True,
     )
 
     summary = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary:
+        duration_row = f"| duration | {duration:.1f}s |\n" if duration is not None else ""
         with open(summary, "a", encoding="utf-8") as handle:
             handle.write(
                 "\n### Google Drive\n\n"
                 "| | |\n|---|---|\n"
                 f"| file | [{response['name']}]({link}) |\n"
                 f"| action | {'updated' if existing else 'created'} |\n"
+                f"{duration_row}"
+                f"| routing | {routing} |\n"
+                f"| folder id | `{target_folder}` |\n"
                 f"| version | {response.get('version')} |\n"
                 f"| size | {remote_size} bytes |\n"
                 f"| checksum | md5 verified |\n"
