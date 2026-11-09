@@ -3,7 +3,7 @@
   "fps": 30,
   "voice": "af_heart",
   "speed": 0.95,
-  "totalFrames": 2700,
+  "totalFrames": 2640,
   "scenes": {
     "s01": { "sec": 8.0, "frames": 240, "text": "You opened a connection. You proved it is safe. Now what? You ask for the page." },
     "s02": { "sec": 9.0, "frames": 270, "text": "Your browser builds an HTTP request. Method, path, headers. A plain-text letter to the server." },
