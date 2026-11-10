@@ -122,9 +122,13 @@ def media_size(path):
          "-show_entries", "stream=width,height", "-of", "csv=p=0", path]
     )
     if result.returncode != 0:
+        log(f"    ! ffprobe could not size {os.path.basename(path)}: "
+            f"{result.stderr.strip()[-300:]}")
         return 0, 0
     parts = [p for p in result.stdout.strip().split(",") if p]
     if len(parts) < 2:
+        log(f"    ! ffprobe returned no size for {os.path.basename(path)}: "
+            f"'{result.stdout.strip()}'")
         return 0, 0
     return int(parts[0]), int(parts[1])
 
@@ -155,6 +159,7 @@ def compose_thumbnails(src, out_dir, stem):
              "-filter_complex", BLUR_16x9, "-q:v", "3", jpg]
         )
     if result.returncode != 0 or not os.path.exists(jpg):
+        log(f"    ! thumbnail convert failed: {result.stderr.strip()[-300:]}")
         return []
     made.append(jpg)
 
@@ -188,12 +193,15 @@ def drive_thumbnail(svc, item, out_dir, stem):
     """Download the thumbnail Drive generated for this video."""
     link = item.get("thumbnailLink")
     if not link:
+        log("    ! Drive has no thumbnail for this file")
         return []
     try:
         import requests
 
         response = requests.get(link, timeout=120)
         response.raise_for_status()
+        log(f"    drive thumbnail: {len(response.content)} bytes, "
+            f"type {response.headers.get('Content-Type')}")
         if len(response.content) < 1024:
             return []
         path = os.path.join(out_dir, f"{stem}-drive.jpg")
@@ -228,7 +236,8 @@ def thumbnail_for(svc, creds, item, out_dir, stem):
                 if made:
                     return made
             else:
-                log("    ! no frame decoded from the file head; not a faststart mp4")
+                log("    ! no frame decoded from the file head; not a faststart mp4: "
+                    f"{result.stderr.strip()[-300:]}")
 
         made = drive_thumbnail(svc, item, out_dir, stem)
         if made:
@@ -246,6 +255,8 @@ def thumbnail_for(svc, creds, item, out_dir, stem):
                 )
                 if result.returncode == 0 and os.path.exists(frame):
                     return compose_thumbnails(frame, out_dir, stem)
+                log("    ! no frame decoded from the full file: "
+                    f"{result.stderr.strip()[-300:]}")
         else:
             log(f"    ! file is {size / 1e6:.0f} MB, over the download limit for a thumbnail")
         return []
