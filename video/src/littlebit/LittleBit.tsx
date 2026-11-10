@@ -5,7 +5,6 @@ import { Backdrop, Stage, Watermark } from "../chrome";
 import {
   Bar,
   Chip,
-  Foot,
   Hero,
   Matrix,
   PW,
@@ -32,9 +31,10 @@ import timings from "./timings.json";
    tag because the paper calls it a potential speedup, not a measured benchmark,
    and the quality claim is "matches leading 1-bit baselines", not "beats".
 
-   Layout rule for every scene: the visual is a Hero (centred above the foot
-   band) and the closing line sits in a fixed Foot. The line must never reflow
-   the thing it comments on, and it must not leave the bottom third dead.
+   Layout rule for every scene: ONE centred block (Hero) holding the visual and
+   its closing line. A line pinned to the bottom of the frame leaves a dead band
+   under a short visual, so there is no bottom-anchored foot here. The line is
+   up by mid-scene, which is also when the eye has finished reading the visual.
 
    TAIL_FRAMES stays in this file: tools/audit.py reads it out of the episode
    source by regex to compute the expected render duration. */
@@ -52,15 +52,13 @@ const S01: React.FC = () => {
      to "0.1 BITS PER WEIGHT" while the counter still read ~14 GB. */
   const tight = crush > 0.99;
   const shown = tight ? "0.9" : String(Math.round(raw));
-  /* Lands with the crush, not after it: the line IS the payoff of the bar
-     collapsing, so it must be on screen while that reads. */
   const line = ph(frame, d, 0.46, 0.58);
 
   return (
     <Stage>
       <Top text="MEMORY" />
 
-      <Hero lift={210}>
+      <Hero lift={0}>
         <div style={{ display: "flex", alignItems: "baseline", gap: 16 }}>
           <div
             style={{
@@ -92,29 +90,25 @@ const S01: React.FC = () => {
         >
           {tight ? "0.1 BITS PER WEIGHT" : "13B PARAMETERS · FP16"}
         </div>
+
+        <div style={{ marginTop: 92 }}>
+          <Statement p={line} size={94}>
+            And it still works.
+          </Statement>
+        </div>
+
+        <div
+          style={{
+            marginTop: 62,
+            fontFamily: F.mono,
+            fontSize: 20,
+            letterSpacing: "0.34em",
+            color: C.faint,
+          }}
+        >
+          SAMSUNG LITTLEBIT
+        </div>
       </Hero>
-
-      <Foot>
-        <Statement p={line} size={94}>
-          And it still works.
-        </Statement>
-      </Foot>
-
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 56,
-          textAlign: "center",
-          fontFamily: F.mono,
-          fontSize: 20,
-          letterSpacing: "0.34em",
-          color: C.faint,
-        }}
-      >
-        SAMSUNG LITTLEBIT
-      </div>
     </Stage>
   );
 };
@@ -187,23 +181,20 @@ const S02: React.FC = () => {
         >
           NEURIPS 2025 · CODE PUBLIC
         </div>
-      </Hero>
 
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 56,
-          textAlign: "center",
-          fontFamily: F.mono,
-          fontSize: 19,
-          letterSpacing: "0.22em",
-          color: C.faint,
-        }}
-      >
-        ARXIV · 2506.13771
-      </div>
+        <div
+          style={{
+            fontFamily: F.mono,
+            fontSize: 19,
+            letterSpacing: "0.22em",
+            color: C.faint,
+            marginTop: 54,
+            opacity: c3 * 0.8,
+          }}
+        >
+          ARXIV · 2506.13771
+        </div>
+      </Hero>
     </Stage>
   );
 };
@@ -215,21 +206,21 @@ const S03: React.FC = () => {
   const card = ph(frame, d, 0.02, 0.12);
   const row = ph(frame, d, 0.22, 0.32);
   const lit = ph(frame, d, 0.26, 0.38);
-  const line = ph(frame, d, 0.64, 0.76);
+  const line = ph(frame, d, 0.46, 0.58);
 
   return (
     <Stage>
       <Top text="THE PROBLEM" />
 
-      <Hero lift={240}>
+      <Hero lift={0}>
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 40,
-            padding: "24px 56px",
+            gap: 44,
+            padding: "30px 64px",
             border: `2px solid ${C.panelEdge}`,
-            borderRadius: 30,
+            borderRadius: 32,
             backgroundColor: C.panel,
             opacity: card,
             transform: `scale(${0.94 + card * 0.06})`,
@@ -239,19 +230,19 @@ const S03: React.FC = () => {
             style={{
               fontFamily: F.sans,
               fontWeight: 800,
-              fontSize: 150,
+              fontSize: 190,
               lineHeight: 1,
               color: C.cyan,
             }}
           >
             1
           </div>
-          <div style={{ width: 2, height: 118, backgroundColor: C.panelEdge }} />
+          <div style={{ width: 2, height: 150, backgroundColor: C.panelEdge }} />
           <div
             style={{
               fontFamily: F.sans,
               fontWeight: 800,
-              fontSize: 150,
+              fontSize: 190,
               lineHeight: 1,
               color: C.faint,
             }}
@@ -263,18 +254,41 @@ const S03: React.FC = () => {
         <div
           style={{
             fontFamily: F.mono,
-            fontSize: 26,
+            fontSize: 27,
             letterSpacing: "0.18em",
             color: C.dim,
-            marginTop: 24,
+            marginTop: 26,
             opacity: card,
           }}
         >
           ONE BIT = ONE YES OR NO
         </div>
 
-        <div style={{ marginTop: 108, width: PW, opacity: row }}>
-          <div style={{ display: "flex", height: 190 }}>
+        <div style={{ marginTop: 104, width: PW, opacity: row }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 18, marginBottom: 14 }}>
+            <div style={{ flex: 1, height: 1, backgroundColor: C.panelEdge }} />
+            <div
+              style={{
+                fontFamily: F.mono,
+                fontSize: 22,
+                letterSpacing: "0.22em",
+                color: C.dim,
+              }}
+            >
+              1 BIT
+            </div>
+            <div style={{ flex: 1, height: 1, backgroundColor: C.panelEdge }} />
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              height: 280,
+              borderRadius: 14,
+              overflow: "hidden",
+              border: `1px solid ${C.panelEdge}`,
+            }}
+          >
             <div
               style={{
                 flex: 1,
@@ -294,37 +308,26 @@ const S03: React.FC = () => {
             ))}
           </div>
 
-          <div style={{ display: "flex", justifyContent: "space-between", marginTop: 18 }}>
-            <div
-              style={{
-                fontFamily: F.mono,
-                fontSize: 24,
-                letterSpacing: "0.16em",
-                color: C.amber,
-                opacity: 0.4 + 0.6 * lit,
-              }}
-            >
-              0.1 BIT
-            </div>
-            <div
-              style={{
-                fontFamily: F.mono,
-                fontSize: 24,
-                letterSpacing: "0.16em",
-                color: C.faint,
-              }}
-            >
-              1 BIT
-            </div>
+          <div
+            style={{
+              marginTop: 18,
+              fontFamily: F.mono,
+              fontSize: 24,
+              letterSpacing: "0.16em",
+              color: C.amber,
+              opacity: 0.45 + 0.55 * lit,
+            }}
+          >
+            0.1 BIT
           </div>
         </div>
-      </Hero>
 
-      <Foot>
-        <Statement p={line} size={96} color={C.amber}>
-          A tenth of a bit.
-        </Statement>
-      </Foot>
+        <div style={{ marginTop: 84 }}>
+          <Statement p={line} size={96} color={C.amber}>
+            A tenth of a bit.
+          </Statement>
+        </div>
+      </Hero>
     </Stage>
   );
 };
@@ -334,8 +337,8 @@ const S03: React.FC = () => {
 const S04: React.FC = () => {
   const { frame, d } = useScene();
   const appear = ph(frame, d, 0.02, 0.14);
-  const wipe = lin(frame, d, 0.4, 0.66);
-  const line = ph(frame, d, 0.7, 0.82);
+  const wipe = lin(frame, d, 0.6, 0.84);
+  const line = ph(frame, d, 0.46, 0.58);
 
   const gone = (i: number) => {
     const r = Math.floor(i / 5);
@@ -350,7 +353,7 @@ const S04: React.FC = () => {
     <Stage>
       <Top text="THE TURN" />
 
-      <Hero lift={240}>
+      <Hero lift={0}>
         <div
           style={{
             display: "grid",
@@ -393,7 +396,7 @@ const S04: React.FC = () => {
 
         <div
           style={{
-            marginTop: 38,
+            marginTop: 36,
             fontFamily: F.mono,
             fontSize: 25,
             letterSpacing: "0.18em",
@@ -402,15 +405,15 @@ const S04: React.FC = () => {
         >
           VALUES STORED · {String(remaining).padStart(2, "0")}
         </div>
-      </Hero>
 
-      <Foot>
-        <Statement p={line} size={96} color={C.cyan}>
-          They deleted
-          <br />
-          the numbers.
-        </Statement>
-      </Foot>
+        <div style={{ marginTop: 58 }}>
+          <Statement p={line} size={96} color={C.cyan}>
+            They deleted
+            <br />
+            the numbers.
+          </Statement>
+        </div>
+      </Hero>
     </Stage>
   );
 };
@@ -423,10 +426,10 @@ const S05: React.FC = () => {
   const abIn = ph(frame, d, 0.2, 0.32);
   const fill = lin(frame, d, 0.24, 0.54);
   const wOut = ph(frame, d, 0.58, 0.7);
-  const line = ph(frame, d, 0.66, 0.78);
+  const line = ph(frame, d, 0.46, 0.58);
 
   const filled = Math.round(fill * 12);
-  /* Ghost the big matrix instead of deleting it: the row keeps its width, so
+  /* Ghost the big matrix instead of deleting it: the block keeps its height, so
      nothing slides, and the eye still has the "before" to compare against. */
   const wOp = wIn * (1 - 0.82 * wOut);
 
@@ -434,83 +437,85 @@ const S05: React.FC = () => {
     <Stage>
       <Top text="THE TRICK" />
 
-      <Hero lift={230}>
+      <Hero lift={0}>
         <div
           style={{
             fontFamily: F.mono,
             fontSize: 24,
             letterSpacing: "0.22em",
             color: C.faint,
-            marginBottom: 28,
+            marginBottom: 24,
           }}
         >
           ONE WEIGHT MATRIX
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 40 }}>
-          <div style={{ opacity: wOp }}>
-            <Matrix
-              rows={6}
-              cols={6}
-              cell={44}
-              gap={6}
-              font={14}
-              text={(r, c) => weight(r * 6 + c)}
-              color={() => C.dim}
-            />
-          </div>
+        <div style={{ opacity: wOp }}>
+          <Matrix
+            rows={6}
+            cols={6}
+            cell={62}
+            gap={7}
+            font={12}
+            text={(r, c) => weight(r * 6 + c)}
+            color={() => C.dim}
+          />
+        </div>
 
-          <div
-            style={{
-              fontFamily: F.sans,
-              fontWeight: 700,
-              fontSize: 54,
-              color: C.faint,
-              opacity: Math.min(wIn, abIn),
-            }}
-          >
-            =
-          </div>
+        <div
+          style={{
+            fontFamily: F.sans,
+            fontWeight: 700,
+            fontSize: 54,
+            lineHeight: 1,
+            color: C.faint,
+            margin: "28px 0",
+            opacity: Math.min(wIn, abIn),
+          }}
+        >
+          =
+        </div>
 
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", opacity: abIn }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 36, opacity: abIn }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <Matrix
               rows={6}
               cols={2}
-              cell={44}
+              cell={46}
               gap={6}
-              font={14}
+              font={15}
               text={(r, c) => (r * 2 + c < filled ? sign(r * 2 + c) : "")}
               color={() => C.cyan}
               bg={(r, c) => (r * 2 + c < filled ? "rgba(34,211,238,0.10)" : "transparent")}
-              border={(r, c) => (r * 2 + c < filled ? "rgba(34,211,238,0.50)" : "transparent")}
+              border={(r, c) => (r * 2 + c < filled ? "rgba(34,211,238,0.55)" : "transparent")}
             />
             <div style={{ fontFamily: F.mono, fontSize: 24, color: C.cyan, marginTop: 12 }}>A</div>
           </div>
 
-          <div style={{ fontFamily: F.sans, fontSize: 40, color: C.faint, opacity: abIn }}>×</div>
+          <div style={{ fontFamily: F.sans, fontSize: 40, color: C.faint }}>×</div>
 
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", opacity: abIn }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <Matrix
               rows={2}
               cols={6}
-              cell={44}
+              cell={46}
               gap={6}
-              font={14}
+              font={15}
               text={(r, c) => (r * 6 + c < filled ? sign(100 + r * 6 + c) : "")}
               color={() => C.violet}
               bg={(r, c) => (r * 6 + c < filled ? "rgba(167,139,250,0.10)" : "transparent")}
-              border={(r, c) => (r * 6 + c < filled ? "rgba(167,139,250,0.50)" : "transparent")}
+              border={(r, c) => (r * 6 + c < filled ? "rgba(167,139,250,0.55)" : "transparent")}
             />
             <div style={{ fontFamily: F.mono, fontSize: 24, color: C.violet, marginTop: 12 }}>B</div>
           </div>
         </div>
-      </Hero>
 
-      <Foot>
-        <Statement p={line} size={94}>
-          Only signs.
-        </Statement>
-      </Foot>
+        <div style={{ marginTop: 66 }}>
+          <Statement p={line} size={94}>
+            Only signs.
+          </Statement>
+        </div>
+      </Hero>
     </Stage>
   );
 };
@@ -523,7 +528,7 @@ const S06: React.FC = () => {
   const sweep = lin(frame, d, 0.06, 0.34);
   const active = Math.min(5, Math.floor(sweep * 6));
   const fillAll = lin(frame, d, 0.3, 0.7);
-  const line = ph(frame, d, 0.66, 0.78);
+  const line = ph(frame, d, 0.46, 0.58);
 
   const cellOpacity = (r: number, c: number) => {
     const diag = r === c && r <= active ? 1 : 0;
@@ -535,12 +540,12 @@ const S06: React.FC = () => {
     <Stage>
       <Top text="NEVER SAVED" />
 
-      <Hero lift={240}>
+      <Hero lift={0}>
         <div style={{ display: "flex", alignItems: "center", gap: 30, opacity: top }}>
           <Matrix
             rows={6}
             cols={2}
-            cell={32}
+            cell={36}
             gap={5}
             font={11}
             text={(r, c) => sign(r * 2 + c)}
@@ -551,7 +556,7 @@ const S06: React.FC = () => {
           <Matrix
             rows={2}
             cols={6}
-            cell={32}
+            cell={36}
             gap={5}
             font={11}
             text={(r, c) => sign(100 + r * 6 + c)}
@@ -565,7 +570,7 @@ const S06: React.FC = () => {
             fontFamily: F.mono,
             fontSize: 26,
             color: C.faint,
-            margin: "30px 0 26px",
+            margin: "28px 0 24px",
             opacity: top,
           }}
         >
@@ -577,33 +582,20 @@ const S06: React.FC = () => {
           cols={6}
           cell={62}
           gap={7}
-          font={15}
+          font={13}
           text={(r, c) => weight(r * 6 + c)}
           color={(r, c) => (r === c ? C.cyan : C.text)}
           opacity={(r, c) => cellOpacity(r, c) * (r === c ? 1 : 0.82)}
         />
 
-        <div
-          style={{
-            marginTop: 34,
-            fontFamily: F.mono,
-            fontSize: 24,
-            letterSpacing: "0.2em",
-            color: C.faint,
-            opacity: top,
-          }}
-        >
-          THE BIG MATRIX IS NOT IN THE FILE
+        <div style={{ marginTop: 62 }}>
+          <Statement p={line} size={84}>
+            Rebuilt,
+            <br />
+            not stored.
+          </Statement>
         </div>
       </Hero>
-
-      <Foot>
-        <Statement p={line} size={84}>
-          Rebuilt,
-          <br />
-          not stored.
-        </Statement>
-      </Foot>
     </Stage>
   );
 };
@@ -639,13 +631,13 @@ const S07: React.FC = () => {
   const r1 = ph(frame, d, 0.04, 0.14);
   const r2 = ph(frame, d, 0.16, 0.26);
   const big = ph(frame, d, 0.3, 0.44);
-  const line = ph(frame, d, 0.68, 0.8);
+  const line = ph(frame, d, 0.46, 0.58);
 
   return (
     <Stage>
       <Top text="THE ACCOUNTING" />
 
-      <Hero lift={240}>
+      <Hero lift={0}>
         <div
           style={{
             width: PW,
@@ -664,7 +656,7 @@ const S07: React.FC = () => {
             display: "flex",
             alignItems: "baseline",
             gap: 18,
-            marginTop: 64,
+            marginTop: 66,
             opacity: big,
             transform: `scale(${0.92 + big * 0.08})`,
           }}
@@ -696,15 +688,15 @@ const S07: React.FC = () => {
         >
           PER ORIGINAL WEIGHT
         </div>
-      </Hero>
 
-      <Foot>
-        <Statement p={line} size={90}>
-          Shared,
-          <br />
-          not stored.
-        </Statement>
-      </Foot>
+        <div style={{ marginTop: 58 }}>
+          <Statement p={line} size={90}>
+            Shared,
+            <br />
+            not stored.
+          </Statement>
+        </div>
+      </Hero>
     </Stage>
   );
 };
@@ -716,18 +708,20 @@ const S08: React.FC = () => {
   const stamp = ph(frame, d, 0.02, 0.12);
   const e1 = ph(frame, d, 0.16, 0.28);
   const e2 = ph(frame, d, 0.32, 0.44);
-  const line = ph(frame, d, 0.7, 0.82);
+  const line = ph(frame, d, 0.46, 0.58);
 
   /* Schematic, not a measurement: the paper does not publish a single
-     reconstruction-error percentage, so the bar carries direction only. */
-  const err = 100 - 55 * e1 - 37 * e2;
-  const color = err > 60 ? C.red : err > 25 ? C.amber : C.green;
+     reconstruction-error percentage, so the bar carries direction only.
+     Drawn as RECOVERY (filling) rather than error (emptying): a nearly empty
+     bar reads as failure no matter what the label says. */
+  const recovery = 0.08 + 0.92 * (0.55 * e1 + 0.37 * e2);
+  const color = recovery > 0.7 ? C.green : recovery > 0.4 ? C.amber : C.red;
 
   return (
     <Stage>
       <Top text="THE FIX" />
 
-      <Hero lift={240}>
+      <Hero lift={0}>
         <div
           style={{
             fontFamily: F.mono,
@@ -740,17 +734,17 @@ const S08: React.FC = () => {
           LATENT FACTORIZATION
         </div>
 
-        <div style={{ width: PW, marginTop: 96, opacity: stamp }}>
+        <div style={{ width: PW, marginTop: 92, opacity: stamp }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 18 }}>
             <div style={{ fontFamily: F.mono, fontSize: 24, color: C.dim, letterSpacing: "0.16em" }}>
-              RECONSTRUCTION ERROR
+              SIGNAL RECOVERED
             </div>
             <div style={{ fontFamily: F.mono, fontSize: 24, color: C.faint, letterSpacing: "0.12em" }}>
               SCHEMATIC
             </div>
           </div>
 
-          <Bar frac={err / 100} color={color} height={30} />
+          <Bar frac={recovery} color={color} height={30} />
 
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: 16 }}>
             <div style={{ fontFamily: F.mono, fontSize: 21, color: C.faint, letterSpacing: "0.14em" }}>
@@ -762,7 +756,7 @@ const S08: React.FC = () => {
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: 16, marginTop: 72 }}>
+        <div style={{ display: "flex", gap: 16, marginTop: 70 }}>
           <Chip
             label="SIGN FACTORS"
             color={e1 > 0.7 ? C.cyan : C.faint}
@@ -774,17 +768,17 @@ const S08: React.FC = () => {
             p={0.45 + 0.55 * e2}
           />
         </div>
-      </Hero>
 
-      <Foot>
-        <Statement p={line} size={82}>
-          Recover what
-          <br />
-          the signs
-          <br />
-          throw away.
-        </Statement>
-      </Foot>
+        <div style={{ marginTop: 66 }}>
+          <Statement p={line} size={82}>
+            Recover what
+            <br />
+            the signs
+            <br />
+            throw away.
+          </Statement>
+        </div>
+      </Hero>
     </Stage>
   );
 };
@@ -795,7 +789,7 @@ const S09: React.FC = () => {
   const { frame, d } = useScene();
   const c1 = ph(frame, d, 0.06, 0.3);
   const c2 = ph(frame, d, 0.28, 0.52);
-  const note = ph(frame, d, 0.54, 0.66);
+  const note = ph(frame, d, 0.3, 0.42);
   const n1 = Math.round(1 + c1 * 30);
   const n2 = (1 + c2 * 10.6).toFixed(1);
 
@@ -804,7 +798,7 @@ const S09: React.FC = () => {
       <Top text="THE NUMBERS" />
 
       <Hero lift={0}>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 62 }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 60 }}>
           <Stat value={`${n1}×`} label="LESS MEMORY" p={0.3 + 0.7 * c1} size={230} />
 
           <div style={{ width: 280, height: 1, backgroundColor: C.panelEdge }} />
@@ -912,13 +906,13 @@ const S10: React.FC = () => {
   const q = ph(frame, d, 0.14, 0.3);
   const b1 = ph(frame, d, 0.2, 0.32);
   const b2 = ph(frame, d, 0.26, 0.38);
-  const line = ph(frame, d, 0.66, 0.78);
+  const line = ph(frame, d, 0.46, 0.58);
 
   return (
     <Stage>
       <Top text="THE RESULT" />
 
-      <Hero lift={250}>
+      <Hero lift={0}>
         <div
           style={{
             fontFamily: F.mono,
@@ -953,15 +947,15 @@ const S10: React.FC = () => {
             accent={C.cyan}
           />
         </div>
-      </Hero>
 
-      <Foot>
-        <Statement p={line} size={78}>
-          Same quality.
-          <br />
-          A tenth of the bits.
-        </Statement>
-      </Foot>
+        <div style={{ marginTop: 62 }}>
+          <Statement p={line} size={78}>
+            Same quality.
+            <br />
+            A tenth of the bits.
+          </Statement>
+        </div>
+      </Hero>
     </Stage>
   );
 };
@@ -1036,37 +1030,38 @@ const S11: React.FC = () => {
   const b = ph(frame, d, 0.1, 0.24);
   const c = ph(frame, d, 0.18, 0.32);
   const line = ph(frame, d, 0.42, 0.54);
-  const note = ph(frame, d, 0.56, 0.68);
+  const note = ph(frame, d, 0.46, 0.58);
 
   return (
     <Stage>
       <Top text="ON DEVICE" />
 
-      <Hero lift={250}>
+      <Hero lift={0}>
         <div style={{ display: "flex", alignItems: "center", gap: 38 }}>
           <Phone p={a} />
           <Laptop p={b} />
           <Watch p={c} />
         </div>
-      </Hero>
 
-      <Foot>
-        <Statement p={line} size={104} color={C.cyan}>
-          On device.
-        </Statement>
+        <div style={{ marginTop: 86 }}>
+          <Statement p={line} size={104} color={C.cyan}>
+            On device.
+          </Statement>
+        </div>
+
         <div
           style={{
             fontFamily: F.mono,
             fontSize: 24,
             letterSpacing: "0.18em",
             color: C.dim,
-            marginTop: 24,
+            marginTop: 26,
             opacity: note,
           }}
         >
           13B · UNDER 0.9 GB
         </div>
-      </Foot>
+      </Hero>
     </Stage>
   );
 };
