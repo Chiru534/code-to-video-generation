@@ -54,7 +54,7 @@ def list_children(svc, parent):
         svc.files()
         .list(
             q=f"'{parent}' in parents and trashed = false",
-            fields="files(id,name,mimeType,size,createdTime,webViewLink)",
+            fields="files(id,name,mimeType,size,createdTime,webViewLink,thumbnailLink)",
             orderBy="name",
             pageSize=200,
             supportsAllDrives=True,
@@ -115,36 +115,7 @@ def run(cmd):
     return subprocess.run(cmd, capture_output=True, text=True, timeout=300)
 
 
-def make_thumbnails(frame_png, width, height, out_dir, stem):
-    """Build the 16:9 upload thumbnail (and the native 9:16 cover)."""
-    made = []
-    jpg = os.path.join(out_dir, f"{stem}-thumbnail.jpg")
-    if width > height:
-        result = run(
-            ["ffmpeg", "-y", "-v", "error", "-i", frame_png,
-             "-vf", "scale=1280:720:flags=lanczos", "-q:v", "3", jpg]
-        )
-    else:
-        result = run(
-            ["ffmpeg", "-y", "-v", "error", "-i", frame_png,
-             "-filter_complex", BLUR_16x9, "-q:v", "3", jpg]
-        )
-    if result.returncode != 0 or not os.path.exists(jpg):
-        return made
-    made.append(jpg)
-
-    if height > width:
-        cover = os.path.join(out_dir, f"{stem}-thumbnail-9x16.jpg")
-        result = run(
-            ["ffmpeg", "-y", "-v", "error", "-i", frame_png,
-             "-vf", "scale=1080:1920:flags=lanczos", "-q:v", "3", cover]
-        )
-        if result.returncode == 0 and os.path.exists(cover):
-            made.append(cover)
-    return made
-
-
-def video_size(path):
+def media_size(path):
     result = run(
         ["ffprobe", "-v", "error", "-select_streams", "v",
          "-show_entries", "stream=width,height", "-of", "csv=p=0", path]
@@ -157,22 +128,92 @@ def video_size(path):
     return int(parts[0]), int(parts[1])
 
 
+def compose_thumbnails(src, out_dir, stem):
+    """Build the 16:9 upload thumbnail (and the native 9:16 cover).
+
+    Works for any source image, so it can be fed either a frame decoded from
+    the video or Drive's own thumbnail.
+    """
+    width, height = media_size(src)
+    if not width or not height:
+        return []
+
+    made = []
+    jpg = os.path.join(out_dir, f"{stem}-thumbnail.jpg")
+    if width >= height:
+        result = run(
+            ["ffmpeg", "-y", "-v", "error", "-i", src,
+             "-vf", "scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720:flags=lanczos",
+             "-q:v", "3", jpg]
+        )
+    else:
+        # Blur hard and dim the fill, or the vertical frame's own text ghosts
+        # across the sides and reads as a mistake.
+        result = run(
+            ["ffmpeg", "-y", "-v", "error", "-i", src,
+             "-filter_complex", BLUR_16x9, "-q:v", "3", jpg]
+        )
+    if result.returncode != 0 or not os.path.exists(jpg):
+        return []
+    made.append(jpg)
+
+    if height > width:
+        cover = os.path.join(out_dir, f"{stem}-thumbnail-9x16.jpg")
+        result = run(
+            ["ffmpeg", "-y", "-v", "error", "-i", src,
+             "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920:flags=lanczos",
+             "-q:v", "3", cover]
+        )
+        if result.returncode == 0 and os.path.exists(cover):
+            made.append(cover)
+    return made
+
+
+def drive_thumbnail(svc, item, out_dir, stem):
+    """Download the thumbnail Drive generated for this video."""
+    link = item.get("thumbnailLink")
+    if not link:
+        return []
+    try:
+        import requests
+
+        response = requests.get(link, timeout=120)
+        response.raise_for_status()
+        if len(response.content) < 1024:
+            return []
+        path = os.path.join(out_dir, f"{stem}-drive.jpg")
+        with open(path, "wb") as handle:
+            handle.write(response.content)
+        return compose_thumbnails(path, out_dir, stem)
+    except Exception as exc:
+        log(f"    ! Drive thumbnail failed for {item['name']}: {exc}")
+        return []
+
+
 def thumbnail_for(svc, creds, item, out_dir, stem):
-    """Frame -> thumbnails for one video. Returns [] if it cannot be done."""
+    """Frame -> thumbnails for one video. Returns [] if it cannot be done.
+
+    Two ways in, best first:
+      1. the first few MB of the file, decoded with ffmpeg. Every render made
+         by this pipeline is faststart, so the index is at the front and the
+         partial file is seekable.
+      2. the thumbnail Drive already generated for the video.
+    """
     part = os.path.join(out_dir, f"{stem}-part.mp4")
     frame = os.path.join(out_dir, f"{stem}-frame.png")
     try:
-        if not fetch_head(svc, creds, item["id"], part):
-            return []
-        result = run(
-            ["ffmpeg", "-y", "-v", "error", "-ss", str(THUMB_SECONDS),
-             "-i", part, "-frames:v", "1", "-update", "1", frame]
-        )
-        if result.returncode != 0 or not os.path.exists(frame):
-            log(f"    ! no frame could be decoded from {item['name']}")
-            return []
-        width, height = video_size(part)
-        return make_thumbnails(frame, width, height, out_dir, stem)
+        if fetch_head(svc, creds, item["id"], part):
+            result = run(
+                ["ffmpeg", "-y", "-v", "error", "-ss", str(THUMB_SECONDS),
+                 "-i", part, "-frames:v", "1", "-update", "1", frame]
+            )
+            if result.returncode == 0 and os.path.exists(frame):
+                made = compose_thumbnails(frame, out_dir, stem)
+                if made:
+                    return made
+            else:
+                log("    ! no frame decoded from the file head; not a faststart mp4")
+        return drive_thumbnail(svc, item, out_dir, stem)
     except Exception as exc:  # a thumbnail must never break the migration
         log(f"    ! thumbnail failed for {item['name']}: {exc}")
         return []
@@ -203,9 +244,12 @@ def ensure_thumbnail(svc, creds, folder_id, video, dry_run):
         return False
     with tempfile.TemporaryDirectory() as tmp:
         thumbs = thumbnail_for(svc, creds, video, tmp, stem)
-    for path in thumbs:
-        upload_file(svc, path, os.path.basename(path), folder_id, mime_for(path))
-        log(f"    uploaded {os.path.basename(path)}")
+        for path in thumbs:
+            try:
+                upload_file(svc, path, os.path.basename(path), folder_id, mime_for(path))
+                log(f"    uploaded {os.path.basename(path)}")
+            except Exception as exc:  # never fail the whole run over a thumbnail
+                log(f"    ! upload of {os.path.basename(path)} failed: {exc}")
     if not thumbs:
         log("    no thumbnail produced (the file may not be a faststart mp4)")
     return bool(thumbs)
