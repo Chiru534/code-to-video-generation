@@ -55,7 +55,7 @@ def list_children(svc, parent):
         svc.files()
         .list(
             q=f"'{parent}' in parents and trashed = false",
-            fields="files(id,name,mimeType,size,createdTime,webViewLink,thumbnailLink)",
+            fields="files(id,name,mimeType,size,createdTime,webViewLink,thumbnailLink,md5Checksum)",
             orderBy="name",
             pageSize=200,
             supportsAllDrives=True,
@@ -376,7 +376,8 @@ def dump_tree(svc, parent, label):
             link = item.get("webViewLink", "")
             log(
                 f"  {folder['name']}/  {item['name']:46s} {size}  "
-                f"drive-thumb:{thumb}  {item['id']}  {link}"
+                f"drive-thumb:{thumb}  md5:{item.get('md5Checksum', '-')}  "
+                f"{item['id']}  {link}"
             )
     loose = [c for c in list_children(svc, parent) if c["mimeType"] != FOLDER_MIME]
     for item in loose:

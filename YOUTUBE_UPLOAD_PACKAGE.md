@@ -22,7 +22,7 @@ place, so the link and the folder name never change.
 ```
 My Drive / blender_s1 / productions /
   2026-11-10_littlebit-film/
-    littlebit-film.mp4              ~7.5 min, 1920x1080, 30 fps, -14 LUFS
+    littlebit-film.mp4              373.8 s (6:14), 1920x1080, 30 fps, -14.2 LUFS
     littlebit-film-thumbnail.jpg    1280x720  <- upload this as the custom thumbnail
 ```
 
@@ -57,17 +57,18 @@ Every frame in this video is rendered from code. No AI video models were used.
 ```
 
 **Chapters** (paste into the description — they become the player's scrubber
-and the index search engines read):
+and the index search engines read). These are measured from the rendered
+file, not estimated:
 
 ```
 0:00  The Wall: 26 GB of AI
-0:57  Delete the Numbers
-2:05  Counting Differently: where 0.1 bits comes from
-3:00  What Deleting Costs: magnitude, spectra, compensation
-3:56  The Geometry Problem: latent rotation
-5:15  The Numbers, and what each one is
-6:05  What It Actually Means: no kernels yet
-7:04  The Layer Below
+0:44  Delete the Numbers
+1:41  Counting Differently: where 0.1 bits comes from
+2:21  What Deleting Costs: magnitude, spectra, compensation
+3:09  The Geometry Problem: latent rotation
+4:14  The Numbers, and what each one is
+5:00  What It Actually Means: no kernels yet
+5:48  The Layer Below
 ```
 
 **Tags:** `quantization, llm, machine learning, ai, sub-1-bit, model
