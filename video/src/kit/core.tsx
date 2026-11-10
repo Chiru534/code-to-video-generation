@@ -53,6 +53,13 @@ export const useScene = () => {
   return { frame, d: durationInFrames };
 };
 
+/** Fade + rise, the default entrance for anything that is not a hard cut.
+ *  It lives here, not in a kit, so both canvases share one definition. */
+export const rise = (p: number, dist = 28) => ({
+  opacity: p,
+  transform: `translateY(${(1 - p) * dist}px)`,
+});
+
 /** Seeded pseudo-random in [0,1). No Math.random: the same frame must render
  *  the same pixels on every machine, or the render is not reproducible.
  *  The constants are the ORIGINAL ones from src/kit/scene.tsx — a different

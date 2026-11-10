@@ -1,7 +1,7 @@
 import React from "react";
 import { Easing, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { C, F } from "../theme";
-import { CLAMP, ease, ph, lin, prog, rnd, useScene } from "./core";
+import { CLAMP, ease, ph, lin, prog, rnd, rise, useScene } from "./core";
 
 /* Shared primitives for the vertical 1080x1920 shorts.
  *
@@ -22,13 +22,10 @@ import { CLAMP, ease, ph, lin, prog, rnd, useScene } from "./core";
 /** Usable width at 1080 wide with 64px padding on both sides. */
 export const PW = 920;
 
-export { CLAMP, ease, prog, ph, lin, rnd, useScene };
+export { CLAMP, ease, prog, ph, lin, rnd, useScene, rise };
 
-/** Fade + rise, the default entrance for anything that is not a hard cut. */
-export const rise = (p: number, dist = 28) => ({
-  opacity: p,
-  transform: `translateY(${(1 - p) * dist}px)`,
-});
+/** Fade + rise, the default entrance for anything that is not a hard cut.
+ *  Defined in core.tsx now, so the portrait and landscape kits agree. */
 
 /* -------------------------------------------------------------- layout --- */
 

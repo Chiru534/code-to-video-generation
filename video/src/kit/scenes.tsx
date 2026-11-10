@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Easing, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { C, F } from "../theme";
-import { CLAMP, ease, lin, ph, prog, rnd, useScene } from "./core";
+import { CLAMP, ease, lin, ph, prog, rise, rnd, useScene } from "./core";
 
 /* The scene vocabulary for long-form 16:9 video.
  *
@@ -72,8 +72,11 @@ export const Chapter: React.FC<{ num: string; title: string; at?: number }> = ({
 
 /** A big number with its unit, its meaning, and — when it matters — the
  *  caveat it carries. `note` is not decoration: the honest label ("POTENTIAL
- *  · PAPER ESTIMATE") lives here, on screen, where the claim is made. */
-export const Stat: React.FC<{
+ *  · PAPER ESTIMATE") lives here, on screen, where the claim is made.
+ *
+ *  Named Figure, not Stat: the portrait kit already exports a Stat, and two
+ *  components with one name is how an agent picks the wrong one. */
+export const Figure: React.FC<{
   value: string;
   unit?: string;
   label: string;
@@ -756,11 +759,7 @@ export const EndCard: React.FC<{
 
 /* -------------------------------------------------------------- helpers --- */
 
-/** A fade+rise for anything that is not a hard cut. */
-export const rise = (p: number, dist = 26) => ({
-  opacity: Math.max(0, Math.min(1, p)),
-  transform: `translateY(${(1 - p) * dist}px)`,
-});
+export { rise };
 
 /** A horizontal sweep that finishes when the viewer sees it start. Linear, not
  *  eased: the eased version is ~90% done at its own midpoint. */

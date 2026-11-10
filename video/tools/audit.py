@@ -114,7 +114,66 @@ def audit_registry() -> dict:
     else:
         check(False, "src/Root.tsx exists", root_path)
 
+    audit_kit()
+
     return registry
+
+
+def audit_kit() -> None:
+    """The shared kit must have one definition per name, per canvas family.
+
+    The episode series hand-wrote TitleScene, HookScene, BudgetScene and
+    EndCard five times over, and two kits re-implemented the same timing
+    helpers. A duplicate in the kit means the next video has two plausible
+    answers, and the agent picks the wrong one.
+
+    Two families may hold the same name on purpose: the portrait kit and the
+    landscape kit each have their own Statement, because 1080-wide geometry
+    does not transfer to 16:9. The SHARED family collides with both.
+    """
+    kit_dir = os.path.join(ROOT, "src", "kit")
+    if not os.path.isdir(kit_dir):
+        check(False, "src/kit exists", kit_dir)
+        return
+
+    families = {
+        "core.tsx": "shared",
+        "scenes.tsx": "shared",
+        "draw.tsx": "shared",
+        "scene.tsx": "portrait",
+        "film.tsx": "landscape",
+    }
+
+    owners: dict[str, list[tuple[str, str]]] = {}
+    for name in sorted(os.listdir(kit_dir)):
+        if not name.endswith(".tsx"):
+            continue
+        path = os.path.join(kit_dir, name)
+        with open(path, encoding="utf-8") as handle:
+            body = handle.read()
+        for match in re.finditer(
+            r"^export\s+(?:const|function|class|type)\s+([A-Za-z_][A-Za-z0-9_]*)", body, re.M
+        ):
+            owners.setdefault(match.group(1), []).append(
+                (name, families.get(name, "shared"))
+            )
+
+    def clashes(entries):
+        if len(entries) < 2:
+            return False
+        fams = {f for _n, f in entries}
+        # The shared family is used by both canvases, so it collides with
+        # everything. Two canvas families may hold the same name on purpose.
+        if "shared" in fams:
+            return True
+        return len(fams) < len(entries)
+
+    dupes = sorted(n for n, entries in owners.items() if clashes(entries))
+    check(
+        not dupes,
+        "no duplicate components in the kit",
+        f"defined twice: {dupes}" if dupes else f"{len(owners)} components",
+    )
 
 
 # ---------------------------------------------------------------- episodes ---

@@ -17,6 +17,70 @@ place, so the link and the folder name never change.
 
 ---
 
+## The long film: The Layer Below
+
+```
+My Drive / blender_s1 / productions /
+  2026-11-10_littlebit-film/
+    littlebit-film.mp4              ~7.5 min, 1920x1080, 30 fps, -14 LUFS
+    littlebit-film-thumbnail.jpg    1280x720  <- upload this as the custom thumbnail
+```
+
+**Title:** `The Layer Below: How AI Got Under One Bit`
+
+**Description:**
+
+```
+A 13-billion-parameter model, stored at 0.1 bits per weight, and it still
+works. This is the full breakdown of Samsung's LittleBit.
+
+It is not smaller numbers. The weight matrix is factored into two thin
+matrices of nothing but +1 and -1, and the original is rebuilt on the fly.
+The information is shared, not stored. LittleBit-2 fixes the geometry
+problem that made the first version lose quality, with a rotation that costs
+nothing at inference time.
+
+We also spend the last act on the parts that are not true yet: there are no
+sub-one-bit multiply kernels, the 11.6x speedup is a projection rather than a
+measurement, and the 0.1 bits per weight is an accounting measure rather than
+a physical cell.
+
+Papers:
+  LittleBit: Ultra Low-Bit Quantization via Latent Factorization (NeurIPS 2025)
+  https://arxiv.org/abs/2506.13771
+  LittleBit-2 (2026)
+  https://arxiv.org/abs/2603.00042
+
+Every frame in this video is rendered from code. No AI video models were used.
+
+#quantization #llm #machinelearning #artificialintelligence #computerscience
+```
+
+**Chapters** (paste into the description — they become the player's scrubber
+and the index search engines read):
+
+```
+0:00  The Wall: 26 GB of AI
+0:57  Delete the Numbers
+2:05  Counting Differently: where 0.1 bits comes from
+3:00  What Deleting Costs: magnitude, spectra, compensation
+3:56  The Geometry Problem: latent rotation
+5:15  The Numbers, and what each one is
+6:05  What It Actually Means: no kernels yet
+7:04  The Layer Below
+```
+
+**Tags:** `quantization, llm, machine learning, ai, sub-1-bit, model
+compression, littlebit, samsung, neural networks, llama, deep learning, how ai
+works, artificial intelligence`
+
+**Upload order:** upload the Short first, then the film. The Short stands alone
+and never points at the film; the film may point back at the Short. The
+film's closing act asks for the 60-second version, so the Short should be
+live before the film goes out.
+
+---
+
 ## The short: LittleBit
 
 | | |
@@ -102,11 +166,21 @@ Also:
 The long-form and older Shorts now live in dated folders too, the same way:
 
 ```
-My Drive / blender_s1 / productions /        <- long videos
-My Drive / blender_s1 / productions / shorts/ <- Shorts
+My Drive / blender_s1 / productions /          <- long videos
+  2026-11-09_wifi-film/
+    wifi-film.mp4
+    wifi-film-thumbnail.jpg
+
+My Drive / blender_s1 / productions / shorts/   <- Shorts
+  2026-11-10_littlebit/
+  2026-11-09_tls/
+  2026-11-09_the-handshake/
+  2026-11-09_http/
+  2026-11-09_finding-the-address/
+  2026-11-09_wifi-airtime/
 ```
 
-Each video has its own `<date>_<slug>/` folder containing the MP4 and its
-thumbnail. Sort by date, open the folder, upload. Files that were already on
-Drive before this layout were moved into their dated folder **keeping their
-link**, so every link you have shared still works.
+Every video folder has the MP4 and a 1280x720 thumbnail. Sort by date, open
+the folder, upload. Files that were already on Drive before this layout were
+moved into their dated folder **keeping their link**, so every link you have
+shared still works.
