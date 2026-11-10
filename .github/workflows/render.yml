@@ -100,7 +100,11 @@ jobs:
                 emit([], "push:no-file-diff");
               } else {
                 // Shared files that affect every episode.
-                const sharedPatterns = ["video/src/chrome", "video/src/theme", "video/tools/"];
+                // ONLY tts.py belongs here: it writes the wavs and the measured
+                // timings, so changing it changes every render. audit.py and
+                // gdrive_upload.py are gates/plumbing — a change there must not
+                // re-render eight finished videos.
+                const sharedPatterns = ["video/src/chrome", "video/src/theme", "video/tools/tts.py"];
                 const episodesJsonChanged = changed.includes("video/episodes.json");
 
                 // If episodes.json changed, determine which episodes are new or modified.
@@ -274,6 +278,56 @@ jobs:
         working-directory: video
         run: python tools/audit.py --static --video "out/$OUTPUT" --episode "${{ matrix.key }}"
 
+      # Pull one frame out of the file that just passed the gate — no second
+      # render, no second bundle. YouTube's custom-thumbnail slot is 1280x720
+      # JPEG <2 MB, so a vertical episode (1080x1920) is centred over a blurred
+      # fill and also kept in its native phone shape for the Shorts listing.
+      - name: Extract thumbnail
+        working-directory: video
+        run: |
+          STEM="${OUTPUT%.mp4}"
+          W=$(ffprobe -v error -select_streams v -show_entries stream=width -of csv=p=0 "out/$OUTPUT")
+          H=$(ffprobe -v error -select_streams v -show_entries stream=height -of csv=p=0 "out/$OUTPUT")
+          SECS="${{ matrix.thumbSeconds }}"
+          SECS="${SECS:-4}"
+          DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "out/$OUTPUT")
+          SECS=$(awk -v s="$SECS" -v d="$DUR" 'BEGIN { print (s > d - 1 ? d / 2 : s) }')
+          echo "thumbnail at ${SECS}s of ${DUR}s (${W}x${H})"
+
+          ffmpeg -y -v error -ss "$SECS" -i "out/$OUTPUT" -frames:v 1 -update 1 "out/${STEM}-frame.png"
+
+          make_16x9() {  # $1 frame, $2 out, $3 qscale
+            if [ "$W" -gt "$H" ]; then
+              ffmpeg -y -v error -i "$1" -vf "scale=1280:720:flags=lanczos" -q:v "$3" "$2"
+            else
+              # Blur hard and dim the fill, or the vertical frame's own text
+              # ghosts across the sides and reads as a mistake.
+              ffmpeg -y -v error -i "$1" -filter_complex \
+                "[0:v]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,gblur=sigma=60,eq=brightness=-0.22:saturation=1.25[bg];[0:v]scale=-2:720[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2" \
+                -q:v "$3" "$2"
+            fi
+          }
+
+          make_16x9 "out/${STEM}-frame.png" "out/${STEM}-thumbnail.jpg" 3
+          BYTES=$(stat -c%s "out/${STEM}-thumbnail.jpg")
+          if [ "$BYTES" -gt 2000000 ]; then
+            echo "thumbnail is ${BYTES} bytes, over the 2 MB upload limit; re-encoding"
+            make_16x9 "out/${STEM}-frame.png" "out/${STEM}-thumbnail.jpg" 7
+            BYTES=$(stat -c%s "out/${STEM}-thumbnail.jpg")
+          fi
+
+          THUMB_9X16=""
+          if [ "$H" -gt "$W" ]; then
+            THUMB_9X16="out/${STEM}-thumbnail-9x16.jpg"
+            ffmpeg -y -v error -i "out/${STEM}-frame.png" -vf "scale=1080:1920:flags=lanczos" -q:v 3 "$THUMB_9X16"
+          fi
+          rm -f "out/${STEM}-frame.png"
+
+          echo "THUMB_16X9=out/${STEM}-thumbnail.jpg" >> "$GITHUB_ENV"
+          echo "THUMB_9X16=${THUMB_9X16}" >> "$GITHUB_ENV"
+          ls -lh out/*thumbnail*.jpg
+          echo "| thumbnail | ${BYTES} bytes |" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload to Google Drive
         if: success()
         working-directory: video
@@ -285,7 +339,11 @@ jobs:
           GDRIVE_SHORTS_FOLDER_ID: ${{ secrets.GDRIVE_SHORTS_FOLDER_ID }}
           GDRIVE_SHORTS_MAX_SECONDS: "180"
           GDRIVE_SA_JSON: ${{ secrets.GDRIVE_SA_JSON }}
-        run: python tools/gdrive_upload.py "out/$OUTPUT" --name "$OUTPUT"
+        run: |
+          ARGS=()
+          if [ -n "${THUMB_16X9}" ]; then ARGS+=(--thumb "${THUMB_16X9}"); fi
+          if [ -n "${THUMB_9X16}" ]; then ARGS+=(--thumb "${THUMB_9X16}"); fi
+          python tools/gdrive_upload.py "out/$OUTPUT" --name "$OUTPUT" "${ARGS[@]}"
 
       - name: Run summary
         if: always()
@@ -309,6 +367,7 @@ jobs:
           name: ${{ matrix.key }}-${{ matrix.output }}
           path: |
             video/out/${{ matrix.output }}
+            video/out/*-thumbnail*.jpg
             video/${{ matrix.audioDir }}/*.wav
             video/${{ matrix.srcDir }}/timings.json
           retention-days: 30

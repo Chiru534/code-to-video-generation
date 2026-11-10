@@ -53,6 +53,7 @@
     "srcDir": "src/littlebit",
     "audioDir": "public/audio/littlebit",
     "composition": "LittleBit",
-    "output": "littlebit.mp4"
+    "output": "littlebit.mp4",
+    "thumbSeconds": 3.2
   }
 }

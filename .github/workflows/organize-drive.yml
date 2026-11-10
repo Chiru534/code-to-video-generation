@@ -1,0 +1,43 @@
+name: Organize Drive folders
+
+# One-off housekeeping: sort the Drive folders into dated per-video folders
+# and give each video a thumbnail next to it. It never renders anything and
+# never deletes anything, so it is safe to run by hand at any time.
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Plan only, change nothing"
+        type: boolean
+        default: true
+
+jobs:
+  organize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -q google-api-python-client google-auth requests
+
+      - name: Sort Drive into dated folders
+        working-directory: video
+        env:
+          GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+          GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
+          GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+          GDRIVE_SHORTS_FOLDER_ID: ${{ secrets.GDRIVE_SHORTS_FOLDER_ID }}
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            echo "### dry run"
+            python tools/gdrive_migrate.py --dry-run
+          else
+            echo "### applying"
+            python tools/gdrive_migrate.py
+          fi
