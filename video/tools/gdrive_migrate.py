@@ -213,6 +213,32 @@ def drive_thumbnail(svc, item, out_dir, stem):
         return []
 
 
+def extract_frame(video_path, frame_path, seek=None):
+    """Grab one frame out of a video.
+
+    Tries a seek first, then falls back to the first decodable frame. A file
+    whose timeline starts oddly, or whose first keyframe is late, still yields
+    a picture this way.
+    """
+    attempts = []
+    if seek is not None:
+        attempts.append(
+            ["ffmpeg", "-y", "-v", "error", "-ss", str(seek), "-i", video_path,
+             "-frames:v", "1", "-update", "1", frame_path]
+        )
+    attempts.append(
+        ["ffmpeg", "-y", "-v", "error", "-i", video_path,
+         "-frames:v", "1", "-update", "1", frame_path]
+    )
+    errors = []
+    for cmd in attempts:
+        result = run(cmd)
+        if result.returncode == 0 and os.path.exists(frame_path):
+            return True, ""
+        errors.append(result.stderr.strip()[-200:])
+    return False, " | ".join(e for e in errors if e)
+
+
 def thumbnail_for(svc, creds, item, out_dir, stem):
     """Frame -> thumbnails for one video. Returns [] if it cannot be done.
 
@@ -227,17 +253,13 @@ def thumbnail_for(svc, creds, item, out_dir, stem):
     whole = os.path.join(out_dir, f"{stem}-whole.mp4")
     try:
         if fetch_head(svc, creds, item["id"], part):
-            result = run(
-                ["ffmpeg", "-y", "-v", "error", "-ss", str(THUMB_SECONDS),
-                 "-i", part, "-frames:v", "1", "-update", "1", frame]
-            )
-            if result.returncode == 0 and os.path.exists(frame):
+            ok, error = extract_frame(part, frame, THUMB_SECONDS)
+            if ok:
                 made = compose_thumbnails(frame, out_dir, stem)
                 if made:
                     return made
             else:
-                log("    ! no frame decoded from the file head; not a faststart mp4: "
-                    f"{result.stderr.strip()[-300:]}")
+                log(f"    ! no frame decoded from the file head: {error}")
 
         made = drive_thumbnail(svc, item, out_dir, stem)
         if made:
@@ -249,14 +271,10 @@ def thumbnail_for(svc, creds, item, out_dir, stem):
         if 0 < size <= MAX_FULL_DOWNLOAD:
             log(f"    downloading {size / 1e6:.0f} MB to decode a frame")
             if fetch_whole(svc, creds, item["id"], whole):
-                result = run(
-                    ["ffmpeg", "-y", "-v", "error", "-ss", str(THUMB_SECONDS),
-                     "-i", whole, "-frames:v", "1", "-update", "1", frame]
-                )
-                if result.returncode == 0 and os.path.exists(frame):
+                ok, error = extract_frame(whole, frame, THUMB_SECONDS)
+                if ok:
                     return compose_thumbnails(frame, out_dir, stem)
-                log("    ! no frame decoded from the full file: "
-                    f"{result.stderr.strip()[-300:]}")
+                log(f"    ! no frame decoded from the full file: {error}")
         else:
             log(f"    ! file is {size / 1e6:.0f} MB, over the download limit for a thumbnail")
         return []
