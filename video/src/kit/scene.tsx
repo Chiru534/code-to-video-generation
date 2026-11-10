@@ -1,47 +1,28 @@
 import React from "react";
 import { Easing, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { C, F } from "../theme";
+import { CLAMP, ease, ph, lin, prog, rnd, useScene } from "./core";
 
 /* Shared primitives for the vertical 1080x1920 shorts.
  *
  * WHY THIS IS NOT IN src/chrome: render.yml treats video/src/chrome,
- * video/src/theme and video/tools as shared, so touching them re-renders EVERY
- * episode in episodes.json. A helper used by one short must not cost seven
- * renders per tweak.
+ * video/src/theme and video/tools/tts.py as shared, so touching them re-renders
+ * EVERY episode in episodes.json. A helper used by one short must not cost
+ * seven renders per tweak.
  *
  * CONSEQUENCE, ON PURPOSE: a change here resolves to no episode in the plan
  * job (owner() matches srcDir prefixes only), so it never auto-selects its
  * consumers. After editing this file, dispatch the affected composition
  * manually. That is the zero-waste policy, applied literally.
+ *
+ * The timing helpers now live in kit/core.tsx and are re-exported here, so the
+ * public API of this file is unchanged. The 16:9 kit uses the same core.
  */
 
 /** Usable width at 1080 wide with 64px padding on both sides. */
 export const PW = 920;
 
-export const CLAMP = { extrapolateLeft: "clamp" as const, extrapolateRight: "clamp" as const };
-export const ease = Easing.bezier(0.22, 1, 0.36, 1);
-
-export const prog = (frame: number, start: number, dur: number) =>
-  interpolate(frame, [start, start + dur], [0, 1], { ...CLAMP, easing: ease });
-
-/** Progress between two FRACTIONS of a scene's measured length.
- *  Scenes are cut to measured narration, so absolute frame numbers drift;
- *  fractions do not. */
-export const ph = (frame: number, d: number, a: number, b: number) =>
-  interpolate(frame, [a * d, b * d], [0, 1], { ...CLAMP, easing: ease });
-
-/** Progress between two scene fractions, LINEAR in time.
- *  Use this for sweeps, wipes and counters. The eased version is already ~90%
- *  complete at its own midpoint, which makes a staggered wipe finish before the
- *  viewer sees it start — the bug that emptied the LittleBit grid scenes. */
-export const lin = (frame: number, d: number, a: number, b: number) =>
-  interpolate(frame, [a * d, b * d], [0, 1], CLAMP);
-
-export const useScene = () => {
-  const frame = useCurrentFrame();
-  const { durationInFrames } = useVideoConfig();
-  return { frame, d: durationInFrames };
-};
+export { CLAMP, ease, prog, ph, lin, rnd, useScene };
 
 /** Fade + rise, the default entrance for anything that is not a hard cut. */
 export const rise = (p: number, dist = 28) => ({
@@ -350,13 +331,6 @@ export const Matrix: React.FC<MatrixProps> = ({
 );
 
 /* ----------------------------------------------------------- determinism --- */
-
-/** Seeded pseudo-random in [0,1). No Math.random: the same frame must render
- *  the same pixels on every machine, or the render is not reproducible. */
-export const rnd = (seed: number): number => {
-  const x = Math.sin(seed * 12.9898 + 311.7) * 43758.5453;
-  return x - Math.floor(x);
-};
 
 /** A plausible weight, stable per index. */
 export const weight = (i: number): string => (rnd(i) * 2 - 1).toFixed(4);
