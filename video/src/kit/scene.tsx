@@ -30,6 +30,13 @@ export const prog = (frame: number, start: number, dur: number) =>
 export const ph = (frame: number, d: number, a: number, b: number) =>
   interpolate(frame, [a * d, b * d], [0, 1], { ...CLAMP, easing: ease });
 
+/** Progress between two scene fractions, LINEAR in time.
+ *  Use this for sweeps, wipes and counters. The eased version is already ~90%
+ *  complete at its own midpoint, which makes a staggered wipe finish before the
+ *  viewer sees it start — the bug that emptied the LittleBit grid scenes. */
+export const lin = (frame: number, d: number, a: number, b: number) =>
+  interpolate(frame, [a * d, b * d], [0, 1], CLAMP);
+
 export const useScene = () => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
@@ -41,6 +48,51 @@ export const rise = (p: number, dist = 28) => ({
   opacity: p,
   transform: `translateY(${(1 - p) * dist}px)`,
 });
+
+/* -------------------------------------------------------------- layout --- */
+
+/** The visual. Centred in the frame MINUS the foot band, so the arrival of the
+ *  closing line never reflows or re-centres the thing being looked at.
+ *  Absolute, because a flex column reserves the foot's space and pushes the
+ *  hero above optical centre. */
+export const Hero: React.FC<{ children: React.ReactNode; lift?: number }> = ({
+  children,
+  lift = 190,
+}) => (
+  <div
+    style={{
+      position: "absolute",
+      inset: 0,
+      paddingBottom: lift,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    {children}
+  </div>
+);
+
+/** The closing line's fixed band at the bottom of the frame. */
+export const Foot: React.FC<{ children: React.ReactNode; bottom?: number }> = ({
+  children,
+  bottom = 150,
+}) => (
+  <div
+    style={{
+      position: "absolute",
+      left: 0,
+      right: 0,
+      bottom,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    }}
+  >
+    {children}
+  </div>
+);
 
 /* ---------------------------------------------------------------- text --- */
 
@@ -150,6 +202,7 @@ export const Chip: React.FC<{
       padding: "18px 26px",
       backgroundColor: C.panel,
       opacity: p,
+      whiteSpace: "nowrap",
     }}
   >
     <div style={{ fontFamily: F.mono, fontSize: size, letterSpacing: "0.14em", color }}>{label}</div>
@@ -163,7 +216,8 @@ export const Stat: React.FC<{
   p: number;
   size?: number;
   note?: string;
-}> = ({ value, label, color = C.text, p, size = 210, note }) => (
+  noteP?: number;
+}> = ({ value, label, color = C.text, p, size = 210, note, noteP = 1 }) => (
   <div style={{ display: "flex", flexDirection: "column", alignItems: "center", opacity: p }}>
     <div
       style={{
@@ -200,6 +254,7 @@ export const Stat: React.FC<{
           border: `1px solid rgba(251,191,36,0.35)`,
           borderRadius: 8,
           padding: "8px 14px",
+          opacity: noteP,
         }}
       >
         {note}
