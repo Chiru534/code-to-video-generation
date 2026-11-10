@@ -13,6 +13,7 @@ Usage:
 """
 import argparse
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -23,6 +24,11 @@ from gdrive_upload import (  # noqa: E402
     child_folders,
     log,
 )
+
+# A dated folder looks like 2026-11-10_littlebit. Other folders may contain
+# underscores too (studio_15min_documentary), so matching on "_" alone is
+# wrong and once deleted the wrong copy of a file.
+DATED = re.compile(r"^\d{4}-\d{2}-\d{2}_")
 
 
 def list_children(svc, parent):
@@ -55,8 +61,8 @@ def find_video(svc, parent, name):
         if item["name"].lower() == wanted:
             return item, parent
     folders = child_folders(svc, parent)
-    dated = [f for f in folders if "_" in f["name"]]
-    other = [f for f in folders if "_" not in f["name"]]
+    dated = [f for f in folders if DATED.match(f["name"])]
+    other = [f for f in folders if not DATED.match(f["name"])]
     for folder in dated + other:
         for item in list_children(svc, folder["id"]):
             if item["mimeType"] == FOLDER_MIME:
@@ -70,10 +76,20 @@ def trash(svc, file_id):
     svc.files().delete(fileId=file_id, supportsAllDrives=True).execute()
 
 
+def restore(svc, file_id):
+    """Bring a trashed file back, to the folder it was in."""
+    svc.files().update(
+        fileId=file_id,
+        body={"trashed": False},
+        fields="id,name,parents",
+        supportsAllDrives=True,
+    ).execute()
+
+
 def empty_dated_folders(svc, parent):
     """Remove dated folders left with nothing in them."""
     for folder in child_folders(svc, parent):
-        if "_" not in folder["name"]:
+        if not DATED.match(folder["name"]):
             continue
         contents = list_children(svc, folder["id"])
         if not contents:
@@ -106,6 +122,18 @@ def main() -> int:
         help="name of a whole subfolder to delete as well (recursive)",
     )
     parser.add_argument(
+        "--file-id",
+        action="append",
+        default=[],
+        help="delete this exact file id (repeatable); no name lookup",
+    )
+    parser.add_argument(
+        "--restore-id",
+        action="append",
+        default=[],
+        help="bring this trashed file id back to where it was (repeatable)",
+    )
+    parser.add_argument(
         "--apply",
         action="store_true",
         help="actually delete; without it the script only prints the plan",
@@ -131,6 +159,19 @@ def main() -> int:
     svc = build("drive", "v3", credentials=creds, cache_discovery=False)
 
     deleted = 0
+    for file_id in args.restore_id:
+        log(f"restore  : {file_id}")
+        if args.apply:
+            restore(svc, file_id)
+            log(f"restored : {file_id} is back in its folder")
+
+    for file_id in args.file_id:
+        log(f"target   : file id {file_id}")
+        if args.apply:
+            trash(svc, file_id)
+            deleted += 1
+            log(f"deleted  : {file_id} -> Drive trash")
+
     for name in args.video:
         item, holder = find_video(svc, parent, name)
         if item is None:

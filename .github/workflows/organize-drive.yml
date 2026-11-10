@@ -18,6 +18,14 @@ on:
         description: "A whole subfolder of the main folder to delete as well"
         type: string
         default: ""
+      delete_ids:
+        description: "Exact file ids to delete (comma separated)"
+        type: string
+        default: ""
+      restore_ids:
+        description: "Exact trashed file ids to bring back (comma separated)"
+        type: string
+        default: ""
 
 jobs:
   organize:
@@ -37,7 +45,7 @@ jobs:
           pip install -q google-api-python-client google-auth requests
 
       - name: Delete videos
-        if: ${{ inputs.delete_videos != '' || inputs.delete_folder != '' }}
+        if: ${{ inputs.delete_videos != '' || inputs.delete_folder != '' || inputs.delete_ids != '' || inputs.restore_ids != '' }}
         working-directory: video
         env:
           GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
@@ -47,8 +55,19 @@ jobs:
           GDRIVE_SHORTS_FOLDER_ID: ${{ secrets.GDRIVE_SHORTS_FOLDER_ID }}
           DELETE_VIDEOS: ${{ inputs.delete_videos }}
           DELETE_FOLDER: ${{ inputs.delete_folder }}
+          DELETE_IDS: ${{ inputs.delete_ids }}
+          RESTORE_IDS: ${{ inputs.restore_ids }}
         run: |
           ARGS=()
+          add_ids() {  # $1 = comma separated ids, $2 = flag
+            if [ -n "$1" ]; then
+              IFS=',' read -ra LIST <<< "$1"
+              for ITEM in "${LIST[@]}"; do
+                ITEM="$(echo "$ITEM" | xargs)"
+                if [ -n "$ITEM" ]; then ARGS+=("$2" "$ITEM"); fi
+              done
+            fi
+          }
           if [ -n "$DELETE_VIDEOS" ]; then
             IFS=',' read -ra NAMES <<< "$DELETE_VIDEOS"
             for NAME in "${NAMES[@]}"; do
@@ -57,6 +76,8 @@ jobs:
             done
           fi
           if [ -n "$DELETE_FOLDER" ]; then ARGS+=(--also-folder "$DELETE_FOLDER"); fi
+          add_ids "$DELETE_IDS" --file-id
+          add_ids "$RESTORE_IDS" --restore-id
           if [ ${#ARGS[@]} -eq 0 ]; then
             echo "::warning::nothing named to delete"
             exit 0
