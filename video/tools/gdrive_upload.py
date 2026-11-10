@@ -165,17 +165,20 @@ def child_folders(svc, parent: str) -> list:
     ).execute().get("files", [])
 
 
-def dated_folder(svc, parent: str, slug: str, date: str):
+def dated_folder(svc, parent: str, slug: str, date: str, create: bool = True):
     """Return (id, name, created) for `<date>_<slug>` inside `parent`.
 
     Reuses any existing folder ending in `_<slug>` so a re-render does not
-    scatter the same video across two dates.
+    scatter the same video across two dates. With create=False the folder is
+    only looked up, never made, which is what the dry run needs.
     """
     for folder in child_folders(svc, parent):
         if folder["name"].endswith("_" + slug):
             return folder["id"], folder["name"], False
 
     name = f"{date}_{slug}"
+    if not create:
+        return "", name, False
     created = svc.files().create(
         body={"name": name, "mimeType": FOLDER_MIME, "parents": [parent]},
         fields="id,name",

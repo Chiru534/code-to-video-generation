@@ -9,11 +9,10 @@ For each parent folder (the main folder and the shorts folder):
 3. create (or reuse) a folder named ``<created-date>_<stem>`` in that parent
 4. move the video into it, plus the files that belong to it (a thumbnail, a
    subtitle), so each folder is self-contained
-5. if that folder has no thumbnail yet, pull the first few MB of the video and
-   grab a frame from it, then upload a 1280x720 thumbnail next to the video
+5. give every video a thumbnail next to it, if it does not have one yet
 
-Nothing is deleted and no video is re-rendered. Files that already sit inside
-a dated folder are left alone, so running this twice changes nothing.
+Nothing is deleted and no video is re-rendered. Running it twice changes
+nothing the second time.
 
 Environment:
     GDRIVE_REFRESH_TOKEN, GDRIVE_CLIENT_ID, GDRIVE_CLIENT_SECRET
@@ -170,12 +169,12 @@ def thumbnail_for(svc, creds, item, out_dir, stem):
              "-i", part, "-frames:v", "1", "-update", "1", frame]
         )
         if result.returncode != 0 or not os.path.exists(frame):
-            log(f"  ! no frame could be decoded from {item['name']}")
+            log(f"    ! no frame could be decoded from {item['name']}")
             return []
         width, height = video_size(part)
         return make_thumbnails(frame, width, height, out_dir, stem)
     except Exception as exc:  # a thumbnail must never break the migration
-        log(f"  ! thumbnail failed for {item['name']}: {exc}")
+        log(f"    ! thumbnail failed for {item['name']}: {exc}")
         return []
     finally:
         for path in (part, frame):
@@ -193,54 +192,67 @@ def move_into(svc, file_id, old_parent, new_parent):
     ).execute()
 
 
+def ensure_thumbnail(svc, creds, folder_id, video, dry_run):
+    """Give one video a thumbnail in its folder, if it has none."""
+    contents = list_children(svc, folder_id)
+    if any(c["name"].lower().endswith(".jpg") for c in contents):
+        return True
+    stem = stem_of(video)
+    if dry_run:
+        log(f"    would add a thumbnail for {video['name']}")
+        return False
+    with tempfile.TemporaryDirectory() as tmp:
+        thumbs = thumbnail_for(svc, creds, video, tmp, stem)
+    for path in thumbs:
+        upload_file(svc, path, os.path.basename(path), folder_id, mime_for(path))
+        log(f"    uploaded {os.path.basename(path)}")
+    if not thumbs:
+        log("    no thumbnail produced (the file may not be a faststart mp4)")
+    return bool(thumbs)
+
+
 def organise(svc, creds, parent, fallback_date, dry_run, label=""):
     children = list_children(svc, parent)
     videos = [c for c in children if is_video(c)]
     others = [c for c in children if not is_video(c) and c["mimeType"] != FOLDER_MIME]
 
-    if not videos:
-        log(f"{label}: already tidy, nothing flat to move")
-        return 0
-
     moved = 0
     for video in videos:
         stem = stem_of(video)
         date = date_of(video, fallback_date)
-        folder_id, folder_name, created = dated_folder(svc, parent, stem, date)
-        log(f"{label}: {video['name']} -> {folder_name}/"
-            f" [{'new folder' if created else 'existing folder'}]")
-
-        # Siblings that belong to this video: a thumbnail, a subtitle.
+        folder_id, folder_name, created = dated_folder(
+            svc, parent, stem, date, create=not dry_run
+        )
         siblings = [
             o for o in others
             if o["name"] == stem or o["name"].startswith(stem + "-")
         ]
 
         if dry_run:
+            log(f"{label}: would move {video['name']} -> {folder_name}/")
             for sib in siblings:
                 log(f"    would move {sib['name']} too")
-            moved += 1
             continue
 
+        log(f"{label}: {video['name']} -> {folder_name}/"
+            f" [{'new folder' if created else 'existing folder'}]")
         move_into(svc, video["id"], parent, folder_id)
         for sib in siblings:
             move_into(svc, sib["id"], parent, folder_id)
             log(f"    moved {sib['name']}")
         moved += 1
 
-        # Thumbnail, if the folder does not have one yet.
-        existing = [c for c in list_children(svc, folder_id) if c["name"].endswith(".jpg")]
-        if existing:
-            log(f"    thumbnail already there ({existing[0]['name']})")
-            continue
-        with tempfile.TemporaryDirectory() as tmp:
-            thumbs = thumbnail_for(svc, creds, video, tmp, stem)
-        for path in thumbs:
-            upload_file(svc, path, os.path.basename(path), folder_id, mime_for(path))
-            log(f"    uploaded {os.path.basename(path)}")
-        if not thumbs:
-            log("    no thumbnail produced (the render may not be faststart)")
+        ensure_thumbnail(svc, creds, folder_id, video, dry_run)
 
+    # Videos already sitting in a dated folder still need a thumbnail if the
+    # folder does not have one. This is the common case on a second run.
+    for folder in child_folders(svc, parent):
+        contents = list_children(svc, folder["id"])
+        for video in [c for c in contents if is_video(c)]:
+            ensure_thumbnail(svc, creds, folder["id"], video, dry_run)
+
+    if not moved and not dry_run:
+        log(f"{label}: nothing flat to move")
     return moved
 
 
@@ -276,7 +288,7 @@ def main() -> int:
         if not parent:
             log(f"{label}: not configured, skipping")
             continue
-        log(f"--- {label} folder {parent} ---")
+        log(f"--- {label} folder ---")
         total += organise(svc, creds, parent, args.date, args.dry_run, label)
 
     log(f"done: {total} video(s) {'planned' if args.dry_run else 'placed'} in dated folders")
