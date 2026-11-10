@@ -300,6 +300,23 @@ def organise(svc, creds, parent, fallback_date, dry_run, label=""):
     return moved
 
 
+def dump_tree(svc, parent, label):
+    """Print what is in a parent folder, one line per file."""
+    log(f"--- {label} folder ---")
+    for folder in child_folders(svc, parent):
+        contents = list_children(svc, folder["id"])
+        for item in contents:
+            thumb = "yes" if item.get("thumbnailLink") else "no"
+            size = f"{int(item.get('size', 0)) / 1e6:9.1f} MB"
+            log(f"  {folder['name']}/  {item['name']:52s} {size}  drive-thumb:{thumb}")
+    loose = [c for c in list_children(svc, parent) if c["mimeType"] != FOLDER_MIME]
+    for item in loose:
+        size = f"{int(item.get('size', 0)) / 1e6:9.1f} MB"
+        log(f"  (flat)                  {item['name']:52s} {size}")
+    if not loose:
+        log("  (nothing flat left)")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Sort Drive into dated folders.")
     parser.add_argument("--folder", default=os.environ.get("GDRIVE_FOLDER_ID", "").strip())
@@ -312,6 +329,7 @@ def main() -> int:
         help="fallback date for files with no createdTime (YYYY-MM-DD)",
     )
     parser.add_argument("--dry-run", action="store_true", help="plan only, change nothing")
+    parser.add_argument("--list", action="store_true", help="print the tree and stop")
     args = parser.parse_args()
 
     creds = _user_credentials()
@@ -326,6 +344,12 @@ def main() -> int:
     from googleapiclient.discovery import build
 
     svc = build("drive", "v3", credentials=creds, cache_discovery=False)
+
+    if args.list:
+        for parent, label in ((args.folder, "main"), (args.shorts_folder, "shorts")):
+            if parent:
+                dump_tree(svc, parent, label)
+        return 0
 
     total = 0
     for parent, label in ((args.folder, "main"), (args.shorts_folder, "shorts")):
