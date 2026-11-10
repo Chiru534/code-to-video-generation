@@ -219,6 +219,41 @@ the result, so the folder always matches the bytes. Threshold override:
 `shorts/` exists because `productions/` also holds the Blender-S1 renders and
 previews; short-form deliverables stay separate from the long-form work.
 
+### Every video lives in its own dated folder
+
+Both parents get a dated subfolder per video, so the Drive listing reads as a
+chronology instead of a flat pile, and each folder is a complete upload package:
+
+```
+productions/                      shorts/
+  2026-11-05_HERO_NOVA/            2026-11-10_littlebit/
+    HERO_NOVA.mp4                    littlebit.mp4
+    HERO_NOVA-thumbnail.jpg          littlebit-thumbnail.jpg        1280x720
+                                    littlebit-thumbnail-9x16.jpg   1080x1920
+```
+
+- The date is the **date the video was created** — Drive's own `createdTime`
+  for files that already exist, today for a fresh upload.
+- A re-render **reuses** the existing `<date>_<slug>` folder instead of
+  scattering the same video across two dates.
+- A file left flat in the parent (from before this layout) is **adopted**: it
+  is moved into the dated folder, keeping its id, so links already shared
+  keep working.
+- The thumbnail is cut from the finished MP4 in the same job — one frame at
+  `thumbSeconds` from `episodes.json`, no second render, no second bundle.
+  YouTube's slot is 1280x720 JPEG <2 MB, so a vertical episode gets a blurred
+  fill behind the phone-shaped frame (blur hard and dim it, or the frame's own
+  text ghosts across the sides and reads as a mistake).
+
+Housekeeping lives in `video/tools/gdrive_migrate.py`, run by the
+`organize-drive.yml` workflow (`workflow_dispatch` only, never on push). It
+sorts the parents into dated folders and gives every video that lacks one a
+thumbnail. Three ways in, best first: decode a frame from the first 24 MB of
+the file (works because every render is `+faststart`), fall back to the
+thumbnail Drive already generated, and only then consider a bounded full
+download. Nothing is deleted and no video is re-rendered; running it twice
+changes nothing the second time.
+
 Moving a file in Drive changes its `parents` but keeps its `id`, so existing links
 keep working and only the secret has to follow. **Move files and forget the
 secret, and the next render finds no matching name in the old folder — so it
