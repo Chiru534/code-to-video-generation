@@ -72,7 +72,15 @@ const Scene50: React.FC = () => {
     <Stage>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 38 }}>
         <Kicker text="THERE IS A PARALLEL ROAD" />
-        <div style={{ ...rise(p), display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", width: 1100 }}>
+        <div
+          style={{
+            ...rise(p),
+            display: "grid",
+            gridTemplateColumns: "repeat(6, auto)",
+            justifyContent: "center",
+            gap: 14,
+          }}
+        >
           {symbols.map((s, i) => {
             const on = ph(frame, d, 0.12 + i * 0.02, 0.5 + i * 0.02);
             const color = s === "+1" ? C.cyan : s === "-1" ? C.violet : C.faint;

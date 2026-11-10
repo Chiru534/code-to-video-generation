@@ -9,7 +9,7 @@ import {
   Ladder,
   MatrixGrid,
   Predict,
-  Stat,
+  Figure,
   rise,
 } from "../../kit/scenes";
 import { ph, useScene } from "../../kit/core";
@@ -21,16 +21,29 @@ const Scene01: React.FC = () => {
   const p = ph(frame, d, 0.08, 0.55);
   return (
     <Stage>
-      <div style={{ position: "absolute", inset: 0, opacity: 0.16 }}>
-        <MatrixGrid rows={16} cols={16} cell={26} gap={4} mode="float" from={0.02} to={0.9} />
-      </div>
-      <div style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: 40 }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 34,
+        }}
+      >
+        {/* The poster: the matrix sits above the words, faint, and the words
+            sit on top of it. An absolutely positioned background lands in the
+            corner and collides with the kicker — this does not. */}
+        <div style={{ height: 300, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ opacity: 0.13 }}>
+            <MatrixGrid rows={13} cols={13} cell={26} gap={4} mode="float" from={0.02} to={0.95} />
+          </div>
+        </div>
         <Kicker text="LITTLEBIT · THE LONG VERSION" />
         <div style={rise(p, 26)}>
           <Statement
             lines={["A thirteen-billion-parameter", "model."]}
             accent={1}
-            size={96}
+            size={92}
             at={4}
           />
         </div>
@@ -47,7 +60,7 @@ const Scene02: React.FC = () => {
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 34 }}>
         <Kicker text="WHAT IT WEIGHS" />
         <div style={rise(p)}>
-          <Stat
+          <Figure
             value="26"
             unit="GB"
             label="13B PARAMETERS x 16 BITS"

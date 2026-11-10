@@ -110,15 +110,15 @@ const Scene10: React.FC = () => {
   const p = ph(frame, d, 0.06, 0.8);
   return (
     <Stage>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 34 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 26 }}>
         <Kicker text="FOUR THOUSAND BY FOUR THOUSAND" />
-        <div style={{ ...rise(p), position: "absolute", opacity: 0.92 }}>
-          <MatrixGrid rows={22} cols={22} cell={30} gap={5} mode="float" from={0.03} to={0.97} />
+        <div style={{ height: 560, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ ...rise(p), opacity: 0.92 }}>
+            <MatrixGrid rows={16} cols={16} cell={30} gap={5} mode="float" from={0.03} to={0.97} />
+          </div>
         </div>
         <div
           style={{
-            position: "relative",
-            marginTop: 560,
             fontFamily: F.mono,
             fontSize: 22,
             letterSpacing: "0.22em",

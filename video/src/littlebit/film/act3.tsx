@@ -1,7 +1,7 @@
 import React from "react";
 import { C, F } from "../../theme";
 import { Kicker, Stage, Statement } from "../../kit/film";
-import { Caveat, Equation, Stat, rise } from "../../kit/scenes";
+import { Caveat, Equation, Figure, rise } from "../../kit/scenes";
 import { ph, useScene } from "../../kit/core";
 
 /* ACT 3 - COUNTING DIFFERENTLY. Where 0.1 bits per weight comes from, and
@@ -98,7 +98,7 @@ const Scene19: React.FC = () => {
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 34 }}>
         <Kicker text="FOR A 13B MODEL AT A SMALL RANK" />
         <div style={rise(p)}>
-          <Stat
+          <Figure
             value="0.1"
             unit="BITS / WEIGHT"
             label="THE HEADLINE NUMBER"

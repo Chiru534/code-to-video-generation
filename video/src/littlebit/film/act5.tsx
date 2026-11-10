@@ -108,13 +108,53 @@ const Scene32: React.FC = () => {
 
 const Scene33: React.FC = () => {
   const { frame, d } = useScene();
-  const p = ph(frame, d, 0.08, 0.65);
+  const p = ph(frame, d, 0.08, 0.5);
+  const ask = ph(frame, d, 0.35, 0.62);
+  const answer = ph(frame, d, 0.66, 0.92);
   return (
     <Stage>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 36 }}>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 44 }}>
         <Kicker text="HERE IS WHY THAT IS THE WORST POSSIBLE SHAPE" />
         <div style={rise(p)}>
-          <Statement lines={["A sign can only be", "plus one, or minus one."]} accent={1} size={88} />
+          <Statement lines={["A sign can only be", "plus one, or minus one."]} accent={1} size={72} />
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 22 }}>
+          <div
+            style={{
+              fontFamily: F.sans,
+              fontWeight: 700,
+              fontSize: 34,
+              color: C.dim,
+              opacity: ask,
+            }}
+          >
+            so which shape of vector suits a binary sign better?
+          </div>
+          <div style={{ display: "flex", gap: 20 }}>
+            {["SPIKY", "FLAT"].map((o, i) => {
+              const chosen = i === 1;
+              const op = chosen ? answer : ask;
+              return (
+                <div
+                  key={o}
+                  style={{
+                    fontFamily: F.mono,
+                    fontSize: 28,
+                    letterSpacing: "0.18em",
+                    padding: "14px 30px",
+                    borderRadius: 12,
+                    border: `1px solid ${chosen ? C.cyan : C.panelEdge}`,
+                    backgroundColor: chosen ? "rgba(34,211,238,0.12)" : "rgba(255,255,255,0.03)",
+                    color: chosen ? C.cyan : C.dim,
+                    opacity: op,
+                    transform: `scale(${chosen ? 1 + 0.05 * answer : 1})`,
+                  }}
+                >
+                  {o}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </Stage>

@@ -1,7 +1,7 @@
 import React from "react";
 import { C, F } from "../../theme";
 import { Kicker, Stage, Statement } from "../../kit/film";
-import { Caveat, Equation, Stat, rise } from "../../kit/scenes";
+import { Caveat, Equation, Figure, rise } from "../../kit/scenes";
 import { ph, useScene } from "../../kit/core";
 
 /* ACT 6 - THE NUMBERS. Every figure in this act says what it is: paper
@@ -16,7 +16,7 @@ const Scene40: React.FC = () => {
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 34 }}>
         <Kicker text="MEMORY" />
         <div style={rise(p)}>
-          <Stat
+          <Figure
             value="31"
             unit="x"
             label="LESS MEMORY THAN FULL PRECISION"
@@ -38,7 +38,7 @@ const Scene41: React.FC = () => {
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 34 }}>
         <Kicker text="SIZE" />
         <div style={rise(p)}>
-          <Stat
+          <Figure
             value="0.9"
             unit="GB"
             label="LLAMA 2 · 13B PARAMETERS"
@@ -80,7 +80,7 @@ const Scene43: React.FC = () => {
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 34 }}>
         <Kicker text="SPEED" />
         <div style={rise(p)}>
-          <Stat
+          <Figure
             value="11.6"
             unit="x"
             label="INFERENCE SPEEDUP VS 16-BIT"
@@ -120,7 +120,7 @@ const Scene45: React.FC = () => {
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 34 }}>
         <Kicker text="AND ONE NUMBER IN THIS FILM IS OURS" />
         <div style={rise(p)}>
-          <Stat
+          <Figure
             value="29"
             unit="x"
             label="26 GB -> 0.9 GB, IN THE MODEL ITSELF"
