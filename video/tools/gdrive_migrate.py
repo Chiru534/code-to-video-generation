@@ -40,6 +40,7 @@ from gdrive_upload import (  # noqa: E402
 
 VIDEO_EXT = (".mp4", ".mov", ".mkv", ".webm")
 CHUNK_BYTES = 24 * 1024 * 1024  # enough for the first ~10 s of a 20 Mbps file
+MAX_FULL_DOWNLOAD = 800 * 1024 * 1024  # ceiling for the last-resort download
 THUMB_SECONDS = 4.0
 
 BLUR_16x9 = (
@@ -169,6 +170,20 @@ def compose_thumbnails(src, out_dir, stem):
     return made
 
 
+def fetch_whole(svc, creds, file_id, path):
+    """Download a whole file. Only used when the file is too big to skip."""
+    import requests
+
+    url = f"https://www.googleapis.com/drive/v3/files/{file_id}?alt=media&supportsAllDrives=true"
+    headers = {"Authorization": f"Bearer {token_for(creds)}"}
+    with requests.get(url, headers=headers, stream=True, timeout=900) as response:
+        response.raise_for_status()
+        with open(path, "wb") as handle:
+            for chunk in response.iter_content(4 * 1024 * 1024):
+                handle.write(chunk)
+    return os.path.getsize(path) > 1024
+
+
 def drive_thumbnail(svc, item, out_dir, stem):
     """Download the thumbnail Drive generated for this video."""
     link = item.get("thumbnailLink")
@@ -201,6 +216,7 @@ def thumbnail_for(svc, creds, item, out_dir, stem):
     """
     part = os.path.join(out_dir, f"{stem}-part.mp4")
     frame = os.path.join(out_dir, f"{stem}-frame.png")
+    whole = os.path.join(out_dir, f"{stem}-whole.mp4")
     try:
         if fetch_head(svc, creds, item["id"], part):
             result = run(
@@ -213,12 +229,31 @@ def thumbnail_for(svc, creds, item, out_dir, stem):
                     return made
             else:
                 log("    ! no frame decoded from the file head; not a faststart mp4")
-        return drive_thumbnail(svc, item, out_dir, stem)
+
+        made = drive_thumbnail(svc, item, out_dir, stem)
+        if made:
+            return made
+
+        # Last resort: pull the whole file down and decode it. Bounded, so a
+        # huge film cannot turn housekeeping into a bandwidth bill.
+        size = int(item.get("size", 0))
+        if 0 < size <= MAX_FULL_DOWNLOAD:
+            log(f"    downloading {size / 1e6:.0f} MB to decode a frame")
+            if fetch_whole(svc, creds, item["id"], whole):
+                result = run(
+                    ["ffmpeg", "-y", "-v", "error", "-ss", str(THUMB_SECONDS),
+                     "-i", whole, "-frames:v", "1", "-update", "1", frame]
+                )
+                if result.returncode == 0 and os.path.exists(frame):
+                    return compose_thumbnails(frame, out_dir, stem)
+        else:
+            log(f"    ! file is {size / 1e6:.0f} MB, over the download limit for a thumbnail")
+        return []
     except Exception as exc:  # a thumbnail must never break the migration
         log(f"    ! thumbnail failed for {item['name']}: {exc}")
         return []
     finally:
-        for path in (part, frame):
+        for path in (part, frame, whole):
             if os.path.exists(path):
                 os.remove(path)
 
@@ -302,13 +337,17 @@ def organise(svc, creds, parent, fallback_date, dry_run, label=""):
 
 def dump_tree(svc, parent, label):
     """Print what is in a parent folder, one line per file."""
-    log(f"--- {label} folder ---")
+    log(f"--- {label} folder {parent} ---")
     for folder in child_folders(svc, parent):
         contents = list_children(svc, folder["id"])
         for item in contents:
             thumb = "yes" if item.get("thumbnailLink") else "no"
             size = f"{int(item.get('size', 0)) / 1e6:9.1f} MB"
-            log(f"  {folder['name']}/  {item['name']:52s} {size}  drive-thumb:{thumb}")
+            link = item.get("webViewLink", "")
+            log(
+                f"  {folder['name']}/  {item['name']:46s} {size}  "
+                f"drive-thumb:{thumb}  {item['id']}  {link}"
+            )
     loose = [c for c in list_children(svc, parent) if c["mimeType"] != FOLDER_MIME]
     for item in loose:
         size = f"{int(item.get('size', 0)) / 1e6:9.1f} MB"
