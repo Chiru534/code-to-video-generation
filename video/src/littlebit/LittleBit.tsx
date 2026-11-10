@@ -1,11 +1,12 @@
 import React from "react";
 import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
 import { C, F } from "../theme";
-import { Backdrop, Stage, Watermark } from "../chrome";
+import { Backdrop, Stage } from "../chrome";
 import {
   Bar,
   Chip,
   Hero,
+  Mark,
   Matrix,
   PW,
   Stat,
@@ -424,7 +425,7 @@ const S05: React.FC = () => {
   const { frame, d } = useScene();
   const wIn = ph(frame, d, 0.02, 0.12);
   const abIn = ph(frame, d, 0.2, 0.32);
-  const fill = lin(frame, d, 0.24, 0.54);
+  const fill = lin(frame, d, 0.2, 0.46);
   const wOut = ph(frame, d, 0.58, 0.7);
   const line = ph(frame, d, 0.46, 0.58);
 
@@ -706,8 +707,8 @@ const S07: React.FC = () => {
 const S08: React.FC = () => {
   const { frame, d } = useScene();
   const stamp = ph(frame, d, 0.02, 0.12);
-  const e1 = ph(frame, d, 0.16, 0.28);
-  const e2 = ph(frame, d, 0.32, 0.44);
+  const e1 = ph(frame, d, 0.16, 0.3);
+  const e2 = ph(frame, d, 0.46, 0.66);
   const line = ph(frame, d, 0.46, 0.58);
 
   /* Schematic, not a measurement: the paper does not publish a single
@@ -1241,6 +1242,6 @@ export const LittleBit: React.FC = () => (
         {SCENE_NODES[p.id]}
       </Sequence>
     ))}
-    <Watermark text="THE LAYER BELOW" />
+    <Mark text="THE LAYER BELOW" />
   </AbsoluteFill>
 );

@@ -94,6 +94,26 @@ export const Foot: React.FC<{ children: React.ReactNode; bottom?: number }> = ({
   </div>
 );
 
+/** Brands the frame WITHOUT sitting in the Shorts chrome.
+ *  chrome.tsx's Watermark is top:48/right:48, which is where the player puts
+ *  its camera and search buttons. This one drops below them; the top-right
+ *  corner of a 9:16 frame is UI, not canvas. */
+export const Mark: React.FC<{ text: string }> = ({ text }) => (
+  <div
+    style={{
+      position: "absolute",
+      top: 136,
+      right: 56,
+      fontFamily: F.mono,
+      fontSize: 14,
+      letterSpacing: "0.24em",
+      color: C.faint,
+    }}
+  >
+    {text}
+  </div>
+);
+
 /* ---------------------------------------------------------------- text --- */
 
 export const Top: React.FC<{ text: string; color?: string }> = ({ text, color = C.faint }) => (
