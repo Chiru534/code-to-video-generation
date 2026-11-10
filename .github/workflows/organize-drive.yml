@@ -26,6 +26,14 @@ on:
         description: "Exact trashed file ids to bring back (comma separated)"
         type: string
         default: ""
+      list_trash:
+        description: "Just list what is in the Drive trash, change nothing"
+        type: boolean
+        default: false
+      sort:
+        description: "Run the folder sort and thumbnail pass"
+        type: boolean
+        default: true
 
 jobs:
   organize:
@@ -45,7 +53,7 @@ jobs:
           pip install -q google-api-python-client google-auth requests
 
       - name: Delete videos
-        if: ${{ inputs.delete_videos != '' || inputs.delete_folder != '' || inputs.delete_ids != '' || inputs.restore_ids != '' }}
+        if: ${{ inputs.delete_videos != '' || inputs.delete_folder != '' || inputs.delete_ids != '' || inputs.restore_ids != '' || inputs.list_trash }}
         working-directory: video
         env:
           GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
@@ -84,9 +92,14 @@ jobs:
           fi
           APPLY=""
           if [ "${{ inputs.dry_run }}" != "true" ]; then APPLY="--apply"; fi
+          if [ "${{ inputs.list_trash }}" = "true" ]; then
+            python tools/gdrive_delete.py --list-trash
+            exit 0
+          fi
           python tools/gdrive_delete.py --in main "${ARGS[@]}" $APPLY
 
       - name: Sort Drive into dated folders
+        if: ${{ inputs.sort }}
         working-directory: video
         env:
           GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}

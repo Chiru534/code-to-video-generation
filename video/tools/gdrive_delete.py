@@ -47,6 +47,30 @@ def list_children(svc, parent):
     )
 
 
+def list_trash(svc):
+    """List what is in the Drive trash, with the ids needed to restore it."""
+    items = (
+        svc.files()
+        .list(
+            q="trashed = true",
+            fields="files(id,name,mimeType,size,trashed,originalParents)",
+            orderBy="trashedTime desc",
+            pageSize=100,
+            supportsAllDrives=True,
+            includeItemsFromAllDrives=True,
+        )
+        .execute()
+        .get("files", [])
+    )
+    if not items:
+        log("trash    : empty")
+    for item in items:
+        size = f"{int(item.get('size', 0)) / 1e6:9.1f} MB"
+        log(f"trash    : {item['name']:46s} {size}  id={item['id']}  "
+            f"was in {item.get('originalParents')}")
+    return items
+
+
 def find_video(svc, parent, name):
     """Find a file by name under `parent`.
 
@@ -134,6 +158,11 @@ def main() -> int:
         help="bring this trashed file id back to where it was (repeatable)",
     )
     parser.add_argument(
+        "--list-trash",
+        action="store_true",
+        help="list what is in the Drive trash, with ids, and stop",
+    )
+    parser.add_argument(
         "--apply",
         action="store_true",
         help="actually delete; without it the script only prints the plan",
@@ -157,6 +186,10 @@ def main() -> int:
     from googleapiclient.discovery import build
 
     svc = build("drive", "v3", credentials=creds, cache_discovery=False)
+
+    if args.list_trash:
+        list_trash(svc)
+        return 0
 
     deleted = 0
     for file_id in args.restore_id:
