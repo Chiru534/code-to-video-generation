@@ -193,14 +193,13 @@ def move_into(svc, file_id, old_parent, new_parent):
     ).execute()
 
 
-def organise(svc, creds, parent, fallback_date, dry_run):
-    label = "main" if parent else ""
+def organise(svc, creds, parent, fallback_date, dry_run, label=""):
     children = list_children(svc, parent)
     videos = [c for c in children if is_video(c)]
     others = [c for c in children if not is_video(c) and c["mimeType"] != FOLDER_MIME]
 
     if not videos:
-        log(f"{label or parent}: already tidy, nothing flat to move")
+        log(f"{label}: already tidy, nothing flat to move")
         return 0
 
     moved = 0
@@ -208,7 +207,7 @@ def organise(svc, creds, parent, fallback_date, dry_run):
         stem = stem_of(video)
         date = date_of(video, fallback_date)
         folder_id, folder_name, created = dated_folder(svc, parent, stem, date)
-        log(f"{label or parent}: {video['name']} -> {folder_name}/"
+        log(f"{label}: {video['name']} -> {folder_name}/"
             f" [{'new folder' if created else 'existing folder'}]")
 
         # Siblings that belong to this video: a thumbnail, a subtitle.
@@ -278,7 +277,7 @@ def main() -> int:
             log(f"{label}: not configured, skipping")
             continue
         log(f"--- {label} folder {parent} ---")
-        total += organise(svc, creds, parent, args.date, args.dry_run)
+        total += organise(svc, creds, parent, args.date, args.dry_run, label)
 
     log(f"done: {total} video(s) {'planned' if args.dry_run else 'placed'} in dated folders")
     return 0
