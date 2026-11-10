@@ -15,6 +15,14 @@ on:
         description: "Composition id"
         required: true
         default: "WifiFilm"
+      src_dir:
+        description: "Episode source dir (holds narration.json + timings.json)"
+        required: true
+        default: "src/wifi/film"
+      audio_dir:
+        description: "Audio output dir"
+        required: true
+        default: "public/audio/wifi-film"
       scenes:
         description: "Comma separated scene ids to still-render"
         required: true
@@ -26,6 +34,8 @@ jobs:
     timeout-minutes: 45
     env:
       COMPOSITION: ${{ github.event.inputs.composition }}
+      SRC_DIR: ${{ github.event.inputs.src_dir }}
+      AUDIO_DIR: ${{ github.event.inputs.audio_dir }}
       PICK: ${{ github.event.inputs.scenes }}
     steps:
       - uses: actions/checkout@v4
@@ -67,7 +77,7 @@ jobs:
       # land at the same frames the real render will.
       - name: Generate narration
         working-directory: video
-        run: python tools/tts.py --src-dir src/wifi/film --audio-dir public/audio/wifi-film
+        run: python tools/tts.py --src-dir "$SRC_DIR" --audio-dir "$AUDIO_DIR"
 
       # Same gate the render job runs pre-flight, now with the real wavs.
       - name: Audit (static)
@@ -85,7 +95,7 @@ jobs:
           python - <<'PY'
           import json, os, subprocess, sys
 
-          t = json.load(open("src/wifi/film/timings.json"))
+          t = json.load(open(os.path.join(os.environ["SRC_DIR"], "timings.json")))
           order = sorted(t["scenes"], key=lambda s: int(s[1:]))
           pick = {s.strip() for s in os.environ["PICK"].split(",") if s.strip()}
 

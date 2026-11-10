@@ -47,5 +47,12 @@
     "audioDir": "public/audio/wifi-film",
     "composition": "WifiFilm",
     "output": "wifi-film.mp4"
+  },
+  "littlebit": {
+    "title": "Samsung Stored an AI Weight in a Tenth of a Bit",
+    "srcDir": "src/littlebit",
+    "audioDir": "public/audio/littlebit",
+    "composition": "LittleBit",
+    "output": "littlebit.mp4"
   }
 }

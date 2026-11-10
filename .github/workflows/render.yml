@@ -24,7 +24,7 @@ on:
         description: "Which episode to render (manual dispatch = deliberate re-render decision)"
         type: choice
         default: none
-        options: [none, all, ep01, ep02, ep03, ep04, ep05, wifi, wifi-film]
+        options: [none, all, ep01, ep02, ep03, ep04, ep05, wifi, wifi-film, littlebit]
   push:
     branches: [main]
     paths:

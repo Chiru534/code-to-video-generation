@@ -1,0 +1,22 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2154,
+  "scenes": {
+    "s01": { "sec": 5.4, "frames": 162, "text": "Twenty-six gigabytes of AI, squeezed into nine hundred megabytes. And it still works." },
+    "s02": { "sec": 5.8, "frames": 174, "text": "This is Samsung's LittleBit. A thirteen-billion-parameter model, at zero point one bits per weight." },
+    "s03": { "sec": 8.8, "frames": 264, "text": "Which should be impossible. One bit is a single yes or no. A tenth of a bit is nothing at all." },
+    "s04": { "sec": 6.3, "frames": 189, "text": "So they stopped storing weights. No rounding down. No smaller numbers. They deleted the numbers." },
+    "s05": { "sec": 6.3, "frames": 189, "text": "A weight matrix becomes two thin matrices, holding nothing but plus one and minus one." },
+    "s06": { "sec": 7.5, "frames": 225, "text": "Multiply them, and the original comes back. The big matrix is never saved. It's rebuilt on the fly." },
+    "s07": { "sec": 5.8, "frames": 174, "text": "That's how the cost falls below one bit. The information is shared, not stored." },
+    "s08": { "sec": 6.7, "frames": 201, "text": "Samsung calls it latent factorization. Then they add compensation, to recover what the signs throw away." },
+    "s09": { "sec": 5.4, "frames": 162, "text": "Thirty-one times less memory. Eleven times faster than full precision, by their estimate." },
+    "s10": { "sec": 5.0, "frames": 150, "text": "And the quality matches one-bit models, at one tenth of their bits." },
+    "s11": { "sec": 5.4, "frames": 162, "text": "This is how AI ends up on your phone, your laptop, your watch." },
+    "s12": { "sec": 2.1, "frames": 63, "text": "Not smaller chips. Smaller numbers." },
+    "s13": { "sec": 1.3, "frames": 39, "text": "The layer below." }
+  }
+}

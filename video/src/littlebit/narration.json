@@ -1,0 +1,58 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Twenty-six gigabytes of AI, squeezed into nine hundred megabytes. And it still works."
+    },
+    {
+      "id": "s02",
+      "text": "This is Samsung's LittleBit. A thirteen-billion-parameter model, at zero point one bits per weight."
+    },
+    {
+      "id": "s03",
+      "text": "Which should be impossible. One bit is a single yes or no. A tenth of a bit is nothing at all."
+    },
+    {
+      "id": "s04",
+      "text": "So they stopped storing weights. No rounding down. No smaller numbers. They deleted the numbers."
+    },
+    {
+      "id": "s05",
+      "text": "A weight matrix becomes two thin matrices, holding nothing but plus one and minus one."
+    },
+    {
+      "id": "s06",
+      "text": "Multiply them, and the original comes back. The big matrix is never saved. It's rebuilt on the fly."
+    },
+    {
+      "id": "s07",
+      "text": "That's how the cost falls below one bit. The information is shared, not stored."
+    },
+    {
+      "id": "s08",
+      "text": "Samsung calls it latent factorization. Then they add compensation, to recover what the signs throw away."
+    },
+    {
+      "id": "s09",
+      "text": "Thirty-one times less memory. Eleven times faster than full precision, by their estimate."
+    },
+    {
+      "id": "s10",
+      "text": "And the quality matches one-bit models, at one tenth of their bits."
+    },
+    {
+      "id": "s11",
+      "text": "This is how AI ends up on your phone, your laptop, your watch."
+    },
+    {
+      "id": "s12",
+      "text": "Not smaller chips. Smaller numbers."
+    },
+    {
+      "id": "s13",
+      "text": "The layer below."
+    }
+  ]
+}
