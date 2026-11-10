@@ -146,9 +146,10 @@ def compose_thumbnails(src, out_dir, stem):
     made = []
     jpg = os.path.join(out_dir, f"{stem}-thumbnail.jpg")
     if width >= height:
+        # `flags` belongs to scale, not crop. crop has no flags option.
         result = run(
             ["ffmpeg", "-y", "-v", "error", "-i", src,
-             "-vf", "scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720:flags=lanczos",
+             "-vf", "scale=1280:720:force_original_aspect_ratio=increase:flags=lanczos,crop=1280:720",
              "-q:v", "3", jpg]
         )
     else:
@@ -167,7 +168,7 @@ def compose_thumbnails(src, out_dir, stem):
         cover = os.path.join(out_dir, f"{stem}-thumbnail-9x16.jpg")
         result = run(
             ["ffmpeg", "-y", "-v", "error", "-i", src,
-             "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920:flags=lanczos",
+             "-vf", "scale=1080:1920:force_original_aspect_ratio=increase:flags=lanczos,crop=1080:1920",
              "-q:v", "3", cover]
         )
         if result.returncode == 0 and os.path.exists(cover):
