@@ -1,0 +1,299 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 12927,
+  "scenes": {
+    "s01": {
+      "sec": 9.6,
+      "frames": 288,
+      "text": "Here is a thirteen-billion-parameter model. It is the kind of thing that runs on a rack of GPUs in a data centre."
+    },
+    "s02": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "And here is what it weighs: twenty-six gigabytes of memory, just to hold the numbers."
+    },
+    "s03": {
+      "sec": 4.6,
+      "frames": 138,
+      "text": "Your phone has eight gigabytes. So this is a problem."
+    },
+    "s04": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "The first answer everyone reaches for is quantization: store the same numbers, more cheaply."
+    },
+    "s05": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "Sixteen bits becomes eight. Eight becomes four. Four becomes two. Every halving is a free lunch."
+    },
+    "s06": {
+      "sec": 9.6,
+      "frames": 288,
+      "text": "And then the ladder hits one bit. A weight is a yes, or a no. That is the floor people fight over."
+    },
+    "s07": {
+      "sec": 10.4,
+      "frames": 312,
+      "text": "So what happens if you try to go below one bit? Because below one bit, there is no yes, and there is no no."
+    },
+    "s08": {
+      "sec": 3.3,
+      "frames": 99,
+      "text": "Samsung's LittleBit starts by refusing the premise."
+    },
+    "s09": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "It does not store smaller numbers. It does not round them down. It deletes them."
+    },
+    "s10": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "A model's weights are matrices. Take one: four thousand rows by four thousand columns."
+    },
+    "s11": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "That matrix is enormously redundant. It is not four thousand independent directions. It is a few."
+    },
+    "s12": {
+      "sec": 10.9,
+      "frames": 327,
+      "text": "So factor it. The big matrix becomes A times B. A is tall and thin, B is short and wide, and the rank is small."
+    },
+    "s13": {
+      "sec": 9.6,
+      "frames": 288,
+      "text": "Now the trick: binarize both factors. Every single entry in A, and every entry in B, becomes plus one, or minus one."
+    },
+    "s14": {
+      "sec": 4.2,
+      "frames": 126,
+      "text": "Not small numbers. No decimals. No rounding. A sign."
+    },
+    "s15": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "The original matrix was never stored. At run time you multiply A by B, and rebuild it."
+    },
+    "s16": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "Which means the information was never in the weights to begin with. It was in the relationship between two sign matrices."
+    },
+    "s17": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "So how do you get to a tenth of a bit per weight? You count differently."
+    },
+    "s18": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "You are not storing sixteen bits per weight. You are storing two sign matrices, and asking what that costs per weight."
+    },
+    "s19": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "For a thirteen-billion-parameter model at a small rank, the answer is about zero point one bits per weight."
+    },
+    "s20": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "That number is an accounting measure. It is not a physical cell holding a tenth of a bit."
+    },
+    "s21": {
+      "sec": 8.3,
+      "frames": 249,
+      "text": "Nothing in hardware stores a tenth of a bit. It is a way of counting what the model costs."
+    },
+    "s22": {
+      "sec": 11.7,
+      "frames": 351,
+      "text": "Hold on to this: the model is not smaller because the numbers got smaller. It is smaller because most of the model was never numbers at all."
+    },
+    "s23": {
+      "sec": 4.2,
+      "frames": 126,
+      "text": "Deleting the numbers has to cost something. It does."
+    },
+    "s24": {
+      "sec": 10.9,
+      "frames": 327,
+      "text": "A sign throws away magnitude. A weight of plus zero point zero zero one, and a weight of plus ten, become the same plus one."
+    },
+    "s25": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "Real weight matrices are not random noise. Their singular values fall off fast. A few directions carry most of the energy."
+    },
+    "s26": {
+      "sec": 9.6,
+      "frames": 288,
+      "text": "This is the intuition from LittleBit two: for a spectrum like that, a low-rank binary approximation can beat a tiny-rank float one."
+    },
+    "s27": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "So the question is not how much you keep. It is which directions you keep."
+    },
+    "s28": {
+      "sec": 8.3,
+      "frames": 249,
+      "text": "So LittleBit adds a compensation term that learns the error across rows, across columns, and across the latent dimension."
+    },
+    "s29": {
+      "sec": 5.0,
+      "frames": 150,
+      "text": "That is the part that recovers what the signs threw away."
+    },
+    "s30": {
+      "sec": 5.0,
+      "frames": 150,
+      "text": "Even so, something was still wrong. And the reason was geometric."
+    },
+    "s31": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "To multiply two matrices cheaply, you need their directions. The singular vectors of the latent space."
+    },
+    "s32": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "And those vectors are spiky. Almost all of their energy sits in a few coordinates."
+    },
+    "s33": {
+      "sec": 8.3,
+      "frames": 249,
+      "text": "Here is why that is the worst possible shape. A sign can only be plus one or minus one."
+    },
+    "s34": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "And a spiky vector has almost all of its mass in a handful of coordinates. Quantize that, and those coordinates saturate."
+    },
+    "s35": {
+      "sec": 9.6,
+      "frames": 288,
+      "text": "You gain nothing by being accurate where the vector barely points, and you lose everything by being wrong where it strongly points."
+    },
+    "s36": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "LittleBit two calls it latent geometry misalignment. And it is a real bug, not a tuning problem."
+    },
+    "s37": {
+      "sec": 8.3,
+      "frames": 249,
+      "text": "The fix is to rotate the latent space first, so the distribution is flat, and only then quantize it."
+    },
+    "s38": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "They call it internal latent rotation, and they interleave it with the quantization itself."
+    },
+    "s39": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "And the crucial part: the rotation folds into the factors. It costs nothing at inference time."
+    },
+    "s40": {
+      "sec": 5.8,
+      "frames": 174,
+      "text": "So what does it buy? Memory: about thirty-one times less than full precision."
+    },
+    "s41": {
+      "sec": 5.4,
+      "frames": 162,
+      "text": "Size: Llama two, thirteen billion parameters, in under zero point nine gigabytes."
+    },
+    "s42": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "Quality: it matches the fidelity of leading one-bit baselines. At a tenth of their bits."
+    },
+    "s43": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "Speed: the paper claims a potential eleven point six times inference speedup against sixteen-bit."
+    },
+    "s44": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "Potential is the load-bearing word. There is no hardware that multiplies one-bit matrices that fast yet."
+    },
+    "s45": {
+      "sec": 11.7,
+      "frames": 351,
+      "text": "And one number in this film is ours, not the paper's: twenty-six gigabytes down to zero point nine is a twenty-nine times drop in the model itself."
+    },
+    "s46": {
+      "sec": 4.2,
+      "frames": 126,
+      "text": "That is just thirteen billion parameters, times sixteen bits."
+    },
+    "s47": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "None of this is on your phone yet. And it would be dishonest to pretend otherwise."
+    },
+    "s48": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "There are no sub-one-bit multiply kernels. The storage format does not exist. The bandwidth saving is theoretical until hardware catches up."
+    },
+    "s49": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "What exists is a direction, and a result strong enough that people are now building toward it."
+    },
+    "s50": {
+      "sec": 8.8,
+      "frames": 264,
+      "text": "There is a parallel road here. BitNet went the other way, to ternary weights: plus one, minus one, and zero."
+    },
+    "s51": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "Both are asking the same question. What is the smallest amount of information a language model actually needs?"
+    },
+    "s52": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "Because that number is the whole budget. A model you cannot fit is a model you cannot run."
+    },
+    "s53": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "And a model you can run on the device is the difference between a service, and a feature."
+    },
+    "s54": {
+      "sec": 5.0,
+      "frames": 150,
+      "text": "So the layer below the layer. Not smaller numbers. Fewer numbers."
+    },
+    "s55": {
+      "sec": 8.8,
+      "frames": 264,
+      "text": "A thirteen-billion-parameter model, factored into two sign matrices, rebuilt on the fly, at a tenth of a bit per weight."
+    },
+    "s56": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "That is LittleBit, and LittleBit two. NeurIPS twenty twenty-five, and the follow-up this year."
+    },
+    "s57": {
+      "sec": 5.4,
+      "frames": 162,
+      "text": "We made a sixty-second version too, if you want the short version."
+    },
+    "s58": {
+      "sec": 1.7,
+      "frames": 51,
+      "text": "The layer below."
+    }
+  }
+}

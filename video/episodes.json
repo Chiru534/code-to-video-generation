@@ -54,6 +54,20 @@
     "audioDir": "public/audio/littlebit",
     "composition": "LittleBit",
     "output": "littlebit.mp4",
-    "thumbSeconds": 3.2
+    "thumbSeconds": 3.2,
+    "status": "published",
+    "shape": "short",
+    "style": "kit-hero"
+  },
+  "littlebit-film": {
+    "title": "The Layer Below: How AI Got Under One Bit",
+    "srcDir": "src/littlebit/film",
+    "audioDir": "public/audio/littlebit-film",
+    "composition": "LittleBitFilm",
+    "output": "littlebit-film.mp4",
+    "thumbSeconds": 12.0,
+    "status": "draft",
+    "shape": "film",
+    "style": "film"
   }
 }

@@ -136,7 +136,7 @@ def wav_seconds(path: str) -> float:
         return handle.getnframes() / float(handle.getframerate())
 
 
-def audit_episode(key: str, cfg: dict) -> dict:
+def audit_episode(key: str, cfg: dict, registry: dict | None = None) -> dict:
     print(f"\n== {key}: {cfg.get('title', '?')} ==")
     src_dir = os.path.join(ROOT, cfg["srcDir"])
     audio_dir = os.path.join(ROOT, cfg["audioDir"])
@@ -176,6 +176,40 @@ def audit_episode(key: str, cfg: dict) -> dict:
     check(not missing, "every narration id has a timing", f"missing: {missing}" if missing else "")
     extra = [i for i in scenes if i not in ids]
     check(not extra, "no orphan timings", f"extra: {extra}" if extra else "")
+
+    # THE other silent failure: a narration line with no scene. The composition
+    # walks the SCENES registry, so a line that is not in it is never spoken and
+    # never rendered — the film comes out short and the gap is invisible in the
+    # file. The rendered-duration check catches it too, but only after a full
+    # render; this catches it in seconds.
+    rendered_ids = set()
+    # A short can contain a film (src/littlebit holds src/littlebit/film). The
+    # film's scenes are not the short's scenes, so nested episode directories
+    # are skipped when collecting them.
+    nested = {
+        os.path.normpath(os.path.join(ROOT, other_cfg["srcDir"]))
+        for other, other_cfg in (registry or {}).items()
+        if other != key and other_cfg["srcDir"].startswith(cfg["srcDir"] + "/")
+    }
+    for dirpath, dirs, files in os.walk(src_dir):
+        dirs[:] = [
+            d for d in dirs
+            if os.path.normpath(os.path.join(dirpath, d)) not in nested
+        ]
+        for name in files:
+            if not name.endswith(".tsx"):
+                continue
+            with open(os.path.join(dirpath, name), encoding="utf-8") as handle:
+                body = handle.read()
+            rendered_ids.update(re.findall(r"^\s*(s\d+)\s*:", body, re.M))
+    missing_scene = [i for i in ids if i not in rendered_ids]
+    check(
+        not missing_scene,
+        "every narration line has a scene",
+        f"no scene for: {missing_scene}" if missing_scene else f"{len(ids)} scenes",
+    )
+    extra_scene = [i for i in sorted(rendered_ids) if i not in ids]
+    check(not extra_scene, "no orphan scenes", f"extra: {extra_scene}" if extra_scene else "")
 
     # Stale timings from a previous draft render at the old length with the new
     # text, which reads as a pacing bug and is invisible in the file.
@@ -404,7 +438,7 @@ def main() -> int:
         if key not in registry:
             check(False, f"unknown episode {key}")
             continue
-        infos[key] = audit_episode(key, registry[key])
+        infos[key] = audit_episode(key, registry[key], registry)
         audit_slate(key, registry[key], infos[key])
 
     if args.video:

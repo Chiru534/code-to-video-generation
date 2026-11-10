@@ -9,6 +9,7 @@ import { RenderEpisode, DURATION as RENDER_DURATION } from "./episode05/RenderEp
 import { WifiAirtime, DURATION as WIFI_DURATION } from "./wifi/WifiAirtime";
 import { WifiFilm, DURATION as WIFI_FILM_DURATION } from "./wifi/film/WifiFilm";
 import { LittleBit, DURATION as LITTLEBIT_DURATION } from "./littlebit/LittleBit";
+import { LittleBitFilm, DURATION as LITTLEBIT_FILM_DURATION } from "./littlebit/film/LittleBitFilm";
 
 /* bundled fonts — no network at render time, byte-identical every build */
 import "@fontsource/inter/400.css";
@@ -92,6 +93,14 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1080}
         height={1920}
+      />
+      <Composition
+        id="LittleBitFilm"
+        component={LittleBitFilm}
+        durationInFrames={LITTLEBIT_FILM_DURATION}
+        fps={30}
+        width={1920}
+        height={1080}
       />
     </>
   );

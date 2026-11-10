@@ -1,0 +1,238 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Here is a thirteen-billion-parameter model. It is the kind of thing that runs on a rack of GPUs in a data centre."
+    },
+    {
+      "id": "s02",
+      "text": "And here is what it weighs: twenty-six gigabytes of memory, just to hold the numbers."
+    },
+    {
+      "id": "s03",
+      "text": "Your phone has eight gigabytes. So this is a problem."
+    },
+    {
+      "id": "s04",
+      "text": "The first answer everyone reaches for is quantization: store the same numbers, more cheaply."
+    },
+    {
+      "id": "s05",
+      "text": "Sixteen bits becomes eight. Eight becomes four. Four becomes two. Every halving is a free lunch."
+    },
+    {
+      "id": "s06",
+      "text": "And then the ladder hits one bit. A weight is a yes, or a no. That is the floor people fight over."
+    },
+    {
+      "id": "s07",
+      "text": "So what happens if you try to go below one bit? Because below one bit, there is no yes, and there is no no."
+    },
+    {
+      "id": "s08",
+      "text": "Samsung's LittleBit starts by refusing the premise."
+    },
+    {
+      "id": "s09",
+      "text": "It does not store smaller numbers. It does not round them down. It deletes them."
+    },
+    {
+      "id": "s10",
+      "text": "A model's weights are matrices. Take one: four thousand rows by four thousand columns."
+    },
+    {
+      "id": "s11",
+      "text": "That matrix is enormously redundant. It is not four thousand independent directions. It is a few."
+    },
+    {
+      "id": "s12",
+      "text": "So factor it. The big matrix becomes A times B. A is tall and thin, B is short and wide, and the rank is small."
+    },
+    {
+      "id": "s13",
+      "text": "Now the trick: binarize both factors. Every single entry in A, and every entry in B, becomes plus one, or minus one."
+    },
+    {
+      "id": "s14",
+      "text": "Not small numbers. No decimals. No rounding. A sign."
+    },
+    {
+      "id": "s15",
+      "text": "The original matrix was never stored. At run time you multiply A by B, and rebuild it."
+    },
+    {
+      "id": "s16",
+      "text": "Which means the information was never in the weights to begin with. It was in the relationship between two sign matrices."
+    },
+    {
+      "id": "s17",
+      "text": "So how do you get to a tenth of a bit per weight? You count differently."
+    },
+    {
+      "id": "s18",
+      "text": "You are not storing sixteen bits per weight. You are storing two sign matrices, and asking what that costs per weight."
+    },
+    {
+      "id": "s19",
+      "text": "For a thirteen-billion-parameter model at a small rank, the answer is about zero point one bits per weight."
+    },
+    {
+      "id": "s20",
+      "text": "That number is an accounting measure. It is not a physical cell holding a tenth of a bit."
+    },
+    {
+      "id": "s21",
+      "text": "Nothing in hardware stores a tenth of a bit. It is a way of counting what the model costs."
+    },
+    {
+      "id": "s22",
+      "text": "Hold on to this: the model is not smaller because the numbers got smaller. It is smaller because most of the model was never numbers at all."
+    },
+    {
+      "id": "s23",
+      "text": "Deleting the numbers has to cost something. It does."
+    },
+    {
+      "id": "s24",
+      "text": "A sign throws away magnitude. A weight of plus zero point zero zero one, and a weight of plus ten, become the same plus one."
+    },
+    {
+      "id": "s25",
+      "text": "Real weight matrices are not random noise. Their singular values fall off fast. A few directions carry most of the energy."
+    },
+    {
+      "id": "s26",
+      "text": "This is the intuition from LittleBit two: for a spectrum like that, a low-rank binary approximation can beat a tiny-rank float one."
+    },
+    {
+      "id": "s27",
+      "text": "So the question is not how much you keep. It is which directions you keep."
+    },
+    {
+      "id": "s28",
+      "text": "So LittleBit adds a compensation term that learns the error across rows, across columns, and across the latent dimension."
+    },
+    {
+      "id": "s29",
+      "text": "That is the part that recovers what the signs threw away."
+    },
+    {
+      "id": "s30",
+      "text": "Even so, something was still wrong. And the reason was geometric."
+    },
+    {
+      "id": "s31",
+      "text": "To multiply two matrices cheaply, you need their directions. The singular vectors of the latent space."
+    },
+    {
+      "id": "s32",
+      "text": "And those vectors are spiky. Almost all of their energy sits in a few coordinates."
+    },
+    {
+      "id": "s33",
+      "text": "Here is why that is the worst possible shape. A sign can only be plus one or minus one."
+    },
+    {
+      "id": "s34",
+      "text": "And a spiky vector has almost all of its mass in a handful of coordinates. Quantize that, and those coordinates saturate."
+    },
+    {
+      "id": "s35",
+      "text": "You gain nothing by being accurate where the vector barely points, and you lose everything by being wrong where it strongly points."
+    },
+    {
+      "id": "s36",
+      "text": "LittleBit two calls it latent geometry misalignment. And it is a real bug, not a tuning problem."
+    },
+    {
+      "id": "s37",
+      "text": "The fix is to rotate the latent space first, so the distribution is flat, and only then quantize it."
+    },
+    {
+      "id": "s38",
+      "text": "They call it internal latent rotation, and they interleave it with the quantization itself."
+    },
+    {
+      "id": "s39",
+      "text": "And the crucial part: the rotation folds into the factors. It costs nothing at inference time."
+    },
+    {
+      "id": "s40",
+      "text": "So what does it buy? Memory: about thirty-one times less than full precision."
+    },
+    {
+      "id": "s41",
+      "text": "Size: Llama two, thirteen billion parameters, in under zero point nine gigabytes."
+    },
+    {
+      "id": "s42",
+      "text": "Quality: it matches the fidelity of leading one-bit baselines. At a tenth of their bits."
+    },
+    {
+      "id": "s43",
+      "text": "Speed: the paper claims a potential eleven point six times inference speedup against sixteen-bit."
+    },
+    {
+      "id": "s44",
+      "text": "Potential is the load-bearing word. There is no hardware that multiplies one-bit matrices that fast yet."
+    },
+    {
+      "id": "s45",
+      "text": "And one number in this film is ours, not the paper's: twenty-six gigabytes down to zero point nine is a twenty-nine times drop in the model itself."
+    },
+    {
+      "id": "s46",
+      "text": "That is just thirteen billion parameters, times sixteen bits."
+    },
+    {
+      "id": "s47",
+      "text": "None of this is on your phone yet. And it would be dishonest to pretend otherwise."
+    },
+    {
+      "id": "s48",
+      "text": "There are no sub-one-bit multiply kernels. The storage format does not exist. The bandwidth saving is theoretical until hardware catches up."
+    },
+    {
+      "id": "s49",
+      "text": "What exists is a direction, and a result strong enough that people are now building toward it."
+    },
+    {
+      "id": "s50",
+      "text": "There is a parallel road here. BitNet went the other way, to ternary weights: plus one, minus one, and zero."
+    },
+    {
+      "id": "s51",
+      "text": "Both are asking the same question. What is the smallest amount of information a language model actually needs?"
+    },
+    {
+      "id": "s52",
+      "text": "Because that number is the whole budget. A model you cannot fit is a model you cannot run."
+    },
+    {
+      "id": "s53",
+      "text": "And a model you can run on the device is the difference between a service, and a feature."
+    },
+    {
+      "id": "s54",
+      "text": "So the layer below the layer. Not smaller numbers. Fewer numbers."
+    },
+    {
+      "id": "s55",
+      "text": "A thirteen-billion-parameter model, factored into two sign matrices, rebuilt on the fly, at a tenth of a bit per weight."
+    },
+    {
+      "id": "s56",
+      "text": "That is LittleBit, and LittleBit two. NeurIPS twenty twenty-five, and the follow-up this year."
+    },
+    {
+      "id": "s57",
+      "text": "We made a sixty-second version too, if you want the short version."
+    },
+    {
+      "id": "s58",
+      "text": "The layer below."
+    }
+  ]
+}
