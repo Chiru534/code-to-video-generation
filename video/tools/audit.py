@@ -457,6 +457,35 @@ def audit_render(path: str, info: dict) -> None:
     else:
         print(f"  duration: {duration:.2f}s (no timeline to compare)")
 
+    # A still frame. AGENTS.md says every scene has motion, and a scene that
+    # animates in and then freezes is the commonest way that rule gets
+    # broken: nothing in the file looks wrong, but two thirds of the runtime
+    # is a still picture with a voiceover on top.
+    try:
+        out = subprocess.run(
+            ["ffmpeg", "-hide_banner", "-nostats", "-i", path,
+             "-vf", "freezedetect=n=-50dB:d=2", "-f", "null", "-"],
+            capture_output=True, text=True, timeout=300,
+        )
+        spans = []
+        start = None
+        for line in out.stderr.splitlines():
+            m = re.search(r"freezedetect.*start:\s*([\d.]+)", line)
+            if m:
+                start = float(m.group(1))
+            m = re.search(r"freezedetect.*end:\s*([\d.]+)", line)
+            if m and start is not None:
+                spans.append((start, float(m.group(1))))
+                start = None
+        worst = max((e - s for s, e in spans), default=0.0)
+        check(
+            worst <= 4.0,
+            "no still stretch longer than 4s",
+            f"longest frozen stretch {worst:.1f}s at {[(round(s,1), round(e,1)) for s, e in spans if e-s > 2][:4]}",
+        )
+    except (OSError, subprocess.SubprocessError) as exc:
+        warn("still frames", str(exc))
+
     # EBU R128 integrated loudness. The workflow applies loudnorm at -14;
     # this proves the file that leaves the runner actually measured that.
     try:

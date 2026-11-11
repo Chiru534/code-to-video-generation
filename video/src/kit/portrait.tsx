@@ -24,6 +24,42 @@ import { lin, ph, prog, rnd, useScene } from "./core";
  * editing it renders nothing. Dispatch the compositions you changed.
  */
 
+/* ---------------------------------------------------------------- living --- */
+
+/** The Hero, with a camera that never stops.
+ *
+ *  Every scene used to animate IN over the first third of its length and
+ *  then sit still for the rest, which left about 70% of each short as a
+ *  still frame with a voiceover on top. On a phone that reads as dead air,
+ *  and AGENTS.md says every scene has motion.
+ *
+ *  So the block drifts up and pushes in, slowly and continuously, for the
+ *  whole scene. It is the same motion in every scene, which is what makes
+ *  it a house style rather than an accident.
+ *
+ *  The layout is identical to Hero: a centred column, the same children, the
+ *  same order. Only the transform is new. */
+export const LivingHero: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { frame, d } = useScene();
+  const p = lin(frame, d, 0, 1);
+  return (
+    <Hero lift={0}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "100%",
+          transform: `translateY(${(0.5 - p) * 26}px) scale(${0.988 + p * 0.024})`,
+          transformOrigin: "center center",
+        }}
+      >
+        {children}
+      </div>
+    </Hero>
+  );
+};
+
 /* ---------------------------------------------------------------- figure --- */
 
 /** Fit a big value to the box it lives in.
@@ -69,7 +105,7 @@ export const ShortFigure: React.FC<{
   return (
     <Stage>
       {kicker ? <Top text={kicker} /> : null}
-      <Hero lift={0}>
+      <LivingHero>
         <div style={{ display: "flex", alignItems: "baseline", gap: 18, opacity: p }}>
           <div
             style={{
@@ -125,7 +161,7 @@ export const ShortFigure: React.FC<{
             </Statement>
           </div>
         ) : null}
-      </Hero>
+      </LivingHero>
     </Stage>
   );
 };
@@ -144,7 +180,7 @@ export const ShortStack: React.FC<{
   return (
     <Stage>
       {kicker ? <Top text={kicker} /> : null}
-      <Hero lift={0}>
+      <LivingHero>
         <div
           style={{
             width: PW,
@@ -238,7 +274,7 @@ export const ShortStack: React.FC<{
             {foot}
           </div>
         ) : null}
-      </Hero>
+      </LivingHero>
     </Stage>
   );
 };
@@ -322,7 +358,7 @@ export const ShortCompare: React.FC<{
   return (
     <Stage>
       {kicker ? <Top text={kicker} /> : null}
-      <Hero lift={0}>
+      <LivingHero>
         <div style={{ display: "flex", gap: 26, width: PW, alignItems: "stretch" }}>
           {card(left.value, left.label, left.color ?? C.text, left.note, a)}
           {card(right.value, right.label, right.color ?? C.cyan, right.note, b)}
@@ -334,7 +370,7 @@ export const ShortCompare: React.FC<{
             </Statement>
           </div>
         ) : null}
-      </Hero>
+      </LivingHero>
     </Stage>
   );
 };
@@ -358,7 +394,7 @@ export const ShortScale: React.FC<{
   return (
     <Stage>
       {kicker ? <Top text={kicker} /> : null}
-      <Hero lift={0}>
+      <LivingHero>
         <div style={{ width: PW }}>
           <div
             style={{
@@ -466,7 +502,7 @@ export const ShortScale: React.FC<{
             </div>
           ) : null}
         </div>
-      </Hero>
+      </LivingHero>
     </Stage>
   );
 };
@@ -518,12 +554,12 @@ export const ShortCaveat: React.FC<{
   return (
     <Stage>
       {kicker ? <Top text={kicker} /> : null}
-      <Hero lift={0}>
+      <LivingHero>
         <div style={{ display: "flex", flexDirection: "column", gap: 40, width: PW }}>
           {block("THE CLAIM", claim, C.cyan, p)}
           {block("THE REALITY", reality, C.amber, q)}
         </div>
-      </Hero>
+      </LivingHero>
     </Stage>
   );
 };
@@ -542,7 +578,7 @@ export const ShortBits: React.FC<{
   return (
     <Stage>
       {kicker ? <Top text={kicker} /> : null}
-      <Hero lift={0}>
+      <LivingHero>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 26 }}>
           <div style={{ display: "flex", gap: 8 }}>
             {cells.map((c, i) => {
@@ -602,7 +638,7 @@ export const ShortBits: React.FC<{
             </div>
           ) : null}
         </div>
-      </Hero>
+      </LivingHero>
     </Stage>
   );
 };
@@ -625,7 +661,7 @@ export const ShortGrid: React.FC<{
   return (
     <Stage>
       {kicker ? <Top text={kicker} /> : null}
-      <Hero lift={0}>
+      <LivingHero>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
           <div
             style={{
@@ -674,7 +710,7 @@ export const ShortGrid: React.FC<{
             </div>
           ) : null}
         </div>
-      </Hero>
+      </LivingHero>
     </Stage>
   );
 };
@@ -703,7 +739,7 @@ export const ShortTokens: React.FC<{
   return (
     <Stage>
       {kicker ? <Top text={kicker} /> : null}
-      <Hero lift={0}>
+      <LivingHero>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 26 }}>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" }}>
             {tokens.map((t, i) => {
@@ -763,7 +799,7 @@ export const ShortTokens: React.FC<{
             </div>
           ) : null}
         </div>
-      </Hero>
+      </LivingHero>
     </Stage>
   );
 };
@@ -785,7 +821,7 @@ export const ShortTitle: React.FC<{
   return (
     <Stage>
       {kicker ? <Top text={kicker} /> : null}
-      <Hero lift={0}>
+      <LivingHero>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <div
             style={{
@@ -830,7 +866,7 @@ export const ShortTitle: React.FC<{
             </div>
           ) : null}
         </div>
-      </Hero>
+      </LivingHero>
     </Stage>
   );
 };
@@ -849,7 +885,7 @@ export const ShortEnd: React.FC<{
   const c = ph(frame, d, 0.4, 0.6);
   return (
     <Stage>
-      <Hero lift={0}>
+      <LivingHero>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <div
             style={{
@@ -902,7 +938,7 @@ export const ShortEnd: React.FC<{
             {cta}
           </div>
         </div>
-      </Hero>
+      </LivingHero>
     </Stage>
   );
 };
