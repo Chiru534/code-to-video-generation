@@ -1,0 +1,74 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2793,
+  "scenes": {
+    "s01": {
+      "sec": 4.6,
+      "frames": 138,
+      "text": "Here is the third term in the training bill: activations."
+    },
+    "s02": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "Every layer passes its output to the next one, and the backward pass needs those outputs to work out the gradients."
+    },
+    "s03": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "So you keep them. All of them. For every layer, for every token in the batch."
+    },
+    "s04": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "And activations are the only term that does not scale with the model. They scale with batch size and sequence length."
+    },
+    "s05": {
+      "sec": 4.6,
+      "frames": 138,
+      "text": "Double the sequence length and you double the activation memory."
+    },
+    "s06": {
+      "sec": 8.8,
+      "frames": 264,
+      "text": "Which means the term you can control without touching the model is the one that scales with your batch size."
+    },
+    "s07": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "There is a trade available. Do not save the activations. Save only the inputs to a few checkpoints."
+    },
+    "s08": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "Then when the backward pass needs a layer you threw away, recompute it from the last checkpoint."
+    },
+    "s09": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "You traded memory for arithmetic. And arithmetic is the thing a data centre actually has."
+    },
+    "s10": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "The cost is real. A checkpointed step does about a third more work than an uncheckpointed one."
+    },
+    "s11": {
+      "sec": 5.8,
+      "frames": 174,
+      "text": "A third more compute to fit twice the batch, or twice the context."
+    },
+    "s12": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "Which is why nobody turns it on for its own sake. You turn it on when the run will not fit."
+    },
+    "s13": {
+      "sec": 5.0,
+      "frames": 150,
+      "text": "Throw it away. Compute it again. That is the whole trick."
+    }
+  }
+}

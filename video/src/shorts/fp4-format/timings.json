@@ -1,0 +1,74 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2928,
+  "scenes": {
+    "s01": {
+      "sec": 5.8,
+      "frames": 174,
+      "text": "A floating-point number needs three things. A sign, an exponent, and a mantissa."
+    },
+    "s02": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "The exponent says how big or small the number can be. The mantissa says how finely you can pin it down."
+    },
+    "s03": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "FP32 spends thirty-two bits on that. Eight for the exponent, twenty-three for the mantissa, one for the sign."
+    },
+    "s04": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "Halve it and you halve the mantissa first. FP16 keeps five exponent bits and ten mantissa bits."
+    },
+    "s05": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "Keep going and you hit the real problem. The exponent runs out of room before the mantissa does."
+    },
+    "s06": {
+      "sec": 8.8,
+      "frames": 264,
+      "text": "FP8 splits the difference two ways. E4M3 has four exponent bits and three mantissa bits. E5M2 has five and two."
+    },
+    "s07": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "E4M3 has more precision and less range. E5M2 has more range and less precision."
+    },
+    "s08": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "Which one you want depends on whether you are storing a weight or an activation."
+    },
+    "s09": {
+      "sec": 8.3,
+      "frames": 249,
+      "text": "Then there is the clever part. You can shrink it to four bits. One sign, two exponent, one mantissa."
+    },
+    "s10": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "That is so little precision that one shared scale for a whole block of numbers would destroy them."
+    },
+    "s11": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "So the format stores a small scale factor alongside the block, and that scale is different for every group of values."
+    },
+    "s12": {
+      "sec": 4.6,
+      "frames": 138,
+      "text": "Four bits per number, and the block keeps its meaning."
+    },
+    "s13": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "That is how four-bit weights survive at all. The scale saves what one mantissa bit cannot hold."
+    }
+  }
+}

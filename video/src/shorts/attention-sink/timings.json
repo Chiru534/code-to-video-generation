@@ -1,0 +1,74 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2490,
+  "scenes": {
+    "s01": {
+      "sec": 8.8,
+      "frames": 264,
+      "text": "Here is a strange fact about language models. The first token of any sequence absorbs a huge amount of attention."
+    },
+    "s02": {
+      "sec": 4.6,
+      "frames": 138,
+      "text": "Not the important token. Not the last one. The first."
+    },
+    "s03": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "And it is not about content. The first token gets the same treatment every time."
+    },
+    "s04": {
+      "sec": 5.0,
+      "frames": 150,
+      "text": "The explanation is that attention needs somewhere to dump probability mass."
+    },
+    "s05": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "Every head outputs a weighted average, and those weights have to sum to one."
+    },
+    "s06": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "Early on, before the model knows what it is looking at, some probability has to go somewhere."
+    },
+    "s07": {
+      "sec": 8.3,
+      "frames": 249,
+      "text": "So the model learns to use the first token as a sink. A place to put the leftover attention."
+    },
+    "s08": {
+      "sec": 3.7,
+      "frames": 111,
+      "text": "This is not a quirk. It is load-bearing."
+    },
+    "s09": {
+      "sec": 8.8,
+      "frames": 264,
+      "text": "StreamingLLM found that if you keep the first few tokens and slide the window, you can stream millions of tokens."
+    },
+    "s10": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "But if the sink disappears, the attention collapses. The model has nowhere to put the mass."
+    },
+    "s11": {
+      "sec": 5.4,
+      "frames": 162,
+      "text": "So the first tokens are not just history. They are the drain."
+    },
+    "s12": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "Which is a strange thing to depend on, and an easy thing for a retrained model to lose."
+    },
+    "s13": {
+      "sec": 2.9,
+      "frames": 87,
+      "text": "Keep the drain. Slide everything else."
+    }
+  }
+}

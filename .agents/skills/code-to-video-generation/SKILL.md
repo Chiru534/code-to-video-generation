@@ -53,7 +53,69 @@ The external state (COVID of knowledge) lives in:
 
 **Not using (why):** paid API video ($), Wan2.1/Wan2.2/LTX/any diffusion model (prohibited), Seedance "open weights" (closed model), AnimateDiff (stale), Mochi-1, 15-min neural video, AI lip-sync/Avatar (LivePortrait/MuseTalk/LatentSync) — all outside this selection.
 
-## Episode pipeline (working as of 2026-11-09)
+## The channel's videos
+
+| Key | Shape | Length | Status |
+|---|---|---|---|
+| `ep01`–`ep05` | series episode (`STEP n OF m` slate) | ~90 s each | published |
+| `wifi` | standalone short | ~50 s | published |
+| `wifi-film` | long-form, 8 acts | 10:01 | published |
+| `littlebit` | standalone short (one paper) | 1:12 | published |
+| `littlebit-film` | long-form, 8 acts | 6:14 | draft |
+| 14 weekly shorts | standalone short, one claim each | ~70–110 s | draft |
+
+**The weekly shorts.** Fourteen Shorts, two a day for seven days, each on its
+own topic and its own claim — training memory, FP4 number formats, diffusion
+LLMs, the KV cache, activation checkpointing, GQA, mixture of experts,
+FlashAttention, the tokenizer tax, speculative decoding, BF16, attention
+sinks, quantization-aware training, and the MoE router.
+
+They are **generated, not hand-written**. The content is one table in
+`video/tools/make_shorts_week.py`; that script writes each short's
+narration, placeholder timings, scene registry, composition, `episodes.json`
+entry, `Root.tsx` registration, and `SHORTS_WEEK1.md` — the paste-from
+upload sheet with the title, description and tags for each.
+
+Two things carry over from the film and are not optional:
+
+- **The qualifier rides on the number.** `OUR ARITHMETIC · 7B / ADAM / BF16`
+  is rendered next to 112 GB, because that total is ours and depends on the
+  configuration. `ASSUMES BATCH 1 · SEQUENCE 4096` sits under the KV-cache
+  figure for the same reason.
+- **Each short makes ONE claim and defends it.** A short that could be
+  summarised in a sentence is a caption, not a video. The honest caveat is
+  the last thing before the end card, not an afterthought.
+
+`publishDate` in `episodes.json` is the **publish** date, and it becomes the
+dated Drive folder (`shorts/2026-11-12_training-memory/`). A whole week
+renders in one CI run, so without that field every folder would land on the
+same day.
+
+See `video/AGENTS.md` §8 for the rules before touching the shorts.
+
+**`littlebit-film` is the reference for long-form.** Samsung's LittleBit
+(NeurIPS 2025, arXiv 2506.13771) and its follow-up LittleBit-2 (arXiv
+2603.00042): factorise the weight matrix, binarise both factors, rebuild on
+the fly, 0.1 bits per weight. 58 scenes, `src/littlebit/film/`, built entirely
+on `kit/film.tsx` + `kit/scenes.tsx`.
+
+Its claim discipline is the template for every future video: each number says
+what it is **on screen**, next to the number — `PAPER FIGURE`, `POTENTIAL ·
+PAPER ESTIMATE`, `OUR ARITHMETIC`. The 26 GB figure is our arithmetic (13B ×
+16 bits), not a paper number, and the film says so out loud in Act 6. Act 7 is
+entirely the honest part: no sub-one-bit kernels exist, the 11.6× is a
+projection, and 0.1 bits per weight is an accounting measure rather than a
+physical cell. **Never** state 11.6× without "potential", and never say the
+method "beats" one-bit baselines — it *matches* them at a tenth of the bits.
+
+Upload metadata (title, description, chapters, tags) for both LittleBit
+videos is in `YOUTUBE_UPLOAD_PACKAGE.md`. Upload the Short first, then the
+film: the Short never points at the film, the film closes by asking for the
+60-second version.
+
+---
+
+## Episode pipeline (working as of 2026-11-10)
 
 ```
 episodes.json                     registry: srcDir, audioDir, composition, output
@@ -63,9 +125,28 @@ episodes.json                     registry: srcDir, audioDir, composition, outpu
                                                      -> src/<ep>/timings.json
        -> remotion render <composition>   (scene length = measured line + 0.4s)
        -> ffmpeg loudnorm I=-14           -> out/<output>.mp4
-       -> tools/gdrive_upload.py          -> the human's Drive
+       -> thumbnail at thumbSeconds       -> out/<output>-thumbnail.jpg
+       -> tools/audit.py --video
+       -> tools/gdrive_upload.py          -> dated Drive folder, with thumbnails
 Deterministic code renders only. No AI/diffusion video models anywhere in this pipeline.
 ```
+
+**READ `video/AGENTS.md` BEFORE WRITING A VIDEO.** It is the whole contract:
+the kit API, the rules, the CI gates, and how to add a video. It exists so a
+new agent never has to read the other 8 videos to write the 9th. The repo
+grows linearly; the reading cost must not.
+
+**The kit is the reuse surface.** Everything reusable lives in `video/src/kit/`:
+`core.tsx` (timing, determinism), `scene.tsx` (portrait), `film.tsx`
+(landscape), `scenes.tsx` (shared scene vocabulary), `draw.tsx`, `timeline.ts`.
+Never hand-write a helper inside an episode — that is how the episode series
+ended up with five copies of `TitleScene`. `audit.py` now fails the build if
+the kit defines a component name twice, and if a narration line has no scene.
+
+**The repo's shape is now:** one registry (`episodes.json`, with `status`,
+`shape`, `style` per entry), one contract (`video/AGENTS.md`), one kit, three
+example shapes (series / short / film). A 60th video costs the same reading
+time as the 9th.
 
 **ZERO-WASTE RENDER POLICY (LOCKED — user decision 2026-11-09):** we are **not allowed
 to render an already-existing video when rendering a new one. We only render episodes
@@ -253,6 +334,20 @@ the file (works because every render is `+faststart`), fall back to the
 thumbnail Drive already generated, and only then consider a bounded full
 download. Nothing is deleted and no video is re-rendered; running it twice
 changes nothing the second time.
+
+`video/tools/gdrive_delete.py` removes videos by name or by exact file id, and
+can bring a trashed file back. It is the only thing in this pipeline that
+deletes, and it always dry-runs unless `--apply` is passed.
+
+Two traps worth remembering, both paid for in a real run:
+
+- **`crop` has no `flags` option.** `crop=1280:720:flags=lanczos` fails with
+  *"Error applying option 'flags' to filter 'crop'"* and the thumbnail silently
+  never appears. The flag belongs on `scale`:
+  `scale=1280:720:force_original_aspect_ratio=increase:flags=lanczos,crop=1280:720`.
+- **A dated folder is `YYYY-MM-DD_slug`, not "any folder with an underscore".**
+  `studio_15min_documentary` has underscores too, so matching on `_` picks the
+  wrong copy of a file that exists in two places — and you delete the wrong one.
 
 Moving a file in Drive changes its `parents` but keeps its `id`, so existing links
 keep working and only the secret has to follow. **Move files and forget the

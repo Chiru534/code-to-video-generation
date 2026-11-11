@@ -1,0 +1,58 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Here is a strange fact about language models. The first token of any sequence absorbs a huge amount of attention."
+    },
+    {
+      "id": "s02",
+      "text": "Not the important token. Not the last one. The first."
+    },
+    {
+      "id": "s03",
+      "text": "And it is not about content. The first token gets the same treatment every time."
+    },
+    {
+      "id": "s04",
+      "text": "The explanation is that attention needs somewhere to dump probability mass."
+    },
+    {
+      "id": "s05",
+      "text": "Every head outputs a weighted average, and those weights have to sum to one."
+    },
+    {
+      "id": "s06",
+      "text": "Early on, before the model knows what it is looking at, some probability has to go somewhere."
+    },
+    {
+      "id": "s07",
+      "text": "So the model learns to use the first token as a sink. A place to put the leftover attention."
+    },
+    {
+      "id": "s08",
+      "text": "This is not a quirk. It is load-bearing."
+    },
+    {
+      "id": "s09",
+      "text": "StreamingLLM found that if you keep the first few tokens and slide the window, you can stream millions of tokens."
+    },
+    {
+      "id": "s10",
+      "text": "But if the sink disappears, the attention collapses. The model has nowhere to put the mass."
+    },
+    {
+      "id": "s11",
+      "text": "So the first tokens are not just history. They are the drain."
+    },
+    {
+      "id": "s12",
+      "text": "Which is a strange thing to depend on, and an easy thing for a retrained model to lose."
+    },
+    {
+      "id": "s13",
+      "text": "Keep the drain. Slide everything else."
+    }
+  ]
+}

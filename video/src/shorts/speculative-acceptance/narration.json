@@ -1,0 +1,58 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Speculative decoding is the trick for making a model write faster without changing it."
+    },
+    {
+      "id": "s02",
+      "text": "A small draft model proposes a batch of tokens. The big model checks them all in one pass."
+    },
+    {
+      "id": "s03",
+      "text": "If the draft was right, you take the tokens. If it was wrong, you take the first one and start again."
+    },
+    {
+      "id": "s04",
+      "text": "So the speedup is not the size of the draft model. It is how often the draft is right."
+    },
+    {
+      "id": "s05",
+      "text": "Call that the acceptance rate."
+    },
+    {
+      "id": "s06",
+      "text": "At full acceptance you get the maximum speedup, which is the batch size you used."
+    },
+    {
+      "id": "s07",
+      "text": "At zero acceptance you get nothing, and you have paid for the draft model on every token."
+    },
+    {
+      "id": "s08",
+      "text": "Most real systems sit somewhere in between. Roughly sixty to eighty percent is typical."
+    },
+    {
+      "id": "s09",
+      "text": "Which is why a draft model that is barely better than the big one can still be useless."
+    },
+    {
+      "id": "s10",
+      "text": "It has to be close enough to guess right, and small enough to be cheap."
+    },
+    {
+      "id": "s11",
+      "text": "There is a second cost people forget. Every rejected token is wasted work for both models."
+    },
+    {
+      "id": "s12",
+      "text": "So a low acceptance rate does not just slow you down. It makes you do more work than the baseline."
+    },
+    {
+      "id": "s13",
+      "text": "The speedup is not the draft model. It is the agreement."
+    }
+  ]
+}

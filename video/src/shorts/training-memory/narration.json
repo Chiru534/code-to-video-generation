@@ -1,0 +1,58 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "A seven-billion-parameter model runs on a laptop in fourteen gigabytes."
+    },
+    {
+      "id": "s02",
+      "text": "Training the same model needs a hundred and twelve."
+    },
+    {
+      "id": "s03",
+      "text": "That gap is arithmetic. It is worth doing carefully, because every term in it is a decision somebody made."
+    },
+    {
+      "id": "s04",
+      "text": "Start with the weights. Seven billion parameters at sixteen bits each is fourteen gigabytes."
+    },
+    {
+      "id": "s05",
+      "text": "Training also needs the gradients. Another fourteen gigabytes."
+    },
+    {
+      "id": "s06",
+      "text": "Then the optimizer. Adam keeps two running averages per parameter, momentum and variance, in full precision."
+    },
+    {
+      "id": "s07",
+      "text": "That is eight bytes per parameter. Two more copies of the model, held as state."
+    },
+    {
+      "id": "s08",
+      "text": "Fourteen, plus fourteen, plus fifty-six. Eighty-four gigabytes before a single activation."
+    },
+    {
+      "id": "s09",
+      "text": "Activations scale with batch size and sequence length, not with model size."
+    },
+    {
+      "id": "s10",
+      "text": "So the honest total depends on your configuration. At batch one and sequence four thousand, it lands near a hundred and twelve gigabytes."
+    },
+    {
+      "id": "s11",
+      "text": "You can make it fit. Shard it across eight GPUs, and each one holds an eighth."
+    },
+    {
+      "id": "s12",
+      "text": "But sharding does not delete the memory. It splits it, and adds the cost of the GPUs talking to each other."
+    },
+    {
+      "id": "s13",
+      "text": "A model you cannot fit is a model you cannot run. That is why training costs what it costs."
+    }
+  ]
+}

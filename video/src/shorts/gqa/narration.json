@@ -1,0 +1,58 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Attention stores a key and a value for every head, for every layer, for every token."
+    },
+    {
+      "id": "s02",
+      "text": "That is a lot of duplication. Many heads end up storing almost the same key."
+    },
+    {
+      "id": "s03",
+      "text": "Group-query attention says: keep all the queries separate, but let a group of heads share one key and one value."
+    },
+    {
+      "id": "s04",
+      "text": "Eight query heads, one key and one value. Eight times less to store."
+    },
+    {
+      "id": "s05",
+      "text": "And the query still gets to be its own self, so each head can still look somewhere different."
+    },
+    {
+      "id": "s06",
+      "text": "Which sounds free. It is not, and the reason is a detail."
+    },
+    {
+      "id": "s07",
+      "text": "The shared key has to serve eight different queries, so it has to be the average of what those eight heads wanted."
+    },
+    {
+      "id": "s08",
+      "text": "Average keys are duller keys. The direction each head actually cared about gets smeared."
+    },
+    {
+      "id": "s09",
+      "text": "So quality does drop. The question is how much, and how fast it stops dropping."
+    },
+    {
+      "id": "s10",
+      "text": "DeepSeek went further and compressed the cache into a low-rank latent space instead."
+    },
+    {
+      "id": "s11",
+      "text": "Which gets the size down further, at the cost of rebuilding the keys on every step."
+    },
+    {
+      "id": "s12",
+      "text": "So the ladder is: share the heads, then compress them, then quantise what is left."
+    },
+    {
+      "id": "s13",
+      "text": "Every rung of that ladder is a trade, and the whole field is climbing it."
+    }
+  ]
+}

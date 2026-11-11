@@ -1,0 +1,58 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "In a mixture of experts, a router decides which experts handle a token."
+    },
+    {
+      "id": "s02",
+      "text": "It is a small network, trained to send tokens to the experts that handle them best."
+    },
+    {
+      "id": "s03",
+      "text": "Which is the whole problem. If every token goes to the best-fitting expert, one expert wins."
+    },
+    {
+      "id": "s04",
+      "text": "It gets all the training signal. The others get nothing, and they go stale."
+    },
+    {
+      "id": "s05",
+      "text": "So the router is given a second objective: send a balanced share of tokens everywhere."
+    },
+    {
+      "id": "s06",
+      "text": "That is the load-balancing loss, added to the training loss."
+    },
+    {
+      "id": "s07",
+      "text": "It is a hack in the truest sense. The router is told to do something other than the thing it was built for."
+    },
+    {
+      "id": "s08",
+      "text": "And the tension is real. Fit the tokens perfectly and the experts go stale. Balance them perfectly and the routing goes bad."
+    },
+    {
+      "id": "s09",
+      "text": "So every router sits somewhere on that trade-off."
+    },
+    {
+      "id": "s10",
+      "text": "Push too hard and the router starts sending tokens to worse experts, to satisfy the balance."
+    },
+    {
+      "id": "s11",
+      "text": "Push too little and you are back to one popular expert doing all the work."
+    },
+    {
+      "id": "s12",
+      "text": "The coefficient on that loss is the knob. One number trades quality against capacity."
+    },
+    {
+      "id": "s13",
+      "text": "The router is trained to be good at routing, and punished for being good at it."
+    }
+  ]
+}

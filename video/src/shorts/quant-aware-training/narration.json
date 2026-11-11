@@ -1,0 +1,58 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Quantization can be done after training, by rounding the weights of a finished model."
+    },
+    {
+      "id": "s02",
+      "text": "Or it can be done during training, by rounding the weights on every step."
+    },
+    {
+      "id": "s03",
+      "text": "The second one is slower to set up and much better in the result."
+    },
+    {
+      "id": "s04",
+      "text": "Here is why. A trained model has never seen a rounded weight."
+    },
+    {
+      "id": "s05",
+      "text": "The weights sit in a narrow band where the network is sensitive. Round them, and you move them."
+    },
+    {
+      "id": "s06",
+      "text": "Move them far enough and the next layer gets a different input than it was trained for."
+    },
+    {
+      "id": "s07",
+      "text": "One layer's rounding error becomes the next layer's noise, and it compounds."
+    },
+    {
+      "id": "s08",
+      "text": "Training with quantization in the loop teaches the model to work with rounded weights."
+    },
+    {
+      "id": "s09",
+      "text": "It learns to put its important information in the places where rounding does the least damage."
+    },
+    {
+      "id": "s10",
+      "text": "So the gap between the two is not a small margin. It is the difference between working and not."
+    },
+    {
+      "id": "s11",
+      "text": "Which is also why the honest version of a quantization claim has to say which one was used."
+    },
+    {
+      "id": "s12",
+      "text": "A number from a post-training model and a number from a quantization-aware one are not the same number."
+    },
+    {
+      "id": "s13",
+      "text": "Ask how the model was trained before you believe the size."
+    }
+  ]
+}

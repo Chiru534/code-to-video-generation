@@ -209,7 +209,12 @@ def adopt_legacy(svc, parent: str, folder: str, name: str) -> str:
 
 def mime_for(path: str) -> str:
     ext = os.path.splitext(path)[1].lower()
-    return {".png": "image/png", ".webp": "image/webp"}.get(ext, "image/jpeg")
+    return {
+        ".png": "image/png",
+        ".webp": "image/webp",
+        ".srt": "application/x-subrip",
+        ".vtt": "text/vtt",
+    }.get(ext, "image/jpeg")
 
 
 def md5_of(path: str) -> str:

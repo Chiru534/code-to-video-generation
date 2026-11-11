@@ -24,7 +24,7 @@ on:
         description: "Which episode to render (manual dispatch = deliberate re-render decision)"
         type: choice
         default: none
-        options: [none, all, ep01, ep02, ep03, ep04, ep05, wifi, wifi-film, littlebit, littlebit-film]
+        options: [none, all, ep01, ep02, ep03, ep04, ep05, wifi, wifi-film, littlebit, littlebit-film, training-memory, fp4-format, diffusion-llm, kv-cache, activation-checkpointing, bf16, moe-active, flash-attention, tokenizer-tax, speculative-acceptance, attention-sink, gqa, moe-router, quant-aware-training]
   push:
     branches: [main]
     paths:
@@ -328,6 +328,17 @@ jobs:
           ls -lh out/*thumbnail*.jpg
           echo "| thumbnail | ${BYTES} bytes |" >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Generate subtitles
+        working-directory: video
+        run: |
+          # Built from the MEASURED timings that tts.py wrote, so the captions
+          # land exactly on the narration. YouTube's auto-captions get this
+          # channel's terminology wrong, and the terminology is the point.
+          STEM="${OUTPUT%.mp4}"
+          python tools/make_srt.py --episode "${{ matrix.key }}" --out "out/${STEM}.srt" \
+            || echo "::warning::srt generation failed for ${{ matrix.key }}"
+          ls -lh out/*.srt 2>/dev/null || true
+
       - name: Upload to Google Drive
         if: success()
         working-directory: video
@@ -339,10 +350,16 @@ jobs:
           GDRIVE_SHORTS_FOLDER_ID: ${{ secrets.GDRIVE_SHORTS_FOLDER_ID }}
           GDRIVE_SHORTS_MAX_SECONDS: "180"
           GDRIVE_SA_JSON: ${{ secrets.GDRIVE_SA_JSON }}
+          # The dated folder carries the PUBLISH date, not the render date. A
+          # whole week of shorts renders in one run, so every folder would
+          # otherwise land on the same day. Empty -> today.
+          GDRIVE_DATE: ${{ matrix.publishDate }}
         run: |
           ARGS=()
           if [ -n "${THUMB_16X9}" ]; then ARGS+=(--thumb "${THUMB_16X9}"); fi
           if [ -n "${THUMB_9X16}" ]; then ARGS+=(--thumb "${THUMB_9X16}"); fi
+          STEM="${OUTPUT%.mp4}"
+          if [ -f "out/${STEM}.srt" ]; then ARGS+=(--thumb "out/${STEM}.srt"); fi
           python tools/gdrive_upload.py "out/$OUTPUT" --name "$OUTPUT" "${ARGS[@]}"
 
       - name: Run summary
@@ -368,6 +385,7 @@ jobs:
           path: |
             video/out/${{ matrix.output }}
             video/out/*-thumbnail*.jpg
+            video/out/*.srt
             video/${{ matrix.audioDir }}/*.wav
             video/${{ matrix.srcDir }}/timings.json
           retention-days: 30

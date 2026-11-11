@@ -43,8 +43,10 @@ put it there — not in the episode.
 |---|---|
 | `core.tsx` | Timing and determinism. `CLAMP`, `ease`, `prog`, `ph`, `lin`, `rnd`, `wobble`, `useScene` |
 | `scene.tsx` | The **portrait** (1080×1920) kit: `Hero`, `Foot`, `Mark`, `Top`, `Sub`, `Statement`, `Bar`, `Chip`, `Stat`, `Matrix` |
+| `portrait.tsx` | The **portrait scene kinds** for the weekly shorts: `ShortFigure`, `ShortStack`, `ShortCompare`, `ShortScale`, `ShortBits`, `ShortGrid`, `ShortTokens`, `ShortCaveat`, `ShortTitle`, `ShortEnd` |
 | `film.tsx` | The **landscape** (1920×1080) kit: `FILM`, `Ground`, `Stage`, `Kicker`, `Statement`, `CompareBar`, `Ledger`, `Panel`, `Label` |
 | `scenes.tsx` | The shared **scene vocabulary**: `Chapter`, `Stat`, `MatrixGrid`, `Ladder`, `Spectrum`, `Equation`, `Caveat`, `Code`, `Predict`, `EndCard` |
+| `shortfilm.tsx` | The renderer every weekly short shares: `ShortFilm`, `shortDuration` |
 | `draw.tsx` | `DrawPath`, `DrawDot` — stroke-by-stroke drawing |
 | `timeline.ts` | `buildPlan`, `timelineFrames` — scene timing from measured narration |
 
@@ -170,3 +172,52 @@ narration.json  ->  tools/tts.py (Kokoro, CPU)  ->  public/audio/<ep>/*.wav
 Nothing renders on the laptop. The runner's disk is destroyed afterwards, so
 the Drive file is the only permanent copy. A local `out/*.mp4` is a debugging
 artifact.
+
+---
+
+## 8. The weekly shorts
+
+Fourteen Shorts, two a day, one dated folder each. They are **not**
+hand-written. The content is one table; everything else is generated.
+
+```
+video/tools/make_shorts_week.py    THE TABLE + the generator
+video/src/kit/portrait.tsx         the portrait scene kinds
+video/src/kit/shortfilm.tsx        the renderer every short shares
+```
+
+A short is four generated files in `src/shorts/<slug>/`:
+
+```
+narration.json   the spoken lines
+timings.json     PLACEHOLDER; CI overwrites it with the measured lengths
+scenes.tsx       scene id -> a kit component
+<Name>.tsx       the thin composition that wires them to the renderer
+```
+
+**To add a short:** add an entry to `SHORTS` and one to `UPLOAD` in
+`tools/make_shorts_week.py`, then run it. It writes the four files, the
+`episodes.json` entry, the `Root.tsx` registrations and `SHORTS_WEEK1.md`
+(the paste-from sheet). Never hand-edit the generated files.
+
+Rules that are not obvious:
+
+- **The scene registry is TSX, not JSON.** `tools/audit.py` finds a scene by
+  looking for `sNN:` lines in the `.tsx` files of the episode directory, so a
+  JSON registry fails the "every narration line has a scene" gate.
+- **Colours in the table are theme tokens, not CSS keywords.** `amber`,
+  `green` and `text` are not CSS colours. The generator maps them to the
+  theme; a raw colour string renders an invisible element, and an invisible
+  element is how a scene ships empty.
+- **`publishDate` in `episodes.json` is the dated Drive folder.** It is the
+  PUBLISH date, not the render date — a whole week renders in one run, so
+  every folder would otherwise land on the same day.
+- **Every number that needs a qualifier gets a `note`.** The note renders ON
+  SCREEN next to the number. `OUR ARITHMETIC` is not optional.
+- **A big value is fitted to its box.** `ShortCompare` and `ShortFigure`
+  scale the font to the longest value; "ARITHMETIC" at 100px is wider than
+  the card and a clipped word is the kind of defect the eye catches
+  instantly.
+
+Lookdev every short before it renders. `lookdev.yml` takes one composition
+per dispatch, so a week of shorts is a week of dispatches.

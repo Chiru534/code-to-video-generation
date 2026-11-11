@@ -1,0 +1,74 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2607,
+  "scenes": {
+    "s01": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "FlashAttention is famous for being fast. That is the least interesting thing about it."
+    },
+    "s02": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "The interesting thing is that it is not a faster kernel. It is a different order of operations."
+    },
+    "s03": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "Attention has three steps. Multiply the queries and keys. Softmax the scores. Multiply by the values."
+    },
+    "s04": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "The slow part is the middle one. The score matrix is sequence length by sequence length."
+    },
+    "s05": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "At eight thousand tokens that is sixty-seven million numbers per head, written out to memory."
+    },
+    "s06": {
+      "sec": 5.8,
+      "frames": 174,
+      "text": "And then read straight back. That round trip is what costs the time."
+    },
+    "s07": {
+      "sec": 4.6,
+      "frames": 138,
+      "text": "FlashAttention never writes the score matrix down. It tiles it."
+    },
+    "s08": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "It computes a block of scores in fast memory, softmaxes that block, multiplies it into the output, and throws it away."
+    },
+    "s09": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "So the huge matrix never exists anywhere. Not on disk, not in video memory."
+    },
+    "s10": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "The memory traffic drops from quadratic to linear, and the flops stay exactly the same."
+    },
+    "s11": {
+      "sec": 4.6,
+      "frames": 138,
+      "text": "Same mathematics. Same answer. A completely different memory access pattern."
+    },
+    "s12": {
+      "sec": 10.0,
+      "frames": 300,
+      "text": "Which is why the name is a bit of a joke. It is not about attention. It is about not writing things down."
+    },
+    "s13": {
+      "sec": 4.6,
+      "frames": 138,
+      "text": "The fastest kernels are the ones that touch memory least."
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2718,
+  "scenes": {
+    "s01": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "Attention stores a key and a value for every head, for every layer, for every token."
+    },
+    "s02": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "That is a lot of duplication. Many heads end up storing almost the same key."
+    },
+    "s03": {
+      "sec": 8.8,
+      "frames": 264,
+      "text": "Group-query attention says: keep all the queries separate, but let a group of heads share one key and one value."
+    },
+    "s04": {
+      "sec": 5.8,
+      "frames": 174,
+      "text": "Eight query heads, one key and one value. Eight times less to store."
+    },
+    "s05": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "And the query still gets to be its own self, so each head can still look somewhere different."
+    },
+    "s06": {
+      "sec": 5.4,
+      "frames": 162,
+      "text": "Which sounds free. It is not, and the reason is a detail."
+    },
+    "s07": {
+      "sec": 9.6,
+      "frames": 288,
+      "text": "The shared key has to serve eight different queries, so it has to be the average of what those eight heads wanted."
+    },
+    "s08": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "Average keys are duller keys. The direction each head actually cared about gets smeared."
+    },
+    "s09": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "So quality does drop. The question is how much, and how fast it stops dropping."
+    },
+    "s10": {
+      "sec": 5.8,
+      "frames": 174,
+      "text": "DeepSeek went further and compressed the cache into a low-rank latent space instead."
+    },
+    "s11": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "Which gets the size down further, at the cost of rebuilding the keys on every step."
+    },
+    "s12": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "So the ladder is: share the heads, then compress them, then quantise what is left."
+    },
+    "s13": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "Every rung of that ladder is a trade, and the whole field is climbing it."
+    }
+  }
+}

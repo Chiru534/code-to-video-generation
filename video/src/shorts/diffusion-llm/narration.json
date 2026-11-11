@@ -1,0 +1,58 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Every language model you have used writes left to right. One token at a time, each waiting for the last."
+    },
+    {
+      "id": "s02",
+      "text": "That loop is the reason inference is slow, and it is not obvious that you have to do it this way."
+    },
+    {
+      "id": "s03",
+      "text": "A diffusion model does not generate. It denoises. It starts with a block of masked tokens and fills them in."
+    },
+    {
+      "id": "s04",
+      "text": "All masked. Nothing decided. Every slot is a question mark."
+    },
+    {
+      "id": "s05",
+      "text": "Then it predicts every position at once, and unmasks only the ones it is confident about."
+    },
+    {
+      "id": "s06",
+      "text": "One step, six of eight slots. Then the next step works on what is left."
+    },
+    {
+      "id": "s07",
+      "text": "Which means the order is not left to right. It is confidence order."
+    },
+    {
+      "id": "s08",
+      "text": "That is the appeal. A handful of denoising steps instead of hundreds of single-token steps."
+    },
+    {
+      "id": "s09",
+      "text": "And for the hardware it is bigger still. Batched matrix multiplies are what a GPU is good at."
+    },
+    {
+      "id": "s10",
+      "text": "But here is the honest part. The tokens are not equally confident. The easy ones get filled early."
+    },
+    {
+      "id": "s11",
+      "text": "So the speedup depends on how many slots you dare to unmask per step."
+    },
+    {
+      "id": "s12",
+      "text": "Unmask too many and you commit to a bad token, and you cannot take it back."
+    },
+    {
+      "id": "s13",
+      "text": "The order is free. The confidence is not."
+    }
+  ]
+}

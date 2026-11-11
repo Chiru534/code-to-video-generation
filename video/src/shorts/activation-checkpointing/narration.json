@@ -1,0 +1,58 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Here is the third term in the training bill: activations."
+    },
+    {
+      "id": "s02",
+      "text": "Every layer passes its output to the next one, and the backward pass needs those outputs to work out the gradients."
+    },
+    {
+      "id": "s03",
+      "text": "So you keep them. All of them. For every layer, for every token in the batch."
+    },
+    {
+      "id": "s04",
+      "text": "And activations are the only term that does not scale with the model. They scale with batch size and sequence length."
+    },
+    {
+      "id": "s05",
+      "text": "Double the sequence length and you double the activation memory."
+    },
+    {
+      "id": "s06",
+      "text": "Which means the term you can control without touching the model is the one that scales with your batch size."
+    },
+    {
+      "id": "s07",
+      "text": "There is a trade available. Do not save the activations. Save only the inputs to a few checkpoints."
+    },
+    {
+      "id": "s08",
+      "text": "Then when the backward pass needs a layer you threw away, recompute it from the last checkpoint."
+    },
+    {
+      "id": "s09",
+      "text": "You traded memory for arithmetic. And arithmetic is the thing a data centre actually has."
+    },
+    {
+      "id": "s10",
+      "text": "The cost is real. A checkpointed step does about a third more work than an uncheckpointed one."
+    },
+    {
+      "id": "s11",
+      "text": "A third more compute to fit twice the batch, or twice the context."
+    },
+    {
+      "id": "s12",
+      "text": "Which is why nobody turns it on for its own sake. You turn it on when the run will not fit."
+    },
+    {
+      "id": "s13",
+      "text": "Throw it away. Compute it again. That is the whole trick."
+    }
+  ]
+}

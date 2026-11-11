@@ -1,0 +1,74 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2628,
+  "scenes": {
+    "s01": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "Quantization can be done after training, by rounding the weights of a finished model."
+    },
+    "s02": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "Or it can be done during training, by rounding the weights on every step."
+    },
+    "s03": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "The second one is slower to set up and much better in the result."
+    },
+    "s04": {
+      "sec": 5.4,
+      "frames": 162,
+      "text": "Here is why. A trained model has never seen a rounded weight."
+    },
+    "s05": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "The weights sit in a narrow band where the network is sensitive. Round them, and you move them."
+    },
+    "s06": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "Move them far enough and the next layer gets a different input than it was trained for."
+    },
+    "s07": {
+      "sec": 5.4,
+      "frames": 162,
+      "text": "One layer's rounding error becomes the next layer's noise, and it compounds."
+    },
+    "s08": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "Training with quantization in the loop teaches the model to work with rounded weights."
+    },
+    "s09": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "It learns to put its important information in the places where rounding does the least damage."
+    },
+    "s10": {
+      "sec": 8.3,
+      "frames": 249,
+      "text": "So the gap between the two is not a small margin. It is the difference between working and not."
+    },
+    "s11": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "Which is also why the honest version of a quantization claim has to say which one was used."
+    },
+    "s12": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "A number from a post-training model and a number from a quantization-aware one are not the same number."
+    },
+    "s13": {
+      "sec": 5.0,
+      "frames": 150,
+      "text": "Ask how the model was trained before you believe the size."
+    }
+  }
+}

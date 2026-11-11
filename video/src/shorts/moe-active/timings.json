@@ -1,0 +1,74 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2610,
+  "scenes": {
+    "s01": {
+      "sec": 3.7,
+      "frames": 111,
+      "text": "DeepSeek-V2 has two hundred and thirty-six billion parameters."
+    },
+    "s02": {
+      "sec": 5.4,
+      "frames": 162,
+      "text": "And on any given token, only twenty-one billion of them are used."
+    },
+    "s03": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "That is a mixture of experts. A router reads the token and picks eight experts out of a hundred and sixty."
+    },
+    "s04": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "A hundred and fifty-two never run at all. And two shared experts always do."
+    },
+    "s05": {
+      "sec": 5.8,
+      "frames": 174,
+      "text": "So the compute you pay for is the compute of a twenty-one-billion model."
+    },
+    "s06": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "But the memory you need is still two hundred and thirty-six billion parameters. All of them are stored."
+    },
+    "s07": {
+      "sec": 3.7,
+      "frames": 111,
+      "text": "Sparse compute, dense storage. That is the deal."
+    },
+    "s08": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "It is a good one for throughput, and a bad one for your disk bill."
+    },
+    "s09": {
+      "sec": 8.3,
+      "frames": 249,
+      "text": "And there is a cost that does not show up in either number. The router has to be right."
+    },
+    "s10": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "Pick the wrong expert and the token goes through a network that was never trained for it."
+    },
+    "s11": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "So the router has to be balanced. Send too much to one expert and the rest go stale."
+    },
+    "s12": {
+      "sec": 8.8,
+      "frames": 264,
+      "text": "Most of these models also run a couple of dense experts on every token, so no token is completely unrouted."
+    },
+    "s13": {
+      "sec": 5.8,
+      "frames": 174,
+      "text": "Two hundred and thirty-six billion parameters. Twenty-one billion working. Both numbers are true."
+    }
+  }
+}
