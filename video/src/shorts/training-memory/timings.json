@@ -1,0 +1,74 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2577,
+  "scenes": {
+    "s01": {
+      "sec": 4.6,
+      "frames": 138,
+      "text": "A seven-billion-parameter model runs on a laptop in fourteen gigabytes."
+    },
+    "s02": {
+      "sec": 4.2,
+      "frames": 126,
+      "text": "Training the same model needs a hundred and twelve."
+    },
+    "s03": {
+      "sec": 8.3,
+      "frames": 249,
+      "text": "That gap is arithmetic. It is worth doing carefully, because every term in it is a decision somebody made."
+    },
+    "s04": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "Start with the weights. Seven billion parameters at sixteen bits each is fourteen gigabytes."
+    },
+    "s05": {
+      "sec": 3.7,
+      "frames": 111,
+      "text": "Training also needs the gradients. Another fourteen gigabytes."
+    },
+    "s06": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "Then the optimizer. Adam keeps two running averages per parameter, momentum and variance, in full precision."
+    },
+    "s07": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "That is eight bytes per parameter. Two more copies of the model, held as state."
+    },
+    "s08": {
+      "sec": 5.0,
+      "frames": 150,
+      "text": "Fourteen, plus fourteen, plus fifty-six. Eighty-four gigabytes before a single activation."
+    },
+    "s09": {
+      "sec": 5.4,
+      "frames": 162,
+      "text": "Activations scale with batch size and sequence length, not with model size."
+    },
+    "s10": {
+      "sec": 10.0,
+      "frames": 300,
+      "text": "So the honest total depends on your configuration. At batch one and sequence four thousand, it lands near a hundred and twelve gigabytes."
+    },
+    "s11": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "You can make it fit. Shard it across eight GPUs, and each one holds an eighth."
+    },
+    "s12": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "But sharding does not delete the memory. It splits it, and adds the cost of the GPUs talking to each other."
+    },
+    "s13": {
+      "sec": 8.3,
+      "frames": 249,
+      "text": "A model you cannot fit is a model you cannot run. That is why training costs what it costs."
+    }
+  }
+}

@@ -69,5 +69,29 @@
     "status": "draft",
     "shape": "film",
     "style": "film"
+  },
+  "training-memory": {
+    "title": "Why Training a 7B Model Needs 112 GB",
+    "srcDir": "src/shorts/training-memory",
+    "audioDir": "public/audio/shorts/training-memory",
+    "composition": "TrainingMemoryShort",
+    "output": "training-memory.mp4",
+    "thumbSeconds": 2.0,
+    "publishDate": "2026-11-12",
+    "status": "draft",
+    "shape": "short",
+    "style": "kit-hero"
+  },
+  "fp4-format": {
+    "title": "What a Number Looks Like in Four Bits",
+    "srcDir": "src/shorts/fp4-format",
+    "audioDir": "public/audio/shorts/fp4-format",
+    "composition": "Fp4FormatShort",
+    "output": "fp4-format.mp4",
+    "thumbSeconds": 2.0,
+    "publishDate": "2026-11-12",
+    "status": "draft",
+    "shape": "short",
+    "style": "kit-hero"
   }
 }

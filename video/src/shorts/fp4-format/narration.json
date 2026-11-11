@@ -1,0 +1,58 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "A floating-point number needs three things. A sign, an exponent, and a mantissa."
+    },
+    {
+      "id": "s02",
+      "text": "The exponent says how big or small the number can be. The mantissa says how finely you can pin it down."
+    },
+    {
+      "id": "s03",
+      "text": "FP32 spends thirty-two bits on that. Eight for the exponent, twenty-three for the mantissa, one for the sign."
+    },
+    {
+      "id": "s04",
+      "text": "Halve it and you halve the mantissa first. FP16 keeps five exponent bits and ten mantissa bits."
+    },
+    {
+      "id": "s05",
+      "text": "Keep going and you hit the real problem. The exponent runs out of room before the mantissa does."
+    },
+    {
+      "id": "s06",
+      "text": "FP8 splits the difference two ways. E4M3 has four exponent bits and three mantissa bits. E5M2 has five and two."
+    },
+    {
+      "id": "s07",
+      "text": "E4M3 has more precision and less range. E5M2 has more range and less precision."
+    },
+    {
+      "id": "s08",
+      "text": "Which one you want depends on whether you are storing a weight or an activation."
+    },
+    {
+      "id": "s09",
+      "text": "Then there is the clever part. You can shrink it to four bits. One sign, two exponent, one mantissa."
+    },
+    {
+      "id": "s10",
+      "text": "That is so little precision that one shared scale for a whole block of numbers would destroy them."
+    },
+    {
+      "id": "s11",
+      "text": "So the format stores a small scale factor alongside the block, and that scale is different for every group of values."
+    },
+    {
+      "id": "s12",
+      "text": "Four bits per number, and the block keeps its meaning."
+    },
+    {
+      "id": "s13",
+      "text": "That is how four-bit weights survive at all. The scale saves what one mantissa bit cannot hold."
+    }
+  ]
+}

@@ -10,6 +10,14 @@ import { WifiAirtime, DURATION as WIFI_DURATION } from "./wifi/WifiAirtime";
 import { WifiFilm, DURATION as WIFI_FILM_DURATION } from "./wifi/film/WifiFilm";
 import { LittleBit, DURATION as LITTLEBIT_DURATION } from "./littlebit/LittleBit";
 import { LittleBitFilm, DURATION as LITTLEBIT_FILM_DURATION } from "./littlebit/film/LittleBitFilm";
+import {
+  TrainingMemoryShort,
+  DURATION as TRAINING_MEMORY_DURATION,
+} from "./shorts/training-memory/TrainingMemoryShort";
+import {
+  Fp4FormatShort,
+  DURATION as FP4_FORMAT_DURATION,
+} from "./shorts/fp4-format/Fp4FormatShort";
 
 /* bundled fonts — no network at render time, byte-identical every build */
 import "@fontsource/inter/400.css";
@@ -101,6 +109,22 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1920}
         height={1080}
+      />
+      <Composition
+        id="TrainingMemoryShort"
+        component={TrainingMemoryShort}
+        durationInFrames={TRAINING_MEMORY_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="Fp4FormatShort"
+        component={Fp4FormatShort}
+        durationInFrames={FP4_FORMAT_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
       />
     </>
   );

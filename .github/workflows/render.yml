@@ -24,7 +24,7 @@ on:
         description: "Which episode to render (manual dispatch = deliberate re-render decision)"
         type: choice
         default: none
-        options: [none, all, ep01, ep02, ep03, ep04, ep05, wifi, wifi-film, littlebit, littlebit-film]
+        options: [none, all, ep01, ep02, ep03, ep04, ep05, wifi, wifi-film, littlebit, littlebit-film, training-memory, fp4-format]
   push:
     branches: [main]
     paths:
@@ -339,6 +339,10 @@ jobs:
           GDRIVE_SHORTS_FOLDER_ID: ${{ secrets.GDRIVE_SHORTS_FOLDER_ID }}
           GDRIVE_SHORTS_MAX_SECONDS: "180"
           GDRIVE_SA_JSON: ${{ secrets.GDRIVE_SA_JSON }}
+          # The dated folder carries the PUBLISH date, not the render date. A
+          # whole week of shorts renders in one run, so every folder would
+          # otherwise land on the same day. Empty -> today.
+          GDRIVE_DATE: ${{ matrix.publishDate }}
         run: |
           ARGS=()
           if [ -n "${THUMB_16X9}" ]; then ARGS+=(--thumb "${THUMB_16X9}"); fi
