@@ -42,10 +42,17 @@ import { lin, ph, prog, rnd, useScene } from "./core";
 export const LivingHero: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { frame, d } = useScene();
   const p = lin(frame, d, 0, 1);
+  /* The sweep travels the width of the frame and a bit, once per scene. A
+   * slow camera push alone is too small to register as motion: the pixels
+   * barely change, so the picture is effectively still. The band is what
+   * makes the frame alive, and at this alpha it reads as light moving
+   * across a lens rather than as an effect. */
+  const sweep = lin(frame, d, -0.32, 1.32);
   return (
     <Hero lift={0}>
       <div
         style={{
+          position: "relative",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -55,6 +62,19 @@ export const LivingHero: React.FC<{ children: React.ReactNode }> = ({ children }
         }}
       >
         {children}
+        <div
+          style={{
+            position: "absolute",
+            top: "-14%",
+            bottom: "-14%",
+            left: `${(sweep * 1.64 - 0.32) * 100}%`,
+            width: "38%",
+            pointerEvents: "none",
+            transform: "skewX(-14deg)",
+            background:
+              "linear-gradient(90deg, rgba(34,211,238,0) 0%, rgba(34,211,238,0.06) 50%, rgba(34,211,238,0) 100%)",
+          }}
+        />
       </div>
     </Hero>
   );
