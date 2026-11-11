@@ -64,6 +64,8 @@ COLOR = {
 SHORTS = [
     {
         "slug": "training-memory",
+        "duration": 80.6,
+        "captions": 41,
         "claim": 'A 7B model runs in 14 GB and trains in 112 GB. Here is every term of that bill.',
         "name": "TrainingMemoryShort",
         "title": "Why Training a 7B Model Needs 112 GB",
@@ -163,6 +165,8 @@ SHORTS = [
     },
     {
         "slug": "fp4-format",
+        "duration": 86.9,
+        "captions": 43,
         "claim": 'What a floating-point number looks like in four bits, and the block scale that saves it.',
         "name": "Fp4FormatShort",
         "title": "What a Number Looks Like in Four Bits",
@@ -289,6 +293,8 @@ SHORTS = [
     },
     {
         "slug": "diffusion-llm",
+        "duration": 74.1,
+        "captions": 39,
         "claim": 'Why a diffusion language model unmasks tokens out of order, and what that bet costs.',
         "name": "DiffusionLlmShort",
         "title": "Why a Language Model Can Write Out of Order",
@@ -394,6 +400,8 @@ SHORTS = [
     },
     {
         "slug": "kv-cache",
+        "duration": 72.7,
+        "captions": 39,
         "claim": 'Why the key-value cache, not the model, is the number you pay for at long context.',
         "name": "KvCacheShort",
         "title": "Why the Cache Outgrows the Model",
@@ -490,6 +498,8 @@ SHORTS = [
     },
     {
         "slug": "activation-checkpointing",
+        "duration": 74.5,
+        "captions": 39,
         "claim": 'Why activation checkpointing trades a third more compute for the memory it saves.',
         "name": "ActivationCheckpointingShort",
         "title": "Throw It Away and Compute It Again",
@@ -595,6 +605,8 @@ SHORTS = [
     },
     {
         "slug": "gqa",
+        "duration": 72.3,
+        "captions": 41,
         "claim": 'What group-query attention saves, and what the shared key smears.',
         "name": "GqaShort",
         "title": "Share the Keys, Keep the Queries",
@@ -700,6 +712,8 @@ SHORTS = [
     },
     {
         "slug": "moe-active",
+        "duration": 71.3,
+        "captions": 35,
         "claim": '236 billion parameters, 21 billion working. Why both numbers are true.',
         "name": "MoeActiveShort",
         "title": "236 Billion Parameters, 21 Billion Working",
@@ -796,6 +810,8 @@ SHORTS = [
     },
     {
         "slug": "flash-attention",
+        "duration": 75.6,
+        "captions": 39,
         "claim": 'Why FlashAttention is not a faster kernel but a different order of operations.',
         "name": "FlashAttentionShort",
         "title": "FlashAttention Is Not a Faster Kernel",
@@ -894,6 +910,8 @@ SHORTS = [
     },
     {
         "slug": "tokenizer-tax",
+        "duration": 66.8,
+        "captions": 32,
         "claim": 'Why the same sentence costs a different number of tokens in a different language.',
         "name": "TokenizerTaxShort",
         "title": "The Same Sentence Costs Different",
@@ -997,6 +1015,8 @@ SHORTS = [
     },
     {
         "slug": "speculative-acceptance",
+        "duration": 69.2,
+        "captions": 42,
         "claim": 'Why the speedup of speculative decoding is an acceptance rate, not a model size.',
         "name": "SpeculativeAcceptanceShort",
         "title": "The Speedup Is an Acceptance Rate",
@@ -1095,6 +1115,8 @@ SHORTS = [
     },
     {
         "slug": "bf16",
+        "duration": 91.2,
+        "captions": 37,
         "claim": 'Why BF16 has the same sixteen bits as FP16 and a completely different number.',
         "name": "Bf16Short",
         "title": "Same Sixteen Bits, Different Split",
@@ -1202,6 +1224,8 @@ SHORTS = [
     },
     {
         "slug": "attention-sink",
+        "duration": 68.8,
+        "captions": 37,
         "claim": 'Why the first token of any sequence absorbs attention, and why it is load-bearing.',
         "name": "AttentionSinkShort",
         "title": "Why Models Dump Attention on the First Token",
@@ -1297,6 +1321,8 @@ SHORTS = [
     },
     {
         "slug": "quant-aware-training",
+        "duration": 68.4,
+        "captions": 36,
         "claim": 'Why quantizing after training is not the same as training quantized.',
         "name": "QuantAwareTrainingShort",
         "title": "Train It Quantized or Post-Train It",
@@ -1399,6 +1425,8 @@ SHORTS = [
     },
     {
         "slug": "moe-router",
+        "duration": 71.1,
+        "captions": 41,
         "claim": 'Why the router of a mixture of experts is punished for being good at routing.',
         "name": "MoeRouterShort",
         "title": "The Router Is Trained Against Itself",
@@ -1914,8 +1942,8 @@ def upload_sheet(shorts: list) -> None:
         "Two Shorts a day. Every short has its own dated folder in Drive, so the",
         "calendar is the folder list. Upload in date order.",
         "",
-        "| # | date | folder | file | title |",
-        "|---|------|-------|------|-------|",
+        "| # | date | folder | file | title | length |",
+        "|---|------|-------|------|-------|--------|",
     ]
     n = 0
     for date in sorted(by_date):
@@ -1923,8 +1951,12 @@ def upload_sheet(shorts: list) -> None:
             n += 1
             out.append(
                 f"| {n} | {date} | `shorts/{date}_{short['slug']}/` | "
-                f"`{short['slug']}.mp4` | {short['title']} |"
+                f"`{short['slug']}.mp4` | {short['title']} | "
+                f"{short.get('duration', 0):.1f}s |"
             )
+    out.append("")
+    out.append("Lengths are measured from the rendered files, not estimated.")
+    out.append("Each folder also holds a matching `.srt` with exact captions.")
     out.append("")
     out.append("## The claim behind each one")
     out.append("")
@@ -1948,6 +1980,9 @@ def upload_sheet(shorts: list) -> None:
             out.append(f"## {date} — {short['title']}")
             out.append("")
             out.append(f"`shorts/{date}_{short['slug']}/{short['slug']}.mp4`")
+            out.append("")
+            out.append(f"    {short.get('duration', 0):.1f}s · {short.get('captions', 0)} captions · "
+                       f"`{short['slug']}.srt`")
             out.append("")
             out.append("**Title**")
             out.append("")
