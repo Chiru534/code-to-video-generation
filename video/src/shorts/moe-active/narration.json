@@ -1,0 +1,58 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "DeepSeek-V2 has two hundred and thirty-six billion parameters."
+    },
+    {
+      "id": "s02",
+      "text": "And on any given token, only twenty-one billion of them are used."
+    },
+    {
+      "id": "s03",
+      "text": "That is a mixture of experts. A router reads the token and picks eight experts out of a hundred and sixty."
+    },
+    {
+      "id": "s04",
+      "text": "A hundred and fifty-two never run at all. And two shared experts always do."
+    },
+    {
+      "id": "s05",
+      "text": "So the compute you pay for is the compute of a twenty-one-billion model."
+    },
+    {
+      "id": "s06",
+      "text": "But the memory you need is still two hundred and thirty-six billion parameters. All of them are stored."
+    },
+    {
+      "id": "s07",
+      "text": "Sparse compute, dense storage. That is the deal."
+    },
+    {
+      "id": "s08",
+      "text": "It is a good one for throughput, and a bad one for your disk bill."
+    },
+    {
+      "id": "s09",
+      "text": "And there is a cost that does not show up in either number. The router has to be right."
+    },
+    {
+      "id": "s10",
+      "text": "Pick the wrong expert and the token goes through a network that was never trained for it."
+    },
+    {
+      "id": "s11",
+      "text": "So the router has to be balanced. Send too much to one expert and the rest go stale."
+    },
+    {
+      "id": "s12",
+      "text": "Most of these models also run a couple of dense experts on every token, so no token is completely unrouted."
+    },
+    {
+      "id": "s13",
+      "text": "Two hundred and thirty-six billion parameters. Twenty-one billion working. Both numbers are true."
+    }
+  ]
+}

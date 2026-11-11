@@ -1,0 +1,74 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2625,
+  "scenes": {
+    "s01": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "Here is a model with seven billion weights, sitting in fourteen gigabytes of memory."
+    },
+    "s02": {
+      "sec": 5.8,
+      "frames": 174,
+      "text": "Now make it write a long document. Every token it writes gets stored."
+    },
+    "s03": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "Not just the token. The key and the value vector, for every layer, for every head."
+    },
+    "s04": {
+      "sec": 5.8,
+      "frames": 174,
+      "text": "That is the key-value cache. It is the reason long context is expensive."
+    },
+    "s05": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "The arithmetic for one token: thirty-two layers, each keeping a key and a value for every head."
+    },
+    "s06": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "That is about half a megabyte per token, in half precision, for a model this size."
+    },
+    "s07": {
+      "sec": 5.4,
+      "frames": 162,
+      "text": "A hundred thousand tokens of context is fifty gigabytes. For one conversation."
+    },
+    "s08": {
+      "sec": 5.8,
+      "frames": 174,
+      "text": "The model itself is fourteen gigabytes. The cache is now the bigger number."
+    },
+    "s09": {
+      "sec": 9.6,
+      "frames": 288,
+      "text": "Which flips the question. It is not how big is the model. It is how much are you going to ask it."
+    },
+    "s10": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "You can shrink the cache. Compress it, evict it, quantise it, or share the heads."
+    },
+    "s11": {
+      "sec": 5.8,
+      "frames": 174,
+      "text": "Every one of those is a trade. Compression costs accuracy, eviction costs context."
+    },
+    "s12": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "And none of them is free. They are all the same move: fit more context into less memory."
+    },
+    "s13": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "The model is the thing you trained. The cache is the thing you pay for."
+    }
+  }
+}

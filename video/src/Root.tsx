@@ -10,14 +10,40 @@ import { WifiAirtime, DURATION as WIFI_DURATION } from "./wifi/WifiAirtime";
 import { WifiFilm, DURATION as WIFI_FILM_DURATION } from "./wifi/film/WifiFilm";
 import { LittleBit, DURATION as LITTLEBIT_DURATION } from "./littlebit/LittleBit";
 import { LittleBitFilm, DURATION as LITTLEBIT_FILM_DURATION } from "./littlebit/film/LittleBitFilm";
+
+/* BEGIN GENERATED SHORT IMPORTS */
 import {
   TrainingMemoryShort,
-  DURATION as TRAINING_MEMORY_DURATION,
+  DURATION as T_R_A_I_N_I_N_G___M_E_M_O_R_Y___S_H_O_R_T_DURATION,
 } from "./shorts/training-memory/TrainingMemoryShort";
 import {
   Fp4FormatShort,
-  DURATION as FP4_FORMAT_DURATION,
+  DURATION as F_P_4___F_O_R_M_A_T___S_H_O_R_T_DURATION,
 } from "./shorts/fp4-format/Fp4FormatShort";
+import {
+  DiffusionLlmShort,
+  DURATION as D_I_F_F_U_S_I_O_N___L_L_M___S_H_O_R_T_DURATION,
+} from "./shorts/diffusion-llm/DiffusionLlmShort";
+import {
+  KvCacheShort,
+  DURATION as K_V___C_A_C_H_E___S_H_O_R_T_DURATION,
+} from "./shorts/kv-cache/KvCacheShort";
+import {
+  ActivationCheckpointingShort,
+  DURATION as A_C_T_I_V_A_T_I_O_N___C_H_E_C_K_P_O_I_N_T_I_N_G___S_H_O_R_T_DURATION,
+} from "./shorts/activation-checkpointing/ActivationCheckpointingShort";
+import {
+  GqaShort,
+  DURATION as G_Q_A___S_H_O_R_T_DURATION,
+} from "./shorts/gqa/GqaShort";
+import {
+  MoeActiveShort,
+  DURATION as M_O_E___A_C_T_I_V_E___S_H_O_R_T_DURATION,
+} from "./shorts/moe-active/MoeActiveShort";
+import {
+  FlashAttentionShort,
+  DURATION as F_L_A_S_H___A_T_T_E_N_T_I_O_N___S_H_O_R_T_DURATION,
+} from "./shorts/flash-attention/FlashAttentionShort";/* END GENERATED SHORT IMPORTS */
 
 /* bundled fonts — no network at render time, byte-identical every build */
 import "@fontsource/inter/400.css";
@@ -110,10 +136,11 @@ export const RemotionRoot: React.FC = () => {
         width={1920}
         height={1080}
       />
+      {/* BEGIN GENERATED SHORT COMPOSITIONS */}
       <Composition
         id="TrainingMemoryShort"
         component={TrainingMemoryShort}
-        durationInFrames={TRAINING_MEMORY_DURATION}
+        durationInFrames={T_R_A_I_N_I_N_G___M_E_M_O_R_Y___S_H_O_R_T_DURATION}
         fps={30}
         width={1080}
         height={1920}
@@ -121,11 +148,59 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="Fp4FormatShort"
         component={Fp4FormatShort}
-        durationInFrames={FP4_FORMAT_DURATION}
+        durationInFrames={F_P_4___F_O_R_M_A_T___S_H_O_R_T_DURATION}
         fps={30}
         width={1080}
         height={1920}
       />
+      <Composition
+        id="DiffusionLlmShort"
+        component={DiffusionLlmShort}
+        durationInFrames={D_I_F_F_U_S_I_O_N___L_L_M___S_H_O_R_T_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="KvCacheShort"
+        component={KvCacheShort}
+        durationInFrames={K_V___C_A_C_H_E___S_H_O_R_T_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="ActivationCheckpointingShort"
+        component={ActivationCheckpointingShort}
+        durationInFrames={A_C_T_I_V_A_T_I_O_N___C_H_E_C_K_P_O_I_N_T_I_N_G___S_H_O_R_T_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="GqaShort"
+        component={GqaShort}
+        durationInFrames={G_Q_A___S_H_O_R_T_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MoeActiveShort"
+        component={MoeActiveShort}
+        durationInFrames={M_O_E___A_C_T_I_V_E___S_H_O_R_T_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="FlashAttentionShort"
+        component={FlashAttentionShort}
+        durationInFrames={F_L_A_S_H___A_T_T_E_N_T_I_O_N___S_H_O_R_T_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />{/* END GENERATED SHORT COMPOSITIONS */}
     </>
   );
 };

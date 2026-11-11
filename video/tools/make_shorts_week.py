@@ -285,12 +285,640 @@ SHORTS = [
             }),
         ],
     },
+    {
+        "slug": "diffusion-llm",
+        "name": "DiffusionLlmShort",
+        "title": "Why a Language Model Can Write Out of Order",
+        "publishDate": "2026-11-13",
+        "thumbSeconds": 2.0,
+        "lines": [
+            ("s01", "Every language model you have used writes left to right. One token at a time, each waiting for the last."),
+            ("s02", "That loop is the reason inference is slow, and it is not obvious that you have to do it this way."),
+            ("s03", "A diffusion model does not generate. It denoises. It starts with a block of masked tokens and fills them in."),
+            ("s04", "All masked. Nothing decided. Every slot is a question mark."),
+            ("s05", "Then it predicts every position at once, and unmasks only the ones it is confident about."),
+            ("s06", "One step, six of eight slots. Then the next step works on what is left."),
+            ("s07", "Which means the order is not left to right. It is confidence order."),
+            ("s08", "That is the appeal. A handful of denoising steps instead of hundreds of single-token steps."),
+            ("s09", "And for the hardware it is bigger still. Batched matrix multiplies are what a GPU is good at."),
+            ("s10", "But here is the honest part. The tokens are not equally confident. The easy ones get filled early."),
+            ("s11", "So the speedup depends on how many slots you dare to unmask per step."),
+            ("s12", "Unmask too many and you commit to a bad token, and you cannot take it back."),
+            ("s13", "The order is free. The confidence is not."),
+        ],
+        "scenes": [
+            ("s01", "ShortTokens", {
+                "kicker": "THE LOOP",
+                "tokens": ["the", "model", "is", "a", "?", "?"],
+                "filled": 4,
+                "label": "ONE TOKEN AT A TIME",
+                "sub": "Every token waits for the last.",
+            }),
+            ("s02", "ShortStack", {
+                "kicker": "TWO WAYS TO WRITE",
+                "rows": [
+                    {"label": "AUTOREGRESSIVE", "value": "N STEPS", "note": "ONE TOKEN PER PASS"},
+                    {"label": "DIFFUSION", "value": "K STEPS", "note": "MANY TOKENS PER PASS", "color": "cyan"},
+                ],
+            }),
+            ("s03", "ShortTokens", {
+                "kicker": "STEP ZERO",
+                "tokens": ["?", "?", "?", "?", "?", "?", "?", "?"],
+                "filled": 0,
+                "label": "ALL MASKED · NOTHING DECIDED",
+                "sub": "It starts from nothing.",
+            }),
+            ("s04", "ShortTitle", {
+                "title": "Every slot is a question mark.",
+                "sub": "NOTHING DECIDED YET",
+                "kicker": "THE STARTING POINT",
+            }),
+            ("s05", "ShortTokens", {
+                "kicker": "ONE STEP",
+                "tokens": ["the", "model", "is", "a", "?", "?", "?", "?"],
+                "filled": 3, "focus": 3,
+                "label": "PREDICT EVERY POSITION",
+                "sub": "Unmask only what you are sure of.",
+            }),
+            ("s06", "ShortTokens", {
+                "kicker": "AFTER ONE STEP",
+                "tokens": ["the", "model", "is", "a", "big", "one", "?", "?"],
+                "filled": 6,
+                "label": "SIX OF EIGHT SLOTS",
+                "sub": "Then the next step works on what is left.",
+            }),
+            ("s07", "ShortTitle", {
+                "title": "Confidence order.",
+                "sub": "NOT LEFT TO RIGHT",
+                "kicker": "THE ORDER",
+            }),
+            ("s08", "ShortCompare", {
+                "kicker": "THE APPEAL",
+                "left": {"value": "N", "label": "AUTOREGRESSIVE STEPS", "color": "dim"},
+                "right": {"value": "K", "label": "DENOISING STEPS", "color": "cyan"},
+                "line": "A handful of steps.",
+            }),
+            ("s09", "ShortStack", {
+                "kicker": "FOR THE HARDWARE",
+                "rows": [
+                    {"label": "AUTOREGRESSIVE", "value": "BATCH OF 1", "note": "A MOSTLY IDLE GPU"},
+                    {"label": "DIFFUSION", "value": "BATCH OF 32", "note": "THE MATMULS A GPU WANTS", "color": "cyan"},
+                ],
+            }),
+            ("s10", "ShortTokens", {
+                "kicker": "THE HONEST PART",
+                "tokens": ["the", "cat", "sat", "?", "?", "?", "?", "?"],
+                "filled": 4,
+                "label": "CONFIDENCE IS NOT EVEN",
+                "sub": "The easy slots fill first.",
+            }),
+            ("s11", "ShortCompare", {
+                "kicker": "THE BET",
+                "left": {"value": "FEW", "label": "UNMASK PER STEP", "color": "amber"},
+                "right": {"value": "MANY", "label": "UNMASK PER STEP", "color": "cyan"},
+                "line": "How many slots do you dare to commit?",
+            }),
+            ("s12", "ShortCaveat", {
+                "kicker": "THE TRADE",
+                "claim": "Parallel decoding is faster.",
+                "reality": "Every slot you unmask early is a slot you cannot revise. The speedup is a bet on confidence.",
+            }),
+            ("s13", "ShortEnd", {
+                "title": "The order is free. The confidence is not.",
+                "sub": "Diffusion language models trade the loop for a bet.",
+            }),
+        ],
+    },
+    {
+        "slug": "kv-cache",
+        "name": "KvCacheShort",
+        "title": "Why the Cache Outgrows the Model",
+        "publishDate": "2026-11-13",
+        "thumbSeconds": 2.0,
+        "lines": [
+            ("s01", "Here is a model with seven billion weights, sitting in fourteen gigabytes of memory."),
+            ("s02", "Now make it write a long document. Every token it writes gets stored."),
+            ("s03", "Not just the token. The key and the value vector, for every layer, for every head."),
+            ("s04", "That is the key-value cache. It is the reason long context is expensive."),
+            ("s05", "The arithmetic for one token: thirty-two layers, each keeping a key and a value for every head."),
+            ("s06", "That is about half a megabyte per token, in half precision, for a model this size."),
+            ("s07", "A hundred thousand tokens of context is fifty gigabytes. For one conversation."),
+            ("s08", "The model itself is fourteen gigabytes. The cache is now the bigger number."),
+            ("s09", "Which flips the question. It is not how big is the model. It is how much are you going to ask it."),
+            ("s10", "You can shrink the cache. Compress it, evict it, quantise it, or share the heads."),
+            ("s11", "Every one of those is a trade. Compression costs accuracy, eviction costs context."),
+            ("s12", "And none of them is free. They are all the same move: fit more context into less memory."),
+            ("s13", "The model is the thing you trained. The cache is the thing you pay for."),
+        ],
+        "scenes": [
+            ("s01", "ShortFigure", {
+                "value": "14", "unit": "GB", "label": "THE WEIGHTS",
+                "note": "7B PARAMETERS · BF16", "color": "text", "kicker": "THE MODEL",
+            }),
+            ("s02", "ShortFigure", {
+                "value": "1", "unit": "TOKEN", "label": "AND NOW IT WRITES",
+                "color": "cyan", "kicker": "THE OTHER THING",
+            }),
+            ("s03", "ShortStack", {
+                "kicker": "WHAT GETS STORED",
+                "rows": [
+                    {"label": "PER LAYER", "value": "KEY + VALUE", "note": "FOR EVERY HEAD"},
+                    {"label": "PER TOKEN", "value": "ALL OF THEM", "note": "THE WHOLE HISTORY"},
+                ],
+            }),
+            ("s04", "ShortTitle", {
+                "title": "The key-value cache.",
+                "sub": "WHY LONG CONTEXT IS EXPENSIVE",
+                "kicker": "THE NAME",
+            }),
+            ("s05", "ShortStack", {
+                "kicker": "ONE TOKEN",
+                "rows": [
+                    {"label": "LAYERS", "value": "32", "note": "EACH KEEPS ITS OWN COPY"},
+                    {"label": "PER LAYER", "value": "KEY + VALUE", "note": "FOR EVERY HEAD"},
+                ],
+            }),
+            ("s06", "ShortFigure", {
+                "value": "0.5", "unit": "MB", "label": "OF CACHE, PER TOKEN",
+                "note": "OUR ARITHMETIC · 7B · 32 LAYERS · BF16 · FULL MHA",
+                "color": "amber", "kicker": "THE NUMBER",
+            }),
+            ("s07", "ShortFigure", {
+                "value": "50", "unit": "GB", "label": "OF CACHE AT 100K TOKENS",
+                "note": "OUR ARITHMETIC · ONE CONVERSATION", "color": "red", "kicker": "THE SAME FACTOR",
+            }),
+            ("s08", "ShortCompare", {
+                "kicker": "WHICH IS BIGGER",
+                "left": {"value": "14 GB", "label": "THE MODEL", "color": "text"},
+                "right": {"value": "50 GB", "label": "THE CACHE", "color": "red"},
+                "line": "The cache is now the bigger number.",
+            }),
+            ("s09", "ShortTitle", {
+                "title": "It is not how big is the model.",
+                "sub": "IT IS HOW MUCH YOU WILL ASK",
+                "kicker": "THE QUESTION FLIPS",
+            }),
+            ("s10", "ShortStack", {
+                "kicker": "THE FIXES",
+                "rows": [
+                    {"label": "COMPRESS", "value": "COSTS ACCURACY"},
+                    {"label": "EVICT", "value": "COSTS CONTEXT"},
+                    {"label": "SHARE HEADS", "value": "COSTS QUALITY"},
+                    {"label": "QUANTISE", "value": "COSTS PRECISION"},
+                ],
+            }),
+            ("s11", "ShortCompare", {
+                "kicker": "THE TRADE",
+                "left": {"value": "LESS", "label": "MEMORY", "color": "cyan"},
+                "right": {"value": "LESS", "label": "CONTEXT OR PRECISION", "color": "amber"},
+                "line": "Nothing shrinks for free.",
+            }),
+            ("s12", "ShortTitle", {
+                "title": "Fit more context into less memory.",
+                "sub": "EVERY TRADE IS THE SAME TRADE",
+                "kicker": "THE MOVE",
+            }),
+            ("s13", "ShortEnd", {
+                "title": "The model is the thing you trained.",
+                "sub": "The cache is the thing you pay for.",
+            }),
+        ],
+    },
+    {
+        "slug": "activation-checkpointing",
+        "name": "ActivationCheckpointingShort",
+        "title": "Throw It Away and Compute It Again",
+        "publishDate": "2026-11-14",
+        "thumbSeconds": 2.0,
+        "lines": [
+            ("s01", "Here is the third term in the training bill: activations."),
+            ("s02", "Every layer passes its output to the next one, and the backward pass needs those outputs to work out the gradients."),
+            ("s03", "So you keep them. All of them. For every layer, for every token in the batch."),
+            ("s04", "And activations are the only term that does not scale with the model. They scale with batch size and sequence length."),
+            ("s05", "Double the sequence length and you double the activation memory."),
+            ("s06", "Which means the term you can control without touching the model is the one that scales with your batch size."),
+            ("s07", "There is a trade available. Do not save the activations. Save only the inputs to a few checkpoints."),
+            ("s08", "Then when the backward pass needs a layer you threw away, recompute it from the last checkpoint."),
+            ("s09", "You traded memory for arithmetic. And arithmetic is the thing a data centre actually has."),
+            ("s10", "The cost is real. A checkpointed step does about a third more work than an uncheckpointed one."),
+            ("s11", "A third more compute to fit twice the batch, or twice the context."),
+            ("s12", "Which is why nobody turns it on for its own sake. You turn it on when the run will not fit."),
+            ("s13", "Throw it away. Compute it again. That is the whole trick."),
+        ],
+        "scenes": [
+            ("s01", "ShortStack", {
+                "kicker": "THE BILL",
+                "rows": [
+                    {"label": "WEIGHTS", "value": "14 GB"},
+                    {"label": "GRADIENTS", "value": "14 GB"},
+                    {"label": "OPTIMIZER", "value": "56 GB", "color": "amber"},
+                    {"label": "ACTIVATIONS", "value": "THE VARIABLE", "color": "cyan"},
+                ],
+            }),
+            ("s02", "ShortStack", {
+                "kicker": "WHY THEY EXIST",
+                "rows": [
+                    {"label": "FORWARD PASS", "value": "OUTPUTS"},
+                    {"label": "BACKWARD PASS", "value": "NEEDS THEM", "color": "cyan"},
+                ],
+            }),
+            ("s03", "ShortGrid", {
+                "kicker": "WHAT IS KEPT",
+                "rows": 6, "cols": 6, "cell": 84, "font": 17,
+                "label": "ONE COPY PER LAYER, PER TOKEN",
+            }),
+            ("s04", "ShortScale", {
+                "kicker": "WHAT DRIVES IT",
+                "points": [
+                    {"x": 0.0, "label": "MODEL SIZE"},
+                    {"x": 1.0, "label": "BATCH × SEQUENCE"},
+                ],
+                "marker": 1,
+                "markerLabel": "Activations scale with the work, not with the model.",
+                "axisLabel": "THE ONLY TERM YOU CONTROL",
+            }),
+            ("s05", "ShortFigure", {
+                "value": "2", "unit": "×", "label": "THE SEQUENCE LENGTH, THE MEMORY",
+                "color": "cyan", "kicker": "DOUBLE IT",
+            }),
+            ("s06", "ShortStack", {
+                "kicker": "THE ONE YOU CONTROL",
+                "rows": [
+                    {"label": "MODEL SIZE", "value": "FIXED", "color": "dim"},
+                    {"label": "BATCH × SEQUENCE", "value": "YOUR CALL", "color": "cyan"},
+                ],
+            }),
+            ("s07", "ShortStack", {
+                "kicker": "THE TRADE",
+                "rows": [
+                    {"label": "SAVE EVERY ACTIVATION", "value": "FULL MEMORY"},
+                    {"label": "SAVE A FEW CHECKPOINTS", "value": "LESS MEMORY", "color": "cyan",
+                     "note": "AND MORE ARITHMETIC"},
+                ],
+            }),
+            ("s08", "ShortTitle", {
+                "title": "Throw it away, then compute it again.",
+                "sub": "THE BACKWARD PASS REBUILDS IT",
+                "kicker": "THE TRICK",
+            }),
+            ("s09", "ShortCompare", {
+                "kicker": "THE SWAP",
+                "left": {"value": "MEMORY", "label": "YOU SAVE IT", "color": "cyan"},
+                "right": {"value": "ARITHMETIC", "label": "YOU HAVE IT", "color": "text"},
+                "line": "Trade memory for arithmetic.",
+            }),
+            ("s10", "ShortFigure", {
+                "value": "+33%", "unit": "WORK", "label": "PER TRAINING STEP",
+                "note": "ONE EXTRA FORWARD PASS", "color": "amber", "kicker": "THE COST",
+            }),
+            ("s11", "ShortCompare", {
+                "kicker": "THE BARGAIN",
+                "left": {"value": "2×", "label": "THE BATCH", "color": "cyan"},
+                "right": {"value": "+33%", "label": "THE COMPUTE", "color": "amber"},
+                "line": "Fit twice the batch, for a third more work.",
+            }),
+            ("s12", "ShortCaveat", {
+                "kicker": "THE HONEST VERSION",
+                "claim": "You can turn it on for free.",
+                "reality": "It costs about a third more work per step. You turn it on when the run does not fit.",
+            }),
+            ("s13", "ShortEnd", {
+                "title": "Throw it away. Compute it again.",
+                "sub": "That is the whole trick.",
+            }),
+        ],
+    },
+    {
+        "slug": "gqa",
+        "name": "GqaShort",
+        "title": "Share the Keys, Keep the Queries",
+        "publishDate": "2026-11-14",
+        "thumbSeconds": 2.0,
+        "lines": [
+            ("s01", "Attention stores a key and a value for every head, for every layer, for every token."),
+            ("s02", "That is a lot of duplication. Many heads end up storing almost the same key."),
+            ("s03", "Group-query attention says: keep all the queries separate, but let a group of heads share one key and one value."),
+            ("s04", "Eight query heads, one key and one value. Eight times less to store."),
+            ("s05", "And the query still gets to be its own self, so each head can still look somewhere different."),
+            ("s06", "Which sounds free. It is not, and the reason is a detail."),
+            ("s07", "The shared key has to serve eight different queries, so it has to be the average of what those eight heads wanted."),
+            ("s08", "Average keys are duller keys. The direction each head actually cared about gets smeared."),
+            ("s09", "So quality does drop. The question is how much, and how fast it stops dropping."),
+            ("s10", "DeepSeek went further and compressed the cache into a low-rank latent space instead."),
+            ("s11", "Which gets the size down further, at the cost of rebuilding the keys on every step."),
+            ("s12", "So the ladder is: share the heads, then compress them, then quantise what is left."),
+            ("s13", "Every rung of that ladder is a trade, and the whole field is climbing it."),
+        ],
+        "scenes": [
+            ("s01", "ShortStack", {
+                "kicker": "THE STORAGE",
+                "rows": [
+                    {"label": "PER TOKEN", "value": "KEY + VALUE", "note": "FOR EVERY HEAD"},
+                    {"label": "PER LAYER", "value": "ALL OF THEM", "note": "THE WHOLE HISTORY"},
+                ],
+            }),
+            ("s02", "ShortGrid", {
+                "kicker": "THE DUPLICATION",
+                "rows": 6, "cols": 6, "cell": 84, "font": 17, "color": "violet",
+                "label": "MANY HEADS, NEARLY THE SAME KEY",
+            }),
+            ("s03", "ShortCompare", {
+                "kicker": "THE IDEA",
+                "left": {"value": "8 HEADS", "label": "SEPARATE QUERIES", "color": "cyan"},
+                "right": {"value": "1", "label": "SHARED KEY + VALUE", "color": "violet"},
+                "line": "Eight queries, one stored key.",
+            }),
+            ("s04", "ShortFigure", {
+                "value": "8", "unit": "×", "label": "LESS KEY-VALUE CACHE",
+                "note": "GROUP SIZE 8", "color": "cyan", "kicker": "THE SAVING",
+            }),
+            ("s05", "ShortTokens", {
+                "kicker": "WHAT DOES NOT CHANGE",
+                "tokens": ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8"],
+                "filled": 8,
+                "label": "EVERY HEAD STILL ASKS ITS OWN QUESTION",
+                "sub": "The query is never shared.",
+            }),
+            ("s06", "ShortTitle", {
+                "title": "Which sounds free.",
+                "sub": "IT IS NOT",
+                "kicker": "THE DETAIL",
+            }),
+            ("s07", "ShortCompare", {
+                "kicker": "THE SMEAR",
+                "left": {"value": "8", "label": "QUERIES WANTED", "color": "cyan"},
+                "right": {"value": "1", "label": "KEY STORED", "color": "violet"},
+                "line": "The key has to be the average of eight.",
+            }),
+            ("s08", "ShortStack", {
+                "kicker": "THE SMEAR",
+                "rows": [
+                    {"label": "HEAD 1 WANTS", "value": "NORTH"},
+                    {"label": "HEAD 2 WANTS", "value": "EAST"},
+                    {"label": "THE SHARED KEY", "value": "NEITHER", "color": "amber",
+                     "note": "THE AVERAGE OF BOTH"},
+                ],
+            }),
+            ("s09", "ShortCompare", {
+                "kicker": "THE HIT",
+                "left": {"value": "DOWN", "label": "QUALITY", "color": "amber"},
+                "right": {"value": "FLAT", "label": "THEN IT STOPS DROPPING", "color": "cyan"},
+                "line": "It drops, then it flattens.",
+            }),
+            ("s10", "ShortTitle", {
+                "title": "Compress it instead.",
+                "sub": "ONE LOW-RANK LATENT FOR THE WHOLE CACHE",
+                "kicker": "DEEPSEEK GOES FURTHER",
+            }),
+            ("s11", "ShortStack", {
+                "kicker": "THE DEAL",
+                "rows": [
+                    {"label": "THE CACHE", "value": "ONE LATENT", "color": "cyan", "note": "MUCH SMALLER"},
+                    {"label": "EVERY STEP", "value": "REBUILD THE KEYS", "color": "amber",
+                     "note": "THE PRICE OF THE SMALLER CACHE"},
+                ],
+            }),
+            ("s12", "ShortStack", {
+                "kicker": "THE LADDER",
+                "rows": [
+                    {"label": "1", "value": "SHARE THE HEADS"},
+                    {"label": "2", "value": "COMPRESS THEM"},
+                    {"label": "3", "value": "QUANTISE WHAT IS LEFT"},
+                ],
+            }),
+            ("s13", "ShortEnd", {
+                "title": "Every rung is a trade.",
+                "sub": "And the whole field is climbing this ladder.",
+            }),
+        ],
+    },
+    {
+        "slug": "moe-active",
+        "name": "MoeActiveShort",
+        "title": "236 Billion Parameters, 21 Billion Working",
+        "publishDate": "2026-11-15",
+        "thumbSeconds": 2.0,
+        "lines": [
+            ("s01", "DeepSeek-V2 has two hundred and thirty-six billion parameters."),
+            ("s02", "And on any given token, only twenty-one billion of them are used."),
+            ("s03", "That is a mixture of experts. A router reads the token and picks eight experts out of a hundred and sixty."),
+            ("s04", "A hundred and fifty-two never run at all. And two shared experts always do."),
+            ("s05", "So the compute you pay for is the compute of a twenty-one-billion model."),
+            ("s06", "But the memory you need is still two hundred and thirty-six billion parameters. All of them are stored."),
+            ("s07", "Sparse compute, dense storage. That is the deal."),
+            ("s08", "It is a good one for throughput, and a bad one for your disk bill."),
+            ("s09", "And there is a cost that does not show up in either number. The router has to be right."),
+            ("s10", "Pick the wrong expert and the token goes through a network that was never trained for it."),
+            ("s11", "So the router has to be balanced. Send too much to one expert and the rest go stale."),
+            ("s12", "Most of these models also run a couple of dense experts on every token, so no token is completely unrouted."),
+            ("s13", "Two hundred and thirty-six billion parameters. Twenty-one billion working. Both numbers are true."),
+        ],
+        "scenes": [
+            ("s01", "ShortFigure", {
+                "value": "236", "unit": "B", "label": "PARAMETERS IN DEEPSEEK-V2",
+                "note": "PAPER FIGURE", "color": "text", "kicker": "THE MODEL",
+            }),
+            ("s02", "ShortFigure", {
+                "value": "21", "unit": "B", "label": "ACTIVATED ON ANY ONE TOKEN",
+                "note": "PAPER FIGURE", "color": "cyan", "kicker": "THE OTHER NUMBER",
+            }),
+            ("s03", "ShortTitle", {
+                "title": "A router picks the experts.",
+                "sub": "EIGHT OUT OF A HUNDRED AND SIXTY",
+                "kicker": "MIXTURE OF EXPERTS",
+            }),
+            ("s04", "ShortGrid", {
+                "kicker": "THE POOL",
+                "rows": 4, "cols": 10, "cell": 78, "font": 13, "color": "violet",
+                "label": "152 EXPERTS SLEEP · 2 SHARED ALWAYS RUN",
+            }),
+            ("s05", "ShortCompare", {
+                "kicker": "SPARSE COMPUTE",
+                "left": {"value": "21B", "label": "COMPUTE PER TOKEN", "color": "cyan"},
+                "right": {"value": "236B", "label": "PARAMETERS STORED", "color": "amber"},
+                "line": "Sparse compute. Dense storage.",
+            }),
+            ("s06", "ShortFigure", {
+                "value": "236", "unit": "B", "label": "STILL ON YOUR DISK",
+                "note": "PAPER FIGURE", "color": "amber", "kicker": "THE MEMORY",
+            }),
+            ("s07", "ShortTitle", {
+                "title": "Sparse compute, dense storage.",
+                "sub": "THAT IS THE DEAL",
+                "kicker": "THE TRADE",
+            }),
+            ("s08", "ShortCompare", {
+                "kicker": "THE BILL",
+                "left": {"value": "CHEAP", "label": "COMPUTE", "color": "cyan"},
+                "right": {"value": "DEAR", "label": "MEMORY", "color": "amber"},
+                "line": "A good deal for throughput. A bad one for your disk bill.",
+            }),
+            ("s09", "ShortTitle", {
+                "title": "The router has to be right.",
+                "sub": "A COST THAT SHOWS UP IN NEITHER NUMBER",
+                "kicker": "THE HIDDEN ONE",
+            }),
+            ("s10", "ShortStack", {
+                "kicker": "THE MISMATCH",
+                "rows": [
+                    {"label": "THE ROUTER PICKS", "value": "8 EXPERTS", "color": "cyan"},
+                    {"label": "THE TOKEN NEEDS", "value": "ONE PATH", "color": "amber"},
+                    {"label": "THE MISMATCH", "value": "NO TRAINING FOR IT", "color": "red"},
+                ],
+            }),
+            ("s11", "ShortCompare", {
+                "kicker": "THE BALANCE",
+                "left": {"value": "ONE", "label": "EXPERT SWAMPED", "color": "red"},
+                "right": {"value": "MANY", "label": "EXPERTS GO STALE", "color": "amber"},
+                "line": "Balance the router or waste the capacity.",
+            }),
+            ("s12", "ShortStack", {
+                "kicker": "WHY TWO KINDS",
+                "rows": [
+                    {"label": "ROUTED EXPERTS", "value": "8 OF 160", "color": "violet",
+                     "note": "PICKED PER TOKEN"},
+                    {"label": "SHARED EXPERTS", "value": "2, ALWAYS ON", "color": "cyan",
+                     "note": "NO TOKEN IS COMPLETELY UNROUTED"},
+                ],
+            }),
+            ("s13", "ShortEnd", {
+                "title": "236 billion stored. 21 billion working.",
+                "sub": "Both numbers are true, and you pay for both.",
+            }),
+        ],
+    },
+    {
+        "slug": "flash-attention",
+        "name": "FlashAttentionShort",
+        "title": "FlashAttention Is Not a Faster Kernel",
+        "publishDate": "2026-11-15",
+        "thumbSeconds": 2.0,
+        "lines": [
+            ("s01", "FlashAttention is famous for being fast. That is the least interesting thing about it."),
+            ("s02", "The interesting thing is that it is not a faster kernel. It is a different order of operations."),
+            ("s03", "Attention has three steps. Multiply the queries and keys. Softmax the scores. Multiply by the values."),
+            ("s04", "The slow part is the middle one. The score matrix is sequence length by sequence length."),
+            ("s05", "At eight thousand tokens that is sixty-seven million numbers per head, written out to memory."),
+            ("s06", "And then read straight back. That round trip is what costs the time."),
+            ("s07", "FlashAttention never writes the score matrix down. It tiles it."),
+            ("s08", "It computes a block of scores in fast memory, softmaxes that block, multiplies it into the output, and throws it away."),
+            ("s09", "So the huge matrix never exists anywhere. Not on disk, not in video memory."),
+            ("s10", "The memory traffic drops from quadratic to linear, and the flops stay exactly the same."),
+            ("s11", "Same mathematics. Same answer. A completely different memory access pattern."),
+            ("s12", "Which is why the name is a bit of a joke. It is not about attention. It is about not writing things down."),
+            ("s13", "The fastest kernels are the ones that touch memory least."),
+        ],
+        "scenes": [
+            ("s01", "ShortTitle", {
+                "title": "It is not a faster kernel.",
+                "sub": "IT IS A DIFFERENT ORDER OF OPERATIONS",
+                "kicker": "FLASHATTENTION",
+            }),
+            ("s02", "ShortStack", {
+                "kicker": "THE THREE STEPS",
+                "rows": [
+                    {"label": "STEP 1", "value": "Q × K"},
+                    {"label": "STEP 2", "value": "SOFTMAX", "color": "amber"},
+                    {"label": "STEP 3", "value": "× V"},
+                ],
+            }),
+            ("s03", "ShortGrid", {
+                "kicker": "THE SLOW PART",
+                "rows": 6, "cols": 8, "cell": 78, "font": 13, "color": "amber",
+                "label": "THE SCORE MATRIX",
+            }),
+            ("s04", "ShortFigure", {
+                "value": "67M", "unit": "NUMBERS", "label": "IN THE SCORE MATRIX AT 8K TOKENS",
+                "note": "PER HEAD", "color": "amber", "kicker": "THE SIZE",
+            }),
+            ("s05", "ShortStack", {
+                "kicker": "THE ROUND TRIP",
+                "rows": [
+                    {"label": "COMPUTE THE BLOCK", "value": "FAST MEMORY"},
+                    {"label": "WRITE IT TO VRAM", "value": "SLOW", "color": "red"},
+                    {"label": "READ IT BACK", "value": "SLOW", "color": "red"},
+                ],
+            }),
+            ("s06", "ShortTitle", {
+                "title": "It never writes the matrix down.",
+                "sub": "IT TILES IT",
+                "kicker": "THE TRICK",
+            }),
+            ("s07", "ShortStack", {
+                "kicker": "PER BLOCK",
+                "rows": [
+                    {"label": "ONE BLOCK", "value": "COMPUTE + SOFTMAX + ACCUMULATE", "color": "cyan",
+                     "note": "ALL IN FAST MEMORY"},
+                    {"label": "THEN", "value": "THROW IT AWAY", "color": "amber"},
+                ],
+            }),
+            ("s08", "ShortFigure", {
+                "value": "0", "unit": "BYTES", "label": "OF SCORE MATRIX STORED",
+                "color": "green", "kicker": "THE RESULT",
+            }),
+            ("s09", "ShortCompare", {
+                "kicker": "WHAT CHANGED",
+                "left": {"value": "O(n²)", "label": "MEMORY TRAFFIC, BEFORE", "color": "red"},
+                "right": {"value": "O(n)", "label": "MEMORY TRAFFIC, AFTER", "color": "green"},
+                "line": "Quadratic becomes linear.",
+            }),
+            ("s10", "ShortCompare", {
+                "kicker": "WHAT DID NOT",
+                "left": {"value": "SAME", "label": "THE FLOPS", "color": "text"},
+                "right": {"value": "SAME", "label": "THE ANSWER", "color": "text"},
+                "line": "Exactly the same mathematics.",
+            }),
+            ("s11", "ShortTitle", {
+                "title": "It is not about attention.",
+                "sub": "IT IS ABOUT NOT WRITING THINGS DOWN",
+                "kicker": "THE NAME",
+            }),
+            ("s12", "ShortCaveat", {
+                "kicker": "THE HONEST VERSION",
+                "claim": "FlashAttention makes attention faster.",
+                "reality": "It does not change the mathematics at all. It changes when the data moves.",
+            }),
+            ("s13", "ShortEnd", {
+                "title": "The fastest kernels touch memory least.",
+                "sub": "Same maths. A completely different memory access pattern.",
+            }),
+        ],
+    },
 ]
 
 
 # ---------------------------------------------------------------------------
 # EMIT
 # ---------------------------------------------------------------------------
+
+def js_value(value, key: str = "") -> str:
+    """A JS expression for a nested prop value.
+
+    Colour names are theme tokens, not CSS keywords: "amber" and "green" are
+    not CSS colours, and "text" is not either. Emitting them raw produced
+    invisible elements — a bit cell with no border. Every colour inside a
+    nested structure has to come from the theme.
+    """
+    if key in ("color", "accent") and isinstance(value, str) and value in COLOR:
+        return COLOR[value]
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, (int, float)):
+        return str(value)
+    if isinstance(value, str):
+        return json.dumps(value, ensure_ascii=False)
+    if isinstance(value, list):
+        return "[" + ", ".join(js_value(v) for v in value) + "]"
+    if isinstance(value, dict):
+        return (
+            "{"
+            + ", ".join(f"{k}: {js_value(v, k)}" for k, v in value.items())
+            + "}"
+        )
+    if value is None:
+        return "null"
+    raise TypeError(f"unsupported prop: {value!r}")
+
 
 def jsx_attr(value) -> str:
     """One JSX attribute value."""
@@ -303,7 +931,7 @@ def jsx_attr(value) -> str:
             return '"' + value + '"'
         return "{" + json.dumps(value, ensure_ascii=False) + "}"
     if isinstance(value, (list, dict)):
-        return "{" + json.dumps(value, ensure_ascii=False) + "}"
+        return "{" + js_value(value) + "}"
     raise TypeError(f"unsupported prop: {value!r}")
 
 
@@ -417,6 +1045,65 @@ def episode_entry(short: dict) -> dict:
     }
 
 
+# --- Root.tsx ---------------------------------------------------------------
+#
+# The registry has to agree with the compositions, and tools/audit.py fails the
+# build when it does not. Hand-editing Root.tsx for every new short is exactly
+# the drift the audit exists to catch, so the generator owns the two blocks and
+# rewrites them from the table.
+
+IMPORT_BEGIN = "/* BEGIN GENERATED SHORT IMPORTS */"
+IMPORT_END = "/* END GENERATED SHORT IMPORTS */"
+COMPOSITION_BEGIN = "{/* BEGIN GENERATED SHORT COMPOSITIONS */}"
+COMPOSITION_END = "{/* END GENERATED SHORT COMPOSITIONS */}"
+
+
+def const_name(name: str) -> str:
+    out = []
+    for i, ch in enumerate(name):
+        if ch.isupper() and i:
+            out.append("_")
+        out.append(ch.upper())
+    return "_".join(out)
+
+
+def replace_block(text: str, begin: str, end: str, body: str) -> str:
+    start = text.index(begin) + len(begin)
+    stop = text.index(end)
+    return text[:start] + "\n" + body + text[stop:]
+
+
+def update_root(shorts: list) -> None:
+    path = os.path.join(ROOT, "src", "Root.tsx")
+    with open(path, encoding="utf-8") as handle:
+        text = handle.read()
+
+    imports = []
+    for short in shorts:
+        imports.append(
+            f'import {{\n  {short["name"]},\n  DURATION as {const_name(short["name"])}_DURATION,\n'
+            f'}} from "./shorts/{short["slug"]}/{short["name"]}";'
+        )
+    text = replace_block(text, IMPORT_BEGIN, IMPORT_END, "\n".join(imports))
+
+    compositions = []
+    for short in shorts:
+        compositions.append(
+            f'      <Composition\n'
+            f'        id="{short["name"]}"\n'
+            f'        component={{{short["name"]}}}\n'
+            f'        durationInFrames={{{const_name(short["name"])}_DURATION}}\n'
+            f'        fps={{30}}\n'
+            f'        width={{1080}}\n'
+            f'        height={{1920}}\n'
+            f'      />'
+        )
+    text = replace_block(text, COMPOSITION_BEGIN, COMPOSITION_END, "\n".join(compositions))
+
+    with open(path, "w", encoding="utf-8") as handle:
+        handle.write(text)
+
+
 def write(path: str, body: str) -> None:
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as handle:
@@ -463,7 +1150,11 @@ def main() -> int:
         json.dump(registry, handle, indent=2, ensure_ascii=False)
         handle.write("\n")
 
-    print(f"\nwrote {len(shorts)} short(s) + registry entries")
+    # Root.tsx always carries ALL of the weekly shorts, not just the ones this
+    # run generated, so a partial run cannot unregister the others.
+    update_root([s for s in SHORTS if s["slug"] in registry])
+
+    print(f"\nwrote {len(shorts)} short(s) + registry entries + Root.tsx")
     return 0
 
 

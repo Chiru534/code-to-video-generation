@@ -1,0 +1,58 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Here is a model with seven billion weights, sitting in fourteen gigabytes of memory."
+    },
+    {
+      "id": "s02",
+      "text": "Now make it write a long document. Every token it writes gets stored."
+    },
+    {
+      "id": "s03",
+      "text": "Not just the token. The key and the value vector, for every layer, for every head."
+    },
+    {
+      "id": "s04",
+      "text": "That is the key-value cache. It is the reason long context is expensive."
+    },
+    {
+      "id": "s05",
+      "text": "The arithmetic for one token: thirty-two layers, each keeping a key and a value for every head."
+    },
+    {
+      "id": "s06",
+      "text": "That is about half a megabyte per token, in half precision, for a model this size."
+    },
+    {
+      "id": "s07",
+      "text": "A hundred thousand tokens of context is fifty gigabytes. For one conversation."
+    },
+    {
+      "id": "s08",
+      "text": "The model itself is fourteen gigabytes. The cache is now the bigger number."
+    },
+    {
+      "id": "s09",
+      "text": "Which flips the question. It is not how big is the model. It is how much are you going to ask it."
+    },
+    {
+      "id": "s10",
+      "text": "You can shrink the cache. Compress it, evict it, quantise it, or share the heads."
+    },
+    {
+      "id": "s11",
+      "text": "Every one of those is a trade. Compression costs accuracy, eviction costs context."
+    },
+    {
+      "id": "s12",
+      "text": "And none of them is free. They are all the same move: fit more context into less memory."
+    },
+    {
+      "id": "s13",
+      "text": "The model is the thing you trained. The cache is the thing you pay for."
+    }
+  ]
+}

@@ -27,17 +27,17 @@ export const ORDER = [
 ];
 
 export const SCENE_NODES: Record<string, React.ReactNode> = {
-  s01: <ShortBits kicker="THE ANATOMY" cells={[{"text": "S", "color": "cyan", "width": 120}, {"text": "E", "color": "violet", "width": 120}, {"text": "M", "color": "amber", "width": 120}]} label="SIGN · EXPONENT · MANTISSA" sub="Three parts to every float" />,
-  s02: <ShortStack kicker="WHAT EACH PART DOES" rows={[{"label": "EXPONENT", "value": "RANGE", "color": "violet", "note": "HOW BIG OR SMALL"}, {"label": "MANTISSA", "value": "PRECISION", "color": "amber", "note": "HOW FINELY YOU CAN PIN IT DOWN"}]} />,
-  s03: <ShortBits kicker="FP32" cells={[{"text": "1", "color": "cyan", "width": 110, "filled": true}, {"text": "8", "color": "violet", "width": 180, "filled": true}, {"text": "23", "color": "amber", "width": 220, "filled": true}]} label="SIGN · EXPONENT · MANTISSA = 32 BITS" sub="Every bit spent." />,
-  s04: <ShortBits kicker="FP16" cells={[{"text": "1", "color": "cyan", "width": 110}, {"text": "5", "color": "violet", "width": 150}, {"text": "10", "color": "amber", "width": 190}]} label="16 BITS · THE MANTISSA HALVED" sub="Same range, less precision." />,
-  s05: <ShortBits kicker="THE SCARCE RESOURCE" cells={[{"text": "1", "color": "cyan", "width": 110}, {"text": "5", "color": "amber", "width": 150, "filled": true}, {"text": "10", "color": "violet", "width": 190}]} label="THE EXPONENT BIT IS WHAT RUNS OUT" sub="Range runs out before precision does." />,
-  s06: <ShortCompare kicker="EIGHT BITS, TWO WAYS" left={{"value": "E4M3", "label": "4 EXPONENT · 3 MANTISSA", "color": "cyan"}} right={{"value": "E5M2", "label": "5 EXPONENT · 2 MANTISSA", "color": "violet"}} line="Same eight bits. Two trade-offs." />,
-  s07: <ShortStack kicker="THE TRADE" rows={[{"label": "E4M3", "value": "PRECISION", "color": "cyan", "note": "MORE MANTISSA · LESS RANGE"}, {"label": "E5M2", "value": "RANGE", "color": "violet", "note": "MORE EXPONENT · LESS MANTISSA"}]} />,
+  s01: <ShortBits kicker="THE ANATOMY" cells={[{text: "S", color: C.cyan, width: 120}, {text: "E", color: C.violet, width: 120}, {text: "M", color: C.amber, width: 120}]} label="SIGN · EXPONENT · MANTISSA" sub="Three parts to every float" />,
+  s02: <ShortStack kicker="WHAT EACH PART DOES" rows={[{label: "EXPONENT", value: "RANGE", color: C.violet, note: "HOW BIG OR SMALL"}, {label: "MANTISSA", value: "PRECISION", color: C.amber, note: "HOW FINELY YOU CAN PIN IT DOWN"}]} />,
+  s03: <ShortBits kicker="FP32" cells={[{text: "1", color: C.cyan, width: 110, filled: true}, {text: "8", color: C.violet, width: 180, filled: true}, {text: "23", color: C.amber, width: 220, filled: true}]} label="SIGN · EXPONENT · MANTISSA = 32 BITS" sub="Every bit spent." />,
+  s04: <ShortBits kicker="FP16" cells={[{text: "1", color: C.cyan, width: 110}, {text: "5", color: C.violet, width: 150}, {text: "10", color: C.amber, width: 190}]} label="16 BITS · THE MANTISSA HALVED" sub="Same range, less precision." />,
+  s05: <ShortBits kicker="THE SCARCE RESOURCE" cells={[{text: "1", color: C.cyan, width: 110}, {text: "5", color: C.amber, width: 150, filled: true}, {text: "10", color: C.violet, width: 190}]} label="THE EXPONENT BIT IS WHAT RUNS OUT" sub="Range runs out before precision does." />,
+  s06: <ShortCompare kicker="EIGHT BITS, TWO WAYS" left={{value: "E4M3", label: "4 EXPONENT · 3 MANTISSA", color: C.cyan}} right={{value: "E5M2", label: "5 EXPONENT · 2 MANTISSA", color: C.violet}} line="Same eight bits. Two trade-offs." />,
+  s07: <ShortStack kicker="THE TRADE" rows={[{label: "E4M3", value: "PRECISION", color: C.cyan, note: "MORE MANTISSA · LESS RANGE"}, {label: "E5M2", value: "RANGE", color: C.violet, note: "MORE EXPONENT · LESS MANTISSA"}]} />,
   s08: <ShortTitle title="It depends what you are storing." sub="WEIGHTS OR ACTIVATIONS" kicker="WHICH ONE" />,
-  s09: <ShortBits kicker="FP4" cells={[{"text": "S", "color": "cyan", "width": 120}, {"text": "EE", "color": "violet", "width": 180}, {"text": "M", "color": "amber", "width": 120}]} label="1 SIGN · 2 EXPONENT · 1 MANTISSA" sub="Four bits." />,
+  s09: <ShortBits kicker="FP4" cells={[{text: "S", color: C.cyan, width: 120}, {text: "EE", color: C.violet, width: 180}, {text: "M", color: C.amber, width: 120}]} label="1 SIGN · 2 EXPONENT · 1 MANTISSA" sub="Four bits." />,
   s10: <ShortFigure value="1" unit="BIT" label="OF MANTISSA LEFT" note="ONE SHARED SCALE WOULD DESTROY THE BLOCK" color={C.red} kicker="THE PROBLEM" />,
-  s11: <ShortStack kicker="THE FIX" rows={[{"label": "BLOCK OF 32 VALUES", "value": "ONE SCALE", "color": "cyan", "note": "THE SCALE IS STORED ALONGSIDE"}, {"label": "EVERY BLOCK", "value": "ITS OWN SCALE", "color": "amber", "note": "THE SCALE CHANGES PER BLOCK"}]} />,
+  s11: <ShortStack kicker="THE FIX" rows={[{label: "BLOCK OF 32 VALUES", value: "ONE SCALE", color: C.cyan, note: "THE SCALE IS STORED ALONGSIDE"}, {label: "EVERY BLOCK", value: "ITS OWN SCALE", color: C.amber, note: "THE SCALE CHANGES PER BLOCK"}]} />,
   s12: <ShortFigure value="4" unit="BITS" label="PER NUMBER, AND THE BLOCK KEEPS ITS MEANING" color={C.cyan} kicker="THE RESULT" />,
   s13: <ShortEnd title="The scale saves what one mantissa bit cannot hold." sub="That is how four-bit weights survive at all." />,
 };

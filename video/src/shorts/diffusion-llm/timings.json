@@ -1,0 +1,74 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2718,
+  "scenes": {
+    "s01": {
+      "sec": 8.8,
+      "frames": 264,
+      "text": "Every language model you have used writes left to right. One token at a time, each waiting for the last."
+    },
+    "s02": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "That loop is the reason inference is slow, and it is not obvious that you have to do it this way."
+    },
+    "s03": {
+      "sec": 8.8,
+      "frames": 264,
+      "text": "A diffusion model does not generate. It denoises. It starts with a block of masked tokens and fills them in."
+    },
+    "s04": {
+      "sec": 4.6,
+      "frames": 138,
+      "text": "All masked. Nothing decided. Every slot is a question mark."
+    },
+    "s05": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "Then it predicts every position at once, and unmasks only the ones it is confident about."
+    },
+    "s06": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "One step, six of eight slots. Then the next step works on what is left."
+    },
+    "s07": {
+      "sec": 5.8,
+      "frames": 174,
+      "text": "Which means the order is not left to right. It is confidence order."
+    },
+    "s08": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "That is the appeal. A handful of denoising steps instead of hundreds of single-token steps."
+    },
+    "s09": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "And for the hardware it is bigger still. Batched matrix multiplies are what a GPU is good at."
+    },
+    "s10": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "But here is the honest part. The tokens are not equally confident. The easy ones get filled early."
+    },
+    "s11": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "So the speedup depends on how many slots you dare to unmask per step."
+    },
+    "s12": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "Unmask too many and you commit to a bad token, and you cannot take it back."
+    },
+    "s13": {
+      "sec": 3.7,
+      "frames": 111,
+      "text": "The order is free. The confidence is not."
+    }
+  }
+}

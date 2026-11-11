@@ -150,7 +150,7 @@ export const ShortStack: React.FC<{
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  padding: "26px 34px",
+                  padding: "34px 40px",
                   borderBottom: i === rows.length - 1 ? "none" : `1px solid ${C.panelEdge}`,
                   opacity: rp,
                 }}
@@ -166,7 +166,7 @@ export const ShortStack: React.FC<{
                   <div
                     style={{
                       fontFamily: F.mono,
-                      fontSize: 22,
+                      fontSize: 24,
                       letterSpacing: "0.14em",
                       color: C.dim,
                     }}
@@ -177,7 +177,7 @@ export const ShortStack: React.FC<{
                     style={{
                       fontFamily: F.sans,
                       fontWeight: 800,
-                      fontSize: 46,
+                      fontSize: 58,
                       color: r.color ?? C.text,
                       whiteSpace: "nowrap",
                     }}
@@ -187,14 +187,14 @@ export const ShortStack: React.FC<{
                 </div>
                 {typeof r.frac === "number" ? (
                   <div style={{ marginTop: 14 }}>
-                    <Bar frac={r.frac} color={r.color ?? C.cyan} height={12} width={PW - 68} />
+                    <Bar frac={r.frac} color={r.color ?? C.cyan} height={12} width={PW - 80} />
                   </div>
                 ) : null}
                 {r.note ? (
                   <div
                     style={{
                       fontFamily: F.mono,
-                      fontSize: 17,
+                      fontSize: 18,
                       letterSpacing: "0.16em",
                       color: C.amber,
                       marginTop: 10,
@@ -257,7 +257,7 @@ export const ShortCompare: React.FC<{
         border: `1px solid ${C.panelEdge}`,
         borderRadius: 22,
         backgroundColor: C.panel,
-        padding: "34px 26px",
+        padding: "40px 28px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -268,7 +268,7 @@ export const ShortCompare: React.FC<{
         style={{
           fontFamily: F.sans,
           fontWeight: 800,
-          fontSize: 86,
+          fontSize: 100,
           letterSpacing: "-0.05em",
           lineHeight: 1,
           color,
@@ -280,10 +280,10 @@ export const ShortCompare: React.FC<{
       <div
         style={{
           fontFamily: F.mono,
-          fontSize: 19,
+          fontSize: 20,
           letterSpacing: "0.18em",
           color: C.dim,
-          marginTop: 16,
+          marginTop: 18,
           textAlign: "center",
         }}
       >
@@ -293,7 +293,7 @@ export const ShortCompare: React.FC<{
         <div
           style={{
             fontFamily: F.mono,
-            fontSize: 16,
+            fontSize: 17,
             letterSpacing: "0.12em",
             color: C.amber,
             marginTop: 14,
@@ -538,15 +538,15 @@ export const ShortBits: React.FC<{
                   key={`${c.text}-${i}`}
                   style={{
                     width: c.width ?? 76,
-                    height: 96,
-                    borderRadius: 12,
+                    height: 132,
+                    borderRadius: 14,
                     border: `2px solid ${c.color ?? C.panelEdge}`,
                     backgroundColor: c.filled ? `${c.color ?? C.cyan}22` : "transparent",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     fontFamily: F.mono,
-                    fontSize: 30,
+                    fontSize: 36,
                     color: c.color ?? C.faint,
                     opacity: op,
                     transform: `translateY(${(1 - op) * 14}px)`,
@@ -561,7 +561,7 @@ export const ShortBits: React.FC<{
             <div
               style={{
                 fontFamily: F.mono,
-                fontSize: 21,
+                fontSize: 25,
                 letterSpacing: "0.22em",
                 color: C.dim,
                 opacity: ph(frame, d, 0.4, 0.56),
@@ -575,7 +575,7 @@ export const ShortBits: React.FC<{
               style={{
                 fontFamily: F.sans,
                 fontWeight: 800,
-                fontSize: 66,
+                fontSize: 76,
                 letterSpacing: "-0.04em",
                 color: C.text,
                 textAlign: "center",
@@ -600,13 +600,13 @@ export const ShortBits: React.FC<{
 export const ShortGrid: React.FC<{
   rows: number;
   cols: number;
-  values: string[];
+  values?: string[];
   color?: string;
   kicker?: string;
   label?: string;
   cell?: number;
   font?: number;
-}> = ({ rows, cols, values, color = C.cyan, kicker, label, cell = 62, font = 15 }) => {
+}> = ({ rows, cols, values = [], color = C.cyan, kicker, label, cell = 62, font = 15 }) => {
   const { frame, d } = useScene();
   return (
     <Stage>
@@ -622,7 +622,7 @@ export const ShortGrid: React.FC<{
           >
             {Array.from({ length: rows * cols }).map((_, i) => {
               const op = ph(frame, d, 0.04 + (i % 9) * 0.04, 0.24 + (i % 9) * 0.04);
-              const hot = rnd(i) > 0.78;
+              const hot = rnd(i) > 0.7;
               return (
                 <div
                   key={i}
@@ -641,7 +641,7 @@ export const ShortGrid: React.FC<{
                     opacity: op,
                   }}
                 >
-                  {values[i] ?? ""}
+                  {values[i] ?? (rnd(i) * 2 - 1).toFixed(2)}
                 </div>
               );
             })}
@@ -668,15 +668,24 @@ export const ShortGrid: React.FC<{
 /* ---------------------------------------------------------------- tokens --- */
 
 /** A row of tokens, each masked, decided, or in focus. Diffusion decoding and
- *  speculative decoding are both "which slot is being decided right now". */
+ *  speculative decoding are both "which slot is being decided right now".
+ *
+ *  `filled` is how many slots have been decided, counted from the left, and
+ *  `focus` is the slot currently being worked on. Numbers rather than a
+ *  callback, so a whole short can be written as data. */
 export const ShortTokens: React.FC<{
   tokens: string[];
-  state: (index: number) => "masked" | "done" | "focus";
+  filled: number;
+  focus?: number;
   kicker?: string;
   label?: string;
   sub?: string;
-}> = ({ tokens, state, kicker, label, sub }) => {
+}> = ({ tokens, filled, focus = -1, kicker, label, sub }) => {
   const { frame, d } = useScene();
+  const state = (index: number): "masked" | "done" | "focus" => {
+    if (index === focus) return "focus";
+    return index < filled ? "done" : "masked";
+  };
   return (
     <Stage>
       {kicker ? <Top text={kicker} /> : null}

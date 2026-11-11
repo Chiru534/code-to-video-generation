@@ -93,5 +93,77 @@
     "status": "draft",
     "shape": "short",
     "style": "kit-hero"
+  },
+  "diffusion-llm": {
+    "title": "Why a Language Model Can Write Out of Order",
+    "srcDir": "src/shorts/diffusion-llm",
+    "audioDir": "public/audio/shorts/diffusion-llm",
+    "composition": "DiffusionLlmShort",
+    "output": "diffusion-llm.mp4",
+    "thumbSeconds": 2.0,
+    "publishDate": "2026-11-13",
+    "status": "draft",
+    "shape": "short",
+    "style": "kit-hero"
+  },
+  "kv-cache": {
+    "title": "Why the Cache Outgrows the Model",
+    "srcDir": "src/shorts/kv-cache",
+    "audioDir": "public/audio/shorts/kv-cache",
+    "composition": "KvCacheShort",
+    "output": "kv-cache.mp4",
+    "thumbSeconds": 2.0,
+    "publishDate": "2026-11-13",
+    "status": "draft",
+    "shape": "short",
+    "style": "kit-hero"
+  },
+  "activation-checkpointing": {
+    "title": "Throw It Away and Compute It Again",
+    "srcDir": "src/shorts/activation-checkpointing",
+    "audioDir": "public/audio/shorts/activation-checkpointing",
+    "composition": "ActivationCheckpointingShort",
+    "output": "activation-checkpointing.mp4",
+    "thumbSeconds": 2.0,
+    "publishDate": "2026-11-14",
+    "status": "draft",
+    "shape": "short",
+    "style": "kit-hero"
+  },
+  "gqa": {
+    "title": "Share the Keys, Keep the Queries",
+    "srcDir": "src/shorts/gqa",
+    "audioDir": "public/audio/shorts/gqa",
+    "composition": "GqaShort",
+    "output": "gqa.mp4",
+    "thumbSeconds": 2.0,
+    "publishDate": "2026-11-14",
+    "status": "draft",
+    "shape": "short",
+    "style": "kit-hero"
+  },
+  "moe-active": {
+    "title": "236 Billion Parameters, 21 Billion Working",
+    "srcDir": "src/shorts/moe-active",
+    "audioDir": "public/audio/shorts/moe-active",
+    "composition": "MoeActiveShort",
+    "output": "moe-active.mp4",
+    "thumbSeconds": 2.0,
+    "publishDate": "2026-11-15",
+    "status": "draft",
+    "shape": "short",
+    "style": "kit-hero"
+  },
+  "flash-attention": {
+    "title": "FlashAttention Is Not a Faster Kernel",
+    "srcDir": "src/shorts/flash-attention",
+    "audioDir": "public/audio/shorts/flash-attention",
+    "composition": "FlashAttentionShort",
+    "output": "flash-attention.mp4",
+    "thumbSeconds": 2.0,
+    "publishDate": "2026-11-15",
+    "status": "draft",
+    "shape": "short",
+    "style": "kit-hero"
   }
 }
