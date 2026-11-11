@@ -43,7 +43,31 @@ import {
 import {
   FlashAttentionShort,
   DURATION as F_L_A_S_H___A_T_T_E_N_T_I_O_N___S_H_O_R_T_DURATION,
-} from "./shorts/flash-attention/FlashAttentionShort";/* END GENERATED SHORT IMPORTS */
+} from "./shorts/flash-attention/FlashAttentionShort";
+import {
+  TokenizerTaxShort,
+  DURATION as T_O_K_E_N_I_Z_E_R___T_A_X___S_H_O_R_T_DURATION,
+} from "./shorts/tokenizer-tax/TokenizerTaxShort";
+import {
+  SpeculativeAcceptanceShort,
+  DURATION as S_P_E_C_U_L_A_T_I_V_E___A_C_C_E_P_T_A_N_C_E___S_H_O_R_T_DURATION,
+} from "./shorts/speculative-acceptance/SpeculativeAcceptanceShort";
+import {
+  Bf16Short,
+  DURATION as B_F_1_6___S_H_O_R_T_DURATION,
+} from "./shorts/bf16/Bf16Short";
+import {
+  AttentionSinkShort,
+  DURATION as A_T_T_E_N_T_I_O_N___S_I_N_K___S_H_O_R_T_DURATION,
+} from "./shorts/attention-sink/AttentionSinkShort";
+import {
+  QuantAwareTrainingShort,
+  DURATION as Q_U_A_N_T___A_W_A_R_E___T_R_A_I_N_I_N_G___S_H_O_R_T_DURATION,
+} from "./shorts/quant-aware-training/QuantAwareTrainingShort";
+import {
+  MoeRouterShort,
+  DURATION as M_O_E___R_O_U_T_E_R___S_H_O_R_T_DURATION,
+} from "./shorts/moe-router/MoeRouterShort";/* END GENERATED SHORT IMPORTS */
 
 /* bundled fonts — no network at render time, byte-identical every build */
 import "@fontsource/inter/400.css";
@@ -197,6 +221,54 @@ export const RemotionRoot: React.FC = () => {
         id="FlashAttentionShort"
         component={FlashAttentionShort}
         durationInFrames={F_L_A_S_H___A_T_T_E_N_T_I_O_N___S_H_O_R_T_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="TokenizerTaxShort"
+        component={TokenizerTaxShort}
+        durationInFrames={T_O_K_E_N_I_Z_E_R___T_A_X___S_H_O_R_T_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="SpeculativeAcceptanceShort"
+        component={SpeculativeAcceptanceShort}
+        durationInFrames={S_P_E_C_U_L_A_T_I_V_E___A_C_C_E_P_T_A_N_C_E___S_H_O_R_T_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="Bf16Short"
+        component={Bf16Short}
+        durationInFrames={B_F_1_6___S_H_O_R_T_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="AttentionSinkShort"
+        component={AttentionSinkShort}
+        durationInFrames={A_T_T_E_N_T_I_O_N___S_I_N_K___S_H_O_R_T_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="QuantAwareTrainingShort"
+        component={QuantAwareTrainingShort}
+        durationInFrames={Q_U_A_N_T___A_W_A_R_E___T_R_A_I_N_I_N_G___S_H_O_R_T_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MoeRouterShort"
+        component={MoeRouterShort}
+        durationInFrames={M_O_E___R_O_U_T_E_R___S_H_O_R_T_DURATION}
         fps={30}
         width={1080}
         height={1920}

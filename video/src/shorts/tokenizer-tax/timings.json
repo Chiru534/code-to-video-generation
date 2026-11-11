@@ -1,0 +1,74 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2295,
+  "scenes": {
+    "s01": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "Before a model can read your sentence, something has to chop it into pieces."
+    },
+    "s02": {
+      "sec": 4.6,
+      "frames": 138,
+      "text": "Those pieces are tokens, and they come from a tokenizer."
+    },
+    "s03": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "The tokenizer is trained on a specific corpus, so it learns what is common in that corpus."
+    },
+    "s04": {
+      "sec": 5.0,
+      "frames": 150,
+      "text": "Common things become one token. Rare things get chopped into several."
+    },
+    "s05": {
+      "sec": 5.4,
+      "frames": 162,
+      "text": "English text is well represented, because most tokenizer training data is English."
+    },
+    "s06": {
+      "sec": 4.6,
+      "frames": 138,
+      "text": "Other languages are not. The same meaning costs more tokens."
+    },
+    "s07": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "And that is not a rounding detail. Tokens are what you are billed for."
+    },
+    "s08": {
+      "sec": 2.9,
+      "frames": 87,
+      "text": "Same answer, more tokens, higher price."
+    },
+    "s09": {
+      "sec": 5.0,
+      "frames": 150,
+      "text": "You can see it directly. Take one sentence and translate it."
+    },
+    "s10": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "English takes a certain number of tokens. Another language takes more. A different script takes far more."
+    },
+    "s11": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "Which is a tax on every language that was not in the training corpus."
+    },
+    "s12": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "There are fixes. Train the tokenizer on more languages, or drop the tokenizer altogether."
+    },
+    "s13": {
+      "sec": 8.8,
+      "frames": 264,
+      "text": "Until someone does, the token count is not a measurement of the text. It is a measurement of the tokenizer."
+    }
+  }
+}

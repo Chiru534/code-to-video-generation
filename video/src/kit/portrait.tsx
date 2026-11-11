@@ -26,6 +26,17 @@ import { lin, ph, prog, rnd, useScene } from "./core";
 
 /* ---------------------------------------------------------------- figure --- */
 
+/** Fit a big value to the box it lives in.
+ *
+ *  "ARITHMETIC" at 100px is wider than a compare card, and a clipped word is
+ *  the kind of thing the eye catches instantly and the eye is the only
+ *  reviewer that matters. Inter 800 averages about 0.6em per character, so
+ *  the size follows the longest of the values on screen. */
+const fitValue = (a: string, b: string, max: number, width: number): number => {
+  const longest = Math.max(a.length, b.length, 1);
+  return Math.max(36, Math.min(max, Math.floor(width / (0.6 * longest))));
+};
+
 /** A number, its unit, what it means, and the honest label it carries.
  *  `note` is not decoration: "OUR ARITHMETIC · 7B / ADAM / BF16" belongs on
  *  screen next to the number, not in a caption the viewer may miss. */
@@ -54,6 +65,7 @@ export const ShortFigure: React.FC<{
   const p = ph(frame, d, 0.04, 0.3);
   const np = ph(frame, d, 0.26, 0.44);
   const lp = ph(frame, d, 0.44, 0.6);
+  const vsize = fitValue(value, "", size, PW - 70);
   return (
     <Stage>
       {kicker ? <Top text={kicker} /> : null}
@@ -63,7 +75,7 @@ export const ShortFigure: React.FC<{
             style={{
               fontFamily: F.sans,
               fontWeight: 800,
-              fontSize: size,
+              fontSize: vsize,
               lineHeight: 0.9,
               letterSpacing: "-0.055em",
               color,
@@ -230,7 +242,7 @@ export const ShortStack: React.FC<{
   );
 };
 
-/* --------------------------------------------------------------- compare --- */
+/* ---------------------------------------------------------------- compare --- */
 
 /** Two numbers, side by side, with the honest note under the one that needs
  *  one. The shape of most "you think X, actually Y" shorts. */
@@ -244,6 +256,7 @@ export const ShortCompare: React.FC<{
   const a = ph(frame, d, 0.04, 0.24);
   const b = ph(frame, d, 0.16, 0.36);
   const lp = ph(frame, d, 0.44, 0.6);
+  const vsize = fitValue(left.value, right.value, 100, 380);
   const card = (
     value: string,
     label: string,
@@ -268,7 +281,7 @@ export const ShortCompare: React.FC<{
         style={{
           fontFamily: F.sans,
           fontWeight: 800,
-          fontSize: 100,
+          fontSize: vsize,
           letterSpacing: "-0.05em",
           lineHeight: 1,
           color,
@@ -407,7 +420,7 @@ export const ShortScale: React.FC<{
                 key={p.label}
                 style={{
                   fontFamily: F.mono,
-                  fontSize: 19,
+                  fontSize: 22,
                   letterSpacing: "0.1em",
                   color: i === marker ? C.cyan : C.faint,
                   opacity: ph(frame, d, 0.06 + i * 0.06, 0.24 + i * 0.06),
@@ -429,7 +442,7 @@ export const ShortScale: React.FC<{
                 letterSpacing: "-0.04em",
                 color: C.text,
                 textAlign: "center",
-                opacity: ph(frame, d, 0.56, 0.72),
+                opacity: ph(frame, d, 0.32, 0.52),
                 lineHeight: 1.1,
               }}
             >

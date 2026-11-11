@@ -1,0 +1,74 @@
+{
+  "note": "PLACEHOLDER. CI regenerates this from measured narration before bundling (tools/tts.py). Do not hand-edit the frames.",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 2643,
+  "scenes": {
+    "s01": {
+      "sec": 5.8,
+      "frames": 174,
+      "text": "In a mixture of experts, a router decides which experts handle a token."
+    },
+    "s02": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "It is a small network, trained to send tokens to the experts that handle them best."
+    },
+    "s03": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "Which is the whole problem. If every token goes to the best-fitting expert, one expert wins."
+    },
+    "s04": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "It gets all the training signal. The others get nothing, and they go stale."
+    },
+    "s05": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "So the router is given a second objective: send a balanced share of tokens everywhere."
+    },
+    "s06": {
+      "sec": 4.6,
+      "frames": 138,
+      "text": "That is the load-balancing loss, added to the training loss."
+    },
+    "s07": {
+      "sec": 10.0,
+      "frames": 300,
+      "text": "It is a hack in the truest sense. The router is told to do something other than the thing it was built for."
+    },
+    "s08": {
+      "sec": 9.6,
+      "frames": 288,
+      "text": "And the tension is real. Fit the tokens perfectly and the experts go stale. Balance them perfectly and the routing goes bad."
+    },
+    "s09": {
+      "sec": 3.7,
+      "frames": 111,
+      "text": "So every router sits somewhere on that trade-off."
+    },
+    "s10": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "Push too hard and the router starts sending tokens to worse experts, to satisfy the balance."
+    },
+    "s11": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "Push too little and you are back to one popular expert doing all the work."
+    },
+    "s12": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "The coefficient on that loss is the knob. One number trades quality against capacity."
+    },
+    "s13": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "The router is trained to be good at routing, and punished for being good at it."
+    }
+  }
+}

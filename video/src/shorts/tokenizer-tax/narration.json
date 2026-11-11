@@ -1,0 +1,58 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Before a model can read your sentence, something has to chop it into pieces."
+    },
+    {
+      "id": "s02",
+      "text": "Those pieces are tokens, and they come from a tokenizer."
+    },
+    {
+      "id": "s03",
+      "text": "The tokenizer is trained on a specific corpus, so it learns what is common in that corpus."
+    },
+    {
+      "id": "s04",
+      "text": "Common things become one token. Rare things get chopped into several."
+    },
+    {
+      "id": "s05",
+      "text": "English text is well represented, because most tokenizer training data is English."
+    },
+    {
+      "id": "s06",
+      "text": "Other languages are not. The same meaning costs more tokens."
+    },
+    {
+      "id": "s07",
+      "text": "And that is not a rounding detail. Tokens are what you are billed for."
+    },
+    {
+      "id": "s08",
+      "text": "Same answer, more tokens, higher price."
+    },
+    {
+      "id": "s09",
+      "text": "You can see it directly. Take one sentence and translate it."
+    },
+    {
+      "id": "s10",
+      "text": "English takes a certain number of tokens. Another language takes more. A different script takes far more."
+    },
+    {
+      "id": "s11",
+      "text": "Which is a tax on every language that was not in the training corpus."
+    },
+    {
+      "id": "s12",
+      "text": "There are fixes. Train the tokenizer on more languages, or drop the tokenizer altogether."
+    },
+    {
+      "id": "s13",
+      "text": "Until someone does, the token count is not a measurement of the text. It is a measurement of the tokenizer."
+    }
+  ]
+}

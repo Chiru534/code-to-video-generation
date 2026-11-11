@@ -1,0 +1,58 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "In 2020 NVIDIA noticed something. Deep learning did not need FP32's precision, but it did need FP32's range."
+    },
+    {
+      "id": "s02",
+      "text": "So they made a new sixteen-bit format that keeps the range and throws away the precision."
+    },
+    {
+      "id": "s03",
+      "text": "FP16 has five exponent bits and ten mantissa bits. BF16 has eight and seven."
+    },
+    {
+      "id": "s04",
+      "text": "Same sixteen bits. A completely different number."
+    },
+    {
+      "id": "s05",
+      "text": "The range is what a training run needs. Gradients get tiny. Activations get huge. Neither is a problem if the exponent can reach."
+    },
+    {
+      "id": "s06",
+      "text": "The precision is what inference likes. A weight at BF16 has fewer significant digits than one at FP16."
+    },
+    {
+      "id": "s07",
+      "text": "Which is why BF16 is the training format and FP16 is still the inference format."
+    },
+    {
+      "id": "s08",
+      "text": "And why both are everywhere: BF16 where the range matters, FP16 where the precision does."
+    },
+    {
+      "id": "s09",
+      "text": "The interesting part is what the throwaway bits buy. BF16 keeps the exponent identical to FP32."
+    },
+    {
+      "id": "s10",
+      "text": "Which means a BF16 number and an FP32 number have exactly the same exponent range."
+    },
+    {
+      "id": "s11",
+      "text": "You can convert between them by shifting bits. No rounding, no range check."
+    },
+    {
+      "id": "s12",
+      "text": "FP16 needs a clamp, because its exponent cannot represent FP32's biggest and smallest values."
+    },
+    {
+      "id": "s13",
+      "text": "The most useful number format is the one that is boring to convert."
+    }
+  ]
+}

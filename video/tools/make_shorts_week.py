@@ -884,6 +884,607 @@ SHORTS = [
             }),
         ],
     },
+    {
+        "slug": "tokenizer-tax",
+        "name": "TokenizerTaxShort",
+        "title": "The Same Sentence Costs Different",
+        "publishDate": "2026-11-16",
+        "thumbSeconds": 2.0,
+        "lines": [
+            ("s01", "Before a model can read your sentence, something has to chop it into pieces."),
+            ("s02", "Those pieces are tokens, and they come from a tokenizer."),
+            ("s03", "The tokenizer is trained on a specific corpus, so it learns what is common in that corpus."),
+            ("s04", "Common things become one token. Rare things get chopped into several."),
+            ("s05", "English text is well represented, because most tokenizer training data is English."),
+            ("s06", "Other languages are not. The same meaning costs more tokens."),
+            ("s07", "And that is not a rounding detail. Tokens are what you are billed for."),
+            ("s08", "Same answer, more tokens, higher price."),
+            ("s09", "You can see it directly. Take one sentence and translate it."),
+            ("s10", "English takes a certain number of tokens. Another language takes more. A different script takes far more."),
+            ("s11", "Which is a tax on every language that was not in the training corpus."),
+            ("s12", "There are fixes. Train the tokenizer on more languages, or drop the tokenizer altogether."),
+            ("s13", "Until someone does, the token count is not a measurement of the text. It is a measurement of the tokenizer."),
+        ],
+        "scenes": [
+            ("s01", "ShortTokens", {
+                "kicker": "BEFORE ANYTHING ELSE",
+                "tokens": ["the", "cat", "sat", "on", "the", "mat", "?", "?"],
+                "filled": 6,
+                "label": "ONE SENTENCE, CHOPPED",
+                "sub": "Pieces, not words.",
+            }),
+            ("s02", "ShortStack", {
+                "kicker": "THE FIRST STEP",
+                "rows": [
+                    {"label": "TEXT", "value": "A SENTENCE"},
+                    {"label": "TOKENS", "value": "THE PIECES", "color": "cyan"},
+                ],
+            }),
+            ("s03", "ShortTitle", {
+                "title": "Common things become one token.",
+                "sub": "THE TOKENIZER LEARNS FROM A CORPUS",
+                "kicker": "HOW IT DECIDES",
+            }),
+            ("s04", "ShortTokens", {
+                "kicker": "THE RULE",
+                "tokens": ["cat", "sat", "on", "mat", "×", "×", "×", "×"],
+                "filled": 4,
+                "label": "COMMON → ONE TOKEN",
+                "sub": "Rare things get chopped into several.",
+            }),
+            ("s05", "ShortCompare", {
+                "kicker": "THE CORPUS DECIDES",
+                "left": {"value": "ENGLISH", "label": "MOST OF THE TRAINING DATA", "color": "cyan"},
+                "right": {"value": "OTHERS", "label": "MUCH LESS OF IT", "color": "amber"},
+                "line": "The corpus decides the token count.",
+            }),
+            ("s06", "ShortFigure", {
+                "value": "MORE", "unit": "TOKENS", "label": "FOR THE SAME SENTENCE",
+                "note": "THE DIRECTION IS UNIVERSAL", "color": "amber", "kicker": "THE TAX",
+            }),
+            ("s07", "ShortStack", {
+                "kicker": "WHY IT MATTERS",
+                "rows": [
+                    {"label": "THE ANSWER", "value": "THE SAME"},
+                    {"label": "THE TOKENS", "value": "WHAT YOU PAY FOR", "color": "cyan"},
+                ],
+            }),
+            ("s08", "ShortTitle", {
+                "title": "Same answer. More tokens. Higher price.",
+                "sub": "THE BILL DOES NOT READ THE MEANING",
+                "kicker": "THE CONSEQUENCE",
+            }),
+            ("s09", "ShortTokens", {
+                "kicker": "TRY IT",
+                "tokens": ["the", "cat", "sat", "on", "the", "mat", "?", "?"],
+                "filled": 6,
+                "label": "TRANSLATE IT AND COUNT AGAIN",
+                "sub": "Same sentence. Different number.",
+            }),
+            ("s10", "ShortCompare", {
+                "kicker": "THE SAME IDEA",
+                "left": {"value": "EN", "label": "FEWER TOKENS", "color": "cyan"},
+                "right": {"value": "OTHER", "label": "MORE TOKENS", "color": "amber",
+                          "note": "EXACT RATIO DEPENDS ON THE TOKENIZER"},
+                "line": "Same meaning, different bill.",
+            }),
+            ("s11", "ShortTitle", {
+                "title": "A tax on the languages that were not in the corpus.",
+                "sub": "AND NOT ON YOUR FAULT",
+                "kicker": "THE INEQUITY",
+            }),
+            ("s12", "ShortStack", {
+                "kicker": "THE FIXES",
+                "rows": [
+                    {"label": "FIX ONE", "value": "TRAIN ON MORE LANGUAGES"},
+                    {"label": "FIX TWO", "value": "DROP THE TOKENIZER", "color": "cyan"},
+                ],
+            }),
+            ("s13", "ShortEnd", {
+                "title": "The token count measures the tokenizer.",
+                "sub": "Not the text.",
+            }),
+        ],
+    },
+    {
+        "slug": "speculative-acceptance",
+        "name": "SpeculativeAcceptanceShort",
+        "title": "The Speedup Is an Acceptance Rate",
+        "publishDate": "2026-11-16",
+        "thumbSeconds": 2.0,
+        "lines": [
+            ("s01", "Speculative decoding is the trick for making a model write faster without changing it."),
+            ("s02", "A small draft model proposes a batch of tokens. The big model checks them all in one pass."),
+            ("s03", "If the draft was right, you take the tokens. If it was wrong, you take the first one and start again."),
+            ("s04", "So the speedup is not the size of the draft model. It is how often the draft is right."),
+            ("s05", "Call that the acceptance rate."),
+            ("s06", "At full acceptance you get the maximum speedup, which is the batch size you used."),
+            ("s07", "At zero acceptance you get nothing, and you have paid for the draft model on every token."),
+            ("s08", "Most real systems sit somewhere in between. Roughly sixty to eighty percent is typical."),
+            ("s09", "Which is why a draft model that is barely better than the big one can still be useless."),
+            ("s10", "It has to be close enough to guess right, and small enough to be cheap."),
+            ("s11", "There is a second cost people forget. Every rejected token is wasted work for both models."),
+            ("s12", "So a low acceptance rate does not just slow you down. It makes you do more work than the baseline."),
+            ("s13", "The speedup is not the draft model. It is the agreement."),
+        ],
+        "scenes": [
+            ("s01", "ShortTitle", {
+                "title": "Write faster, without changing the model.",
+                "sub": "SPECULATIVE DECODING",
+                "kicker": "THE TRICK",
+            }),
+            ("s02", "ShortStack", {
+                "kicker": "THE MECHANISM",
+                "rows": [
+                    {"label": "THE DRAFT MODEL", "value": "PROPOSES 5", "color": "cyan"},
+                    {"label": "THE BIG MODEL", "value": "CHECKS ALL 5", "color": "amber"},
+                ],
+            }),
+            ("s03", "ShortTokens", {
+                "kicker": "THE DEAL",
+                "tokens": ["the", "model", "is", "a", "?", "?"],
+                "filled": 3, "focus": 3,
+                "label": "TAKE THE MATCH · RESTART AFTER THE MISMATCH",
+                "sub": "One pass, many tokens.",
+            }),
+            ("s04", "ShortTitle", {
+                "title": "The speedup is not the size of the draft.",
+                "sub": "IT IS HOW OFTEN THE DRAFT IS RIGHT",
+                "kicker": "THE REAL NUMBER",
+            }),
+            ("s05", "ShortTitle", {
+                "title": "The acceptance rate.",
+                "sub": "HOW OFTEN THE DRAFT IS RIGHT",
+                "kicker": "THE NAME",
+            }),
+            ("s06", "ShortFigure", {
+                "value": "5", "unit": "×", "label": "AT FULL ACCEPTANCE — YOUR BATCH SIZE",
+                "color": "green", "kicker": "THE CEILING",
+            }),
+            ("s07", "ShortFigure", {
+                "value": "0", "unit": "×", "label": "AT ZERO ACCEPTANCE",
+                "note": "AND YOU PAID FOR THE DRAFT ON EVERY TOKEN",
+                "color": "red", "kicker": "THE FLOOR",
+            }),
+            ("s08", "ShortFigure", {
+                "value": "60-80%", "unit": "", "label": "TYPICAL ACCEPTANCE RATE",
+                "note": "DEPENDS ENTIRELY ON THE TASK", "color": "cyan", "kicker": "WHERE REAL SYSTEMS LAND",
+            }),
+            ("s09", "ShortStack", {
+                "kicker": "WHY A WEAK DRAFT FAILS",
+                "rows": [
+                    {"label": "A GOOD DRAFT", "value": "NEAR THE TARGET", "color": "cyan"},
+                    {"label": "A BAD DRAFT", "value": "BARELY BETTER", "color": "red"},
+                    {"label": "THE RESULT", "value": "USELESS", "color": "amber"},
+                ],
+            }),
+            ("s10", "ShortCompare", {
+                "kicker": "THE DRAFT HAS TO BE BOTH",
+                "left": {"value": "CLOSE", "label": "ENOUGH TO GUESS RIGHT", "color": "cyan"},
+                "right": {"value": "CHEAP", "label": "SMALL ENOUGH TO BE FREE", "color": "cyan"},
+                "line": "Neither one alone.",
+            }),
+            ("s11", "ShortStack", {
+                "kicker": "THE SECOND COST",
+                "rows": [
+                    {"label": "EVERY REJECTED TOKEN", "value": "WASTED WORK", "color": "red"},
+                    {"label": "FOR BOTH MODELS", "value": "DRAFT + TARGET", "color": "amber"},
+                ],
+            }),
+            ("s12", "ShortCompare", {
+                "kicker": "THE BAD CASE",
+                "left": {"value": "SLOWER", "label": "THAN THE BASELINE", "color": "red"},
+                "right": {"value": "MORE WORK", "label": "THAN THE BASELINE", "color": "red"},
+                "line": "A bad acceptance rate is worse than nothing.",
+            }),
+            ("s13", "ShortEnd", {
+                "title": "The speedup is not the draft model.",
+                "sub": "It is the agreement.",
+            }),
+        ],
+    },
+    {
+        "slug": "bf16",
+        "name": "Bf16Short",
+        "title": "Same Sixteen Bits, Different Split",
+        "publishDate": "2026-11-17",
+        "thumbSeconds": 2.0,
+        "lines": [
+            ("s01", "In 2020 NVIDIA noticed something. Deep learning did not need FP32's precision, but it did need FP32's range."),
+            ("s02", "So they made a new sixteen-bit format that keeps the range and throws away the precision."),
+            ("s03", "FP16 has five exponent bits and ten mantissa bits. BF16 has eight and seven."),
+            ("s04", "Same sixteen bits. A completely different number."),
+            ("s05", "The range is what a training run needs. Gradients get tiny. Activations get huge. Neither is a problem if the exponent can reach."),
+            ("s06", "The precision is what inference likes. A weight at BF16 has fewer significant digits than one at FP16."),
+            ("s07", "Which is why BF16 is the training format and FP16 is still the inference format."),
+            ("s08", "And why both are everywhere: BF16 where the range matters, FP16 where the precision does."),
+            ("s09", "The interesting part is what the throwaway bits buy. BF16 keeps the exponent identical to FP32."),
+            ("s10", "Which means a BF16 number and an FP32 number have exactly the same exponent range."),
+            ("s11", "You can convert between them by shifting bits. No rounding, no range check."),
+            ("s12", "FP16 needs a clamp, because its exponent cannot represent FP32's biggest and smallest values."),
+            ("s13", "The most useful number format is the one that is boring to convert."),
+        ],
+        "scenes": [
+            ("s01", "ShortTitle", {
+                "title": "It needed the range, not the precision.",
+                "sub": "WHAT DEEP LEARNING ACTUALLY USES",
+                "kicker": "WHY BF16 EXISTS",
+            }),
+            ("s02", "ShortBits", {
+                "kicker": "BF16",
+                "cells": [
+                    {"text": "1", "color": "cyan", "width": 110},
+                    {"text": "8", "color": "violet", "width": 150},
+                    {"text": "7", "color": "amber", "width": 170},
+                ],
+                "label": "SIGN 1 · EXPONENT 8 · MANTISSA 7",
+                "sub": "Sixteen bits.",
+            }),
+            ("s03", "ShortCompare", {
+                "kicker": "SIXTEEN BITS EACH",
+                "left": {"value": "FP16", "label": "5 EXPONENT · 10 MANTISSA", "color": "violet"},
+                "right": {"value": "BF16", "label": "8 EXPONENT · 7 MANTISSA", "color": "cyan"},
+                "line": "Same sixteen bits.",
+            }),
+            ("s04", "ShortTitle", {
+                "title": "Same sixteen bits. A different number.",
+                "sub": "A COMPLETELY DIFFERENT NUMBER",
+                "kicker": "WHAT CHANGED",
+            }),
+            ("s05", "ShortStack", {
+                "kicker": "WHY THE RANGE MATTERS",
+                "rows": [
+                    {"label": "GRADIENTS", "value": "GET TINY", "color": "amber"},
+                    {"label": "ACTIVATIONS", "value": "GET HUGE", "color": "amber"},
+                    {"label": "THE EXPONENT", "value": "HAS TO REACH", "color": "cyan"},
+                ],
+            }),
+            ("s06", "ShortStack", {
+                "kicker": "WHAT THE PRECISION COSTS",
+                "rows": [
+                    {"label": "FP16 MANTISSA", "value": "10 BITS", "color": "violet"},
+                    {"label": "BF16 MANTISSA", "value": "7 BITS", "color": "cyan"},
+                    {"label": "SIGNIFICANT DIGITS", "value": "FEWER", "color": "amber"},
+                ],
+            }),
+            ("s07", "ShortCompare", {
+                "kicker": "WHERE EACH ONE GOES",
+                "left": {"value": "BF16", "label": "TRAINING", "color": "cyan"},
+                "right": {"value": "FP16", "label": "INFERENCE", "color": "violet"},
+                "line": "Range where you need range.",
+            }),
+            ("s08", "ShortTitle", {
+                "title": "Which is why both are everywhere.",
+                "sub": "EACH WHERE IT FITS",
+                "kicker": "THE COEXISTENCE",
+            }),
+            ("s09", "ShortBits", {
+                "kicker": "THE EXCHANGE",
+                "cells": [
+                    {"text": "1", "color": "cyan", "width": 110},
+                    {"text": "8", "color": "violet", "width": 150},
+                    {"text": "7", "color": "amber", "width": 170},
+                    {"text": "= FP32", "color": "dim", "width": 220},
+                ],
+                "label": "THE EXPONENT IS IDENTICAL TO FP32",
+                "sub": "Only the mantissa changed.",
+            }),
+            ("s10", "ShortCompare", {
+                "kicker": "THE RANGE",
+                "left": {"value": "BF16", "label": "SAME RANGE AS FP32", "color": "cyan"},
+                "right": {"value": "FP16", "label": "NARROWER RANGE", "color": "amber"},
+                "line": "Identical exponent, different precision.",
+            }),
+            ("s11", "ShortFigure", {
+                "value": "0", "unit": "ROUNDING", "label": "BF16 TO FP32 IS A BIT SHIFT",
+                "note": "EXACT · NO RANGE CHECK", "color": "green", "kicker": "THE CONVERSION",
+            }),
+            ("s12", "ShortFigure", {
+                "value": "1", "unit": "CLAMP", "label": "FP32 TO FP16 CAN OVERFLOW",
+                "note": "SO IT HAS TO CHECK THE RANGE", "color": "amber", "kicker": "THE OTHER DIRECTION",
+            }),
+            ("s13", "ShortEnd", {
+                "title": "The best number format is the boring one.",
+                "sub": "One you can convert without thinking.",
+            }),
+        ],
+    },
+    {
+        "slug": "attention-sink",
+        "name": "AttentionSinkShort",
+        "title": "Why Models Dump Attention on the First Token",
+        "publishDate": "2026-11-17",
+        "thumbSeconds": 2.0,
+        "lines": [
+            ("s01", "Here is a strange fact about language models. The first token of any sequence absorbs a huge amount of attention."),
+            ("s02", "Not the important token. Not the last one. The first."),
+            ("s03", "And it is not about content. The first token gets the same treatment every time."),
+            ("s04", "The explanation is that attention needs somewhere to dump probability mass."),
+            ("s05", "Every head outputs a weighted average, and those weights have to sum to one."),
+            ("s06", "Early on, before the model knows what it is looking at, some probability has to go somewhere."),
+            ("s07", "So the model learns to use the first token as a sink. A place to put the leftover attention."),
+            ("s08", "This is not a quirk. It is load-bearing."),
+            ("s09", "StreamingLLM found that if you keep the first few tokens and slide the window, you can stream millions of tokens."),
+            ("s10", "But if the sink disappears, the attention collapses. The model has nowhere to put the mass."),
+            ("s11", "So the first tokens are not just history. They are the drain."),
+            ("s12", "Which is a strange thing to depend on, and an easy thing for a retrained model to lose."),
+            ("s13", "Keep the drain. Slide everything else."),
+        ],
+        "scenes": [
+            ("s01", "ShortTokens", {
+                "kicker": "THE STRANGE FACT",
+                "tokens": ["The", "?", "?", "?", "?", "?", "?", "?"],
+                "filled": 1, "focus": 0,
+                "label": "THE FIRST TOKEN ABSORBS THE ATTENTION",
+                "sub": "Every single sequence.",
+            }),
+            ("s02", "ShortTitle", {
+                "title": "Not the important token. Not the last one.",
+                "sub": "THE FIRST",
+                "kicker": "NOT WHAT YOU WOULD EXPECT",
+            }),
+            ("s03", "ShortFigure", {
+                "value": "SAME", "unit": "", "label": "TREATMENT, EVERY TIME",
+                "note": "REGARDLESS OF CONTENT", "color": "amber", "kicker": "IT IS NOT ABOUT CONTENT",
+            }),
+            ("s04", "ShortTitle", {
+                "title": "Attention needs somewhere to put the mass.",
+                "sub": "THE DRAIN",
+                "kicker": "WHY",
+            }),
+            ("s05", "ShortStack", {
+                "kicker": "THE CONSTRAINT",
+                "rows": [
+                    {"label": "EVERY HEAD", "value": "A WEIGHTED AVERAGE", "color": "cyan"},
+                    {"label": "THE WEIGHTS", "value": "MUST SUM TO ONE", "color": "amber"},
+                ],
+            }),
+            ("s06", "ShortTitle", {
+                "title": "Early on, some probability has to go somewhere.",
+                "sub": "AND THE MODEL NEEDS A PLACE",
+                "kicker": "THE PROBLEM",
+            }),
+            ("s07", "ShortCompare", {
+                "kicker": "THE SOLUTION",
+                "left": {"value": "1st", "label": "THE SINK TOKEN", "color": "cyan"},
+                "right": {"value": "REST", "label": "THE CONTENT", "color": "dim"},
+                "line": "The leftover attention goes to token one.",
+            }),
+            ("s08", "ShortTitle", {
+                "title": "This is not a quirk.",
+                "sub": "IT IS LOAD-BEARING",
+                "kicker": "IT MATTERS",
+            }),
+            ("s09", "ShortStack", {
+                "kicker": "STREAMINGLLM",
+                "rows": [
+                    {"label": "KEEP", "value": "THE FIRST 4 TOKENS", "color": "cyan", "note": "THE DRAIN"},
+                    {"label": "SLIDE", "value": "THE WINDOW", "color": "violet"},
+                    {"label": "STREAM", "value": "MILLIONS OF TOKENS", "color": "cyan"},
+                ],
+            }),
+            ("s10", "ShortFigure", {
+                "value": "0", "unit": "", "label": "IF THE SINK DISAPPEARS",
+                "note": "THE ATTENTION COLLAPSES", "color": "red", "kicker": "THE DEPENDENCE",
+            }),
+            ("s11", "ShortTitle", {
+                "title": "The first tokens are the drain.",
+                "sub": "NOT JUST HISTORY",
+                "kicker": "WHAT THEY ARE FOR",
+            }),
+            ("s12", "ShortCaveat", {
+                "kicker": "THE HONEST VERSION",
+                "claim": "It is always the first token.",
+                "reality": "Retrain the model and the sink moves. It is a learned behaviour, not a fixed rule.",
+            }),
+            ("s13", "ShortEnd", {
+                "title": "Keep the drain. Slide everything else.",
+                "sub": "Four tokens do all the work.",
+            }),
+        ],
+    },
+    {
+        "slug": "quant-aware-training",
+        "name": "QuantAwareTrainingShort",
+        "title": "Train It Quantized or Post-Train It",
+        "publishDate": "2026-11-18",
+        "thumbSeconds": 2.0,
+        "lines": [
+            ("s01", "Quantization can be done after training, by rounding the weights of a finished model."),
+            ("s02", "Or it can be done during training, by rounding the weights on every step."),
+            ("s03", "The second one is slower to set up and much better in the result."),
+            ("s04", "Here is why. A trained model has never seen a rounded weight."),
+            ("s05", "The weights sit in a narrow band where the network is sensitive. Round them, and you move them."),
+            ("s06", "Move them far enough and the next layer gets a different input than it was trained for."),
+            ("s07", "One layer's rounding error becomes the next layer's noise, and it compounds."),
+            ("s08", "Training with quantization in the loop teaches the model to work with rounded weights."),
+            ("s09", "It learns to put its important information in the places where rounding does the least damage."),
+            ("s10", "So the gap between the two is not a small margin. It is the difference between working and not."),
+            ("s11", "Which is also why the honest version of a quantization claim has to say which one was used."),
+            ("s12", "A number from a post-training model and a number from a quantization-aware one are not the same number."),
+            ("s13", "Ask how the model was trained before you believe the size."),
+        ],
+        "scenes": [
+            ("s01", "ShortStack", {
+                "kicker": "TWO WAYS",
+                "rows": [
+                    {"label": "POST-TRAINING", "value": "ROUND AT THE END", "color": "violet"},
+                    {"label": "QUANTIZATION-AWARE", "value": "ROUND EVERY STEP", "color": "cyan"},
+                ],
+            }),
+            ("s02", "ShortTitle", {
+                "title": "Train it quantized, or post-train it quantized.",
+                "sub": "TWO DIFFERENT RESULTS",
+                "kicker": "THE CHOICE",
+            }),
+            ("s03", "ShortCompare", {
+                "kicker": "THE BARGAIN",
+                "left": {"value": "SLOWER", "label": "TO SET UP", "color": "amber"},
+                "right": {"value": "BETTER", "label": "WHAT YOU GET", "color": "cyan"},
+                "line": "The second one wins.",
+            }),
+            ("s04", "ShortTitle", {
+                "title": "A trained model has never seen a rounded weight.",
+                "sub": "THAT IS THE WHOLE PROBLEM",
+                "kicker": "WHY",
+            }),
+            ("s05", "ShortStack", {
+                "kicker": "THE SENSITIVITY",
+                "rows": [
+                    {"label": "THE WEIGHTS", "value": "SIT NARROW", "color": "amber"},
+                    {"label": "THE NETWORK", "value": "IS SENSITIVE THERE", "color": "amber"},
+                ],
+            }),
+            ("s06", "ShortStack", {
+                "kicker": "THE CASCADE",
+                "rows": [
+                    {"label": "ROUND ONE LAYER", "value": "ITS OUTPUT CHANGES", "color": "amber"},
+                    {"label": "THE NEXT LAYER", "value": "GETS A NEW INPUT", "color": "red"},
+                ],
+            }),
+            ("s07", "ShortStack", {
+                "kicker": "IT COMPOUNDS",
+                "rows": [
+                    {"label": "LAYER 1", "value": "ROUNDING ERROR", "color": "amber"},
+                    {"label": "LAYER 2", "value": "ADDS ITS OWN", "color": "amber"},
+                    {"label": "LAYER 30", "value": "COMPOUNDED", "color": "red"},
+                ],
+            }),
+            ("s08", "ShortTitle", {
+                "title": "Training with rounding in the loop teaches the model to cope.",
+                "sub": "AND TO PUT ITS INFORMATION SOMEWHERE SAFE",
+                "kicker": "THE FIX",
+            }),
+            ("s09", "ShortStack", {
+                "kicker": "WHAT IT LEARNS",
+                "rows": [
+                    {"label": "INSENSITIVE WEIGHTS", "value": "TAKE THE ROUNDING", "color": "cyan"},
+                    {"label": "IMPORTANT INFORMATION", "value": "IN THE SAFE PLACES", "color": "cyan"},
+                ],
+            }),
+            ("s10", "ShortCompare", {
+                "kicker": "THE GAP",
+                "left": {"value": "NARROW", "label": "WHAT POST-TRAINING GETS", "color": "amber"},
+                "right": {"value": "WORKS", "label": "WHAT QAT GETS", "color": "cyan"},
+                "line": "Not a small margin.",
+            }),
+            ("s11", "ShortTitle", {
+                "title": "A quantization claim has to say which one was used.",
+                "sub": "BOTH ARE CALLED QUANTIZATION",
+                "kicker": "THE HONEST VERSION",
+            }),
+            ("s12", "ShortCaveat", {
+                "kicker": "THE CAVEAT",
+                "claim": "The model is 4-bit.",
+                "reality": "Without saying whether it was trained that way, the number does not mean much.",
+            }),
+            ("s13", "ShortEnd", {
+                "title": "Ask how the model was trained.",
+                "sub": "Before you believe the size.",
+            }),
+        ],
+    },
+    {
+        "slug": "moe-router",
+        "name": "MoeRouterShort",
+        "title": "The Router Is Trained Against Itself",
+        "publishDate": "2026-11-18",
+        "thumbSeconds": 2.0,
+        "lines": [
+            ("s01", "In a mixture of experts, a router decides which experts handle a token."),
+            ("s02", "It is a small network, trained to send tokens to the experts that handle them best."),
+            ("s03", "Which is the whole problem. If every token goes to the best-fitting expert, one expert wins."),
+            ("s04", "It gets all the training signal. The others get nothing, and they go stale."),
+            ("s05", "So the router is given a second objective: send a balanced share of tokens everywhere."),
+            ("s06", "That is the load-balancing loss, added to the training loss."),
+            ("s07", "It is a hack in the truest sense. The router is told to do something other than the thing it was built for."),
+            ("s08", "And the tension is real. Fit the tokens perfectly and the experts go stale. Balance them perfectly and the routing goes bad."),
+            ("s09", "So every router sits somewhere on that trade-off."),
+            ("s10", "Push too hard and the router starts sending tokens to worse experts, to satisfy the balance."),
+            ("s11", "Push too little and you are back to one popular expert doing all the work."),
+            ("s12", "The coefficient on that loss is the knob. One number trades quality against capacity."),
+            ("s13", "The router is trained to be good at routing, and punished for being good at it."),
+        ],
+        "scenes": [
+            ("s01", "ShortTitle", {
+                "title": "A small network picks the experts.",
+                "sub": "THE ROUTER",
+                "kicker": "MIXTURE OF EXPERTS",
+            }),
+            ("s02", "ShortStack", {
+                "kicker": "THE ROUTER",
+                "rows": [
+                    {"label": "THE ROUTER", "value": "A SMALL NETWORK", "color": "cyan"},
+                    {"label": "ITS JOB", "value": "PICK THE EXPERTS", "color": "cyan"},
+                ],
+            }),
+            ("s03", "ShortStack", {
+                "kicker": "THE PROBLEM",
+                "rows": [
+                    {"label": "EVERY TOKEN", "value": "GOES TO THE BEST EXPERT", "color": "cyan"},
+                    {"label": "ONE EXPERT", "value": "GETS ALL THE SIGNAL", "color": "amber"},
+                ],
+            }),
+            ("s04", "ShortStack", {
+                "kicker": "EXPERT COLLAPSE",
+                "rows": [
+                    {"label": "THE WINNER", "value": "TRAINED, ALWAYS", "color": "amber"},
+                    {"label": "THE OTHERS", "value": "GO STALE", "color": "red"},
+                ],
+            }),
+            ("s05", "ShortTitle", {
+                "title": "So the router gets a second job.",
+                "sub": "SEND A BALANCED SHARE EVERYWHERE",
+                "kicker": "THE FIX",
+            }),
+            ("s06", "ShortCompare", {
+                "kicker": "TWO OBJECTIVES",
+                "left": {"value": "ROUTING", "label": "WHAT IT WANTS", "color": "cyan"},
+                "right": {"value": "BALANCE", "label": "WHAT IT IS TOLD", "color": "amber"},
+                "line": "One router, two losses.",
+            }),
+            ("s07", "ShortTitle", {
+                "title": "It is a hack in the truest sense.",
+                "sub": "TOLD TO DO SOMETHING ELSE ENTIRELY",
+                "kicker": "THE TRADE",
+            }),
+            ("s08", "ShortCompare", {
+                "kicker": "THE TENSION",
+                "left": {"value": "FIT", "label": "THE EXPERTS GO STALE", "color": "red"},
+                "right": {"value": "BALANCE", "label": "THE ROUTING GOES BAD", "color": "amber"},
+                "line": "You cannot win both.",
+            }),
+            ("s09", "ShortTitle", {
+                "title": "Every router sits on that trade-off.",
+                "sub": "BALANCE VERSUS FIT",
+                "kicker": "WHERE THEY LAND",
+            }),
+            ("s10", "ShortStack", {
+                "kicker": "THE KNOB",
+                "rows": [
+                    {"label": "PUSH HARD", "value": "ROUTES TO WORSE EXPERTS", "color": "red"},
+                    {"label": "PUSH LITTLE", "value": "ONE EXPERT WINS", "color": "amber"},
+                ],
+            }),
+            ("s11", "ShortStack", {
+                "kicker": "THE OTHER END",
+                "rows": [
+                    {"label": "PUSH LITTLE", "value": "ONE EXPERT DOES EVERYTHING", "color": "amber"},
+                    {"label": "AND THEN", "value": "CAPACITY IS WASTED", "color": "red"},
+                ],
+            }),
+            ("s12", "ShortCompare", {
+                "kicker": "THE COEFFICIENT",
+                "left": {"value": "QUALITY", "label": "WHAT YOU TRADE AWAY", "color": "amber"},
+                "right": {"value": "CAPACITY", "label": "WHAT YOU PROTECT", "color": "cyan"},
+                "line": "One number, two currencies.",
+            }),
+            ("s13", "ShortEnd", {
+                "title": "The router is trained to be good at routing.",
+                "sub": "And punished for being good at it.",
+            }),
+        ],
+    },
 ]
 
 
