@@ -65,6 +65,14 @@ These are hard-won. Each one exists because ignoring it produced a bad video.
 narration is measured by `tools/tts.py`, which writes `timings.json`, and the
 composition cuts each scene to its measured length plus `TAIL_FRAMES` (12).
 
+**The TTS is NOT bit-reproducible.** Two renders of the same video produce
+different audio, so the md5 of the MP4 changes every time and the total
+duration can shift by a fraction of a second — which moves every cut point.
+**Never use md5 as a regression check on a rendered video.** To prove a
+refactor did not change the pixels, extract a frame from the old and the new
+file at the SAME TIMESTAMP and compare them (PSNR). `inf` means pixel
+identical; a low value usually means a scene boundary moved, not a bug.
+
 **Animate by fraction, not by frame.** Scenes are cut to measured narration, so
 absolute frame numbers drift between renders. Use `ph(frame, d, a, b)` and
 `lin(frame, d, a, b)` where `d` is the scene's length. Use `lin` for sweeps,

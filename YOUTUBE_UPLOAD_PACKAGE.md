@@ -21,7 +21,7 @@ place, so the link and the folder name never change.
 
 ```
 My Drive / blender_s1 / productions /
-  2026-11-10_littlebit-film/
+  2026-11-11_littlebit-film/
     littlebit-film.mp4              373.8 s (6:14), 1920x1080, 30 fps, -14.2 LUFS
     littlebit-film-thumbnail.jpg    1280x720  <- upload this as the custom thumbnail
 ```
@@ -70,7 +70,6 @@ file, not estimated:
 5:00  What It Actually Means: no kernels yet
 5:48  The Layer Below
 ```
-
 **Tags:** `quantization, llm, machine learning, ai, sub-1-bit, model
 compression, littlebit, samsung, neural networks, llama, deep learning, how ai
 works, artificial intelligence`
