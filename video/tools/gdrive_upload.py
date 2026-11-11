@@ -214,6 +214,8 @@ def mime_for(path: str) -> str:
         ".webp": "image/webp",
         ".srt": "application/x-subrip",
         ".vtt": "text/vtt",
+        ".json": "application/json",
+        ".zip": "application/zip",
     }.get(ext, "image/jpeg")
 
 
@@ -318,7 +320,7 @@ def main() -> int:
         "--thumb",
         action="append",
         default=[],
-        help="image to upload alongside the video (repeatable); goes in the same folder",
+        help="extra file to upload alongside the video (repeatable); goes in the same folder",
     )
     parser.add_argument(
         "--date",
@@ -426,7 +428,7 @@ def main() -> int:
         duration_row = f"| duration | {duration:.1f}s |\n" if duration is not None else ""
         folder_row = f"| folder | `{folder_name}` ({'created' if folder_created else 'existing'}) |\n" if folder_name else ""
         thumb_rows = "".join(
-            f"| thumbnail | [{t['name']}]({t.get('webViewLink', '')}) |\n" for t in thumbs
+            f"| file | [{t['name']}]({t.get('webViewLink', '')}) |\n" for t in thumbs
         )
         with open(summary, "a", encoding="utf-8") as handle:
             handle.write(

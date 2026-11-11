@@ -29,6 +29,10 @@ on:
         description: "Comma-separated episode keys to render in ONE run (overrides 'episode')"
         type: string
         default: ""
+      clip:
+        description: "Render ONLY this scene of the episode and splice it into the delivered video (e.g. s07). Empty = a full render."
+        type: string
+        default: ""
   push:
     branches: [main]
     paths:
@@ -204,12 +208,20 @@ jobs:
 
       - name: System packages
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq --no-install-recommends \
+          # The runner's apt mirror can hang for hours. It did once, on a
+          # 6-minute film render that never started. Bound it, retry once,
+          # and do not let a flaky mirror burn a runner all afternoon.
+          sudo timeout 300 apt-get update -qq \
+            || echo "::warning::apt-get update failed or timed out"
+          sudo timeout 600 apt-get install -y -qq --no-install-recommends \
             ffmpeg espeak-ng libsndfile1 \
             libnss3 libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 libgbm-dev \
             libasound2t64 libxrandr2 libxkbcommon-dev libxfixes3 libxcomposite1 \
-            libxdamage1 libpango-1.0-0 libcairo2 libcups2 fonts-liberation
+            libxdamage1 libpango-1.0-0 libcairo2 libcups2 fonts-liberation \
+            || echo "::warning::apt-get install failed or timed out"
+          # ffmpeg is the one thing this pipeline cannot do without.
+          command -v ffmpeg || { echo "::error::ffmpeg is missing"; exit 1; }
+          ffmpeg -version | head -1
 
       - name: Cache Kokoro model
         uses: actions/cache@v4
@@ -243,6 +255,7 @@ jobs:
         run: npx remotion browser ensure
 
       - name: Render episode
+        if: ${{ inputs.clip == '' }}
         working-directory: video
         run: |
           START=$(date +%s)
@@ -250,7 +263,82 @@ jobs:
           END=$(date +%s)
           echo "RENDER_SECONDS=$((END-START))" >> "$GITHUB_ENV"
 
+      # ---------------------------------------------------------------------
+      # CLIP MODE
+      #
+      # Re-rendering a whole video to fix one scene is the slowest and least
+      # safe thing this pipeline can do — and it is not even stable, because
+      # the TTS regenerates and every scene after the edit can move.
+      #
+      # A clip mode renders ONLY the changed scene's frames and splices them
+      # back into the delivered video. The audio is untouched, and no other
+      # scene's pixels change. The measured layout travels with the video in
+      # Drive, so the clip lands exactly where the delivered video has it.
+      # ---------------------------------------------------------------------
+      - name: Fetch the delivered layout
+        if: ${{ inputs.clip != '' }}
+        working-directory: video
+        env:
+          GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+          GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
+          GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+          GDRIVE_SHORTS_FOLDER_ID: ${{ secrets.GDRIVE_SHORTS_FOLDER_ID }}
+        run: |
+          SLUG="${{ matrix.key }}"
+          python tools/gdrive_get.py "${SLUG}-timings.json" --slug "$SLUG" --out out/orig-timings.json
+          python tools/gdrive_get.py "${SLUG}-audio.zip" --slug "$SLUG" --out out/audio.zip
+          # The measured timings ARE the layout. Restoring them makes the
+          # composition's plan identical to the delivered video's.
+          cp out/orig-timings.json "${{ matrix.srcDir }}/timings.json"
+          mkdir -p "$AUDIO_DIR"
+          (cd out && rm -rf aud && mkdir aud && cd aud && unzip -qo ../audio.zip && cd .. && cp -r aud/. "$GITHUB_WORKSPACE/video/$AUDIO_DIR/")
+          ls -lh out/orig-timings.json out/audio.zip
+          echo "restored the measured layout for $SLUG"
+
+      - name: Resolve clip range
+        if: ${{ inputs.clip != '' }}
+        working-directory: video
+        run: |
+          RANGE=$(python tools/clip_range.py "${{ matrix.srcDir }}" "${{ inputs.clip }}")
+          START=$(echo "$RANGE" | cut -d" " -f1)
+          END=$(echo "$RANGE" | cut -d" " -f2)
+          echo "CLIP_START=$START" >> "$GITHUB_ENV"
+          echo "CLIP_END=$END" >> "$GITHUB_ENV"
+          echo "clip ${{ inputs.clip }} = frames $START..$END"
+
+      - name: Render clip
+        if: ${{ inputs.clip != '' }}
+        working-directory: video
+        run: |
+          START=$(date +%s)
+          # Near-lossless, because the spliced result is encoded once more.
+          npx remotion render "$COMPOSITION" "out/clip.mp4" \
+            --frames=$CLIP_START-$((CLIP_END-1)) \
+            --codec=h264 --crf=12
+          END=$(date +%s)
+          echo "RENDER_SECONDS=$((END-START))" >> "$GITHUB_ENV"
+
+      - name: Splice the clip into the delivered video
+        if: ${{ inputs.clip != '' }}
+        working-directory: video
+        env:
+          GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+          GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
+          GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+          GDRIVE_SHORTS_FOLDER_ID: ${{ secrets.GDRIVE_SHORTS_FOLDER_ID }}
+        run: |
+          SLUG="${{ matrix.key }}"
+          python tools/gdrive_get.py "$OUTPUT" --slug "$SLUG" --out out/old.mp4
+          python tools/splice_clip.py --old out/old.mp4 --clip out/clip.mp4 \
+            --start "$CLIP_START" --end "$CLIP_END" --out "out/$OUTPUT"
+          ls -lh "out/$OUTPUT"
+
       - name: Master audio to -14 LUFS
+        # In clip mode the audio is the delivered file's own, already mastered.
+        # Mastering it again would move it.
+        if: ${{ inputs.clip == '' }}
         working-directory: video
         run: |
           ffmpeg -y -v error -i "out/$OUTPUT" \
@@ -377,7 +465,20 @@ jobs:
           if [ -n "${THUMB_16X9}" ]; then ARGS+=(--thumb "${THUMB_16X9}"); fi
           if [ -n "${THUMB_9X16}" ]; then ARGS+=(--thumb "${THUMB_9X16}"); fi
           STEM="${OUTPUT%.mp4}"
+
+          # The measured layout and the audio travel WITH the video. A later
+          # clip edit fetches them from here, so the clip lands exactly where
+          # the delivered video has it instead of somewhere the TTS drifted.
+          if [ -f "${{ matrix.srcDir }}/timings.json" ]; then
+            cp "${{ matrix.srcDir }}/timings.json" "out/${STEM}-timings.json"
+            ARGS+=(--thumb "out/${STEM}-timings.json")
+          fi
+          if [ -d "$AUDIO_DIR" ]; then
+            (cd "$AUDIO_DIR" && zip -qr "$GITHUB_WORKSPACE/video/out/${STEM}-audio.zip" .)
+            ARGS+=(--thumb "out/${STEM}-audio.zip")
+          fi
           if [ -f "out/${STEM}.srt" ]; then ARGS+=(--thumb "out/${STEM}.srt"); fi
+
           python tools/gdrive_upload.py "out/$OUTPUT" --name "$OUTPUT" "${ARGS[@]}"
 
       - name: Run summary
