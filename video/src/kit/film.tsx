@@ -234,10 +234,19 @@ export const CompareBar: React.FC<{
   color: string;
   at?: number;
   dur?: number;
-  width?: number;
+  /**
+   * The width of the bar. Defaults to the width of its container, which is
+   * what a bar inside a scene should do.
+   *
+   * It used to default to FILM.safeW, and the LittleBit film put a
+   * CompareBar inside a 1180px container. The bar rendered 1680px wide, ran
+   * off the right edge of the 1920 frame, and was silently clipped for the
+   * whole scene. Nothing in the source looked wrong.
+   */
+  width?: number | string;
   height?: number;
   note?: string;
-}> = ({ label, value, fraction, color, at = 0, dur = 34, width = FILM.safeW, height = 64, note }) => {
+}> = ({ label, value, fraction, color, at = 0, dur = 34, width = "100%", height = 64, note }) => {
   const frame = useCurrentFrame();
   const p = prog(frame, at, dur);
   return (
@@ -258,7 +267,7 @@ export const CompareBar: React.FC<{
       </div>
       <div
         style={{
-          width,
+          width: "100%",
           height,
           borderRadius: 10,
           backgroundColor: "#0B0D14",
@@ -268,7 +277,9 @@ export const CompareBar: React.FC<{
       >
         <div
           style={{
-            width: Math.max(3, width * fraction * p),
+            /* A percentage of the track, so the fill is correct whatever the
+               track's width is. The floor keeps a visible stub at p = 0. */
+            width: `${Math.max(0.3, fraction * p * 100)}%`,
             height,
             backgroundColor: color,
             borderRadius: 9,

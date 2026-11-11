@@ -324,6 +324,7 @@ def audit_episode(key: str, cfg: dict, registry: dict | None = None) -> dict:
         "frames": total,
         "tail": tail_frames(src_dir) * len(ids),
         "fps": fps,
+        "shape": cfg.get("shape", ""),
     }
 
 
@@ -461,6 +462,12 @@ def audit_render(path: str, info: dict) -> None:
     # animates in and then freezes is the commonest way that rule gets
     # broken: nothing in the file looks wrong, but two thirds of the runtime
     # is a still picture with a voiceover on top.
+    #
+    # The limit depends on how long a scene is. A Short's scene is about five
+    # seconds, so four seconds of stillness is most of a scene and wrong. A
+    # film's scene is about six and a half seconds of measured narration, so
+    # the original eight-second rule is the right bar there.
+    still_limit = 4.0 if info.get("shape") == "short" else 8.0
     try:
         out = subprocess.run(
             ["ffmpeg", "-hide_banner", "-nostats", "-i", path,
@@ -479,12 +486,28 @@ def audit_render(path: str, info: dict) -> None:
                 start = None
         worst = max((e - s for s, e in spans), default=0.0)
         check(
-            worst <= 4.0,
-            "no still stretch longer than 4s",
+            worst <= still_limit,
+            f"no still stretch longer than {still_limit:g}s",
             f"longest frozen stretch {worst:.1f}s at {[(round(s,1), round(e,1)) for s, e in spans if e-s > 2][:4]}",
         )
     except (OSError, subprocess.SubprocessError) as exc:
         warn("still frames", str(exc))
+
+    # Content clipped by the frame. A bar wider than its container looks fine
+    # in the source and broken on screen, where the frame cuts it silently.
+    # The LittleBit film's model bar was 1680px inside a 1180px container and
+    # ran off the right edge for a whole scene.
+    edges = os.path.join(ROOT, "tools", "check_edges.py")
+    if os.path.exists(edges):
+        proc = subprocess.run([sys.executable, edges, path], capture_output=True, text=True)
+        lines = [ln for ln in (proc.stdout or "").strip().splitlines() if ln.strip()]
+        check(
+            proc.returncode == 0,
+            "no content clipped at the frame edge",
+            lines[0].strip() if lines else (proc.stderr or "").strip()[:200],
+        )
+    else:
+        skip("frame edge clipping", "tools/check_edges.py not found")
 
     # EBU R128 integrated loudness. The workflow applies loudnorm at -14;
     # this proves the file that leaves the runner actually measured that.
