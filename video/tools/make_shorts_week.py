@@ -810,9 +810,9 @@ SHORTS = [
     },
     {
         "slug": "flash-attention",
+        "claim": "Why FlashAttention is not a faster kernel but a different order of operations.",
         "duration": 75.6,
         "captions": 39,
-        "claim": 'Why FlashAttention is not a faster kernel but a different order of operations.',
         "name": "FlashAttentionShort",
         "title": "FlashAttention Is Not a Faster Kernel",
         "publishDate": "2026-11-15",
@@ -829,33 +829,39 @@ SHORTS = [
             ("s09", "So the huge matrix never exists anywhere. Not on disk, not in video memory."),
             ("s10", "The memory traffic drops from quadratic to linear, and the flops stay exactly the same."),
             ("s11", "Same mathematics. Same answer. A completely different memory access pattern."),
-            ("s12", "Which is why the name is a bit of a joke. It is not about attention. It is about not writing things down."),
-            ("s13", "The fastest kernels are the ones that touch memory least."),
+            ("s12", "So the claim is that it makes attention faster. The reality is that it changes nothing about the mathematics. It only changes when the data moves."),
+            ("s13", "The fastest kernels are the ones that touch memory least. It is not about attention. It is about not writing things down."),
         ],
         "scenes": [
-            ("s01", "ShortTitle", {
+            ("s01", "ShortCompare", {
+                "kicker": "FLASHATTENTION",
+                "left": {"value": "FAST", "label": "WHAT IT IS FAMOUS FOR", "color": "amber"},
+                "right": {"value": "MEMORY", "label": "WHAT IT IS ACTUALLY ABOUT", "color": "cyan"},
+                "line": "The least interesting thing about it.",
+            }),
+            ("s02", "ShortTitle", {
                 "title": "It is not a faster kernel.",
                 "sub": "IT IS A DIFFERENT ORDER OF OPERATIONS",
-                "kicker": "FLASHATTENTION",
+                "kicker": "THE ACTUAL POINT",
             }),
-            ("s02", "ShortStack", {
+            ("s03", "ShortStack", {
                 "kicker": "THE THREE STEPS",
                 "rows": [
-                    {"label": "STEP 1", "value": "Q × K"},
+                    {"label": "STEP 1", "value": "Q \u00d7 K"},
                     {"label": "STEP 2", "value": "SOFTMAX", "color": "amber"},
-                    {"label": "STEP 3", "value": "× V"},
+                    {"label": "STEP 3", "value": "\u00d7 V"},
                 ],
             }),
-            ("s03", "ShortGrid", {
+            ("s04", "ShortGrid", {
                 "kicker": "THE SLOW PART",
                 "rows": 6, "cols": 8, "cell": 78, "font": 13, "color": "amber",
                 "label": "THE SCORE MATRIX",
             }),
-            ("s04", "ShortFigure", {
+            ("s05", "ShortFigure", {
                 "value": "67M", "unit": "NUMBERS", "label": "IN THE SCORE MATRIX AT 8K TOKENS",
                 "note": "PER HEAD", "color": "amber", "kicker": "THE SIZE",
             }),
-            ("s05", "ShortStack", {
+            ("s06", "ShortStack", {
                 "kicker": "THE ROUND TRIP",
                 "rows": [
                     {"label": "COMPUTE THE BLOCK", "value": "FAST MEMORY"},
@@ -863,12 +869,12 @@ SHORTS = [
                     {"label": "READ IT BACK", "value": "SLOW", "color": "red"},
                 ],
             }),
-            ("s06", "ShortTitle", {
+            ("s07", "ShortTitle", {
                 "title": "It never writes the matrix down.",
                 "sub": "IT TILES IT",
                 "kicker": "THE TRICK",
             }),
-            ("s07", "ShortStack", {
+            ("s08", "ShortStack", {
                 "kicker": "PER BLOCK",
                 "rows": [
                     {"label": "ONE BLOCK", "value": "COMPUTE + SOFTMAX + ACCUMULATE", "color": "cyan",
@@ -876,26 +882,21 @@ SHORTS = [
                     {"label": "THEN", "value": "THROW IT AWAY", "color": "amber"},
                 ],
             }),
-            ("s08", "ShortFigure", {
+            ("s09", "ShortFigure", {
                 "value": "0", "unit": "BYTES", "label": "OF SCORE MATRIX STORED",
                 "color": "green", "kicker": "THE RESULT",
             }),
-            ("s09", "ShortCompare", {
+            ("s10", "ShortCompare", {
                 "kicker": "WHAT CHANGED",
-                "left": {"value": "O(n²)", "label": "MEMORY TRAFFIC, BEFORE", "color": "red"},
+                "left": {"value": "O(n\u00b2)", "label": "MEMORY TRAFFIC, BEFORE", "color": "red"},
                 "right": {"value": "O(n)", "label": "MEMORY TRAFFIC, AFTER", "color": "green"},
                 "line": "Quadratic becomes linear.",
             }),
-            ("s10", "ShortCompare", {
+            ("s11", "ShortCompare", {
                 "kicker": "WHAT DID NOT",
                 "left": {"value": "SAME", "label": "THE FLOPS", "color": "text"},
                 "right": {"value": "SAME", "label": "THE ANSWER", "color": "text"},
                 "line": "Exactly the same mathematics.",
-            }),
-            ("s11", "ShortTitle", {
-                "title": "It is not about attention.",
-                "sub": "IT IS ABOUT NOT WRITING THINGS DOWN",
-                "kicker": "THE NAME",
             }),
             ("s12", "ShortCaveat", {
                 "kicker": "THE HONEST VERSION",
@@ -903,8 +904,8 @@ SHORTS = [
                 "reality": "It does not change the mathematics at all. It changes when the data moves.",
             }),
             ("s13", "ShortEnd", {
-                "title": "The fastest kernels touch memory least.",
-                "sub": "Same maths. A completely different memory access pattern.",
+                "title": "The fastest kernels are the ones that touch memory least.",
+                "sub": "It is not about attention. It is about not writing things down.",
             }),
         ],
     },

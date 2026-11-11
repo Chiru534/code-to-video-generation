@@ -3,7 +3,7 @@
   "fps": 30,
   "voice": "af_heart",
   "speed": 0.95,
-  "totalFrames": 2607,
+  "totalFrames": 2796,
   "scenes": {
     "s01": {
       "sec": 6.3,
@@ -61,14 +61,14 @@
       "text": "Same mathematics. Same answer. A completely different memory access pattern."
     },
     "s12": {
-      "sec": 10.0,
-      "frames": 300,
-      "text": "Which is why the name is a bit of a joke. It is not about attention. It is about not writing things down."
+      "sec": 11.3,
+      "frames": 339,
+      "text": "So the claim is that it makes attention faster. The reality is that it changes nothing about the mathematics. It only changes when the data moves."
     },
     "s13": {
-      "sec": 4.6,
-      "frames": 138,
-      "text": "The fastest kernels are the ones that touch memory least."
+      "sec": 9.6,
+      "frames": 288,
+      "text": "The fastest kernels are the ones that touch memory least. It is not about attention. It is about not writing things down."
     }
   }
 }

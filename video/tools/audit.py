@@ -528,6 +528,29 @@ def audit_imports() -> None:
     )
 
 
+def audit_alignment() -> None:
+    """The scene registry and the narration script are two lists.
+
+    If one of them is shifted by a single entry, every scene in the video
+    shows the wrong thing and every other check in this file stays green.
+    The audit proves a narration line HAS a scene; it cannot prove the scene
+    shows that line. flash-attention shipped exactly that way, and looking
+    at midpoints did not catch it, because every individual frame was
+    correct on its own.
+    """
+    tool = os.path.join(ROOT, "tools", "check_alignment.py")
+    if not os.path.exists(tool):
+        skip("scene/narration alignment", "tools/check_alignment.py not found")
+        return
+    proc = subprocess.run([sys.executable, tool], capture_output=True, text=True)
+    out = [line for line in (proc.stdout or "").strip().splitlines() if line.strip()]
+    check(
+        proc.returncode == 0,
+        "scene/narration alignment",
+        out[-1].strip() if out else (proc.stderr or "").strip()[:200],
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Deterministic audit of an episode.")
     parser.add_argument("--static", action="store_true", help="checks that need no render")
@@ -544,6 +567,7 @@ def main() -> int:
         return 1
 
     audit_imports()
+    audit_alignment()
 
     keys = [args.only] if args.only else list(registry)
     infos = {}
