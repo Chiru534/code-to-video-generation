@@ -260,52 +260,61 @@ export const Ladder: React.FC<{
       {rungs.map((r, i) => {
         const rp = Math.max(0, Math.min(1, p * rungs.length - i));
         return (
-          <div
-            key={r.label}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 22,
-              opacity: rp,
-              transform: `translateX(${(1 - rp) * -30}px)`,
-            }}
-          >
+          <div key={r.label} style={{ display: "flex", flexDirection: "column" }}>
             <div
               style={{
-                fontFamily: F.mono,
-                fontSize: 26,
-                letterSpacing: "0.14em",
-                color: C.dim,
-                width: 250,
+                display: "flex",
+                alignItems: "center",
+                gap: 22,
+                opacity: rp,
+                transform: `translateX(${(1 - rp) * -30}px)`,
               }}
             >
-              {r.label}
-            </div>
-            <div
-              style={{
-                height: 30,
-                borderRadius: 8,
-                width: 620 * rp,
-                backgroundColor: r.color,
-                opacity: 0.9,
-              }}
-            />
-            <div
-              style={{
-                fontFamily: F.mono,
-                fontSize: 28,
-                color: r.color,
-              }}
-            >
-              {r.value}
-            </div>
-            {r.note ? (
               <div
                 style={{
                   fontFamily: F.mono,
-                  fontSize: 17,
+                  fontSize: 26,
+                  letterSpacing: "0.14em",
+                  color: C.dim,
+                  width: 250,
+                }}
+              >
+                {r.label}
+              </div>
+              <div
+                style={{
+                  height: 30,
+                  borderRadius: 8,
+                  width: 620 * rp,
+                  backgroundColor: r.color,
+                  opacity: 0.9,
+                }}
+              />
+              <div
+                style={{
+                  fontFamily: F.mono,
+                  fontSize: 28,
+                  color: r.color,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {r.value}
+              </div>
+            </div>
+            {/* The note sits on its own line. Inline, it crowded the value and
+                wrapped to two lines beside it — tight enough to read as
+                overlapping text at a glance. */}
+            {r.note ? (
+              <div
+                style={{
+                  marginLeft: 272,
+                  marginTop: 6,
+                  fontFamily: F.mono,
+                  fontSize: 18,
                   letterSpacing: "0.18em",
                   color: C.amber,
+                  whiteSpace: "nowrap",
+                  opacity: rp,
                 }}
               >
                 {r.note}

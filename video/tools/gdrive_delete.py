@@ -121,6 +121,17 @@ def empty_dated_folders(svc, parent):
             trash(svc, folder["id"])
 
 
+def rename(svc, folder_id, new_name):
+    """Rename a folder in place. Its contents keep their ids and links."""
+    svc.files().update(
+        fileId=folder_id,
+        body={"name": new_name},
+        fields="id,name",
+        supportsAllDrives=True,
+    ).execute()
+    log(f"renamed  : {folder_id} -> {new_name}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Delete videos from Drive.")
     parser.add_argument("--folder", default=os.environ.get("GDRIVE_FOLDER_ID", "").strip())
@@ -163,6 +174,11 @@ def main() -> int:
         help="list what is in the Drive trash, with ids, and stop",
     )
     parser.add_argument(
+        "--rename-folder",
+        default="",
+        help="rename a dated folder: OLD=NEW, e.g. 2026-11-10_littlebit-film=2026-11-11_littlebit-film",
+    )
+    parser.add_argument(
         "--apply",
         action="store_true",
         help="actually delete; without it the script only prints the plan",
@@ -192,6 +208,18 @@ def main() -> int:
         return 0
 
     deleted = 0
+    if args.rename_folder:
+        old, _, new = args.rename_folder.partition("=")
+        found = False
+        for folder in child_folders(svc, parent):
+            if folder["name"].lower() == old.strip().lower():
+                found = True
+                log(f"target   : folder '{folder['name']}' -> '{new.strip()}'")
+                if args.apply:
+                    rename(svc, folder["id"], new.strip())
+        if not found:
+            log(f"not found: folder '{old}'")
+
     for file_id in args.restore_id:
         log(f"restore  : {file_id}")
         if args.apply:

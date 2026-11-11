@@ -26,6 +26,10 @@ on:
         description: "Exact trashed file ids to bring back (comma separated)"
         type: string
         default: ""
+      rename_folder:
+        description: "Rename a dated folder: OLD=NEW"
+        type: string
+        default: ""
       list_trash:
         description: "Just list what is in the Drive trash, change nothing"
         type: boolean
@@ -53,7 +57,7 @@ jobs:
           pip install -q google-api-python-client google-auth requests
 
       - name: Delete videos
-        if: ${{ inputs.delete_videos != '' || inputs.delete_folder != '' || inputs.delete_ids != '' || inputs.restore_ids != '' || inputs.list_trash }}
+        if: ${{ inputs.delete_videos != '' || inputs.delete_folder != '' || inputs.delete_ids != '' || inputs.restore_ids != '' || inputs.list_trash || inputs.rename_folder != '' }}
         working-directory: video
         env:
           GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
@@ -65,8 +69,10 @@ jobs:
           DELETE_FOLDER: ${{ inputs.delete_folder }}
           DELETE_IDS: ${{ inputs.delete_ids }}
           RESTORE_IDS: ${{ inputs.restore_ids }}
+          RENAME_FOLDER: ${{ inputs.rename_folder }}
         run: |
           ARGS=()
+          if [ -n "$RENAME_FOLDER" ]; then ARGS+=(--rename-folder "$RENAME_FOLDER"); fi
           add_ids() {  # $1 = comma separated ids, $2 = flag
             if [ -n "$1" ]; then
               IFS=',' read -ra LIST <<< "$1"
