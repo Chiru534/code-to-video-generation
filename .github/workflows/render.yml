@@ -40,7 +40,11 @@ on:
       - ".github/workflows/render.yml"
 
 concurrency:
-  group: render-${{ github.ref }}
+  # Keyed by WHAT is rendering, not just the branch. A push-triggered run and a
+  # manual dispatch of one episode used to share a group, so pushing the
+  # workflow file cancelled a film render that was already in flight — which
+  # looked exactly like the render failing.
+  group: render-${{ github.ref }}-${{ inputs.episode || inputs.episodes || 'auto' }}
   cancel-in-progress: true
 
 jobs:
