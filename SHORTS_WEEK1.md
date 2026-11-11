@@ -7,16 +7,16 @@ calendar is the folder list. Upload in date order.
 
 | # | date | folder | file | title | length |
 |---|------|-------|------|-------|--------|
-| 1 | 2026-11-12 | `shorts/2026-11-12_training-memory/` | `training-memory.mp4` | Why Training a 7B Model Needs 112 GB | 80.6s |
+| 1 | 2026-11-12 | `shorts/2026-11-12_training-memory/` | `training-memory.mp4` | Why Training a 7B Model Needs 112 GB | 80.5s |
 | 2 | 2026-11-12 | `shorts/2026-11-12_fp4-format/` | `fp4-format.mp4` | What a Number Looks Like in Four Bits | 86.9s |
 | 3 | 2026-11-13 | `shorts/2026-11-13_diffusion-llm/` | `diffusion-llm.mp4` | Why a Language Model Can Write Out of Order | 74.1s |
 | 4 | 2026-11-13 | `shorts/2026-11-13_kv-cache/` | `kv-cache.mp4` | Why the Cache Outgrows the Model | 72.7s |
 | 5 | 2026-11-14 | `shorts/2026-11-14_activation-checkpointing/` | `activation-checkpointing.mp4` | Throw It Away and Compute It Again | 74.5s |
 | 6 | 2026-11-14 | `shorts/2026-11-14_bf16/` | `bf16.mp4` | Same Sixteen Bits, Different Split | 91.2s |
 | 7 | 2026-11-15 | `shorts/2026-11-15_moe-active/` | `moe-active.mp4` | 236 Billion Parameters, 21 Billion Working | 71.3s |
-| 8 | 2026-11-15 | `shorts/2026-11-15_flash-attention/` | `flash-attention.mp4` | FlashAttention Is Not a Faster Kernel | 75.6s |
+| 8 | 2026-11-15 | `shorts/2026-11-15_flash-attention/` | `flash-attention.mp4` | FlashAttention Is Not a Faster Kernel | 82.1s |
 | 9 | 2026-11-16 | `shorts/2026-11-16_tokenizer-tax/` | `tokenizer-tax.mp4` | The Same Sentence Costs Different | 66.8s |
-| 10 | 2026-11-16 | `shorts/2026-11-16_speculative-acceptance/` | `speculative-acceptance.mp4` | The Speedup Is an Acceptance Rate | 69.2s |
+| 10 | 2026-11-16 | `shorts/2026-11-16_speculative-acceptance/` | `speculative-acceptance.mp4` | The Speedup Is an Acceptance Rate | 69.3s |
 | 11 | 2026-11-17 | `shorts/2026-11-17_gqa/` | `gqa.mp4` | Share the Keys, Keep the Queries | 72.3s |
 | 12 | 2026-11-17 | `shorts/2026-11-17_attention-sink/` | `attention-sink.mp4` | Why Models Dump Attention on the First Token | 68.8s |
 | 13 | 2026-11-18 | `shorts/2026-11-18_quant-aware-training/` | `quant-aware-training.mp4` | Train It Quantized or Post-Train It | 68.4s |
@@ -55,7 +55,7 @@ the 9:16 one is the phone-shaped cover.
 
 `shorts/2026-11-12_training-memory/training-memory.mp4`
 
-    80.6s · 41 captions · `training-memory.srt`
+    80.5s · 41 captions · `training-memory.srt`
 
 **Title**
 
@@ -225,7 +225,7 @@ the 9:16 one is the phone-shaped cover.
 
 `shorts/2026-11-15_flash-attention/flash-attention.mp4`
 
-    75.6s · 39 captions · `flash-attention.srt`
+    82.1s · 42 captions · `flash-attention.srt`
 
 **Title**
 
@@ -273,7 +273,7 @@ the 9:16 one is the phone-shaped cover.
 
 `shorts/2026-11-16_speculative-acceptance/speculative-acceptance.mp4`
 
-    69.2s · 42 captions · `speculative-acceptance.srt`
+    69.3s · 42 captions · `speculative-acceptance.srt`
 
 **Title**
 

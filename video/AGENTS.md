@@ -99,8 +99,20 @@ to the number — not in a caption the viewer may miss. `Stat` takes a `note`
 for exactly this: `POTENTIAL · PAPER ESTIMATE`, `PAPER FIGURE`,
 `OUR ARITHMETIC`.
 
-**Never `Math.random`, never a static frame for 8+ seconds.** Every scene has
-motion. If a scene looks static at its midpoint, it is broken.
+**Never `Math.random`, never a still frame.** Every scene has motion. A scene
+that animates in over the first third and then sits still for the rest is the
+commonest way this rule gets broken: nothing in the file looks wrong, but two
+thirds of the runtime is a still picture with a voiceover on top.
+`LivingHero` in `kit/portrait.tsx` gives every scene a slow push and a light
+sweep for its whole length, so the frame is never still. `audit.py --video`
+measures this with `freezedetect` and fails a stretch longer than 4 s.
+
+**A scene must show what its line says.** The scene registry and the
+narration script are two lists. If one is shifted by a single entry, every
+scene in the video shows the wrong thing and nothing else in this repo
+notices — each frame looks correct on its own.
+`tools/check_alignment.py` finds the offset that fits best and fails if it is
+not zero. It shipped once (flash-attention) before the gate existed.
 
 **Content is data.** Narration in `narration.json`, scenes wired to it. If you
 find yourself copying 200 lines of scene code to start a new video, the shared

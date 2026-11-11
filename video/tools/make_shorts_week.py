@@ -64,7 +64,7 @@ COLOR = {
 SHORTS = [
     {
         "slug": "training-memory",
-        "duration": 80.6,
+        "duration": 80.5,
         "captions": 41,
         "claim": 'A 7B model runs in 14 GB and trains in 112 GB. Here is every term of that bill.',
         "name": "TrainingMemoryShort",
@@ -811,8 +811,8 @@ SHORTS = [
     {
         "slug": "flash-attention",
         "claim": "Why FlashAttention is not a faster kernel but a different order of operations.",
-        "duration": 75.6,
-        "captions": 39,
+        "duration": 82.1,
+        "captions": 42,
         "name": "FlashAttentionShort",
         "title": "FlashAttention Is Not a Faster Kernel",
         "publishDate": "2026-11-15",
@@ -1016,7 +1016,7 @@ SHORTS = [
     },
     {
         "slug": "speculative-acceptance",
-        "duration": 69.2,
+        "duration": 69.3,
         "captions": 42,
         "claim": 'Why the speedup of speculative decoding is an acceptance rate, not a model size.',
         "name": "SpeculativeAcceptanceShort",
