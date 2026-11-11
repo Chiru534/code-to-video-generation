@@ -30,7 +30,7 @@ on:
 
 jobs:
   lookdev:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 45
     env:
       COMPOSITION: ${{ github.event.inputs.composition }}
@@ -67,7 +67,7 @@ jobs:
           ls -lh kokoro-v1.0.onnx voices-v1.0.bin
 
       - name: Install TTS dependencies
-        run: pip install -q kokoro-onnx soundfile numpy
+        run: pip install -q kokoro-onnx espeakng-loader soundfile numpy imageio-ffmpeg
 
       - name: Install node dependencies
         working-directory: video

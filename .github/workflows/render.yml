@@ -47,7 +47,7 @@ jobs:
   # Resolve episodes.json into a matrix so adding an episode is a data change,
   # not a workflow rewrite. Two parallel jobs, each ~6 minutes.
   plan:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     outputs:
       matrix: ${{ steps.build.outputs.matrix }}
       count: ${{ steps.build.outputs.count }}
@@ -175,7 +175,7 @@ jobs:
     needs: plan
     # ZERO-WASTE: skip the whole job when the plan resolved to zero episodes.
     if: needs.plan.outputs.count != '' && needs.plan.outputs.count != '0'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 60
     strategy:
       fail-fast: false
@@ -222,29 +222,35 @@ jobs:
           echo "::warning::no DNS after 3 minutes"
 
       - name: System packages
+        # The Ubuntu mirrors on the runners have been failing DNS and then
+        # hanging for 40+ minutes, which burned a six-hour runner slot on a
+        # six-minute film render. Nothing here is REQUIRED: ffmpeg comes from
+        # pip below, espeak-ng comes with kokoro-onnx, and the runner image
+        # already ships Chrome and its libraries. So apt is best-effort, and
+        # it is not allowed to cost more than a few minutes.
         run: |
-          # apt on a flaky mirror can hang for hours. Bound it, retry it, and
-          # do not let a bad mirror burn a runner all afternoon.
-          for attempt in 1 2 3; do
-            if sudo timeout 240 apt-get update -qq; then
-              break
-            fi
+          for attempt in 1 2; do
+            if sudo timeout 90 apt-get update -qq; then break; fi
             echo "::warning::apt-get update failed (attempt $attempt)"
-            sleep 20
           done
-          for attempt in 1 2 3; do
-            if sudo timeout 480 apt-get install -y -qq --no-install-recommends \
-              ffmpeg espeak-ng libsndfile1 \
-              libnss3 libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 libgbm-dev \
-              libasound2t64 libxrandr2 libxkbcommon-dev libxfixes3 libxcomposite1 \
-              libxdamage1 libpango-1.0-0 libcairo2 libcups2 fonts-liberation; then
-              break
-            fi
-            echo "::warning::apt-get install failed (attempt $attempt)"
-            sleep 20
-          done
-          # ffmpeg is the one thing this pipeline cannot do without.
-          command -v ffmpeg || { echo "::error::ffmpeg is missing"; exit 1; }
+          sudo timeout 180 apt-get install -y -qq --no-install-recommends \
+            espeak-ng libsndfile1 \
+            libnss3 libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 libgbm-dev \
+            libasound2 libxrandr2 libxkbcommon-dev libxfixes3 libxcomposite1 \
+            libxdamage1 libpango-1.0-0 libcairo2 libcups2 fonts-liberation \
+            || echo "::warning::apt-get install failed — continuing, the pip builds cover ffmpeg and espeak-ng"
+
+      - name: ffmpeg
+        run: |
+          # ffmpeg from a pip wheel, so the pipeline does not depend on the
+          # Ubuntu mirrors at all.
+          if ! command -v ffmpeg >/dev/null 2>&1; then
+            echo "ffmpeg is not on the image; taking the pip build"
+            pip install -q imageio-ffmpeg
+            FFBIN=$(python -c "import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())")
+            sudo mkdir -p /usr/local/bin
+            sudo ln -sf "$FFBIN" /usr/local/bin/ffmpeg
+          fi
           ffmpeg -version | head -1
 
       - name: Cache Kokoro model
@@ -264,7 +270,7 @@ jobs:
           ls -lh kokoro-v1.0.onnx voices-v1.0.bin
 
       - name: Install TTS dependencies
-        run: pip install -q kokoro-onnx soundfile numpy google-api-python-client google-auth
+        run: pip install -q kokoro-onnx espeakng-loader soundfile numpy google-api-python-client google-auth
 
       - name: Install node dependencies
         working-directory: video
