@@ -58,6 +58,31 @@ jobs:
             video/voices-v1.0.bin
           key: kokoro-v1.0-model-files-v1.1
 
+      - name: Stabilise runner DNS
+        run: |
+          # The runner's resolver is the thing that breaks, and it breaks in
+          # two ways. A lookup for a name with an AAAA record that never gets
+          # an answer is a HANG, not a failure — that is the 45-minute stall.
+          # And the local stub resolver can simply stop answering, which is
+          # "Temporary failure resolving".
+          #
+          # So: no IPv6, so every lookup goes straight to IPv4 and fails fast
+          # if it must; and a public resolver, so there is no local stub to
+          # blame.
+          sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1 || true
+          sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1 || true
+          sudo systemctl stop systemd-resolved || true
+          sudo rm -f /etc/resolv.conf
+          printf 'nameserver 8.8.8.8\nnameserver 1.1.1.1\noptions timeout:2 attempts:2\n' \
+            | sudo tee /etc/resolv.conf >/dev/null
+          echo "--- resolver ---"
+          cat /etc/resolv.conf
+          if getent hosts archive.ubuntu.com >/dev/null 2>&1; then
+            echo "dns resolves"
+          else
+            echo "::warning::archive.ubuntu.com does not resolve yet"
+          fi
+
       - name: Download Kokoro model
         working-directory: video
         run: |

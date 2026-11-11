@@ -181,6 +181,10 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
     env:
+      # Node's DNS lookups share a 4-thread pool. A cold cache on a fresh
+      # runner queues them, and queued lookups time out.
+      UV_THREADPOOL_SIZE: "16"
+      NODE_OPTIONS: "--dns-result-order=ipv4first"
       SRC_DIR: ${{ matrix.srcDir }}
       AUDIO_DIR: ${{ matrix.audioDir }}
       COMPOSITION: ${{ matrix.composition }}
@@ -205,6 +209,31 @@ jobs:
       - name: Audit (pre-flight)
         working-directory: video
         run: python tools/audit.py --static
+
+      - name: Stabilise runner DNS
+        run: |
+          # The runner's resolver is the thing that breaks, and it breaks in
+          # two ways. A lookup for a name with an AAAA record that never gets
+          # an answer is a HANG, not a failure — that is the 45-minute stall.
+          # And the local stub resolver can simply stop answering, which is
+          # "Temporary failure resolving".
+          #
+          # So: no IPv6, so every lookup goes straight to IPv4 and fails fast
+          # if it must; and a public resolver, so there is no local stub to
+          # blame.
+          sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1 || true
+          sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1 || true
+          sudo systemctl stop systemd-resolved || true
+          sudo rm -f /etc/resolv.conf
+          printf 'nameserver 8.8.8.8\nnameserver 1.1.1.1\noptions timeout:2 attempts:2\n' \
+            | sudo tee /etc/resolv.conf >/dev/null
+          echo "--- resolver ---"
+          cat /etc/resolv.conf
+          if getent hosts archive.ubuntu.com >/dev/null 2>&1; then
+            echo "dns resolves"
+          else
+            echo "::warning::archive.ubuntu.com does not resolve yet"
+          fi
 
       - name: Wait for DNS
         run: |
@@ -250,6 +279,8 @@ jobs:
             echo "deb http://archive.ubuntu.com/ubuntu $CODENAME-security main universe"
           } | sudo tee /etc/apt/sources.list >/dev/null
           sudo rm -f /etc/apt/sources.list.d/*.sources /etc/apt/sources.list.d/*.list
+          # Never let apt try IPv6 and wait for an answer that never comes.
+          sudo sh -c 'echo "Acquire::ForceIPv4 \"true\";" > /etc/apt/apt.conf.d/99force-ipv4'
           for attempt in 1 2 3; do
             if sudo timeout 120 apt-get update -qq; then break; fi
             echo "::warning::apt-get update failed (attempt $attempt)"
