@@ -25,6 +25,10 @@ on:
         type: choice
         default: none
         options: [none, all, ep01, ep02, ep03, ep04, ep05, wifi, wifi-film, littlebit, littlebit-film, training-memory, fp4-format, diffusion-llm, kv-cache, activation-checkpointing, bf16, moe-active, flash-attention, tokenizer-tax, speculative-acceptance, attention-sink, gqa, moe-router, quant-aware-training]
+      episodes:
+        description: "Comma-separated episode keys to render in ONE run (overrides 'episode')"
+        type: string
+        default: ""
   push:
     branches: [main]
     paths:
@@ -51,6 +55,7 @@ jobs:
       - id: build
         env:
           WANT: ${{ github.event.inputs.episode || 'none' }}
+          MULTI: ${{ github.event.inputs.episodes || '' }}
           EVENT: ${{ github.event_name }}
           BEFORE: ${{ github.event.before }}
           AFTER: ${{ github.event.after }}
@@ -67,13 +72,26 @@ jobs:
             };
 
             const want = (process.env.WANT || "none").trim();
+            const multi = (process.env.MULTI || "").trim();
             const event = process.env.EVENT || "";
             const before = (process.env.BEFORE || "").trim();
             const after = (process.env.AFTER || "").trim();
             const isZero = (s) => !s || /^0+$/.test(s);
 
             // ---- manual dispatch: explicit, deliberate choice ----
-            if (event === "workflow_dispatch") {
+            // A comma-separated list renders exactly those episodes in ONE run.
+            // This matters: the concurrency group cancels a previous run on the
+            // same ref, so dispatching fourteen times in a row would cancel
+            // thirteen of them, and "all" would re-render finished videos.
+            if (multi) {
+              const keys = multi.split(",").map((s) => s.trim()).filter(Boolean);
+              const bad = keys.filter((k) => !all[k]);
+              if (bad.length) {
+                console.error("unknown episode(s): " + bad.join(", "));
+                process.exit(1);
+              }
+              emit(keys, "dispatch:" + keys.join(","));
+            } else if (event === "workflow_dispatch") {
               if (want === "none") {
                 emit([], "dispatch:none");
               } else if (want === "all") {

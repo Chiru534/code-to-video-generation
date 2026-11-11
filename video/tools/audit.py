@@ -476,6 +476,58 @@ def audit_render(path: str, info: dict) -> None:
 
 # -------------------------------------------------------------------- main ---
 
+def audit_imports() -> None:
+    """Every relative import under video/src must resolve to a file that exists.
+
+    A missing module fails at BUNDLE time, not at commit time. The failure
+    lands in the render step, after the TTS model has been downloaded and a
+    runner has been paid for, and it names the importing file rather than the
+    file that was left behind. It happened for real: the weekly shorts
+    imported kit/shortfilm, which had been pushed to a branch and never to
+    main, and fourteen renders died on it.
+
+    This gate is the difference between a red build in seconds and a red build
+    after four minutes of rendering.
+    """
+    src_root = os.path.join(ROOT, "src")
+    if not os.path.isdir(src_root):
+        check(False, "src/ exists", src_root)
+        return
+
+    pattern = re.compile(r"""(?:from|import)\s+["'](\.[^"']+)["']""")
+    missing: list[str] = []
+    checked = 0
+
+    for dirpath, dirs, files in os.walk(src_root):
+        dirs[:] = [d for d in dirs if d != "node_modules"]
+        for name in files:
+            if not name.endswith((".tsx", ".ts")):
+                continue
+            path = os.path.join(dirpath, name)
+            with open(path, encoding="utf-8") as handle:
+                body = handle.read()
+            for spec in pattern.findall(body):
+                checked += 1
+                base = os.path.normpath(os.path.join(dirpath, spec))
+                candidates = [
+                    base,
+                    base + ".ts",
+                    base + ".tsx",
+                    base + ".json",
+                    os.path.join(base, "index.ts"),
+                    os.path.join(base, "index.tsx"),
+                ]
+                if not any(os.path.exists(c) for c in candidates):
+                    rel = os.path.relpath(path, ROOT).replace("\\", "/")
+                    missing.append(f"{rel} -> {spec}")
+
+    check(
+        not missing,
+        "every relative import resolves",
+        f"missing: {sorted(set(missing))}" if missing else f"{checked} imports checked",
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Deterministic audit of an episode.")
     parser.add_argument("--static", action="store_true", help="checks that need no render")
@@ -490,6 +542,8 @@ def main() -> int:
     registry = audit_registry()
     if not registry:
         return 1
+
+    audit_imports()
 
     keys = [args.only] if args.only else list(registry)
     infos = {}
