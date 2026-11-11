@@ -209,41 +209,65 @@ jobs:
       - name: Wait for DNS
         run: |
           # The runner's DNS is occasionally dead, and everything after this
-          # point needs the network. Failing fast with a clear message beats
-          # a job that sits in apt for six hours.
+          # point needs the network. getent BLOCKS on a resolver that never
+          # answers, so every lookup is bounded — otherwise this check itself
+          # hangs for ten minutes and tells you nothing.
           for i in 1 2 3 4 5 6; do
-            if getent hosts archive.ubuntu.com >/dev/null 2>&1; then
+            if timeout 8 getent hosts archive.ubuntu.com >/dev/null 2>&1; then
               echo "dns is up"
               exit 0
             fi
-            echo "attempt $i: no DNS yet, waiting 30s"
-            sleep 30
+            echo "attempt $i: no DNS yet, waiting 20s"
+            sleep 20
           done
-          echo "::warning::no DNS after 3 minutes"
+          echo "::warning::no DNS after 2 minutes — the steps below will likely fail"
 
       - name: System packages
-        # The Ubuntu mirrors on the runners have been failing DNS and then
-        # hanging for 40+ minutes, which burned a six-hour runner slot on a
-        # six-minute film render. Nothing here is REQUIRED: ffmpeg comes from
-        # pip below, espeak-ng comes with kokoro-onnx, and the runner image
-        # already ships Chrome and its libraries. So apt is best-effort, and
-        # it is not allowed to cost more than a few minutes.
+        # WHY THIS STEP EXISTS AND WHY IT IS SHAPED THIS WAY
+        #
+        # The runner image's apt sources are the new "mirror+file:" list, and
+        # on this image every one of those entries resolves to
+        # security.ubuntu.com. That name intermittently fails to resolve on
+        # the runners ("Temporary failure resolving 'security.ubuntu.com'"),
+        # and apt then either fails outright or sits in its retry backoff for
+        # 45 minutes. That cost a six-hour runner slot on a six-minute render.
+        #
+        # archive.ubuntu.com carries EVERY pocket, security included, and it
+        # resolves reliably. So: point apt at it and drop the broken mirror
+        # list. That is the actual fix.
+        #
+        # These packages are NOT optional. Chrome's system libraries
+        # (libnss3, libgbm, libatk, libpango, libcairo, libasound, libxkbcommon)
+        # are not on the image — the successful run installed eighty of them.
+        # Without them Remotion's headless Chrome cannot start.
         run: |
-          for attempt in 1 2; do
-            if sudo timeout 90 apt-get update -qq; then break; fi
+          set -e
+          CODENAME=$(. /etc/os-release && echo "$VERSION_CODENAME")
+          echo "codename: $CODENAME"
+          {
+            echo "deb http://archive.ubuntu.com/ubuntu $CODENAME main universe"
+            echo "deb http://archive.ubuntu.com/ubuntu $CODENAME-updates main universe"
+            echo "deb http://archive.ubuntu.com/ubuntu $CODENAME-security main universe"
+          } | sudo tee /etc/apt/sources.list >/dev/null
+          sudo rm -f /etc/apt/sources.list.d/*.sources /etc/apt/sources.list.d/*.list
+          for attempt in 1 2 3; do
+            if sudo timeout 120 apt-get update -qq; then break; fi
             echo "::warning::apt-get update failed (attempt $attempt)"
+            sleep 15
           done
-          sudo timeout 180 apt-get install -y -qq --no-install-recommends \
-            espeak-ng libsndfile1 \
+          sudo timeout 420 apt-get install -y -qq --no-install-recommends \
+            ffmpeg espeak-ng libsndfile1 \
             libnss3 libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 libgbm-dev \
             libasound2 libxrandr2 libxkbcommon-dev libxfixes3 libxcomposite1 \
-            libxdamage1 libpango-1.0-0 libcairo2 libcups2 fonts-liberation \
-            || echo "::warning::apt-get install failed — continuing, the pip builds cover ffmpeg and espeak-ng"
+            libxdamage1 libpango-1.0-0 libcairo2 libcups2 fonts-liberation
+          echo "packages installed"
 
       - name: ffmpeg
         run: |
-          # ffmpeg from a pip wheel, so the pipeline does not depend on the
-          # Ubuntu mirrors at all.
+          # A second line of defence: if apt could not get ffmpeg, take the
+          # pip build. This covers ffmpeg only — Chrome's system libraries
+          # still come from apt, and the render step will say so plainly if
+          # they are missing.
           if ! command -v ffmpeg >/dev/null 2>&1; then
             echo "ffmpeg is not on the image; taking the pip build"
             pip install -q imageio-ffmpeg
