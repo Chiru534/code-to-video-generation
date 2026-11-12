@@ -57,7 +57,7 @@ export type SeamDirection = "left" | "right" | "up" | "down";
 
 export type SeamSpec = {
   /** The direction of travel. Both sides of a seam share it. */
-  direction?: SeamDirection;
+  direction?: SeamDirection | string;
   /** Travel distance in pixels. */
   travel?: number;
   /** The seam window in frames. */
@@ -67,6 +67,13 @@ export type SeamSpec = {
   /** The opacity the incoming ignites at. */
   ignite?: number;
 };
+
+const DIRECTIONS: SeamDirection[] = ["left", "right", "up", "down"];
+
+/** The direction, or the house current. A spec that arrives from JSON has a
+ *  plain string in it, and an unknown one must not become a NaN transform. */
+const directionOf = (value: SeamDirection | string | undefined): SeamDirection =>
+  DIRECTIONS.includes(value as SeamDirection) ? (value as SeamDirection) : "left";
 
 const OFFSETS: Record<SeamDirection, { x: number; y: number }> = {
   left: { x: -1, y: 0 },
@@ -104,7 +111,7 @@ export const seamExit = (
     extrapolateRight: "clamp",
     easing: POWER4_IN,
   });
-  const delta = travelFor(direction, travel);
+  const delta = travelFor(directionOf(direction), travel);
 
   // The fade leads the motion by `ignore` frames, so the outgoing is gone
   // exactly at the cut while still accelerating.
@@ -150,7 +157,7 @@ export const seamEntry = (
     extrapolateRight: "clamp",
     easing: POWER4_OUT,
   });
-  const delta = travelFor(direction, travel);
+  const delta = travelFor(directionOf(direction), travel);
 
   // Ignite `ignore` frames in, then rise to full opacity over the rest.
   const opacity =
@@ -209,17 +216,24 @@ const REVEAL_SPAN = 0.09;
  * Beats are cumulative: group 0 lands at beat 0, group 1 at beat 1. A group
  * that has no beat of its own lands with the one before it, so a scene with
  * fewer beats than groups still resolves to a composed frame.
+ *
+ * Without beats the element falls back to its own fixed window, so an
+ * episode that has not been given beats behaves exactly as it did before.
  */
 export const revealBeat = (
   frame: number,
   d: number,
   beats: number[] | null,
-  i: number
+  i: number,
+  fallbackA = 0.04,
+  fallbackB = 0.3
 ): number => {
   if (!beats || !beats.length) {
-    // No beats: everything is present from the first frame. A scene with no
-    // narration split is a title card, and a title card should simply be there.
-    return 1;
+    return interpolate(frame, [fallbackA * d, fallbackB * d], [0, 1], {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+      easing: Easing.bezier(0.25, 1, 0.5, 1),
+    });
   }
   const at = beats[Math.min(i, beats.length - 1)] ?? 0;
   const start = at * d;

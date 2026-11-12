@@ -61,6 +61,88 @@ COLOR = {
 # one: `note` on a figure is the honest label that sits ON SCREEN next to it.
 # ---------------------------------------------------------------------------
 
+# ------------------------------------------------------------- the beats ---
+#
+# The doctrine's default sustained-motion route: "staged reveals — hold content
+# back, pay it off on narration beats, so the frame keeps gaining information".
+# That is the opposite of the decorative glow sweep the doctrine bans as idle
+# wobble: motion that fills time without performing.
+#
+# A beat is a fraction of the scene at which a reveal group lands. The beats
+# come from the punctuation of the narration line, so the thing on screen
+# arrives when the words for it are being said.
+
+CLAUSE_ENDS = ".,;:!?—"
+
+FIRST_BEAT = 0.18   # after the seam has settled, so the scene arrives composed
+LAST_BEAT = 0.82    # the closing line lands at the end of the sentence
+
+
+def split_clauses(text: str) -> list[str]:
+    out, cur = [], ""
+    for ch in text:
+        cur += ch
+        if ch in CLAUSE_ENDS:
+            if cur.strip():
+                out.append(cur.strip())
+            cur = ""
+    if cur.strip():
+        out.append(cur.strip())
+    return out or [text]
+
+
+def beats_for(text: str, groups: int) -> list[float]:
+    """Where each reveal group of a scene lands.
+
+    The first group lands as the sentence starts. The middle groups land on
+    clause boundaries — the places where the speaker actually pauses. The last
+    group lands at the end of the line.
+    """
+    if groups <= 1:
+        return [FIRST_BEAT]
+    clauses = split_clauses(text)
+    total = max(1, len(text))
+    bounds, acc = [], 0
+    for c in clauses[:-1]:
+        acc += len(c)
+        bounds.append(acc / total)
+
+    middle = groups - 2
+    beats = [FIRST_BEAT]
+    for i in range(middle):
+        target = 0.30 + 0.32 * ((i + 1) / (middle + 1))
+        if bounds:
+            nearest = min(bounds, key=lambda b: abs(b - target))
+            if abs(nearest - target) < 0.10:
+                target = nearest
+        beats.append(round(min(0.74, max(0.22, target)), 3))
+    beats.append(LAST_BEAT)
+    return beats
+
+
+def group_count(kind: str, props: dict) -> int:
+    """How many reveal groups a scene has.
+
+    This counts the indices the component actually uses, so a group that is
+    always present gets a beat even when the optional one beside it is not.
+    The qualifier on a figure rides with its label, and the qualifier has to
+    be on screen while the number is.
+    """
+    if kind == "ShortStack":
+        return len(props.get("rows") or []) + 1
+    return {
+        "ShortFigure": 3,
+        "ShortCompare": 3,
+        "ShortScale": 2,
+        "ShortBits": 3,
+        "ShortGrid": 2,
+        "ShortTokens": 3,
+        "ShortTitle": 3,
+        "ShortCaveat": 2,
+        "ShortEnd": 3,
+    }.get(kind, 2)
+
+
 SHORTS = [
     {
         "slug": "training-memory",
@@ -1615,6 +1697,25 @@ def scenes_tsx(short: dict) -> str:
     return "\n".join(lines)
 
 
+def scene_specs_tsx(short: dict) -> str:
+    """The beats and the seam for every scene in the short.
+
+    One seam type for the whole week: the doctrine says to use two or three
+    transitions and repeat them, and the default boundary is cut-the-curve in
+    the film's current — LEFT. So every seam here is the same leftward
+    cut-the-curve, and nothing ping-pongs.
+    """
+    specs = {}
+    lines = dict(short["lines"])
+    for sid, kind, props in short["scenes"]:
+        n = group_count(kind, props)
+        specs[sid] = {
+            "beats": beats_for(lines.get(sid, ""), n),
+            "seam": {"direction": "left"},
+        }
+    return json.dumps(specs, indent=2) + "\n"
+
+
 def composition_tsx(short: dict) -> str:
     slug = short["slug"]
     audio = f"audio/shorts/{slug}"
@@ -1623,6 +1724,7 @@ def composition_tsx(short: dict) -> str:
 import React from "react";
 import {{ ORDER, SCENE_NODES }} from "./scenes";
 import timings from "./timings.json";
+import specs from "./scene-specs.json";
 import {{ ShortFilm, shortDuration }} from "../../kit/shortfilm";
 
 /* tools/audit.py reads TAIL_FRAMES out of the episode source to compute the
@@ -1636,6 +1738,7 @@ export const {short["name"]}: React.FC = () => (
     order={{ORDER}}
     timings={{timings}}
     scenes={{SCENE_NODES}}
+    specs={{specs}}
     audioDir="{audio}"
     mark="{MARK}"
     tail={{TAIL_FRAMES}}
@@ -2064,6 +2167,7 @@ def main() -> int:
             handle.write("\n")
         write(os.path.join(base, "scenes.tsx"), scenes_tsx(short))
         write(os.path.join(base, f"{short['name']}.tsx"), composition_tsx(short))
+        write(os.path.join(base, "scene-specs.json"), scene_specs_tsx(short))
 
         words = sum(len(t.split()) for _s, t in short["lines"])
         print(

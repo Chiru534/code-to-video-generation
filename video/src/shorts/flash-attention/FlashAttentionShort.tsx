@@ -3,6 +3,7 @@
 import React from "react";
 import { ORDER, SCENE_NODES } from "./scenes";
 import timings from "./timings.json";
+import specs from "./scene-specs.json";
 import { ShortFilm, shortDuration } from "../../kit/shortfilm";
 
 /* tools/audit.py reads TAIL_FRAMES out of the episode source to compute the
@@ -16,6 +17,7 @@ export const FlashAttentionShort: React.FC = () => (
     order={ORDER}
     timings={timings}
     scenes={SCENE_NODES}
+    specs={specs}
     audioDir="audio/shorts/flash-attention"
     mark="THE LAYER BELOW"
     tail={TAIL_FRAMES}
