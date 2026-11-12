@@ -129,7 +129,11 @@ jobs:
           for sid in order:
               d = t["scenes"][sid]["frames"] + 12
               if sid in pick:
-                  frames.append((sid, off + d // 2))
+                  # A scene reveals its groups on narration beats, and the
+                  # last one lands at 82% of the scene. The midpoint shows
+                  # a scene half-built, which is the one frame guaranteed
+                  # to look wrong. 88% shows the composed frame.
+                  frames.append((sid, off + int(d * 0.88)))
               off += d
 
           print(f"composition duration: {off} frames = {off/30:.1f}s")
