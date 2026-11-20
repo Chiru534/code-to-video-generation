@@ -607,7 +607,13 @@ export const GroundRing: React.FC<{
 };
 
 /** Text anchored to a point in the world. Size is in world units, so the type
- *  shrinks with distance exactly as the object it labels does. */
+ *  shrinks with distance exactly as the object it labels does.
+ *
+ *  `plate` is the legibility switch. A label painted straight onto a bright
+ *  object is camouflage — amber type on an amber block, white type on a white
+ *  gradient. The plate puts a dark field behind the glyphs so the label is a
+ *  LAYER rather than a texture, and it drops the glow: a glow reads as bloom
+ *  on a dark background and as a smudge on a bright one. */
 export const Label3D: React.FC<{
   b: Basis;
   w: number;
@@ -621,6 +627,8 @@ export const Label3D: React.FC<{
   weight?: number;
   opacity?: number;
   letterSpacing?: number;
+  plate?: boolean;
+  plateOpacity?: number;
 }> = ({
   b,
   w,
@@ -634,6 +642,8 @@ export const Label3D: React.FC<{
   weight = 600,
   opacity = 1,
   letterSpacing = 0.06,
+  plate = false,
+  plateOpacity = 0.72,
 }) => {
   const p = projectB(b, at, w, h);
   if (!p || opacity <= 0.002) return null;
@@ -653,7 +663,15 @@ export const Label3D: React.FC<{
         color,
         opacity,
         whiteSpace: "nowrap",
-        textShadow: `0 0 ${px * 0.6}px ${color}55`,
+        ...(plate
+          ? {
+              background: `rgba(5,7,11,${plateOpacity})`,
+              padding: `${px * 0.16}px ${px * 0.3}px`,
+              borderRadius: px * 0.2,
+              border: `1px solid ${C.panelEdge}`,
+              textShadow: "0 2px 8px rgba(0,0,0,0.7)",
+            }
+          : { textShadow: `0 0 ${px * 0.6}px ${color}55` }),
       }}
     >
       {children}

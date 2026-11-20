@@ -90,9 +90,13 @@ export const NumberProof: React.FC = () => {
   const b = basis(cam, h);
 
   /* --- the blade ------------------------------------------------- */
+  /* ANTICIPATION: the blade does not fade in at the seam, it falls into it.
+   * A drop that starts above the frame and lands reads as a blow; a fade reads
+   * as a graphic appearing. Same geometry, different causality. */
   const bladeIn = clamp01((t - (T_CUT - 0.45)) / 0.3);
   const bladeOut = 1 - clamp01((t - T_CUT - 0.18) / 0.35);
   const bladeOp = 0.9 * bladeIn * bladeOut;
+  const bladeY = 2.4 * (1 - bladeIn);
 
   /* --- the impact ------------------------------------------------ */
   const hit = t > T_CUT ? Math.exp(-(t - T_CUT) * 6.5) : 0;
@@ -102,6 +106,13 @@ export const NumberProof: React.FC = () => {
   /* --- the two structural moves ---------------------------------- */
   const split = spring(t - T_SPLIT, 0.85, 0.7);
   const merge = spring(t - T_MERGE, 0.8, 0.8);
+
+  /* FOLLOW-THROUGH. A snap that stops dead reads as a cut rather than as a
+   * force: the rail keeps ringing after the blade lands, and the blocks keep
+   * settling after the merge. Both are decaying sines — one term each — and
+   * they are the cheapest thing in the shot that makes it read as physical. */
+  const ring = t > T_CUT ? Math.exp(-(t - T_CUT) * 3.1) * Math.sin((t - T_CUT) * 26) : 0;
+  const settle = t > T_MERGE ? Math.exp(-(t - T_MERGE) * 2.4) * Math.sin((t - T_MERGE) * 22) : 0;
 
   /* --- geometry -------------------------------------------------- */
   const bars: BarSpec[] = [];
@@ -115,12 +126,12 @@ export const NumberProof: React.FC = () => {
       bars.push({
         x: s * (RAIL_HALF + gap) / 2,
         z: Z,
-        y: 0.006,
+        y: 0.006 + ring * 0.022,
         h: 0.014,
         w: railW,
         d: 0.055,
         tone: "warm",
-        opacity: 0.6 * (1 - merge),
+        opacity: (0.6 + ring * 0.25) * (1 - merge),
       });
     }
   }
@@ -133,8 +144,11 @@ export const NumberProof: React.FC = () => {
     const shudder = 0.014 * hit * Math.sin(t * 40 + i);
 
     const xSplit = BASE_X[i] + dir * SPLIT * split;
-    const x = xSplit + (MERGED_X[pair] - xSplit) * merge + shudder;
-    const hgt = Math.max(0.02, BASE_H[i] + breathe + (MERGED_H[pair] - BASE_H[i]) * merge);
+    const x = xSplit + (MERGED_X[pair] - xSplit) * merge + shudder + settle * 0.02;
+    const hgt = Math.max(
+      0.02,
+      BASE_H[i] + breathe + (MERGED_H[pair] - BASE_H[i]) * merge + settle * 0.05
+    );
     const wid = PW + (MERGED_W / 2 - PW) * merge;
 
     const spec = {
@@ -156,12 +170,13 @@ export const NumberProof: React.FC = () => {
 
   /* the blade */
   if (bladeOp > 0.01) {
-    bars.push({ x: 0, z: Z, y: 0, h: 3.6, w: 0.03, d: 1.4, tone: "warm", opacity: bladeOp });
+    bars.push({ x: 0, z: Z, y: bladeY, h: 3.6, w: 0.03, d: 1.4, tone: "warm", opacity: bladeOp });
   }
 
   /* --- screen-space pieces --------------------------------------- */
   const seamPt = projectB(b, { x: 0, y: 0, z: Z }, w, h);
   const textIn = smoothstep((t - T_TEXT) / 0.9);
+  const textIn2 = smoothstep((t - T_TEXT - 0.24) / 0.8);
   const kickerIn = smoothstep((t - 0.3) / 0.6);
 
   return (
@@ -178,7 +193,7 @@ export const NumberProof: React.FC = () => {
       {/* the blade's own bloom, so the cut is the brightest thing on screen */}
       {bladeOp > 0.01 ? (
         <Bloom blur={30} opacity={0.45}>
-          <Bars b={b} w={w} h={h} id="n" bars={[{ x: 0, z: Z, y: 0, h: 3.6, w: 0.03, d: 1.4, tone: "warm" }]} />
+          <Bars b={b} w={w} h={h} id="n" bars={[{ x: 0, z: Z, y: bladeY, h: 3.6, w: 0.03, d: 1.4, tone: "warm" }]} />
         </Bloom>
       ) : null}
 
@@ -189,14 +204,17 @@ export const NumberProof: React.FC = () => {
         <Light x={seamPt.x} y={seamPt.y - 160} r={900} color={C.amber} opacity={hit * 0.5} />
       ) : null}
 
-      {/* the digits, ON the pillars, and the place value under each */}
+      {/* the digits, ON the pillars, and the place value under each.
+          STAGGER: each digit leaves a beat after the one before it, so the
+          dissolution reads as a sequence rather than as one fade. */}
       {DIGITS.map((d, i) => {
         const pair = i < 2 ? 0 : 1;
         const dir = pair === 0 ? -1 : 1;
         const xSplit = BASE_X[i] + dir * SPLIT * split;
-        const x = xSplit + (MERGED_X[pair] - xSplit) * merge;
-        const hgt = BASE_H[i] + (MERGED_H[pair] - BASE_H[i]) * merge;
+        const x = xSplit + (MERGED_X[pair] - xSplit) * merge + settle * 0.02;
+        const hgt = BASE_H[i] + (MERGED_H[pair] - BASE_H[i]) * merge + settle * 0.05;
         const face = Z - PD / 2;
+        const gone = 1 - clamp01((t - (T_MERGE - 0.15) - i * 0.1) / 0.5);
         return (
           <React.Fragment key={d}>
             <Label3D
@@ -206,8 +224,9 @@ export const NumberProof: React.FC = () => {
               at={{ x, y: hgt * 0.52, z: face }}
               size={0.3}
               color={C.text}
-              opacity={1 - merge}
+              opacity={gone}
               weight={800}
+              plate
             >
               {d}
             </Label3D>
@@ -218,8 +237,9 @@ export const NumberProof: React.FC = () => {
               at={{ x, y: 0.2, z: face }}
               size={0.085}
               color={C.dim}
-              opacity={(1 - merge) * 0.9}
+              opacity={gone * 0.95}
               weight={600}
+              plate
             >
               {PLACE[i]}
             </Label3D>
@@ -227,25 +247,28 @@ export const NumberProof: React.FC = () => {
         );
       })}
 
-      {/* the opaque ids that replace them */}
-      {merge > 0.01
-        ? MERGED_X.map((x, pair) => (
-            <Label3D
-              key={TOKEN_ID[pair]}
-              b={b}
-              w={w}
-              h={h}
-              at={{ x, y: MERGED_H[pair] * 0.52, z: Z - PD / 2 }}
-              size={0.19}
-              color={C.amber}
-              opacity={merge}
-              weight={800}
-              letterSpacing={0.02}
-            >
-              {TOKEN_ID[pair]}
-            </Label3D>
-          ))
-        : null}
+      {/* the opaque ids that replace them — staggered the other way, so the
+          second block gets its id after the first. */}
+      {MERGED_X.map((x, pair) => {
+        const inK = clamp01((t - (T_MERGE + 0.1) - pair * 0.16) / 0.5);
+        return (
+          <Label3D
+            key={TOKEN_ID[pair]}
+            b={b}
+            w={w}
+            h={h}
+            at={{ x, y: MERGED_H[pair] * 0.52, z: Z - PD / 2 }}
+            size={0.19}
+            color={C.amber}
+            opacity={inK}
+            weight={800}
+            letterSpacing={0.02}
+            plate
+          >
+            {TOKEN_ID[pair]}
+          </Label3D>
+        );
+      })}
 
       <Light x={w * 0.7} y={h * 0.28} r={620} color={C.violet} opacity={0.11} />
       <Vignette strength={0.78} />
@@ -284,6 +307,9 @@ export const NumberProof: React.FC = () => {
         NOT A REAL TOKENIZER
       </div>
 
+      {/* KINETIC TYPE: the second line lands after the first, so the caption is
+          read in order instead of as one block. A plate keeps it legible over
+          the reflections, which are bright enough to eat unbacked type. */}
       <div
         style={{
           position: "absolute",
@@ -291,22 +317,35 @@ export const NumberProof: React.FC = () => {
           right: 64,
           bottom: 150,
           opacity: textIn,
-          transform: `translateY(${(1 - textIn) * 22}px)`,
         }}
       >
         <div style={{ height: 1, background: C.panelEdge, marginBottom: 30 }} />
         <div
           style={{
+            display: "inline-block",
+            background: "rgba(5,7,11,0.72)",
+            border: `1px solid ${C.panelEdge}`,
+            borderRadius: 14,
+            padding: "22px 30px",
             fontFamily: F.mono,
             fontSize: 27,
-            lineHeight: 1.5,
+            lineHeight: 1.55,
             letterSpacing: "0.13em",
             color: C.text,
           }}
         >
-          A TOKENIZER DOES NOT SEE DIGITS.
-          <br />
-          <span style={{ color: C.dim }}>IT SEES TWO OPAQUE CHUNKS.</span>
+          <div style={{ opacity: textIn, transform: `translateY(${(1 - textIn) * 18}px)` }}>
+            A TOKENIZER DOES NOT SEE DIGITS.
+          </div>
+          <div
+            style={{
+              color: C.dim,
+              opacity: textIn2,
+              transform: `translateY(${(1 - textIn2) * 18}px)`,
+            }}
+          >
+            IT SEES TWO OPAQUE CHUNKS.
+          </div>
         </div>
       </div>
     </AbsoluteFill>
