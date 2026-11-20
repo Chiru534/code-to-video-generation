@@ -270,5 +270,16 @@
     "status": "draft",
     "shape": "short",
     "style": "bsod"
+  },
+  "closing-apps": {
+    "title": "Closing Apps Drains Your Battery Faster",
+    "srcDir": "src/shorts/closing-apps",
+    "audioDir": "public/audio/closing-apps",
+    "composition": "ClosingApps",
+    "output": "closing-apps.mp4",
+    "thumbSeconds": 4.0,
+    "status": "draft",
+    "shape": "short",
+    "style": "massinfluence"
   }
 }

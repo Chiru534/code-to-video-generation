@@ -1,0 +1,43 @@
+{
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.98,
+  "totalFrames": 1623,
+  "scenes": {
+    "s01": {
+      "sec": 8.2,
+      "frames": 246,
+      "text": "You probably do this twenty times a day: double-clicking your home screen and furiously swiping every app away to save battery."
+    },
+    "s02": {
+      "sec": 7.3,
+      "frames": 219,
+      "text": "Stop doing it right now. Swiping your apps closed does not save your battery — it actually drains it faster."
+    },
+    "s03": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "Most users believe background apps are running live, burning your CPU and sucking power in the background."
+    },
+    "s04": {
+      "sec": 7.6,
+      "frames": 228,
+      "text": "They are not. Modern operating systems freeze background apps in RAM, where they consume zero CPU cycles and practically zero wattage."
+    },
+    "s05": {
+      "sec": 9.5,
+      "frames": 285,
+      "text": "When you force-quit an app, you purge its memory. Reopening it forces the processor to reload all code from flash storage, causing a massive power spike."
+    },
+    "s06": {
+      "sec": 8.2,
+      "frames": 246,
+      "text": "Apple's head of software Craig Federighi was asked if quitting apps saves battery. His verified answer was just four words: 'No and No.'"
+    },
+    "s07": {
+      "sec": 7.0,
+      "frames": 210,
+      "text": "Your phone is engineered to manage its own memory. Leave the apps in RAM — and let your battery breathe."
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { SinkProof } from "./proof/SinkProof";
 import { NumberProof, NUMBER_PROOF_FRAMES } from "./proof/NumberProof";
 import { TouchscreenField, DURATION as TOUCHSCREEN_FIELD_DURATION } from "./shorts/touchscreen-field/TouchscreenField";
 import { BlueScreenShort, DURATION as BLUE_SCREEN_DURATION } from "./shorts/blue-screen/BlueScreenShort";
+import { ClosingAppsShort, DURATION as CLOSING_APPS_DURATION } from "./shorts/closing-apps/ClosingAppsShort";
 import { DnsEpisode, DURATION as DNS_DURATION } from "./episode/DnsEpisode";
 import { HandshakeEpisode, DURATION as HANDSHAKE_DURATION } from "./episode02/HandshakeEpisode";
 import { TlsEpisode, DURATION as TLS_DURATION } from "./episode03/TlsEpisode";
@@ -133,6 +134,15 @@ export const RemotionRoot: React.FC = () => {
         id="BlueScreen"
         component={BlueScreenShort}
         durationInFrames={BLUE_SCREEN_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      {/* Closing Apps: Character-driven Suited Wolf & Naive Duck explainer */}
+      <Composition
+        id="ClosingApps"
+        component={ClosingAppsShort}
+        durationInFrames={CLOSING_APPS_DURATION}
         fps={30}
         width={1080}
         height={1920}
