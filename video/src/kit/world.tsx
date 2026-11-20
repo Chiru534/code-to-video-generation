@@ -679,6 +679,51 @@ export const Label3D: React.FC<{
   );
 };
 
+/** Field lines from a 3D source to a set of 3D targets, drawn as projected
+ *  quadratic curves. This is the primitive that makes an invisible field
+ *  visible without pretending to be a physics simulation: the curve bends
+ *  toward the source by `strength`, so a finger approaching an electrode grid
+ *  reads as the field being distorted, not as decorative sparkles. */
+export const FieldLines: React.FC<{
+  b: Basis;
+  w: number;
+  h: number;
+  from: V3;
+  targets: V3[];
+  strength: number;
+  color?: string;
+  opacity?: number;
+  lift?: number;
+}> = ({ b, w, h, from, targets, strength, color = C.cyan, opacity = 0.5, lift = 90 }) => {
+  const a = projectB(b, from, w, h);
+  if (!a || strength <= 0.002) return null;
+  const paths = targets.map((target, i) => {
+    const q = projectB(b, target, w, h);
+    if (!q) return null;
+    const bend = lift * strength;
+    const mx = (a.x + q.x) / 2;
+    const my = (a.y + q.y) / 2 - bend;
+    return (
+      <path
+        key={i}
+        d={`M ${a.x.toFixed(1)} ${a.y.toFixed(1)} Q ${mx.toFixed(1)} ${my.toFixed(1)} ${q.x.toFixed(1)} ${q.y.toFixed(1)}`}
+        fill="none"
+        stroke={color}
+        strokeWidth={1.6}
+        strokeOpacity={opacity * strength}
+        strokeLinecap="round"
+      />
+    );
+  });
+  return (
+    <AbsoluteFill style={{ pointerEvents: "none" }}>
+      <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`}>
+        {paths}
+      </svg>
+    </AbsoluteFill>
+  );
+};
+
 /** A screen-space light source. Screen space on purpose: it is the one element
  *  that should not obey the camera, because it stands in for the lens. */
 export const Light: React.FC<{

@@ -1,0 +1,43 @@
+{
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.98,
+  "totalFrames": 1368,
+  "scenes": {
+    "s01": {
+      "sec": 5.6,
+      "frames": 168,
+      "text": "You tap your phone hundreds of times a day. Your finger never actually touches the screen."
+    },
+    "s02": {
+      "sec": 6.0,
+      "frames": 180,
+      "text": "Under the glass is a grid of transparent electrodes, etched into the surface and invisible to you."
+    },
+    "s03": {
+      "sec": 7.0,
+      "frames": 210,
+      "text": "Each one forms a tiny capacitor. The glass between it and your finger is an insulator, so no current crosses."
+    },
+    "s04": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "Your finger is conductive. It bends the electric field through the glass, and the controller reads the change at every node."
+    },
+    "s05": {
+      "sec": 8.0,
+      "frames": 240,
+      "text": "If you land between two nodes, it compares their readings and works out where you touched. The coordinate can fall anywhere."
+    },
+    "s06": {
+      "sec": 5.5,
+      "frames": 165,
+      "text": "That is why gloves fail. Insulate the field and the grid sees nothing at all."
+    },
+    "s07": {
+      "sec": 6.0,
+      "frames": 180,
+      "text": "The whole interface runs on an electric field you cannot feel. You were never touching anything."
+    }
+  }
+}

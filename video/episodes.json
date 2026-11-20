@@ -248,5 +248,16 @@
     "status": "draft",
     "shape": "short",
     "style": "ritual"
+  },
+  "touchscreen-field": {
+    "title": "Your Finger Never Touches the Screen",
+    "srcDir": "src/shorts/touchscreen-field",
+    "audioDir": "public/audio/touchscreen-field",
+    "composition": "TouchscreenField",
+    "output": "touchscreen-field.mp4",
+    "thumbSeconds": 4.0,
+    "status": "draft",
+    "shape": "short",
+    "style": "world"
   }
 }

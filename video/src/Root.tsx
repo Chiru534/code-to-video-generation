@@ -2,6 +2,7 @@ import React from "react";
 import { Composition } from "remotion";
 import { QualityProbe } from "./QualityProbe";
 import { NumberProof, NUMBER_PROOF_FRAMES } from "./proof/NumberProof";
+import { TouchscreenField, DURATION as TOUCHSCREEN_FIELD_DURATION } from "./shorts/touchscreen-field/TouchscreenField";
 import { DnsEpisode, DURATION as DNS_DURATION } from "./episode/DnsEpisode";
 import { HandshakeEpisode, DURATION as HANDSHAKE_DURATION } from "./episode02/HandshakeEpisode";
 import { TlsEpisode, DURATION as TLS_DURATION } from "./episode03/TlsEpisode";
@@ -100,6 +101,15 @@ export const RemotionRoot: React.FC = () => {
         id="NumberProof"
         component={NumberProof}
         durationInFrames={NUMBER_PROOF_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      {/* First film of the confirmed everyday-technology identity. */}
+      <Composition
+        id="TouchscreenField"
+        component={TouchscreenField}
+        durationInFrames={TOUCHSCREEN_FIELD_DURATION}
         fps={30}
         width={1080}
         height={1920}
