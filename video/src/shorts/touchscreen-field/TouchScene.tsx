@@ -34,8 +34,8 @@ import {
 
 const COLS = 5;
 const ROWS = 5;
-const SX = 0.45;
-const SZ = 0.7;
+const SX = 0.36;
+const SZ = 0.62;
 const Z0 = 2.4;
 const Y_GRID = 0;
 
@@ -44,14 +44,14 @@ const cz = (j: number) => Z0 + j * SZ;
 
 /* One pose per beat. The cut lands on a new camera position, as in a film. */
 const CAM: CamKey[] = [
-  { t: 0, pos: { x: -0.9, y: 2.1, z: -3.2 }, target: { x: 0, y: 0, z: 3.8 }, fov: 42 },
-  { t: 1, pos: { x: -0.6, y: 1.9, z: -2.8 }, target: { x: 0, y: 0, z: 3.8 }, fov: 41 },
-  { t: 2, pos: { x: -0.3, y: 1.7, z: -2.4 }, target: { x: 0, y: 0, z: 3.9 }, fov: 40 },
-  { t: 3, pos: { x: 0.0, y: 1.5, z: -2.0 }, target: { x: 0, y: 0.1, z: 4.0 }, fov: 39 },
-  { t: 4, pos: { x: 0.1, y: 1.4, z: -1.7 }, target: { x: 0, y: 0.1, z: 4.0 }, fov: 38 },
-  { t: 5, pos: { x: 0.0, y: 1.5, z: -2.1 }, target: { x: 0, y: 0.1, z: 4.0 }, fov: 39 },
-  { t: 6, pos: { x: -0.2, y: 1.8, z: -2.6 }, target: { x: 0, y: 0, z: 3.8 }, fov: 41 },
-  { t: 7, pos: { x: -0.3, y: 1.9, z: -2.8 }, target: { x: 0, y: 0, z: 3.8 }, fov: 42 },
+  { t: 0, pos: { x: -0.8, y: 2.2, z: -3.9 }, target: { x: 0, y: 0, z: 3.8 }, fov: 42 },
+  { t: 1, pos: { x: -0.5, y: 2.0, z: -3.5 }, target: { x: 0, y: 0, z: 3.8 }, fov: 41 },
+  { t: 2, pos: { x: -0.25, y: 1.8, z: -3.1 }, target: { x: 0, y: 0, z: 3.9 }, fov: 40 },
+  { t: 3, pos: { x: 0.0, y: 1.6, z: -2.7 }, target: { x: 0, y: 0.1, z: 4.0 }, fov: 39 },
+  { t: 4, pos: { x: 0.08, y: 1.5, z: -2.4 }, target: { x: 0, y: 0.1, z: 4.0 }, fov: 38 },
+  { t: 5, pos: { x: 0.0, y: 1.6, z: -2.8 }, target: { x: 0, y: 0.1, z: 4.0 }, fov: 39 },
+  { t: 6, pos: { x: -0.18, y: 1.9, z: -3.3 }, target: { x: 0, y: 0, z: 3.8 }, fov: 41 },
+  { t: 7, pos: { x: -0.25, y: 2.0, z: -3.5 }, target: { x: 0, y: 0, z: 3.8 }, fov: 42 },
 ];
 
 const STATE = [
@@ -79,10 +79,12 @@ export const ShortTouchScene: React.FC<{
   const cam = camPath(CAM, beat + smoothstep(t / 24) * 0.85);
   const b = basis(cam, h);
 
-  /* entrance — a short settle, then slow breathing for the whole beat */
+  /* entrance — the finger arrives over the first second of every beat, then
+   * the controller scan carries the motion for the rest of the beat. */
   const enter = spring(t - 0.08, 1.4, 0.75);
+  const arrive = smoothstep(t / 1.15);
   const breath = Math.sin(t * 1.3 + beat) * 0.014;
-  const finger = clamp01(st.finger + breath * 0.4);
+  const finger = clamp01(st.finger * arrive + breath * 0.4);
   const glove = st.glove;
   const fieldOn = finger * (1 - glove) * st.highlight;
 
@@ -106,7 +108,7 @@ export const ShortTouchScene: React.FC<{
         w: 0.15,
         d: 0.15,
         tone: lit > 0.35 ? "warm" : "cool",
-        opacity: (0.16 + 0.72 * lit) * (1 - glove * 0.7),
+        opacity: (0.10 + 0.85 * lit) * (1 - glove * 0.7),
       });
       if (near > 0.35) targets.push({ x, y: Y_GRID + 0.02, z });
     }
@@ -114,7 +116,7 @@ export const ShortTouchScene: React.FC<{
 
   /* the glass slab: a real translucent solid above the electrodes */
   bars.push({
-    x: 0, z: 3.8, y: 0.20, h: 0.025, w: 2.0, d: 3.2,
+    x: 0, z: 3.8, y: 0.20, h: 0.025, w: 1.6, d: 2.7,
     tone: "cool", opacity: 0.10 + 0.06 * st.highlight,
   });
 
@@ -135,6 +137,11 @@ export const ShortTouchScene: React.FC<{
   }
 
   const fieldPt = projectB(b, { x: 0, y: fingerY, z: 3.8 }, w, h);
+  /* The controller reads the grid row by row. A light travelling down the
+   * panel is the real mechanism AND the motion that keeps the frame alive
+   * between narration beats — unlike an idle sine wobble. */
+  const scanZ = Z0 - 0.7 + ((t * 2.4) % (ROWS * SZ + 1.4));
+  const scanPt = projectB(b, { x: 0, y: 0.04, z: scanZ }, w, h);
   const textIn = clamp01((frame - 3) / 16);
 
   return (
@@ -165,6 +172,7 @@ export const ShortTouchScene: React.FC<{
       ) : null}
 
       {fieldPt ? <Light x={fieldPt.x} y={fieldPt.y} r={300} color={C.cyan} opacity={0.13 * fieldOn} /> : null}
+      {scanPt ? <Light x={scanPt.x} y={scanPt.y} r={440} color={C.cyan} opacity={0.3} /> : null}
       <Vignette strength={0.75} />
       <Grain opacity={0.05} />
 
@@ -179,11 +187,11 @@ export const ShortTouchScene: React.FC<{
         <div style={{ color: C.amber, fontSize: 26, letterSpacing: 6, fontWeight: 800, marginBottom: 22 }}>
           {kicker}
         </div>
-        <div style={{ display: "inline-block", background: "rgba(5,7,11,0.78)", border: `1px solid ${C.panelEdge}`, borderRadius: 16, padding: "20px 34px" }}>
-          <div style={{ color: C.text, fontSize: 68, lineHeight: 1.05, fontWeight: 900, letterSpacing: -1 }}>
+        <div style={{ display: "inline-block", maxWidth: 860, background: "rgba(5,7,11,0.78)", border: `1px solid ${C.panelEdge}`, borderRadius: 16, padding: "18px 28px" }}>
+          <div style={{ color: C.text, fontSize: 58, lineHeight: 1.05, fontWeight: 900, letterSpacing: -1 }}>
             {assertion}
           </div>
-          <div style={{ color: C.amber, fontSize: 62, lineHeight: 1.1, fontStyle: "italic", fontWeight: 800, marginTop: 8 }}>
+          <div style={{ color: C.amber, fontSize: 50, lineHeight: 1.1, fontStyle: "italic", fontWeight: 800, marginTop: 8 }}>
             {reversal}
           </div>
         </div>
