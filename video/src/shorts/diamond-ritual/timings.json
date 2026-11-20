@@ -1,0 +1,43 @@
+{
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.98,
+  "totalFrames": 1460,
+  "scenes": {
+    "s01": {
+      "sec": 5.877,
+      "frames": 176,
+      "text": "You were told a diamond means forever. That is not an ancient tradition. It was a sales line."
+    },
+    "s02": {
+      "sec": 5.6,
+      "frames": 168,
+      "text": "Before the nineteen thirties, most engagements in America did not involve a diamond at all."
+    },
+    "s03": {
+      "sec": 8.139,
+      "frames": 244,
+      "text": "In 1938, De Beers hired the advertising agency N.W. Ayer to change what the stone meant to people."
+    },
+    "s04": {
+      "sec": 6.837,
+      "frames": 205,
+      "text": "In 1947, a copywriter named Frances Gerety wrote four words: a diamond is forever."
+    },
+    "s05": {
+      "sec": 9.493,
+      "frames": 285,
+      "text": "The line ran for decades, until a written campaign stopped sounding like an advertisement and started sounding like something your family had always known."
+    },
+    "s06": {
+      "sec": 7.541,
+      "frames": 226,
+      "text": "The two months salary rule is often blamed on the same campaign. Historians dispute that part, so leave it aside."
+    },
+    "s07": {
+      "sec": 5.207,
+      "frames": 156,
+      "text": "You can still buy the ring. Just know which part was inherited and which part was sold."
+    }
+  }
+}

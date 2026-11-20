@@ -67,7 +67,11 @@ import {
 import {
   MoeRouterShort,
   DURATION as M_O_E___R_O_U_T_E_R___S_H_O_R_T_DURATION,
-} from "./shorts/moe-router/MoeRouterShort";/* END GENERATED SHORT IMPORTS */
+} from "./shorts/moe-router/MoeRouterShort";
+
+/* Hand-authored hidden-story experiment — outside the generated block. */
+import { DiamondRitual, DURATION as DIAMOND_RITUAL_DURATION } from "./shorts/diamond-ritual/DiamondRitual";
+/* END GENERATED SHORT IMPORTS */
 
 /* bundled fonts — no network at render time, byte-identical every build */
 import "@fontsource/inter/400.css";
@@ -273,6 +277,17 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />{/* END GENERATED SHORT COMPOSITIONS */}
+
+      {/* Hidden-story experiment: measured narration, reversal title. */}
+      <Composition
+        id="DiamondRitual"
+        component={DiamondRitual}
+        durationInFrames={DIAMOND_RITUAL_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+
     </>
   );
 };

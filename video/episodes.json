@@ -237,5 +237,16 @@
     "status": "draft",
     "shape": "short",
     "style": "kit-hero"
+  },
+  "diamond-ritual": {
+    "title": "The Diamond Ring Was a Sales Pitch, Not a Tradition",
+    "srcDir": "src/shorts/diamond-ritual",
+    "audioDir": "public/audio/diamond-ritual",
+    "composition": "DiamondRitual",
+    "output": "diamond-ritual.mp4",
+    "thumbSeconds": 4.0,
+    "status": "draft",
+    "shape": "short",
+    "style": "ritual"
   }
 }
