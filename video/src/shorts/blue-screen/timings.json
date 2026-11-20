@@ -1,0 +1,43 @@
+{
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.98,
+  "totalFrames": 1939,
+  "scenes": {
+    "s01": {
+      "sec": 9.951,
+      "frames": 299,
+      "text": "Every Windows user has stared into the Blue Screen of Death. The popular legend says Microsoft picked blue because psychologists found it calms panicked users."
+    },
+    "s02": {
+      "sec": 9.087,
+      "frames": 273,
+      "text": "That story is completely false. The color was decided in 1991 by one engineer, solving an annoying personal problem."
+    },
+    "s03": {
+      "sec": 10.377,
+      "frames": 311,
+      "text": "John Vert was writing the Windows NT crash handler. When the kernel panics, display drivers are dead, leaving only raw 16-color VGA text mode."
+    },
+    "s04": {
+      "sec": 8.117,
+      "frames": 244,
+      "text": "Vert's development machine was a MIPS RISC workstation. Its hardware firmware booted into bright white text on a deep blue screen."
+    },
+    "s05": {
+      "sec": 8.373,
+      "frames": 251,
+      "text": "His favorite text editor, SlickEdit, also defaulted to white on blue. Vert spent his entire workday staring at blue terminals."
+    },
+    "s06": {
+      "sec": 9.706,
+      "frames": 291,
+      "text": "So when Vert coded the crash screen, he picked the exact same blue. That way, he could boot, write code, and crash his machine without the monitor ever flashing."
+    },
+    "s07": {
+      "sec": 8.992,
+      "frames": 270,
+      "text": "Thirty years later, over a billion PCs crash in that exact shade \u2014 not for psychology, but because one developer hated screen flicker."
+    }
+  }
+}

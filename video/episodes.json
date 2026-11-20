@@ -259,5 +259,16 @@
     "status": "draft",
     "shape": "short",
     "style": "world"
+  },
+  "blue-screen": {
+    "title": "The Blue Screen is Blue Because of a Developer's Text Editor",
+    "srcDir": "src/shorts/blue-screen",
+    "audioDir": "public/audio/blue-screen",
+    "composition": "BlueScreen",
+    "output": "blue-screen.mp4",
+    "thumbSeconds": 4.0,
+    "status": "draft",
+    "shape": "short",
+    "style": "bsod"
   }
 }

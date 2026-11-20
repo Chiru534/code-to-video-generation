@@ -1,9 +1,10 @@
 import React from "react";
 import { Composition } from "remotion";
 import { QualityProbe } from "./QualityProbe";
+import { SinkProof } from "./proof/SinkProof";
 import { NumberProof, NUMBER_PROOF_FRAMES } from "./proof/NumberProof";
-import { TouchProbe } from "./proof/TouchProbe";
 import { TouchscreenField, DURATION as TOUCHSCREEN_FIELD_DURATION } from "./shorts/touchscreen-field/TouchscreenField";
+import { BlueScreenShort, DURATION as BLUE_SCREEN_DURATION } from "./shorts/blue-screen/BlueScreenShort";
 import { DnsEpisode, DURATION as DNS_DURATION } from "./episode/DnsEpisode";
 import { HandshakeEpisode, DURATION as HANDSHAKE_DURATION } from "./episode02/HandshakeEpisode";
 import { TlsEpisode, DURATION as TLS_DURATION } from "./episode03/TlsEpisode";
@@ -70,11 +71,11 @@ import {
 import {
   MoeRouterShort,
   DURATION as M_O_E___R_O_U_T_E_R___S_H_O_R_T_DURATION,
-} from "./shorts/moe-router/MoeRouterShort";
+} from "./shorts/moe-router/MoeRouterShort";/* END GENERATED SHORT IMPORTS */
 
-/* Hand-authored hidden-story experiment — outside the generated block. */
+/* Hand-authored experiment: the "hidden story" narrative contract.
+ * Outside the generated block so make_shorts_week.py never touches it. */
 import { DiamondRitual, DURATION as DIAMOND_RITUAL_DURATION } from "./shorts/diamond-ritual/DiamondRitual";
-/* END GENERATED SHORT IMPORTS */
 
 /* bundled fonts — no network at render time, byte-identical every build */
 import "@fontsource/inter/400.css";
@@ -95,6 +96,17 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />
+      {/* Phase 0 proof: the `0` scene from attention-sink, rebuilt in the
+          kit/world vocabulary. Ten seconds, no narration, no music. Not a
+          video — a lookdev target. */}
+      <Composition
+        id="SinkProof"
+        component={SinkProof}
+        durationInFrames={300}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
       {/* Second proof: the tokenizer claim, built for causal motion. Eight
           seconds, no narration. If this still reads as a slide, the kit is
           wrong, not the subject. */}
@@ -106,19 +118,21 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />
-      <Composition
-        id="TouchProbe"
-        component={TouchProbe}
-        durationInFrames={60}
-        fps={30}
-        width={1080}
-        height={1920}
-      />
-      {/* First film of the confirmed everyday-technology identity. */}
+      {/* First film of the confirmed everyday-technology identity. Persistent
+          3D electrode grid, seven camera positions, measured narration. */}
       <Composition
         id="TouchscreenField"
         component={TouchscreenField}
         durationInFrames={TOUCHSCREEN_FIELD_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      {/* Blue Screen of Death: John Vert MIPS firmware & SlickEdit origin */}
+      <Composition
+        id="BlueScreen"
+        component={BlueScreenShort}
+        durationInFrames={BLUE_SCREEN_DURATION}
         fps={30}
         width={1080}
         height={1920}
@@ -309,7 +323,7 @@ export const RemotionRoot: React.FC = () => {
         height={1920}
       />{/* END GENERATED SHORT COMPOSITIONS */}
 
-      {/* Hidden-story experiment: measured narration, reversal title. */}
+      {/* Hidden-story experiment — 48.7s, measured narration, reversal title. */}
       <Composition
         id="DiamondRitual"
         component={DiamondRitual}
@@ -318,7 +332,6 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
       />
-
     </>
   );
 };
