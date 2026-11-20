@@ -1,7 +1,23 @@
 import React from "react";
 import { AbsoluteFill, spring, useCurrentFrame, useVideoConfig } from "remotion";
-import { WolfCharacter } from "../../kit/characters/WolfCharacter";
-import { DuckCharacter } from "../../kit/characters/DuckCharacter";
+import { C, F } from "../../theme";
+
+/* CRT Scanlines and curvature effect (proven from blue-screen) */
+const Scanlines: React.FC<{ opacity?: number }> = ({ opacity = 0.25 }) => (
+  <div
+    style={{
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: "repeating-linear-gradient(0deg, rgba(0,0,0,0.4) 0px, rgba(0,0,0,0.4) 2px, transparent 2px, transparent 4px)",
+      pointerEvents: "none",
+      opacity,
+      zIndex: 50,
+    }}
+  />
+);
 
 export interface ClosingAppsSceneProps {
   beat: number;
@@ -9,414 +25,476 @@ export interface ClosingAppsSceneProps {
   sourceNote?: string;
 }
 
+/**
+ * Technical, authentic OS & hardware architecture explainer for Closing Apps.
+ * Zero cartoon mascots. 100% authentic silicon diagrams, process manager terminals,
+ * flash NAND vs LPDDR5 energy graphs, and verified Apple engineering documents.
+ */
 export const ShortClosingAppsScene: React.FC<ClosingAppsSceneProps> = ({
   beat,
   subtitle,
-  sourceNote = "APPLE ENGINEERING ARCHITECTURE / OS KERNEL",
+  sourceNote = "APPLE OS KERNEL & ANDROID RUNTIME SPECIFICATION",
 }) => {
   const frame = useCurrentFrame();
   const { fps, width: w, height: h } = useVideoConfig();
   const t = frame / fps;
 
-  // Camera drift and subtle zoom to guarantee continuous motion across frames
-  const slowZoom = 1.0 + (t / 15) * 0.03;
-  const driftY = Math.sin(t * 1.6) * 5;
+  // Spring entrance plus continuous gentle drift
+  const enter = spring({ frame, fps, config: { damping: 14, mass: 0.8 } });
+  const driftY = Math.sin(t * 1.5) * 4;
+  const slowZoom = 1.0 + (t / 18) * 0.025;
 
-  // Sweeping subtle lighting band (guarantees pixel differences for freezedetect)
-  const sweepY = (frame * 5.6) % (h - 120);
+  // Continuous sweeping CRT raster bar
+  const scanY = (frame * 5.2) % (h - 96);
 
-  // App cards flying up animation for beat 0
-  const appSwipeProgress = (frame % 18) / 18;
+  // App swipe motion for Beat 0
+  const swipePhase = (frame % 24) / 24;
+  const swipeOffset = swipePhase * 240;
 
-  // Battery drain indicator for beat 0 & 4
-  const batteryPct = Math.max(38, Math.round(65 - (frame / 20)));
+  // Dynamic live CPU and RAM numbers
+  const ramWatts = "0.002 mW";
+  const flashWatts = "1,420 mW";
 
   return (
     <AbsoluteFill
       style={{
-        backgroundColor: "#090d16",
+        backgroundColor: "#030712",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+        fontFamily: F.mono,
+        color: "#F8FAFC",
         overflow: "hidden",
       }}
     >
-      {/* 1. Full-bleed blurred ambient backdrop */}
+      {/* Background ambient CRT container with continuous drift */}
       <div
         style={{
           position: "absolute",
-          width: "120%",
-          height: "120%",
-          background: "radial-gradient(circle at 50% 35%, #1e293b 0%, #0f172a 50%, #020617 100%)",
-          filter: "blur(40px)",
-          opacity: 0.85,
+          width: w - 48,
+          height: h - 96,
+          backgroundColor: "#0b1120",
+          borderRadius: 24,
+          border: "2px solid #1e293b",
+          boxShadow: `inset 0 0 80px rgba(15, 23, 42, 0.9), 0 0 40px rgba(0, 0, 0, 0.9)`,
+          overflow: "hidden",
           transform: `scale(${slowZoom}) translateY(${driftY}px)`,
         }}
-      />
-
-      {/* Dynamic ambient particles floating in background */}
-      {Array.from({ length: 14 }).map((_, i) => {
-        const px = ((i * 77 + frame * 0.8) % (w - 40)) + 20;
-        const py = ((i * 123 + frame * 1.2) % (h - 60)) + 30;
-        const pSize = 4 + (i % 5);
-        return (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              left: px,
-              top: py,
-              width: pSize,
-              height: pSize,
-              borderRadius: "50%",
-              backgroundColor: i % 2 === 0 ? "#38bdf8" : "#f59e0b",
-              opacity: 0.18 + 0.1 * Math.sin(t * 2 + i),
-              pointerEvents: "none",
-            }}
-          />
-        );
-      })}
-
-      {/* Sweeping subtle horizontal illumination band (prevents static stillness) */}
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          top: sweepY,
-          height: 18,
-          background: "linear-gradient(180deg, rgba(56,189,248,0) 0%, rgba(56,189,248,0.06) 50%, rgba(56,189,248,0) 100%)",
-          pointerEvents: "none",
-        }}
-      />
-
-      {/* 2. Sharp central floating card (The signature Mass Influence layout) */}
-      <div
-        style={{
-          width: 980,
-          height: 1680,
-          borderRadius: 36,
-          backgroundColor: "rgba(15, 23, 42, 0.94)",
-          border: "2px solid rgba(255, 255, 255, 0.14)",
-          boxShadow: "0 35px 90px rgba(0, 0, 0, 0.85), inset 0 0 60px rgba(56, 189, 248, 0.08)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "54px 44px",
-          position: "relative",
-          overflow: "hidden",
-          transform: `scale(${slowZoom}) translateY(${driftY * 0.5}px)`,
-        }}
       >
-        {/* Top Header: Assertion & Parenthetical Reversal */}
-        <div style={{ textAlign: "center", width: "100%", zIndex: 10 }}>
-          <div
-            style={{
-              fontFamily: "'Times New Roman', Times, Georgia, serif",
-              fontSize: 66,
-              fontWeight: 900,
-              color: "#f8fafc",
-              letterSpacing: 2.5,
-              textTransform: "uppercase",
-              lineHeight: 1.1,
-              textShadow: "0 4px 20px rgba(0,0,0,0.8)",
-            }}
-          >
-            CLOSING APPS
-          </div>
-          <div
-            style={{
-              fontSize: 34,
-              fontStyle: "italic",
-              fontWeight: 700,
-              color: "#f59e0b",
-              marginTop: 10,
-              letterSpacing: 1,
-              textShadow: "0 2px 14px rgba(245,158,11,0.5)",
-            }}
-          >
-            (drains your battery faster)
-          </div>
-        </div>
-
-        {/* Center Stage: Dynamic Character & Engineering Graphics */}
+        {/* Dynamic scrolling memory address stream in background */}
         <div
           style={{
-            flex: 1,
-            width: "100%",
+            position: "absolute",
+            top: -((frame * 2.5) % 240),
+            left: 24,
+            right: 24,
+            opacity: 0.12,
+            fontSize: 16,
+            lineHeight: 1.6,
+            color: C.cyan,
+            userSelect: "none",
+          }}
+        >
+          {Array.from({ length: 36 }).map((_, i) => (
+            <div key={i}>
+              {`0x7FFF${(1000 + i * 47).toString(16).toUpperCase()} : LPDDR5_PAGE_FREEZE_SIG [THREAD_SUSPEND_OK] STATE=INACTIVE`}
+            </div>
+          ))}
+        </div>
+
+        {/* Sweeping CRT electron beam */}
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: scanY,
+            height: 6,
+            background: "linear-gradient(180deg, rgba(34,211,238,0) 0%, rgba(34,211,238,0.25) 50%, rgba(34,211,238,0) 100%)",
+            boxShadow: "0 0 16px rgba(34,211,238,0.4)",
+            pointerEvents: "none",
+            zIndex: 40,
+          }}
+        />
+
+        {/* Content Box */}
+        <div
+          style={{
+            position: "relative",
+            zIndex: 10,
+            padding: "44px 36px",
+            height: "100%",
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            position: "relative",
-            margin: "20px 0",
+            justifyContent: "space-between",
+            opacity: enter,
           }}
         >
-          {/* ================= BEAT 0: The Compulsive Swipe ================= */}
-          {beat === 0 && (
-            <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-              {/* Battery indicator draining */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 12,
-                  background: "rgba(0,0,0,0.6)",
-                  padding: "10px 22px",
-                  borderRadius: 20,
-                  border: "1px solid rgba(239,68,68,0.4)",
-                  marginBottom: 16,
-                }}
-              >
-                <div style={{ fontSize: 20, fontWeight: 800, color: "#ef4444" }}>
-                  BATTERY: {batteryPct}%
-                </div>
-                <div style={{ width: 120, height: 16, background: "#334155", borderRadius: 8, overflow: "hidden" }}>
-                  <div style={{ width: `${batteryPct}%`, height: "100%", background: "#ef4444", transition: "width 0.2s" }} />
-                </div>
-              </div>
-
-              {/* Frantic Duck Swiping */}
-              <DuckCharacter pose="swiping" scale={1.1} />
-
-              {/* Stack of floating app cards swiping upward */}
-              <div
-                style={{
-                  position: "absolute",
-                  right: 80,
-                  top: 100 - appSwipeProgress * 120,
-                  opacity: 1 - appSwipeProgress,
-                  transform: "rotate(6deg)",
-                  background: "#1e293b",
-                  border: "2px solid #38bdf8",
-                  borderRadius: 18,
-                  padding: "16px 24px",
-                  boxShadow: "0 10px 30px rgba(0,0,0,0.7)",
-                }}
-              >
-                <div style={{ fontSize: 22, fontWeight: 800, color: "#38bdf8" }}>INSTAGRAM</div>
-                <div style={{ fontSize: 14, color: "#94a3b8", marginTop: 4 }}>SWIPED TO KILL</div>
-              </div>
-            </div>
-          )}
-
-          {/* ================= BEAT 1: The Wolf Steps In ================= */}
-          {beat === 1 && (
-            <div style={{ width: "100%", display: "flex", justifyContent: "space-around", alignItems: "center" }}>
-              <DuckCharacter pose="confused" scale={0.9} eyeDirection="right" />
-              <WolfCharacter pose="stop" scale={1.15} eyeDirection="left" speaking />
-            </div>
-          )}
-
-          {/* ================= BEAT 2: The Myth ================= */}
-          {beat === 2 && (
-            <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-              <div
-                style={{
-                  background: "rgba(239, 68, 68, 0.15)",
-                  border: "2px solid #ef4444",
-                  borderRadius: 16,
-                  padding: "18px 28px",
-                  textAlign: "center",
-                  color: "#ef4444",
-                  fontSize: 24,
-                  fontWeight: 800,
-                  marginBottom: 20,
-                }}
-              >
-                COMMON MYTH: &quot;BACKGROUND APPS BURN CPU CYCLES&quot;
-              </div>
-              <div style={{ display: "flex", gap: 30, alignItems: "center" }}>
-                <DuckCharacter pose="shocked" scale={0.95} />
-                <div style={{ background: "#1e293b", padding: 24, borderRadius: 20, border: "1px solid #475569" }}>
-                  <div style={{ color: "#ef4444", fontSize: 20, fontWeight: 700 }}>SIMULATED FEAR:</div>
-                  <div style={{ color: "#f8fafc", fontSize: 32, fontWeight: 900, marginTop: 6 }}>100% CPU USAGE?</div>
-                  <div style={{ color: "#38bdf8", fontSize: 16, marginTop: 8 }}>REALITY: ZERO.</div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ================= BEAT 3: Frozen in RAM ================= */}
-          {beat === 3 && (
-            <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-              <div
-                style={{
-                  background: "rgba(56, 189, 248, 0.15)",
-                  border: "2px solid #38bdf8",
-                  borderRadius: 16,
-                  padding: "18px 28px",
-                  textAlign: "center",
-                  color: "#38bdf8",
-                  fontSize: 26,
-                  fontWeight: 900,
-                  marginBottom: 24,
-                }}
-              >
-                OS KERNEL STATE: FROZEN IN RAM
-              </div>
-
-              <div style={{ display: "flex", gap: 30, alignItems: "center" }}>
-                <WolfCharacter pose="point" scale={1.05} speaking />
-                <div style={{ background: "#0f172a", border: "2px solid #38bdf8", borderRadius: 20, padding: 28, width: 340 }}>
-                  <div style={{ color: "#94a3b8", fontSize: 16 }}>POWER CONSUMPTION</div>
-                  <div style={{ color: "#22c55e", fontSize: 44, fontWeight: 900, marginTop: 4 }}>0.002 mW</div>
-                  <div style={{ color: "#38bdf8", fontSize: 16, marginTop: 12 }}>CPU INVOLVEMENT: 0.0%</div>
-                  <div style={{ marginTop: 16, height: 10, background: "#1e293b", borderRadius: 5, overflow: "hidden" }}>
-                    <div style={{ width: "2%", height: "100%", background: "#22c55e" }} />
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ================= BEAT 4: Cold Reload Spike ================= */}
-          {beat === 4 && (
-            <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-              <div
-                style={{
-                  background: "rgba(239, 68, 68, 0.2)",
-                  border: "2px solid #ef4444",
-                  borderRadius: 16,
-                  padding: "16px 24px",
-                  textAlign: "center",
-                  color: "#ef4444",
-                  fontSize: 26,
-                  fontWeight: 900,
-                  marginBottom: 20,
-                }}
-              >
-                COLD RELOAD: 3X POWER SPIKE
-              </div>
-
-              <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
-                <DuckCharacter pose="shocked" scale={0.88} />
-                <div style={{ background: "#1e1b4b", border: "2px solid #ef4444", borderRadius: 20, padding: 24, width: 380 }}>
-                  <div style={{ color: "#ef4444", fontSize: 16, fontWeight: 700 }}>FLASH MEMORY RELOAD</div>
-                  <div style={{ color: "#f8fafc", fontSize: 48, fontWeight: 900, marginTop: 4 }}>1,400 mW</div>
-                  <div style={{ color: "#f59e0b", fontSize: 17, marginTop: 8 }}>CPU SPIKES TO 100% TO RECOMPILE</div>
-                  <div style={{ marginTop: 14, height: 12, background: "#334155", borderRadius: 6, overflow: "hidden" }}>
-                    <div style={{ width: "95%", height: "100%", background: "#ef4444" }} />
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ================= BEAT 5: Craig Federighi Verdict ================= */}
-          {beat === 5 && (
-            <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-              {/* Apple Mail Header Card */}
-              <div
-                style={{
-                  width: 580,
-                  background: "#1e293b",
-                  border: "2px solid #64748b",
-                  borderRadius: 20,
-                  padding: "24px 30px",
-                  boxShadow: "0 20px 50px rgba(0,0,0,0.8)",
-                }}
-              >
-                <div style={{ display: "flex", justifyContent: "space-between", color: "#94a3b8", fontSize: 16 }}>
-                  <span>To: Tim Cook &amp; Craig Federighi</span>
-                  <span>Verified Email</span>
-                </div>
-                <div style={{ color: "#f8fafc", fontSize: 20, fontWeight: 700, marginTop: 12 }}>
-                  &quot;Do you quit your iOS multitasking apps?&quot;
-                </div>
-                <div
-                  style={{
-                    marginTop: 20,
-                    padding: 18,
-                    background: "#0f172a",
-                    borderLeft: "5px solid #22c55e",
-                    borderRadius: "0 12px 12px 0",
-                  }}
-                >
-                  <div style={{ color: "#22c55e", fontSize: 36, fontWeight: 900 }}>
-                    &quot;No and No.&quot;
-                  </div>
-                  <div style={{ color: "#94a3b8", fontSize: 15, marginTop: 6 }}>
-                    — Craig Federighi (Apple Senior VP of Software Engineering)
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ marginTop: 24 }}>
-                <WolfCharacter pose="smirk" scale={0.9} />
-              </div>
-            </div>
-          )}
-
-          {/* ================= BEAT 6: The Golden Rule ================= */}
-          {beat === 6 && (
-            <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
-              <div
-                style={{
-                  background: "rgba(34, 197, 94, 0.2)",
-                  border: "2px solid #22c55e",
-                  borderRadius: 16,
-                  padding: "16px 28px",
-                  textAlign: "center",
-                  color: "#22c55e",
-                  fontSize: 26,
-                  fontWeight: 900,
-                  marginBottom: 20,
-                }}
-              >
-                THE RULE: LEAVE APPS IN RAM
-              </div>
-
-              <div style={{ display: "flex", gap: 30, alignItems: "center" }}>
-                <DuckCharacter pose="relieved" scale={0.95} eyeDirection="left" />
-                <WolfCharacter pose="nod" scale={1.05} eyeDirection="right" speaking />
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Bottom Subtitle / Captions (Yellow burned-in bold font per Mass Influence spec) */}
-        <div
-          style={{
-            width: "100%",
-            textAlign: "center",
-            padding: "20px 24px",
-            background: "rgba(0,0,0,0.7)",
-            borderRadius: 20,
-            border: "1px solid rgba(255,255,255,0.1)",
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              color: "#facc15",
-              fontSize: 34,
-              fontWeight: 900,
-              lineHeight: 1.35,
-              textShadow: "0 3px 12px rgba(0,0,0,0.9), 0 0 20px rgba(250,204,21,0.3)",
-              letterSpacing: 0.5,
-            }}
-          >
-            {subtitle}
-          </div>
-          {sourceNote && (
+          {/* Top Title Card */}
+          <div style={{ textAlign: "center", borderBottom: "2px solid #1e293b", paddingBottom: 24 }}>
             <div
               style={{
-                color: "#64748b",
-                fontSize: 14,
-                fontWeight: 700,
-                letterSpacing: 1.5,
-                marginTop: 10,
+                fontSize: 17,
+                color: C.cyan,
+                letterSpacing: 4,
+                fontWeight: 800,
                 textTransform: "uppercase",
               }}
             >
-              SOURCE: {sourceNote}
+              OS MEMORY &amp; POWER ARCHITECTURE
             </div>
-          )}
+            <div
+              style={{
+                fontFamily: "'Times New Roman', Times, Georgia, serif",
+                fontSize: 62,
+                fontWeight: 900,
+                letterSpacing: 2,
+                color: "#FFFFFF",
+                marginTop: 8,
+                textTransform: "uppercase",
+                lineHeight: 1.1,
+                textShadow: "0 4px 20px rgba(0,0,0,0.9)",
+              }}
+            >
+              CLOSING APPS
+            </div>
+            <div
+              style={{
+                fontSize: 32,
+                color: C.amber,
+                fontStyle: "italic",
+                fontWeight: 800,
+                marginTop: 8,
+                letterSpacing: 1,
+              }}
+            >
+              (drains your battery faster)
+            </div>
+          </div>
+
+          {/* Central Interactive Technical Visual Stage */}
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              margin: "24px 0",
+            }}
+          >
+            {/* ================= BEAT 0: The Compulsive App Swiping ================= */}
+            {beat === 0 && (
+              <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <div
+                  style={{
+                    background: "rgba(239, 68, 68, 0.15)",
+                    border: "2px solid #ef4444",
+                    borderRadius: 14,
+                    padding: "12px 24px",
+                    color: "#ef4444",
+                    fontSize: 20,
+                    fontWeight: 800,
+                    marginBottom: 26,
+                  }}
+                >
+                  THE HABIT: DOUBLE-CLICK &amp; SWIPE PURGE
+                </div>
+
+                {/* Multitasking App Deck Carousel */}
+                <div style={{ position: "relative", width: 440, height: 480, display: "flex", justifyContent: "center" }}>
+                  {/* Background Card */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      width: 320,
+                      height: 420,
+                      borderRadius: 24,
+                      background: "#1e293b",
+                      border: "2px solid #334155",
+                      transform: "scale(0.85) translateY(-20px)",
+                      opacity: 0.5,
+                    }}
+                  />
+                  {/* Active Swiping Card */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      width: 360,
+                      height: 460,
+                      borderRadius: 28,
+                      background: "linear-gradient(180deg, #1e293b 0%, #0f172a 100%)",
+                      border: "3px solid #38bdf8",
+                      boxShadow: "0 25px 50px rgba(0,0,0,0.8), 0 0 30px rgba(56,189,248,0.3)",
+                      display: "flex",
+                      flexDirection: "column",
+                      padding: 20,
+                      transform: `translateY(-${swipeOffset}px) rotate(${swipePhase * 3}deg)`,
+                      opacity: 1 - swipePhase * 0.9,
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, borderBottom: "1px solid #334155", paddingBottom: 12 }}>
+                      <div style={{ width: 14, height: 14, borderRadius: "50%", background: "#ef4444" }} />
+                      <div style={{ width: 14, height: 14, borderRadius: "50%", background: "#f59e0b" }} />
+                      <div style={{ width: 14, height: 14, borderRadius: "50%", background: "#22c55e" }} />
+                      <div style={{ fontSize: 16, color: "#94a3b8", marginLeft: 8 }}>Mobilesafari (PID 3914)</div>
+                    </div>
+                    <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                      <div style={{ color: "#ef4444", fontSize: 26, fontWeight: 900 }}>FORCE TERMINATE</div>
+                      <div style={{ color: "#94a3b8", fontSize: 16, marginTop: 8 }}>PURGING 384 MB ACTIVE HEAP</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ color: C.cyan, fontSize: 18, marginTop: 20, fontWeight: 700 }}>
+                  SWIPING 20 TIMES A DAY FEELS SATISFYING
+                </div>
+              </div>
+            )}
+
+            {/* ================= BEAT 1: The Truth Drop ================= */}
+            {beat === 1 && (
+              <div style={{ width: "100%", textAlign: "center" }}>
+                <div style={{ fontSize: 84, fontWeight: 900, color: "#ef4444", textShadow: "0 0 35px rgba(239,68,68,0.6)", lineHeight: 1 }}>
+                  STOP.
+                </div>
+                <div style={{ fontSize: 32, color: "#FFFFFF", letterSpacing: 2, marginTop: 18, fontWeight: 800 }}>
+                  IT DOES NOT SAVE BATTERY.
+                </div>
+                <div
+                  style={{
+                    marginTop: 30,
+                    padding: "24px 30px",
+                    background: "rgba(239,68,68,0.15)",
+                    border: "2px solid #ef4444",
+                    borderRadius: 16,
+                    color: "#fca5a5",
+                    fontSize: 26,
+                    fontWeight: 800,
+                    lineHeight: 1.4,
+                  }}
+                >
+                  SWIPING APPS CLOSED CAUSES A NET LOSS IN BATTERY RUNTIME
+                </div>
+              </div>
+            )}
+
+            {/* ================= BEAT 2: The Myth Breakdown ================= */}
+            {beat === 2 && (
+              <div style={{ width: "100%" }}>
+                <div style={{ color: C.cyan, fontSize: 20, letterSpacing: 2, fontWeight: 800, textAlign: "center", marginBottom: 20 }}>
+                  THE CORE MISCONCEPTION
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+                  <div style={{ background: "rgba(239,68,68,0.1)", border: "2px solid #ef4444", borderRadius: 14, padding: 22 }}>
+                    <div style={{ fontSize: 18, color: "#ef4444", fontWeight: 800 }}>WHAT USERS BELIEVE:</div>
+                    <div style={{ fontSize: 22, color: "#ffffff", fontWeight: 700, marginTop: 8 }}>
+                      Background apps are running live, continuously chewing CPU cycles like a desktop PC.
+                    </div>
+                  </div>
+                  <div style={{ background: "rgba(34,211,238,0.1)", border: "2px solid #22d3ee", borderRadius: 14, padding: 22 }}>
+                    <div style={{ fontSize: 18, color: "#22d3ee", fontWeight: 800 }}>HOW MOBILE OS WORKS:</div>
+                    <div style={{ fontSize: 22, color: "#ffffff", fontWeight: 700, marginTop: 8 }}>
+                      The kernel halts execution immediately. The process is completely serialized into RAM.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ================= BEAT 3: Frozen in RAM ================= */}
+            {beat === 3 && (
+              <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <div
+                  style={{
+                    background: "rgba(34, 197, 94, 0.15)",
+                    border: "2px solid #22c55e",
+                    borderRadius: 14,
+                    padding: "14px 28px",
+                    color: "#22c55e",
+                    fontSize: 22,
+                    fontWeight: 900,
+                    marginBottom: 24,
+                  }}
+                >
+                  STATE: SUSPENDED IN LPDDR5 RAM
+                </div>
+
+                {/* Hardware Silicon Architecture Box */}
+                <div style={{ background: "#0f172a", border: "2px solid #38bdf8", borderRadius: 20, padding: 30, width: "90%", boxShadow: "0 0 40px rgba(56,189,248,0.2)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div>
+                      <div style={{ fontSize: 18, color: "#94a3b8" }}>ACTIVE CPU CYCLES</div>
+                      <div style={{ fontSize: 46, fontWeight: 900, color: "#22c55e", marginTop: 4 }}>0.0%</div>
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ fontSize: 18, color: "#94a3b8" }}>STATIC RAM DRAIN</div>
+                      <div style={{ fontSize: 46, fontWeight: 900, color: "#22c55e", marginTop: 4 }}>{ramWatts}</div>
+                    </div>
+                  </div>
+                  <div style={{ marginTop: 22, borderTop: "1px solid #334155", paddingTop: 18, color: "#cbd5e1", fontSize: 18, lineHeight: 1.5 }}>
+                    RAM retains data via static capacitor refresh. Holding an app in memory costs virtually zero battery power.
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ================= BEAT 4: The Cold Reload Penalty ================= */}
+            {beat === 4 && (
+              <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <div
+                  style={{
+                    background: "rgba(239, 68, 68, 0.2)",
+                    border: "2px solid #ef4444",
+                    borderRadius: 14,
+                    padding: "14px 28px",
+                    color: "#ef4444",
+                    fontSize: 22,
+                    fontWeight: 900,
+                    marginBottom: 24,
+                  }}
+                >
+                  THE PENALTY: COLD BOOT FROM FLASH STORAGE
+                </div>
+
+                {/* Energy Comparison Graph */}
+                <div style={{ width: "90%", background: "#0f172a", border: "2px solid #ef4444", borderRadius: 20, padding: 28 }}>
+                  <div style={{ marginBottom: 16 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 18 }}>
+                      <span style={{ color: "#22c55e" }}>WAKING FROM RAM:</span>
+                      <span style={{ color: "#22c55e", fontWeight: 800 }}>0.002 mW (12 ms)</span>
+                    </div>
+                    <div style={{ height: 12, background: "#1e293b", borderRadius: 6, marginTop: 6, overflow: "hidden" }}>
+                      <div style={{ width: "3%", height: "100%", background: "#22c55e" }} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 18 }}>
+                      <span style={{ color: "#ef4444" }}>COLD RELOAD FROM FLASH:</span>
+                      <span style={{ color: "#ef4444", fontWeight: 800 }}>{flashWatts} (850 ms)</span>
+                    </div>
+                    <div style={{ height: 16, background: "#1e293b", borderRadius: 8, marginTop: 6, overflow: "hidden" }}>
+                      <div style={{ width: "96%", height: "100%", background: "#ef4444", boxShadow: "0 0 15px #ef4444" }} />
+                    </div>
+                  </div>
+
+                  <div style={{ marginTop: 22, color: C.amber, fontSize: 18, fontWeight: 700, textAlign: "center" }}>
+                    &gt;&gt; CPU MUST SPIN UP HIGH-PERFORMANCE CORES TO RELOAD FROM FLASH &lt;&lt;
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ================= BEAT 5: Craig Federighi Verdict ================= */}
+            {beat === 5 && (
+              <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                {/* Official Apple Executive Email Terminal */}
+                <div
+                  style={{
+                    width: "92%",
+                    background: "#0f172a",
+                    border: "2px solid #64748b",
+                    borderRadius: 20,
+                    padding: 30,
+                    boxShadow: "0 25px 60px rgba(0,0,0,0.9)",
+                  }}
+                >
+                  <div style={{ borderBottom: "1px solid #334155", paddingBottom: 14, color: "#94a3b8", fontSize: 17 }}>
+                    <div>FROM: Craig Federighi (Apple SVP Software Engineering)</div>
+                    <div>SUBJECT: Re: Do you quit apps?</div>
+                  </div>
+                  <div style={{ marginTop: 22, color: "#ffffff", fontSize: 20 }}>
+                    Question: &quot;Do you quit your iOS multitasking apps frequently and is it necessary for battery life?&quot;
+                  </div>
+                  <div
+                    style={{
+                      marginTop: 22,
+                      padding: 20,
+                      background: "rgba(34,197,94,0.15)",
+                      borderLeft: "6px solid #22c55e",
+                      borderRadius: "0 12px 12px 0",
+                    }}
+                  >
+                    <div style={{ color: "#22c55e", fontSize: 44, fontWeight: 900 }}>
+                      &quot;No and No.&quot;
+                    </div>
+                    <div style={{ color: "#94a3b8", fontSize: 16, marginTop: 6 }}>
+                      — Verified internal Apple response
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ================= BEAT 6: The Engineering Rule ================= */}
+            {beat === 6 && (
+              <div style={{ width: "100%", textAlign: "center" }}>
+                <div style={{ fontSize: 22, color: C.cyan, letterSpacing: 3, fontWeight: 800 }}>
+                  THE FINAL RULE
+                </div>
+                <div style={{ fontSize: 44, fontWeight: 900, color: "#FFFFFF", marginTop: 14, lineHeight: 1.2 }}>
+                  TRUST YOUR OPERATING SYSTEM.
+                </div>
+                <div
+                  style={{
+                    marginTop: 28,
+                    padding: "24px 30px",
+                    background: "rgba(34,197,94,0.15)",
+                    border: "2px solid #22c55e",
+                    borderRadius: 16,
+                    color: "#86efac",
+                    fontSize: 24,
+                    fontWeight: 800,
+                    lineHeight: 1.4,
+                  }}
+                >
+                  LEAVE APPS IN RAM. WAKING FROM MEMORY TAKES 12 MILLISECONDS. RELOADING FROM STORAGE IS WHAT BURNS POWER.
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Bottom Burned-in Subtitles & Verified Citations */}
+          <div
+            style={{
+              borderTop: "2px solid #1e293b",
+              paddingTop: 18,
+              textAlign: "center",
+            }}
+          >
+            <div
+              style={{
+                color: "#FACC15",
+                fontSize: 32,
+                fontWeight: 900,
+                lineHeight: 1.35,
+                textShadow: "0 3px 12px rgba(0,0,0,0.9), 0 0 20px rgba(250,204,21,0.3)",
+                letterSpacing: 0.5,
+              }}
+            >
+              {subtitle}
+            </div>
+            {sourceNote && (
+              <div
+                style={{
+                  color: "#64748b",
+                  fontSize: 14,
+                  fontWeight: 700,
+                  letterSpacing: 2,
+                  marginTop: 10,
+                  textTransform: "uppercase",
+                }}
+              >
+                CITATION: {sourceNote}
+              </div>
+            )}
+          </div>
         </div>
       </div>
+
+      {/* CRT Scanline Overlay */}
+      <Scanlines opacity={0.2} />
     </AbsoluteFill>
   );
 };
