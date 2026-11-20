@@ -466,6 +466,10 @@ export const Particles: React.FC<{
   t: number;
   seed?: number;
   span?: { x: number; y: number; z: number };
+  /** Centre of the particle volume. Keep it well in front of the camera:
+   *  a mote near the lens projects at enormous scale and lands on the frame
+   *  border, which check_edges.py flags as clipped content. */
+  origin?: V3;
   rise?: number;
   size?: number;
   color?: string;
@@ -477,6 +481,7 @@ export const Particles: React.FC<{
   t,
   seed = 1,
   span = { x: 9, y: 5, z: 22 },
+  origin = { x: 0, y: 0, z: 0 },
   rise = 0.32,
   size = 2.2,
   color = "#BFEFFF",
@@ -499,9 +504,9 @@ export const Particles: React.FC<{
     const p = projectB(
       b,
       {
-        x: (rx - 0.5) * span.x + Math.sin(t * 0.5 * sp + phase) * 0.22,
-        y,
-        z: (rz - 0.5) * span.z + Math.cos(t * 0.42 * sp + phase) * 0.3,
+        x: origin.x + (rx - 0.5) * span.x + Math.sin(t * 0.5 * sp + phase) * 0.22,
+        y: origin.y + y,
+        z: origin.z + (rz - 0.5) * span.z + Math.cos(t * 0.42 * sp + phase) * 0.3,
       },
       w,
       h

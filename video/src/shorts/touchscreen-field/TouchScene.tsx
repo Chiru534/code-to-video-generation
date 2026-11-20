@@ -149,7 +149,7 @@ export const ShortTouchScene: React.FC<{
       <Sky b={b} w={w} h={h} glow={C.cyan} glowStrength={0.18} />
       <Floor b={b} w={w} h={h} x0={-7} x1={7} z0={-1} z1={22} step={0.55} opacity={0.13} />
       <Light x={w * 0.5} y={h * 0.78} r={720} color={C.cyan} opacity={0.1} />
-      <Particles b={b} w={w} h={h} count={90} t={t + beat * 3} seed={13} span={{ x: 2.6, y: 3.4, z: 16 }} size={0.9} />
+      <Particles b={b} w={w} h={h} count={90} t={t + beat * 3} seed={13} origin={{ x: 0, y: 1.5, z: 8 }} span={{ x: 2.6, y: 3, z: 6 }} size={0.9} />
 
       <Bars b={b} w={w} h={h} bars={bars} id="t" reflect />
 
