@@ -149,7 +149,7 @@ export const ShortTouchScene: React.FC<{
       <Sky b={b} w={w} h={h} glow={C.cyan} glowStrength={0.18} />
       <Floor b={b} w={w} h={h} x0={-7} x1={7} z0={-1} z1={22} step={0.55} opacity={0.13} />
       <Light x={w * 0.5} y={h * 0.78} r={720} color={C.cyan} opacity={0.1} />
-      <Particles b={b} w={w} h={h} count={120} t={t + beat * 3} seed={13} span={{ x: 6, y: 4, z: 18 }} size={1.0} />
+      <Particles b={b} w={w} h={h} count={90} t={t + beat * 3} seed={13} span={{ x: 2.6, y: 3.4, z: 16 }} size={0.9} />
 
       <Bars b={b} w={w} h={h} bars={bars} id="t" reflect />
 
@@ -172,8 +172,8 @@ export const ShortTouchScene: React.FC<{
       ) : null}
 
       {fieldPt ? <Light x={fieldPt.x} y={fieldPt.y} r={300} color={C.cyan} opacity={0.13 * fieldOn} /> : null}
-      {scanPt ? <Light x={scanPt.x} y={scanPt.y} r={440} color={C.cyan} opacity={0.3} /> : null}
-      <Vignette strength={0.75} />
+      {scanPt ? <Light x={scanPt.x} y={scanPt.y} r={320} color={C.cyan} opacity={0.22} /> : null}
+      <Vignette strength={0.82} />
       <Grain opacity={0.05} />
 
       {/* the headline is a LAYER, on plates, never painted onto the image */}
