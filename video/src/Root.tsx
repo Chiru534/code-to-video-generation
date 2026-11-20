@@ -1,6 +1,7 @@
 import React from "react";
 import { Composition } from "remotion";
 import { QualityProbe } from "./QualityProbe";
+import { NumberProof, NUMBER_PROOF_FRAMES } from "./proof/NumberProof";
 import { DnsEpisode, DURATION as DNS_DURATION } from "./episode/DnsEpisode";
 import { HandshakeEpisode, DURATION as HANDSHAKE_DURATION } from "./episode02/HandshakeEpisode";
 import { TlsEpisode, DURATION as TLS_DURATION } from "./episode03/TlsEpisode";
@@ -88,6 +89,17 @@ export const RemotionRoot: React.FC = () => {
         id="QualityProbe"
         component={QualityProbe}
         durationInFrames={450}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      {/* Second proof: the tokenizer claim, built for causal motion. Eight
+          seconds, no narration. If this still reads as a slide, the kit is
+          wrong, not the subject. */}
+      <Composition
+        id="NumberProof"
+        component={NumberProof}
+        durationInFrames={NUMBER_PROOF_FRAMES}
         fps={30}
         width={1080}
         height={1920}

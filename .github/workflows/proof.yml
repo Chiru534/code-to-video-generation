@@ -1,0 +1,136 @@
+name: proof
+
+# PROOF SHOT RENDER.
+#
+# A proof is not an episode: no narration, no TTS, no captions, no Drive
+# episode folder, no YouTube. It exists to answer one question — is the motion
+# good enough — so it renders stills AND a short mp4 in one run, and the mp4
+# is the deliverable.
+#
+# Deliberately NOT triggered by push: a proof is dispatched on purpose, and a
+# push trigger would re-render it every time anything in video/ changed.
+#
+#   gh workflow run proof.yml -f composition=NumberProof
+
+on:
+  workflow_dispatch:
+    inputs:
+      composition:
+        description: "Composition id"
+        required: true
+        default: "NumberProof"
+      slug:
+        description: "Output file stem"
+        required: true
+        default: "number-proof"
+      stills:
+        description: "Comma separated frames to still-render"
+        required: true
+        default: "30,66,120,150,210"
+
+jobs:
+  proof:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    env:
+      COMPOSITION: ${{ inputs.composition }}
+      SLUG: ${{ inputs.slug }}
+      STILLS: ${{ inputs.stills }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: video/package-lock.json
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Stabilise runner DNS
+        run: |
+          sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1 || true
+          sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1 || true
+          sudo systemctl stop systemd-resolved || true
+          sudo rm -f /etc/resolv.conf
+          printf 'nameserver 8.8.8.8\nnameserver 1.1.1.1\noptions timeout:2 attempts:2\n' \
+            | sudo tee /etc/resolv.conf >/dev/null
+          cat /etc/resolv.conf
+
+      - name: System packages for headless Chrome and ffmpeg
+        run: |
+          sudo rm -f /etc/apt/sources.list.d/*.sources /etc/apt/sources.list.d/*.list
+          sudo sh -c 'echo "Acquire::ForceIPv4 \"true\";" > /etc/apt/apt.conf.d/99force-ipv4'
+          for attempt in 1 2 3; do
+            if sudo timeout 120 apt-get update -qq; then break; fi
+            echo "::warning::apt-get update failed (attempt $attempt)"
+            sleep 15
+          done
+          sudo timeout 420 apt-get install -y -qq --no-install-recommends \
+            ffmpeg \
+            libnss3 libdbus-1-3 libatk1.0-0 libatk-bridge2.0-0 libgbm-dev \
+            libasound2 libxrandr2 libxkbcommon-dev libxfixes3 libxcomposite1 \
+            libxdamage1 libpango-1.0-0 libcairo2 libcups2 fonts-liberation
+          ffmpeg -version | head -1
+
+      - name: Install node dependencies
+        working-directory: video
+        run: npm ci --no-audit --no-fund --fetch-retries=5 --fetch-retry-maxtimeout=120000
+
+      - name: Ensure headless browser
+        working-directory: video
+        run: npx remotion browser ensure
+
+      - name: Render stills
+        working-directory: video
+        run: |
+          mkdir -p out/proof
+          IFS=',' read -ra FR <<< "$STILLS"
+          for f in "${FR[@]}"; do
+            f="$(echo "$f" | tr -d ' ')"
+            [ -z "$f" ] && continue
+            echo "--- still frame $f ---"
+            npx remotion still "$COMPOSITION" "out/proof/${SLUG}-$(printf '%04d' "$f").png" --frame "$f"
+          done
+          ls -lh out/proof
+
+      - name: Render mp4
+        working-directory: video
+        run: |
+          START=$(date +%s)
+          npx remotion render "$COMPOSITION" "out/${SLUG}.mp4" \
+            --codec=h264 --crf=18 --pixel-format=yuv420p
+          END=$(date +%s)
+          echo "render wall clock: $((END-START))s"
+          ls -lh "out/${SLUG}.mp4"
+
+      - name: Verify output
+        working-directory: video
+        run: |
+          ffprobe -v error -show_entries format=duration,size,bit_rate \
+            -show_entries stream=codec_name,width,height,r_frame_rate,nb_frames \
+            -of default=noprint_wrappers=1 "out/${SLUG}.mp4"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.slug }}
+          path: |
+            video/out/${{ inputs.slug }}.mp4
+            video/out/proof/*.png
+          retention-days: 7
+
+      - name: Upload to Google Drive
+        working-directory: video
+        env:
+          GDRIVE_REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+          GDRIVE_CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
+          GDRIVE_CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+          GDRIVE_SHORTS_FOLDER_ID: ${{ secrets.GDRIVE_SHORTS_FOLDER_ID }}
+          GDRIVE_SA_JSON: ${{ secrets.GDRIVE_SA_JSON }}
+        run: |
+          pip install -q --retries 5 --timeout 60 google-api-python-client google-auth
+          python tools/gdrive_upload.py "out/${SLUG}.mp4" --name "${SLUG}.mp4"
