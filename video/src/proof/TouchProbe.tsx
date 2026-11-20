@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
-import { C } from "../../theme";
+import { C } from "../theme";
 import { ShortTouchScene } from "../shorts/touchscreen-field/TouchScene";
 
 /* Diagnostic only: scene 1 with no audio, so proof.yml can still-render the
