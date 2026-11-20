@@ -504,7 +504,7 @@ def audit_render(path: str, info: dict) -> None:
         check(
             proc.returncode == 0,
             "no content clipped at the frame edge",
-            lines[0].strip() if lines else (proc.stderr or "").strip()[:200],
+            "\n".join(lines[:10]) if lines else (proc.stderr or "").strip()[:200],
         )
     else:
         skip("frame edge clipping", "tools/check_edges.py not found")
