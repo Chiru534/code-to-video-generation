@@ -2,6 +2,7 @@ import React from "react";
 import { Composition } from "remotion";
 import { QualityProbe } from "./QualityProbe";
 import { NumberProof, NUMBER_PROOF_FRAMES } from "./proof/NumberProof";
+import { TouchProbe } from "./proof/TouchProbe";
 import { TouchscreenField, DURATION as TOUCHSCREEN_FIELD_DURATION } from "./shorts/touchscreen-field/TouchscreenField";
 import { DnsEpisode, DURATION as DNS_DURATION } from "./episode/DnsEpisode";
 import { HandshakeEpisode, DURATION as HANDSHAKE_DURATION } from "./episode02/HandshakeEpisode";
@@ -101,6 +102,14 @@ export const RemotionRoot: React.FC = () => {
         id="NumberProof"
         component={NumberProof}
         durationInFrames={NUMBER_PROOF_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="TouchProbe"
+        component={TouchProbe}
+        durationInFrames={60}
         fps={30}
         width={1080}
         height={1920}
