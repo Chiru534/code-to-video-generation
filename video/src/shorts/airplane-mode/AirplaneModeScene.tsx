@@ -43,7 +43,7 @@ export const ShortAirplaneModeScene: React.FC<AirplaneModeSceneProps> = ({
       {/* ==============================================================
           BEAT 0: THE INTERACTIVE HYPOTHESIS & AUDIENCE POLL
           Interactive question with animated YES/NO buttons, countdown ring,
-          animated cursor clicking YES, and dramatic reveal!
+          cursor precision-anchored to the YES button, and dramatic reveal!
           ============================================================== */}
       {beat === 0 && (
         <InteractivePoll

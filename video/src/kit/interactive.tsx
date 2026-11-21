@@ -45,10 +45,12 @@ export const AnimatedPointer: React.FC<{
     { ...CLAMP, easing: ease }
   );
 
+  // Natural curved trajectory
+  const arc = Math.sin(travelProgress * Math.PI) * -28;
   const curX = interpolate(travelProgress, [0, 1], [startX, targetX]);
-  const curY = interpolate(travelProgress, [0, 1], [startY, targetY]);
+  const curY = interpolate(travelProgress, [0, 1], [startY, targetY]) + arc;
 
-  // Click squash: squashes briefly around clickFrame
+  // Click squash: squashes briefly around clickFrame with anchor pinned at the tip
   const isPostClick = frame >= clickFrame;
   const clickAnim = spring({
     frame: frame - clickFrame,
@@ -56,15 +58,15 @@ export const AnimatedPointer: React.FC<{
     config: { damping: 12, mass: 0.5 },
   });
   const scale = isPostClick
-    ? interpolate(clickAnim, [0, 0.5, 1], [0.82, 1.08, 1])
+    ? interpolate(clickAnim, [0, 0.5, 1], [0.84, 1.06, 1])
     : 1;
 
-  // Expanding shockwave ripple on click
+  // Expanding shockwave ripple on click, centered on cursor tip (0, 0)
   const rippleProgress = isPostClick
     ? interpolate(frame - clickFrame, [0, 24], [0, 1], CLAMP)
     : 0;
-  const rippleRadius = rippleProgress * 70;
-  const rippleOpacity = (1 - rippleProgress) * 0.75;
+  const rippleRadius = rippleProgress * 65;
+  const rippleOpacity = (1 - rippleProgress) * 0.8;
 
   return (
     <div
@@ -74,17 +76,17 @@ export const AnimatedPointer: React.FC<{
         top: curY,
         pointerEvents: "none",
         zIndex: 100,
-        transform: `translate(-12px, -8px) scale(${scale})`,
-        transformOrigin: "center center",
+        transform: `scale(${scale})`,
+        transformOrigin: "0px 0px",
       }}
     >
-      {/* Click ripple shockwave */}
+      {/* Click ripple shockwave directly from cursor tip (0, 0) */}
       {isPostClick && rippleProgress < 1 && (
         <div
           style={{
             position: "absolute",
-            left: 12,
-            top: 12,
+            left: 0,
+            top: 0,
             width: rippleRadius * 2,
             height: rippleRadius * 2,
             transform: "translate(-50%, -50%)",
@@ -96,14 +98,14 @@ export const AnimatedPointer: React.FC<{
         />
       )}
 
-      {/* Cursor Body */}
+      {/* Cursor Body with tip precisely at (0, 0) */}
       {type === "mouse" ? (
-        <svg width="42" height="48" viewBox="0 0 32 36" fill="none">
+        <svg width="42" height="48" viewBox="0 0 32 36" fill="none" style={{ overflow: "visible" }}>
           <filter id="cursorShadow" x="-20%" y="-20%" width="160%" height="160%">
             <feDropShadow dx="2" dy="4" stdDeviation="4" floodColor="#000" floodOpacity="0.8" />
           </filter>
           <path
-            d="M2 2L13 32L17.5 20.5L30 18.5L2 2Z"
+            d="M0 0 L11 30 L15.5 18.5 L28 16.5 Z"
             fill="#0F172A"
             stroke={C.cyan}
             strokeWidth="2.5"
@@ -111,7 +113,7 @@ export const AnimatedPointer: React.FC<{
             filter="url(#cursorShadow)"
           />
           <path
-            d="M6 8L13 25L16 18L24 16.5L6 8Z"
+            d="M4 6 L11 23 L14 16 L22 14.5 Z"
             fill={C.cyan}
             opacity="0.85"
           />
@@ -121,6 +123,7 @@ export const AnimatedPointer: React.FC<{
           style={{
             width: 44,
             height: 44,
+            transform: "translate(-50%, -50%)",
             borderRadius: "50%",
             background: "radial-gradient(circle, rgba(34,211,238,0.6) 0%, rgba(34,211,238,0.1) 70%)",
             border: `2px solid ${C.cyan}`,
@@ -289,6 +292,7 @@ export const InteractivePoll: React.FC<{
               key={idx}
               id={`poll-option-${idx}`}
               style={{
+                position: "relative",
                 flex: 1,
                 minHeight: 180,
                 background: bgColor,
@@ -366,6 +370,18 @@ export const InteractivePoll: React.FC<{
                   }}
                 />
               </div>
+
+              {/* Anchored cursor specifically on the selected option button (e.g. YES) */}
+              {idx === selectedOptionIndex && (
+                <AnimatedPointer
+                  targetX={225}
+                  targetY={90}
+                  clickProgress={clickFraction}
+                  startX={480}
+                  startY={450}
+                  type="mouse"
+                />
+              )}
             </div>
           );
         })}
@@ -413,16 +429,6 @@ export const InteractivePoll: React.FC<{
           </div>
         </div>
       )}
-
-      {/* Pointer Cursor Animation pointing to option 0 */}
-      <AnimatedPointer
-        targetX={selectedOptionIndex === 0 ? 320 : 680}
-        targetY={490}
-        clickProgress={clickFraction}
-        startX={850}
-        startY={1100}
-        type="mouse"
-      />
     </div>
   );
 };
@@ -556,6 +562,16 @@ export const DeviceToggle: React.FC<{
                 }}
               />
             </div>
+
+            {/* Touch Pointer that taps the toggle switch knob */}
+            <AnimatedPointer
+              targetX={31}
+              targetY={31}
+              clickProgress={toggleFraction}
+              startX={120}
+              startY={260}
+              type="touch"
+            />
           </div>
           <span style={{ fontSize: 14, fontWeight: 800, color: isToggled ? C.cyan : C.dim }}>
             {isToggled ? "STATE: ACTIVE" : "STATE: OFF"}
@@ -600,16 +616,6 @@ export const DeviceToggle: React.FC<{
           );
         })}
       </div>
-
-      {/* Touch Pointer that taps the toggle switch */}
-      <AnimatedPointer
-        targetX={810}
-        targetY={130}
-        clickProgress={toggleFraction}
-        startX={650}
-        startY={700}
-        type="touch"
-      />
     </div>
   );
 };

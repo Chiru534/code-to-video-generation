@@ -42,7 +42,7 @@ export const ShortSsdTrimScene: React.FC<SsdTrimSceneProps> = ({
     >
       {/* ==============================================================
           BEAT 0: THE INTERACTIVE HYPOTHESIS & OS TRASH BIN
-          Desktop Trash dialog simulation + audience poll on silicon erasure.
+          Desktop Trash dialog simulation + audience poll with precision-anchored cursor.
           ============================================================== */}
       {beat === 0 && (
         <InteractivePoll
