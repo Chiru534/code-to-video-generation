@@ -1,49 +1,9 @@
 {
-  "slug": "closing-apps",
-  "title": "Closing Apps Drains Your Battery Faster",
-  "format": "short-9x16",
-  "scenes": [
-    {
-      "id": "s01",
-      "name": "The Compulsive Swipe",
-      "beat": 0,
-      "description": "Duck furiously swiping open app cards away to save battery, battery indicator draining."
-    },
-    {
-      "id": "s02",
-      "name": "The Wolf Steps In",
-      "beat": 1,
-      "description": "The Suited Wolf slides in, raises hand to stop the duck, smirk on reversal."
-    },
-    {
-      "id": "s03",
-      "name": "The CPU Drain Myth",
-      "beat": 2,
-      "description": "App cards falsely labeled 'ACTIVE DRAIN', Duck looking panicked."
-    },
-    {
-      "id": "s04",
-      "name": "Frozen in RAM",
-      "beat": 3,
-      "description": "Ice crystal freeze effect over background apps, drawing 0.002 mW."
-    },
-    {
-      "id": "s05",
-      "name": "The Cold Reload Spike",
-      "beat": 4,
-      "description": "CPU load spikes to 100%, 1400 mW power surge from flash NAND reload."
-    },
-    {
-      "id": "s06",
-      "name": "Craig Federighi Verdict",
-      "beat": 5,
-      "description": "Official Apple executive email verdict displayed on screen."
-    },
-    {
-      "id": "s07",
-      "name": "The Golden Rule",
-      "beat": 6,
-      "description": "Wolf and Duck with full battery, calm OS memory management."
-    }
-  ]
+  "s01": {},
+  "s02": {},
+  "s03": {},
+  "s04": {},
+  "s05": {},
+  "s06": {},
+  "s07": {}
 }
