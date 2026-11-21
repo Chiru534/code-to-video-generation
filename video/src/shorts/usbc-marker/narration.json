@@ -1,0 +1,34 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Most people assume a USB-C charging cable is just a passive bundle of copper wires inside plastic."
+    },
+    {
+      "id": "s02",
+      "text": "In reality, high-power USB-C cables contain an active computer inside the plug: an electronic marker chip."
+    },
+    {
+      "id": "s03",
+      "text": "Standard copper wires can safely carry three amps of current. Forcing five amps through thin wire produces violent resistive heating and melts the insulation."
+    },
+    {
+      "id": "s04",
+      "text": "To prevent electrical fires, the E-Marker chip negotiates directly with your charger using high-frequency packets on the Configuration Channel pin."
+    },
+    {
+      "id": "s05",
+      "text": "It broadcasts its vendor identity, wire gauge rating, and maximum voltage: authorizing up to two hundred and forty watts under Extended Power Range."
+    },
+    {
+      "id": "s06",
+      "text": "If your charger doesn't detect that digital signature, it hard-caps electrical current to sixty watts, protecting cheap cables from burning."
+    },
+    {
+      "id": "s07",
+      "text": "USB-C didn't just unify our connectors: it turned dumb copper wire into a communicating computer on your desk."
+    }
+  ]
+}

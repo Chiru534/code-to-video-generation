@@ -1,0 +1,34 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "When you empty your trash bin, you assume the file is instantly erased from your solid-state drive."
+    },
+    {
+      "id": "s02",
+      "text": "In truth, your operating system never erases data from flash memory: it only removes the file entry from the file system table."
+    },
+    {
+      "id": "s03",
+      "text": "NAND flash has a physical constraint: it can write data in sixteen kilobyte pages, but it can only erase in massive four megabyte blocks."
+    },
+    {
+      "id": "s04",
+      "text": "Because flash cells cannot be overwritten, saving one new file forces the drive to read, erase, and rewrite an entire multi-megabyte block."
+    },
+    {
+      "id": "s05",
+      "text": "Without help, this read-modify-write cycle creates massive write amplification, slashing SSD write speeds by up to eighty percent."
+    },
+    {
+      "id": "s06",
+      "text": "To prevent this, the storage industry created the TRIM command, telling the SSD controller which blocks are dead the moment you delete a file."
+    },
+    {
+      "id": "s07",
+      "text": "TRIM lets the drive controller erase dead flash blocks in the background, keeping write speeds high and preventing premature drive failure."
+    }
+  ]
+}

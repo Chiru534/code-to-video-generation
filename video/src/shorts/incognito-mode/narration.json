@@ -1,0 +1,34 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Millions of people open private browsing windows believing their traffic is completely invisible."
+    },
+    {
+      "id": "s02",
+      "text": "In truth, Incognito Mode hides nothing from the internet. It is simply a browser that deletes its own local history file when you close the tab."
+    },
+    {
+      "id": "s03",
+      "text": "The second you type a web address, your operating system fires an unencrypted UDP packet on port fifty-three to resolve the domain name."
+    },
+    {
+      "id": "s04",
+      "text": "Even under modern HTTPS encryption, the TLS handshake broadcasts the Server Name Indication in plain text across your local Wi-Fi and Internet provider."
+    },
+    {
+      "id": "s05",
+      "text": "Commercial tracking networks don't even need cookies: they query your device's graphics card, screen dimensions, and system fonts to generate a unique digital fingerprint."
+    },
+    {
+      "id": "s06",
+      "text": "In twenty twenty-four, Google agreed to destroy billions of browsing records to settle a five-billion-dollar lawsuit over tracking Incognito users."
+    },
+    {
+      "id": "s07",
+      "text": "Incognito Mode protects you from one person: whoever borrows your physical laptop tomorrow. From the internet, you are in plain sight."
+    }
+  ]
+}

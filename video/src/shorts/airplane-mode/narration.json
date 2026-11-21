@@ -1,0 +1,34 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Most people switch on Airplane Mode believing it makes their battery soak up electricity faster."
+    },
+    {
+      "id": "s02",
+      "text": "In reality, the charging circuit doesn't pull a single extra watt. Airplane Mode charges faster because your radio transmitters stop wasting the power."
+    },
+    {
+      "id": "s03",
+      "text": "When cellular signal is weak, your phone's radio power amplifiers ramp up from twenty milliwatts to over two thousand milliwatts just searching for towers."
+    },
+    {
+      "id": "s04",
+      "text": "Plugged into a basic five-watt charger, active cellular pings, Wi-Fi beacons, and Bluetooth scanning burn up to forty percent of incoming electricity."
+    },
+    {
+      "id": "s05",
+      "text": "Even worse, that dissipated radio power produces heat inside the chassis, forcing the battery management chip to throttle incoming current to protect the cell."
+    },
+    {
+      "id": "s06",
+      "text": "Airplane Mode shuts off baseband transmission entirely, channeling one hundred percent of incoming wattage straight into battery chemistry."
+    },
+    {
+      "id": "s07",
+      "text": "On a sixty-five-watt brick the difference is tiny, but on a low-power charger, Airplane Mode isn't a turbo switch: it's plugging a massive leak."
+    }
+  ]
+}

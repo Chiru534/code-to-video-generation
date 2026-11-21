@@ -6,6 +6,11 @@ import { NumberProof, NUMBER_PROOF_FRAMES } from "./proof/NumberProof";
 import { TouchscreenField, DURATION as TOUCHSCREEN_FIELD_DURATION } from "./shorts/touchscreen-field/TouchscreenField";
 import { BlueScreenShort, DURATION as BLUE_SCREEN_DURATION } from "./shorts/blue-screen/BlueScreenShort";
 import { ClosingAppsShort, DURATION as CLOSING_APPS_DURATION } from "./shorts/closing-apps/ClosingAppsShort";
+import { IncognitoMode, DURATION as INCOGNITO_MODE_DURATION } from "./shorts/incognito-mode/IncognitoModeShort";
+import { UsbcMarker, DURATION as USBC_MARKER_DURATION } from "./shorts/usbc-marker/UsbcMarkerShort";
+import { GpsRelativity, DURATION as GPS_RELATIVITY_DURATION } from "./shorts/gps-relativity/GpsRelativityShort";
+import { SsdTrim, DURATION as SSD_TRIM_DURATION } from "./shorts/ssd-trim/SsdTrimShort";
+import { AirplaneMode, DURATION as AIRPLANE_MODE_DURATION } from "./shorts/airplane-mode/AirplaneModeShort";
 import { DnsEpisode, DURATION as DNS_DURATION } from "./episode/DnsEpisode";
 import { HandshakeEpisode, DURATION as HANDSHAKE_DURATION } from "./episode02/HandshakeEpisode";
 import { TlsEpisode, DURATION as TLS_DURATION } from "./episode03/TlsEpisode";
@@ -338,6 +343,48 @@ export const RemotionRoot: React.FC = () => {
         id="DiamondRitual"
         component={DiamondRitual}
         durationInFrames={DIAMOND_RITUAL_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+
+      {/* 5 Technical Shorts */}
+      <Composition
+        id="IncognitoMode"
+        component={IncognitoMode}
+        durationInFrames={INCOGNITO_MODE_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="UsbcMarker"
+        component={UsbcMarker}
+        durationInFrames={USBC_MARKER_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="GpsRelativity"
+        component={GpsRelativity}
+        durationInFrames={GPS_RELATIVITY_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="SsdTrim"
+        component={SsdTrim}
+        durationInFrames={SSD_TRIM_DURATION}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="AirplaneMode"
+        component={AirplaneMode}
+        durationInFrames={AIRPLANE_MODE_DURATION}
         fps={30}
         width={1080}
         height={1920}

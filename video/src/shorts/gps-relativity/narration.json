@@ -1,0 +1,34 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {
+      "id": "s01",
+      "text": "Most people assume GPS is simple geometry: satellites broadcast their location and your phone triangulates your position."
+    },
+    {
+      "id": "s02",
+      "text": "In truth, if satellite engineers had relied on classical Newtonian physics, your navigation map would drift by over ten kilometers every single day."
+    },
+    {
+      "id": "s03",
+      "text": "Because GPS satellites orbit at nearly four kilometers per second, Einstein's Special Relativity dictates their clocks tick slower, losing seven microseconds a day."
+    },
+    {
+      "id": "s04",
+      "text": "However, twenty thousand kilometers above Earth, gravity is four times weaker, and General Relativity dictates that weaker gravity makes clocks run forty-five microseconds faster."
+    },
+    {
+      "id": "s05",
+      "text": "Subtracting the speed loss from the gravitational gain leaves a net acceleration of thirty-eight microseconds every single day."
+    },
+    {
+      "id": "s06",
+      "text": "Because radio signals travel at the speed of light, thirty-eight microseconds multiplies into eleven point four kilometers of positioning error every twenty-four hours."
+    },
+    {
+      "id": "s07",
+      "text": "To fix this, engineers pre-slowed satellite atomic clocks before launch to ten point two two nine megahertz, so Einstein's universe makes them tick in perfect unison on Earth."
+    }
+  ]
+}

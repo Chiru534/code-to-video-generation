@@ -281,5 +281,60 @@
     "status": "draft",
     "shape": "short",
     "style": "massinfluence"
+  },
+  "incognito-mode": {
+    "title": "Incognito Mode Does Not Hide You",
+    "srcDir": "src/shorts/incognito-mode",
+    "audioDir": "public/audio/incognito-mode",
+    "composition": "IncognitoMode",
+    "output": "incognito-mode.mp4",
+    "thumbSeconds": 4.0,
+    "status": "draft",
+    "shape": "short",
+    "style": "technical"
+  },
+  "usbc-marker": {
+    "title": "Your USB-C Cable Has a Computer Inside It",
+    "srcDir": "src/shorts/usbc-marker",
+    "audioDir": "public/audio/usbc-marker",
+    "composition": "UsbcMarker",
+    "output": "usbc-marker.mp4",
+    "thumbSeconds": 4.0,
+    "status": "draft",
+    "shape": "short",
+    "style": "technical"
+  },
+  "gps-relativity": {
+    "title": "Your GPS Only Works Because of Einstein's Relativity",
+    "srcDir": "src/shorts/gps-relativity",
+    "audioDir": "public/audio/gps-relativity",
+    "composition": "GpsRelativity",
+    "output": "gps-relativity.mp4",
+    "thumbSeconds": 4.0,
+    "status": "draft",
+    "shape": "short",
+    "style": "technical"
+  },
+  "ssd-trim": {
+    "title": "Deleting a File on an SSD Does Not Delete It",
+    "srcDir": "src/shorts/ssd-trim",
+    "audioDir": "public/audio/ssd-trim",
+    "composition": "SsdTrim",
+    "output": "ssd-trim.mp4",
+    "thumbSeconds": 4.0,
+    "status": "draft",
+    "shape": "short",
+    "style": "technical"
+  },
+  "airplane-mode": {
+    "title": "Airplane Mode Charges Your Phone Faster",
+    "srcDir": "src/shorts/airplane-mode",
+    "audioDir": "public/audio/airplane-mode",
+    "composition": "AirplaneMode",
+    "output": "airplane-mode.mp4",
+    "thumbSeconds": 4.0,
+    "status": "draft",
+    "shape": "short",
+    "style": "technical"
   }
 }
