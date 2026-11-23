@@ -3,7 +3,7 @@
   "fps": 30,
   "voice": "af_heart",
   "speed": 0.95,
-  "totalFrames": 15027,
+  "totalFrames": 14871,
   "scenes": {
     "s01": {
       "sec": 12.5,
@@ -56,9 +56,9 @@
       "text": "CAG takes the opposite bet. Cache augmented generation preloads the entire curated corpus into the context window once."
     },
     "s11": {
-      "sec": 10.9,
-      "frames": 327,
-      "text": "The model reads it, computes the key and value tensors for every token, and saves that state. The saved state is the K V cache."
+      "sec": 10.4,
+      "frames": 312,
+      "text": "The model reads it, computes the key and value tensors for every token, and saves that state. The saved state is the KV cache."
     },
     "s12": {
       "sec": 9.6,
@@ -91,9 +91,9 @@
       "text": "So how was the forty times figure produced? The authors tested Llama three point one, eight billion parameters, on two question answering benchmarks."
     },
     "s18": {
-      "sec": 9.2,
-      "frames": 276,
-      "text": "S QuAD, where the answer sits in one passage, and Hot Pot Q A, where you must connect facts across documents."
+      "sec": 7.5,
+      "frames": 225,
+      "text": "SQuAD, where the answer sits in one passage, and HotPotQA, where you must connect facts across documents."
     },
     "s19": {
       "sec": 9.6,
@@ -106,14 +106,14 @@
       "text": "The largest set is the interesting one. Sixty four documents, eighty five thousand tokens, and one thousand three hundred forty four questions."
     },
     "s21": {
-      "sec": 8.8,
-      "frames": 264,
-      "text": "They ran sparse BM twenty five retrieval, dense vector retrieval, plain long context with no cache, and their cached method."
+      "sec": 7.9,
+      "frames": 237,
+      "text": "They ran sparse BM25 retrieval, dense vector retrieval, plain long context with no cache, and their cached method."
     },
     "s22": {
-      "sec": 6.7,
-      "frames": 201,
-      "text": "Every system used the same model. The hardware was eight Tesla V one hundred GPUs."
+      "sec": 5.8,
+      "frames": 174,
+      "text": "Every system used the same model. The hardware was eight Tesla V100 GPUs."
     },
     "s23": {
       "sec": 7.1,
@@ -121,9 +121,9 @@
       "text": "Now open table three, the response time table, and read the names of the rows carefully."
     },
     "s24": {
-      "sec": 9.2,
-      "frames": 276,
-      "text": "Here is the number everyone quotes. Re reading the whole corpus for every question takes ninety two point zero eight seconds."
+      "sec": 8.8,
+      "frames": 264,
+      "text": "Here is the number everyone quotes. Re-reading the whole corpus for every question takes ninety two point zero eight seconds."
     },
     "s25": {
       "sec": 5.8,
@@ -291,9 +291,9 @@
       "text": "The number was never the lie. The label next to it was."
     },
     "s58": {
-      "sec": 8.3,
-      "frames": 249,
-      "text": "Source: Chan, Chen, Cheng and Huang. Don't do R A G. The Web Conference twenty twenty five, companion proceedings."
+      "sec": 7.5,
+      "frames": 225,
+      "text": "Source: Chan, Chen, Cheng and Huang. \"Don't Do RAG\". The Web Conference twenty twenty five, companion proceedings."
     },
     "s59": {
       "sec": 4.6,
