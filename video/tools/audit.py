@@ -509,6 +509,20 @@ def audit_render(path: str, info: dict) -> None:
     else:
         skip("frame edge clipping", "tools/check_edges.py not found")
 
+    # Interior dead band. Dark-pixel counts cannot find this: the theme is dark
+    # by design. What matters is a run of inactive rows BETWEEN the body and the
+    # footer. ssd-trim shipped with 33.4%; the four good Shorts are 6-19%.
+    deadband = os.path.join(ROOT, "tools", "deadband.py")
+    if os.path.exists(deadband):
+        proc = subprocess.run([sys.executable, deadband, path], capture_output=True, text=True)
+        out = (proc.stdout or "").strip()
+        check(proc.returncode in (0, 1), "dead band measured",
+              (proc.stderr or "could not run deadband.py").strip()[:200]
+              if proc.returncode not in (0, 1) else "")
+        check(proc.returncode == 0, "no interior dead band", out)
+    else:
+        skip("interior dead band", "tools/deadband.py not found")
+
     # EBU R128 integrated loudness. The workflow applies loudnorm at -14;
     # this proves the file that leaves the runner actually measured that.
     try:
