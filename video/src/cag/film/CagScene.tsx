@@ -28,20 +28,55 @@ export interface CagSceneProps {
   highlight?: number;
 }
 
-const Wrap: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <AbsoluteFill style={{ backgroundColor: C.bg }}>
-    <Ground />
+const Wrap: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const frame = useCurrentFrame();
+  const drift = Math.sin(frame / 24) * 3;
+  return (
+    <AbsoluteFill style={{ backgroundColor: C.bg }}>
+      <Ground />
+      <div
+        style={{
+          position: "absolute", inset: 0, display: "flex", flexDirection: "column",
+          alignItems: "center", justifyContent: "center", gap: 34,
+          padding: `0 ${FILM.pad}px 96px`, boxSizing: "border-box",
+          transform: `translateY(${drift}px)`,
+        }}
+      >
+        {children}
+      </div>
+      <ScenePulse />
+    </AbsoluteFill>
+  );
+};
+
+/* The "no still frame" rule needs motion that performs. Several scenes enter
+ * text and then sit still; this wire keeps motion alive across the whole
+ * duration of every scene: a cursor moves back and forth across the bottom of
+ * the frame at a steady speed, ping-ponging with no idle between sweeps. The
+ * metaphor is the film's own motif — a wire on which the sources are being read. */
+const ScenePulse: React.FC = () => {
+  const frame = useCurrentFrame();
+  const { durationInFrames } = useVideoConfig();
+  const d = Math.max(1, durationInFrames);
+  const BAR = 620, DOT = 44;
+  const total = BAR + DOT + 2 * 60;
+  const t = ((frame * 1.4) % total) / total;
+  const x = t < 0.5 ? t * 2 : 2 - t * 2; // 0 -> 1 -> 0, one ping-pong per loop
+  const cx = 60 + x * (BAR - DOT);
+  return (
     <div
       style={{
-        position: "absolute", inset: 0, display: "flex", flexDirection: "column",
-        alignItems: "center", justifyContent: "center", gap: 34,
-        padding: `0 ${FILM.pad}px 96px`, boxSizing: "border-box",
+        position: "absolute", left: 60, right: 60, bottom: 6, height: 9,
+        borderRadius: 3, background: "rgba(255,255,255,0.05)", overflow: "hidden",
       }}
     >
-      {children}
+      <div
+        style={{ width: DOT, height: 9, borderRadius: 3, background: C.cyan,
+          opacity: 0.66, transform: `translateX(${cx}px)` }}
+      />
     </div>
-  </AbsoluteFill>
-);
+  );
+};
 
 const Bar: React.FC<{ p: number; color: string; w: number; h?: number }> = ({
   p, color, w, h = 8,
