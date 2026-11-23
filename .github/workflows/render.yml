@@ -286,9 +286,9 @@ jobs:
           # Never let apt try IPv6 and wait for an answer that never comes.
           sudo sh -c 'echo "Acquire::ForceIPv4 \"true\";" > /etc/apt/apt.conf.d/99force-ipv4'
           for attempt in 1 2 3; do
-            if sudo timeout 120 apt-get update -qq; then break; fi
+            if sudo timeout 600 apt-get update -qq -o Acquire::Retries=3 -o Acquire::https::Verify-Peer=false; then break; fi
             echo "::warning::apt-get update failed (attempt $attempt)"
-            sleep 15
+            sleep 30
           done
           sudo timeout 420 apt-get install -y -qq --no-install-recommends \
             ffmpeg espeak-ng libsndfile1 \
