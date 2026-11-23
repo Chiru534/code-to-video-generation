@@ -70,6 +70,17 @@
     "shape": "film",
     "style": "film"
   },
+  "cag-vs-rag": {
+    "title": "CAG vs RAG: The 40× Number Everyone Quotes Is Wrong",
+    "srcDir": "src/cag/film",
+    "audioDir": "public/audio/cag-film",
+    "composition": "CagFilm",
+    "output": "cag-vs-rag.mp4",
+    "thumbSeconds": 12.0,
+    "status": "draft",
+    "shape": "film",
+    "style": "film"
+  },
   "training-memory": {
     "title": "Why Training a 7B Model Needs 112 GB",
     "srcDir": "src/shorts/training-memory",

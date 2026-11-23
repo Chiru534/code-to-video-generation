@@ -1,0 +1,309 @@
+{
+  "note": "PLACEHOLDER. CI regenerates from measured narration (tools/tts.py).",
+  "fps": 30,
+  "voice": "af_heart",
+  "speed": 0.95,
+  "totalFrames": 15027,
+  "scenes": {
+    "s01": {
+      "sec": 12.5,
+      "frames": 375,
+      "text": "In twenty twenty five, a research paper gave the world a number. Cache augmented generation was forty times faster than RAG. The number is real. The comparison is not."
+    },
+    "s02": {
+      "sec": 8.3,
+      "frames": 249,
+      "text": "You have probably seen the headline. CAG is forty times faster than RAG, retrieval free, and more accurate too."
+    },
+    "s03": {
+      "sec": 10.0,
+      "frames": 300,
+      "text": "Search that claim and you will find it repeated on LinkedIn, in engineering blogs, and in presentation slides. Almost nobody opens the paper."
+    },
+    "s04": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "So we did. We downloaded both versions of the source, opened the tables, and read the names of the baseline rows."
+    },
+    "s05": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "What we found is better than a misquote. The paper changed the label, and the internet kept quoting the old one."
+    },
+    "s06": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "This is the story of a number that survived because it was repeated, not because it was read."
+    },
+    "s07": {
+      "sec": 3.3,
+      "frames": 99,
+      "text": "First, what the two systems actually do."
+    },
+    "s08": {
+      "sec": 10.9,
+      "frames": 327,
+      "text": "RAG stands for retrieval augmented generation. Split documents into chunks, embed them into an index, and fetch the few most relevant chunks for each question."
+    },
+    "s09": {
+      "sec": 12.1,
+      "frames": 363,
+      "text": "The model sees those chunks and the question. It never sees the whole knowledge base. Its answer can only be as good as the chunks that were fetched."
+    },
+    "s10": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "CAG takes the opposite bet. Cache augmented generation preloads the entire curated corpus into the context window once."
+    },
+    "s11": {
+      "sec": 10.9,
+      "frames": 327,
+      "text": "The model reads it, computes the key and value tensors for every token, and saves that state. The saved state is the K V cache."
+    },
+    "s12": {
+      "sec": 9.6,
+      "frames": 288,
+      "text": "When a question arrives, only the question is processed. The corpus is already there. No retrieval step, no embedding lookup, no ranking."
+    },
+    "s13": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "After the answer, the extra question tokens are trimmed and the cache returns to its clean state."
+    },
+    "s14": {
+      "sec": 8.8,
+      "frames": 264,
+      "text": "That is a clever idea. It removes a whole class of failures: the right document never being retrieved at all."
+    },
+    "s15": {
+      "sec": 10.0,
+      "frames": 300,
+      "text": "But notice what the cache does not remove. The model still attends over every token in that corpus for every token it generates."
+    },
+    "s16": {
+      "sec": 5.0,
+      "frames": 150,
+      "text": "The cache saves the reading. It does not save the thinking."
+    },
+    "s17": {
+      "sec": 10.0,
+      "frames": 300,
+      "text": "So how was the forty times figure produced? The authors tested Llama three point one, eight billion parameters, on two question answering benchmarks."
+    },
+    "s18": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "S QuAD, where the answer sits in one passage, and Hot Pot Q A, where you must connect facts across documents."
+    },
+    "s19": {
+      "sec": 9.6,
+      "frames": 288,
+      "text": "They built three corpus sizes. Sixteen, thirty two, and sixty four documents, from twenty one thousand up to eighty five thousand tokens."
+    },
+    "s20": {
+      "sec": 9.6,
+      "frames": 288,
+      "text": "The largest set is the interesting one. Sixty four documents, eighty five thousand tokens, and one thousand three hundred forty four questions."
+    },
+    "s21": {
+      "sec": 8.8,
+      "frames": 264,
+      "text": "They ran sparse BM twenty five retrieval, dense vector retrieval, plain long context with no cache, and their cached method."
+    },
+    "s22": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "Every system used the same model. The hardware was eight Tesla V one hundred GPUs."
+    },
+    "s23": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "Now open table three, the response time table, and read the names of the rows carefully."
+    },
+    "s24": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "Here is the number everyone quotes. Re reading the whole corpus for every question takes ninety two point zero eight seconds."
+    },
+    "s25": {
+      "sec": 5.8,
+      "frames": 174,
+      "text": "With the cache precomputed, the same question takes two point two six seconds."
+    },
+    "s26": {
+      "sec": 8.3,
+      "frames": 249,
+      "text": "Ninety two divided by two point two six is forty point seven. That is where forty times comes from."
+    },
+    "s27": {
+      "sec": 12.1,
+      "frames": 363,
+      "text": "But look at the name of the ninety two second row. In the published version it says in context learning. In the earlier version, it said without CAG."
+    },
+    "s28": {
+      "sec": 8.3,
+      "frames": 249,
+      "text": "It is not RAG. It is the model reading the entire corpus again from scratch, on every single question."
+    },
+    "s29": {
+      "sec": 13.8,
+      "frames": 414,
+      "text": "Now look at the row that actually says RAG. Sparse retrieval, top three passages: zero point zero zero zero eight seconds to retrieve, and zero point six six six seven to generate."
+    },
+    "s30": {
+      "sec": 5.0,
+      "frames": 150,
+      "text": "Under one second. The cached method takes two point two six."
+    },
+    "s31": {
+      "sec": 7.9,
+      "frames": 237,
+      "text": "On the paper's own largest test set, plain keyword RAG was three point four times faster than CAG."
+    },
+    "s32": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "The forty times speedup is real. It just compares against the slowest possible baseline, not against RAG."
+    },
+    "s33": {
+      "sec": 4.6,
+      "frames": 138,
+      "text": "What about accuracy? This is where the story gets stranger."
+    },
+    "s34": {
+      "sec": 10.4,
+      "frames": 312,
+      "text": "The published table two gives CAG a BERT score of zero point seven four zero seven on the large Hot Pot Q A set."
+    },
+    "s35": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "Sparse RAG with five passages scores zero point seven five three five. RAG wins that row."
+    },
+    "s36": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "But the earlier arXiv version scored CAG at zero point seven five two seven, and marked it as the best result."
+    },
+    "s37": {
+      "sec": 5.4,
+      "frames": 162,
+      "text": "Same authors, same experiment, two different tables. We checked the source files."
+    },
+    "s38": {
+      "sec": 11.7,
+      "frames": 351,
+      "text": "In version two, the old table is still in the Latex. It is wrapped in an if false block, so it never appears in the published PDF."
+    },
+    "s39": {
+      "sec": 8.3,
+      "frames": 249,
+      "text": "The authors also changed the baseline label from without CAG to in context learning, and replaced the old numbers."
+    },
+    "s40": {
+      "sec": 8.8,
+      "frames": 264,
+      "text": "Articles published after that revision kept quoting the first version. Some still claim CAG was more accurate in every configuration."
+    },
+    "s41": {
+      "sec": 10.9,
+      "frames": 327,
+      "text": "The honest conclusion is narrower. CAG led on the small and medium sets. On the largest one, the result depends on which version you read."
+    },
+    "s42": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "There is a second cost nobody puts in the headline. The cache has to live somewhere."
+    },
+    "s43": {
+      "sec": 9.6,
+      "frames": 288,
+      "text": "Llama three point one eight billion has thirty two layers, eight key value heads, and one hundred twenty eight dimensions per head."
+    },
+    "s44": {
+      "sec": 9.2,
+      "frames": 276,
+      "text": "One token needs two values per head, in two byte precision. That is about one hundred twenty eight kilobytes per token."
+    },
+    "s45": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "Across eighty five thousand tokens, that is roughly eleven gigabytes of cache, before framework overhead."
+    },
+    "s46": {
+      "sec": 6.7,
+      "frames": 201,
+      "text": "That is our arithmetic, from the model's published shape, not a figure from the paper."
+    },
+    "s47": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "The model weights themselves are about sixteen gigabytes. The cached corpus is most of another model."
+    },
+    "s48": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "So is CAG useless? No. It solves a real problem, in a narrow setting."
+    },
+    "s49": {
+      "sec": 10.9,
+      "frames": 327,
+      "text": "If your knowledge base is small, stable, queried constantly, and does not need different permissions for different people, preloading and caching is a clean design."
+    },
+    "s50": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "Internal handbooks, frequently asked questions, support playbooks. The paper names those exact use cases."
+    },
+    "s51": {
+      "sec": 6.3,
+      "frames": 189,
+      "text": "The authors state the boundary themselves. The method becomes impractical for significantly larger datasets."
+    },
+    "s52": {
+      "sec": 7.1,
+      "frames": 213,
+      "text": "And they suggest the hybrid. Preload a foundation context, then retrieve only for the edge cases."
+    },
+    "s53": {
+      "sec": 12.5,
+      "frames": 375,
+      "text": "A recent independent test pushed this to six hundred twenty thousand tokens. CAG stayed accurate, but time to first token rose to about fifteen seconds. Retrieval stayed near one."
+    },
+    "s54": {
+      "sec": 10.9,
+      "frames": 327,
+      "text": "So the rule of thumb is not which technique wins. It is how much text you are willing to hold in memory for every answer."
+    },
+    "s55": {
+      "sec": 7.5,
+      "frames": 225,
+      "text": "The paper's own title says, don't do RAG. Its own limitations say when not to do CAG."
+    },
+    "s56": {
+      "sec": 8.3,
+      "frames": 249,
+      "text": "The next time someone tells you a system is forty times faster, ask what the other row is called."
+    },
+    "s57": {
+      "sec": 5.4,
+      "frames": 162,
+      "text": "The number was never the lie. The label next to it was."
+    },
+    "s58": {
+      "sec": 8.3,
+      "frames": 249,
+      "text": "Source: Chan, Chen, Cheng and Huang. Don't do R A G. The Web Conference twenty twenty five, companion proceedings."
+    },
+    "s59": {
+      "sec": 4.6,
+      "frames": 138,
+      "text": "We read both versions so you do not have to."
+    },
+    "s60": {
+      "sec": 1.7,
+      "frames": 51,
+      "text": "Read the table."
+    }
+  }
+}
