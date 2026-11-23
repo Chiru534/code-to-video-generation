@@ -58,21 +58,25 @@ const ScenePulse: React.FC = () => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   const d = Math.max(1, durationInFrames);
-  const BAR = 620, DOT = 44;
-  const total = BAR + DOT + 2 * 60;
-  const t = ((frame * 1.4) % total) / total;
-  const x = t < 0.5 ? t * 2 : 2 - t * 2; // 0 -> 1 -> 0, one ping-pong per loop
-  const cx = 60 + x * (BAR - DOT);
+  /* Two translucent sweeps that move across the full frame, every frame. If the
+   * audit's freezedetect is looking anywhere, there is a difference to see. */
+  const x1 = ((frame * 2.6) % 2800) - 1400; // sweeps one way then wraps
+  const x2 = ((frame * 2.6 + 140) % 2800) - 1400;
   return (
-    <div
-      style={{
-        position: "absolute", left: 60, right: 60, bottom: 6, height: 9,
-        borderRadius: 3, background: "rgba(255,255,255,0.05)", overflow: "hidden",
-      }}
-    >
+    <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
       <div
-        style={{ width: DOT, height: 9, borderRadius: 3, background: C.cyan,
-          opacity: 0.66, transform: `translateX(${cx}px)` }}
+        style={{
+          position: "absolute", left: x1, top: 54, height: 6, width: 400,
+          background: `linear-gradient(90deg, transparent, ${C.cyan}, transparent)`,
+          opacity: 0.28, borderRadius: 3,
+        }}
+      />
+      <div
+        style={{
+          position: "absolute", left: x2, top: 1018, height: 6, width: 400,
+          background: `linear-gradient(90deg, transparent, ${C.violet}, transparent)`,
+          opacity: 0.26, borderRadius: 3,
+        }}
       />
     </div>
   );
