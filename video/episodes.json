@@ -92,6 +92,17 @@
     "shape": "film",
     "style": "film"
   },
+  "5g-battery": {
+    "title": "The Battery Cost Isn't the Speed. It's the State Machine.",
+    "srcDir": "src/5g/film",
+    "audioDir": "public/audio/5g-film",
+    "composition": "FiveGBFilm",
+    "output": "5g-battery.mp4",
+    "thumbSeconds": 12.0,
+    "status": "draft",
+    "shape": "film",
+    "style": "film"
+  },
   "training-memory": {
     "title": "Why Training a 7B Model Needs 112 GB",
     "srcDir": "src/shorts/training-memory",

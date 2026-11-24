@@ -22,6 +22,7 @@ import { LittleBit, DURATION as LITTLEBIT_DURATION } from "./littlebit/LittleBit
 import { LittleBitFilm, DURATION as LITTLEBIT_FILM_DURATION } from "./littlebit/film/LittleBitFilm";
 import { CagFilm, DURATION as CAG_FILM_DURATION } from "./cag/film/CagFilm";
 import { CaptchaFilm, DURATION as CAPTCHA_FILM_DURATION } from "./captcha/film/CaptchaFilm";
+import { FiveGBFilm, DURATION as FIVE_GB_DURATION } from "./5g/film/FiveGBFilm";
 
 /* BEGIN GENERATED SHORT IMPORTS */
 import {
@@ -238,6 +239,14 @@ export const RemotionRoot: React.FC = () => {
         id="CaptchaFilm"
         component={CaptchaFilm}
         durationInFrames={CAPTCHA_FILM_DURATION}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="FiveGBFilm"
+        component={FiveGBFilm}
+        durationInFrames={FIVE_GB_DURATION}
         fps={30}
         width={1920}
         height={1080}
