@@ -1,0 +1,23 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {"id": "s01", "text": "Your CAPTCHA is hard because you are not passing a test. You are working for something bigger."},
+    {"id": "s02", "text": "The original reCAPTCHA, built by Luis von Ahn at Carnegie Mellon and acquired by Google in September 2009, was explicitly dual purpose: block the bots and use the answers to digitize text OCR could not read."},
+    {"id": "s03", "text": "A pair of words came back to you: a control word the system already knew, and an unknown word from a page the computer failed to read."},
+    {"id": "s04", "text": "Your job was to prove you are human. The second word was a side door: every time someone read a hard word, the system recorded that answer as evidence about what the scan said."},
+    {"id": "s05", "text": "By 2011 and 2012, the New York Times archive — back to 1851 — had been digitized this way, along with the older corpus from the New York Times request in 2007."},
+    {"id": "s06", "text": "In 2012 the system began mixing in photographs of house numbers taken from Google Street View."},
+    {"id": "s07", "text": "Google announced it was using the general public to read house numbers for its maps product."},
+    {"id": "s08", "text": "So what did you become? You became the labelling engine. The CAPTCHA verifies you; the words you read feed the machine."},
+    {"id": "s09", "text": "Why do captchas get harder over time? More pages are scanned, more words fail OCR, so the gap between easy and hard words grows — difficulty scales with how much labelling is still needed."},
+    {"id": "s10", "text": "That is the whole trick. The modern image-grid version behaves the same way: the pictures you categorize become training data for the next version of the system."},
+    {"id": "s11", "text": "Now the nuance, because it matters: we cannot prove that every individual puzzle you solved trained on your click — Google has never published what a specific challenge does."},
+    {"id": "s12", "text": "What the documented design and history show is dual purpose, from the primary sources."},
+    {"id": "s13", "text": "The difficulty scaling is the measurable claim we can make: difficulty tracks the amount of labelling still to be done, not how suspicious you look."},
+    {"id": "s14", "text": "A yellow warning: the street-view era was documented, but v2 and v3 came later and their internals are not published."},
+    {"id": "s15", "text": "One more honest note: CAPTCHA's impact is greatest for text-based challenges. The difficulty direction is stable."},
+    {"id": "s16", "text": "Sources: Wikipedia on reCAPTCHA; CMU News, September 2009; The New York Times, 2011; The Register, April 2012."},
+    {"id": "s17", "text": "Credits: Luis von Ahn, David Abraham, Manuel Blum, Colin McMillen, Ben Maurer, Edison Tan, Carnegie Mellon University."}
+  ]
+}

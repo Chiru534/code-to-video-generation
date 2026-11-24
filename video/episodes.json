@@ -81,6 +81,17 @@
     "shape": "film",
     "style": "film"
   },
+  "captcha-why": {
+    "title": "You Are Not Passing a CAPTCHA. You Are Working for Google.",
+    "srcDir": "src/captcha/film",
+    "audioDir": "public/audio/captcha-film",
+    "composition": "CaptchaFilm",
+    "output": "captcha-why.mp4",
+    "thumbSeconds": 10.0,
+    "status": "draft",
+    "shape": "film",
+    "style": "film"
+  },
   "training-memory": {
     "title": "Why Training a 7B Model Needs 112 GB",
     "srcDir": "src/shorts/training-memory",
