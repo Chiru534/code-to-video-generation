@@ -25,10 +25,10 @@ const Wrap: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { durationInFrames } = useVideoConfig();
   const d = Math.max(1, durationInFrames);
   const p = frame / d;
-  const zoom = 1.0 + p * 0.024;
-  const driftY = (p - 0.5) * -16;
-  const driftX = Math.sin(p * Math.PI * 2) * 8;
-  const gridPos = (frame * 0.75) % 96;
+  const zoom = 1.0 + p * 0.06;
+  const driftY = (p - 0.5) * -32;
+  const driftX = Math.sin(p * Math.PI * 2) * 18;
+  const gridPos = (frame * 1.5) % 96;
   return (
     <AbsoluteFill style={{ backgroundColor: C.bg }}>
       <Ground />
@@ -40,8 +40,8 @@ const Wrap: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             "linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px)",
           backgroundSize: "96px 96px",
           backgroundPosition: `${gridPos}px ${gridPos}px`,
-          maskImage: "radial-gradient(ellipse 65% 70% at 50% 50%, black 20%, transparent 85%)",
-          WebkitMaskImage: "radial-gradient(ellipse 65% 70% at 50% 50%, black 20%, transparent 85%)",
+          maskImage: "radial-gradient(ellipse 100% 100% at 50% 50%, black 0%, transparent 100%)",
+          WebkitMaskImage: "radial-gradient(ellipse 100% 100% at 50% 50%, black 0%, transparent 100%)",
           pointerEvents: "none",
         }}
       />
