@@ -103,6 +103,17 @@
     "shape": "film",
     "style": "film"
   },
+  "wifi-extender": {
+    "title": "Your Wi-Fi extender makes Wi-Fi slower.",
+    "srcDir": "src/wifi-extender/film",
+    "audioDir": "public/audio/wifi-extender-film",
+    "composition": "WiFiExtenderFilm",
+    "output": "wifi-extender.mp4",
+    "thumbSeconds": 10.0,
+    "status": "draft",
+    "shape": "film",
+    "style": "film"
+  },
   "training-memory": {
     "title": "Why Training a 7B Model Needs 112 GB",
     "srcDir": "src/shorts/training-memory",
