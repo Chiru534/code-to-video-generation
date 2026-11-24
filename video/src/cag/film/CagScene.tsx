@@ -30,56 +30,33 @@ export interface CagSceneProps {
 
 const Wrap: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const frame = useCurrentFrame();
-  const drift = Math.sin(frame / 24) * 3;
+  const { durationInFrames } = useVideoConfig();
+  const d = Math.max(1, durationInFrames);
+  const p = frame / d;
+  const zoom = 1.0 + p * 0.024;
+  const driftY = (p - 0.5) * -16;
+  const driftX = Math.sin(p * Math.PI * 2) * 8;
   return (
     <AbsoluteFill style={{ backgroundColor: C.bg }}>
       <Ground />
       <div
         style={{
-          position: "absolute", inset: 0, display: "flex", flexDirection: "column",
-          alignItems: "center", justifyContent: "center", gap: 34,
-          padding: `0 ${FILM.pad}px 96px`, boxSizing: "border-box",
-          transform: `translateY(${drift}px)`,
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 34,
+          padding: `0 ${FILM.pad}px 96px`,
+          boxSizing: "border-box",
+          transform: `scale(${zoom}) translate(${driftX}px, ${driftY}px)`,
+          transformOrigin: "center center",
         }}
       >
         {children}
       </div>
-      <ScenePulse />
     </AbsoluteFill>
-  );
-};
-
-/* The "no still frame" rule needs motion that performs. Several scenes enter
- * text and then sit still; this wire keeps motion alive across the whole
- * duration of every scene: a cursor moves back and forth across the bottom of
- * the frame at a steady speed, ping-ponging with no idle between sweeps. The
- * metaphor is the film's own motif — a wire on which the sources are being read. */
-const ScenePulse: React.FC = () => {
-  const frame = useCurrentFrame();
-  const { durationInFrames } = useVideoConfig();
-  const d = Math.max(1, durationInFrames);
-  /* Two translucent bars sweeping horizontally at 8 px/frame, one at the top
-   * and one at the very bottom of the frame. They move every frame and are
-   * deliberately on the extreme rows — the kind of motion the "no still frame"
-   * rule exists for. */
-  const x = ((frame * 8) % 2560) - 1280;
-  return (
-    <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
-      <div
-        style={{
-          position: "absolute", left: x - 300, top: 54, height: 8, width: 600,
-          background: `linear-gradient(90deg, transparent, ${C.cyan}, transparent)`,
-          opacity: 0.35, borderRadius: 4,
-        }}
-      />
-      <div
-        style={{
-          position: "absolute", left: x + 150, top: 1022, height: 8, width: 600,
-          background: `linear-gradient(90deg, transparent, ${C.violet}, transparent)`,
-          opacity: 0.35, borderRadius: 4,
-        }}
-      />
-    </div>
   );
 };
 
@@ -153,8 +130,10 @@ export const CagScene: React.FC<CagSceneProps> = (p) => {
           <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
             {lines.map((ln, i) => {
               const q = ph(frame, d, 0.06 + i * 0.09, 0.32 + i * 0.09);
-              const active = (frame / Math.max(1, d) * boxes) % boxes > i - 0.5
-                && (frame / Math.max(1, d) * boxes) % boxes < i + 0.7;
+              const cycle = (frame / 20) % (boxes + 0.5);
+              const active = Math.abs(cycle - i) < 0.65;
+              const fill = ph(frame, d, 0.08 + i * 0.09, 0.7);
+              const barPulse = 0.82 + 0.18 * Math.sin((frame / 8) - i);
               return (
                 <React.Fragment key={ln}>
                   <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14,
@@ -169,8 +148,9 @@ export const CagScene: React.FC<CagSceneProps> = (p) => {
                     </div>
                     <div style={{ width: 120, height: 4, borderRadius: 4,
                       background: C.panelEdge, overflow: "hidden" }}>
-                      <div style={{ width: `${ph(frame, d, 0.1 + i * 0.09, 0.7) * 100}%`,
-                        height: 4, background: i === p.highlight ? C.amber : C.cyan }} />
+                      <div style={{ width: `${fill * 100}%`,
+                        height: 4, background: i === p.highlight ? C.amber : C.cyan,
+                        opacity: fill > 0 ? barPulse : 0.2 }} />
                     </div>
                   </div>
                   {i < boxes - 1 ? <div style={{ color: C.faint, fontSize: 30 }}>→</div> : null}
