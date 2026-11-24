@@ -1,0 +1,16 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {"id": "s01", "text": "You bought a Wi-Fi extender for the dead zone. It works. But what you actually bought is a relay, and it works by making Wi-Fi slower for everything going through it."},
+    {"id": "s02", "text": "Wi-Fi is half-duplex. One radio cannot transmit and receive at once. That is the design constraint. And a single-radio extender has to obey it. So every relayed frame uses that channel twice."},
+    {"id": "s03", "text": "The first half of the frame travels router to extender. The second half travels extender to the device. Two uses of one channel. Two turns of the airtime. That is why throughput is about half at best."},
+    {"id": "s04", "text": "The extender's bars on your phone say it is connected — but remember, they measure the link from the phone to the extender, not the extender's link to the router."},
+    {"id": "s05", "text": "Dual-band extenders avoid the halving by putting a second radio on the backhaul link to the router. But the penalty does not disappear: the link from the router is the rate limiter."},
+    {"id": "s06", "text": "And it doesn't increase your internet speed. An extender is a spot fix, not a speed-up."},
+    {"id": "s07", "text": "If your home is inside a few megabits of the router, the halving is invisible. If your router has 500 and the line says 400, the extender may give you 200 on the far side — which looks fine from 100 feet."},
+    {"id": "s08", "text": "But if the internet line is 200 megabits and the router is at the edge of the home — the case you are buying the extender for — the extender is the bottleneck, and it is moving at half the rate it received."},
+    {"id": "s09", "text": "The tradeoff costs inside-house traffic too: copying files or streaming to the extender is where you notice it."},
+    {"id": "s10", "text": "What replaces an extender? Mesh units with dedicated backhaul radios, an access point on a wired connection, or powerline — each solves the halving by changing the physics of the link. The physics is the point: it is the channel, not the distance."}
+  ]
+}
