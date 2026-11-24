@@ -114,6 +114,17 @@
     "shape": "film",
     "style": "film"
   },
+  "megapixels": {
+    "title": "Your 108 megapixel camera takes 12 megapixel photos.",
+    "srcDir": "src/megapixels/film",
+    "audioDir": "public/audio/megapixels-film",
+    "composition": "MegapixelsFilm",
+    "output": "megapixels.mp4",
+    "thumbSeconds": 10.0,
+    "status": "draft",
+    "shape": "film",
+    "style": "film"
+  },
   "training-memory": {
     "title": "Why Training a 7B Model Needs 112 GB",
     "srcDir": "src/shorts/training-memory",

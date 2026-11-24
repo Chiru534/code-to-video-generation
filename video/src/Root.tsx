@@ -24,6 +24,7 @@ import { CagFilm, DURATION as CAG_FILM_DURATION } from "./cag/film/CagFilm";
 import { CaptchaFilm, DURATION as CAPTCHA_FILM_DURATION } from "./captcha/film/CaptchaFilm";
 import { FiveGBFilm, DURATION as FIVE_GB_DURATION } from "./5g/film/FiveGBFilm";
 import { WiFiExtenderFilm, DURATION as WIFI_EXTENDER_DURATION } from "./wifi-extender/film/WiFiExtenderFilm";
+import { MegapixelsFilm, DURATION as MEGAPIXELS_DURATION } from "./megapixels/film/MegapixelsFilm";
 
 /* BEGIN GENERATED SHORT IMPORTS */
 import {
@@ -256,6 +257,14 @@ export const RemotionRoot: React.FC = () => {
         id="WiFiExtenderFilm"
         component={WiFiExtenderFilm}
         durationInFrames={WIFI_EXTENDER_DURATION}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="MegapixelsFilm"
+        component={MegapixelsFilm}
+        durationInFrames={MEGAPIXELS_DURATION}
         fps={30}
         width={1920}
         height={1080}
