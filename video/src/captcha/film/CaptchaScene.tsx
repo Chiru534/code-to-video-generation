@@ -20,16 +20,45 @@ export interface CaptchaSceneProps {
   timeline?: { t: string; what: string }[];
 }
 
-const Wrap: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <AbsoluteFill style={{ backgroundColor: C.bg }}>
-    <Ground />
-    <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column",
-      alignItems: "center", justifyContent: "center", gap: 30,
-      padding: `0 ${FILM.pad}px 96px`, boxSizing: "border-box" }}>
-      {children}
-    </div>
-  </AbsoluteFill>
-);
+const Wrap: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const frame = useCurrentFrame();
+  const { durationInFrames } = useVideoConfig();
+  const d = Math.max(1, durationInFrames);
+  const p = frame / d;
+  const zoom = 1.0 + p * 0.024;
+  const driftY = (p - 0.5) * -16;
+  const driftX = Math.sin(p * Math.PI * 2) * 8;
+  const gridPos = (frame * 0.75) % 96;
+  return (
+    <AbsoluteFill style={{ backgroundColor: C.bg }}>
+      <Ground />
+      {/* Moving technical grid, strictly in the safe area (masked). */}
+      <AbsoluteFill
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px)," +
+            "linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px)",
+          backgroundSize: "96px 96px",
+          backgroundPosition: `${gridPos}px ${gridPos}px`,
+          maskImage: "radial-gradient(ellipse 65% 70% at 50% 50%, black 20%, transparent 85%)",
+          WebkitMaskImage: "radial-gradient(ellipse 65% 70% at 50% 50%, black 20%, transparent 85%)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute", inset: 0, display: "flex", flexDirection: "column",
+          alignItems: "center", justifyContent: "center", gap: 30,
+          padding: `0 ${FILM.pad}px 96px`, boxSizing: "border-box",
+          transform: `scale(${zoom}) translate(${driftX}px, ${driftY}px)`,
+          transformOrigin: "center center",
+        }}
+      >
+        {children}
+      </div>
+    </AbsoluteFill>
+  );
+};
 
 export const CaptchaScene: React.FC<CaptchaSceneProps> = (p) => {
   const frame = useCurrentFrame();
