@@ -1,0 +1,12 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {"id": "s01", "text": "Your phone has a 108 megapixel camera. You are told this makes your phone take better photos. But the sensor captures 108 megapixels — and most days you get 12. What happened to the other 96?"},
+    {"id": "s02", "text": "The sensor has a tiny pixel. About 0.8 micrometres wide. Smaller pixels collect less light. So to get more light, the camera merges neighbouring pixels."},
+    {"id": "s03", "text": "For the standard 108 megapixel sensor, this is done nine pixels at a time. A 3-by-3 grid of sensor sites is combined into one output pixel."},
+    {"id": "s04", "text": "That gives a 12 megapixel image. The numbers are right, so you nod. But it is worth noting what the number then means: megapixels, strictly speaking, is a measure of sensor sites — not the pixels the phone actually delivers."},
+    {"id": "s05", "text": "And if you push to full resolution, you are dealing with another cost. Diffraction — light bending around a small lens — starts to blur neighbouring sensor sites together."},
+    {"id": "s06", "text": "Whether this matters for your photos is worth asking rather than assuming. That is exactly the kind of thing to test — at fixed aperture, compare sharpness at the smallest versus largest sensor size."}
+  ]
+}
