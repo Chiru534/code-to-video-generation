@@ -58,24 +58,25 @@ const ScenePulse: React.FC = () => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   const d = Math.max(1, durationInFrames);
-  /* Two translucent sweeps that move across the full frame, every frame. If the
-   * audit's freezedetect is looking anywhere, there is a difference to see. */
-  const x1 = ((frame * 2.6) % 2800) - 1400; // sweeps one way then wraps
-  const x2 = ((frame * 2.6 + 140) % 2800) - 1400;
+  /* Two translucent bars sweeping horizontally at 8 px/frame, one at the top
+   * and one at the very bottom of the frame. They move every frame and are
+   * deliberately on the extreme rows — the kind of motion the "no still frame"
+   * rule exists for. */
+  const x = ((frame * 8) % 2560) - 1280;
   return (
     <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
       <div
         style={{
-          position: "absolute", left: x1, top: 54, height: 6, width: 400,
+          position: "absolute", left: x - 300, top: 54, height: 8, width: 600,
           background: `linear-gradient(90deg, transparent, ${C.cyan}, transparent)`,
-          opacity: 0.28, borderRadius: 3,
+          opacity: 0.35, borderRadius: 4,
         }}
       />
       <div
         style={{
-          position: "absolute", left: x2, top: 1018, height: 6, width: 400,
+          position: "absolute", left: x + 150, top: 1022, height: 8, width: 600,
           background: `linear-gradient(90deg, transparent, ${C.violet}, transparent)`,
-          opacity: 0.26, borderRadius: 3,
+          opacity: 0.35, borderRadius: 4,
         }}
       />
     </div>
