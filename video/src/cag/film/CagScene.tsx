@@ -36,9 +36,25 @@ const Wrap: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const zoom = 1.0 + p * 0.024;
   const driftY = (p - 0.5) * -16;
   const driftX = Math.sin(p * Math.PI * 2) * 8;
+  const gridPos = (frame * 0.75) % 96;
+
   return (
     <AbsoluteFill style={{ backgroundColor: C.bg }}>
       <Ground />
+      {/* Subtle moving technical grid overlay strictly in safe area */}
+      <AbsoluteFill
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px)," +
+            "linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px)",
+          backgroundSize: "96px 96px",
+          backgroundPosition: `${gridPos}px ${gridPos}px`,
+          maskImage: "radial-gradient(ellipse 65% 70% at 50% 50%, black 20%, transparent 85%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 65% 70% at 50% 50%, black 20%, transparent 85%)",
+          pointerEvents: "none",
+        }}
+      />
       <div
         style={{
           position: "absolute",
@@ -127,33 +143,94 @@ export const CagScene: React.FC<CagSceneProps> = (p) => {
       return (
         <Wrap>
           <Kicker text={p.head ?? "PIPELINE"} />
-          <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
             {lines.map((ln, i) => {
-              const q = ph(frame, d, 0.06 + i * 0.09, 0.32 + i * 0.09);
-              const cycle = (frame / 20) % (boxes + 0.5);
-              const active = Math.abs(cycle - i) < 0.65;
-              const fill = ph(frame, d, 0.08 + i * 0.09, 0.7);
+              const q = ph(frame, d, 0.04 + i * 0.08, 0.28 + i * 0.08);
+              const cycle = (frame / 22) % (boxes + 0.5);
+              const active = Math.abs(cycle - i) < 0.7;
+              const fill = ph(frame, d, 0.08 + i * 0.08, 0.65);
               const barPulse = 0.82 + 0.18 * Math.sin((frame / 8) - i);
+              const scanY = ((frame * 3 + i * 14) % 106);
               return (
                 <React.Fragment key={ln}>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14,
-                    opacity: q, transform: `translateY(${(1 - q) * 22}px)` }}>
-                    <div style={{ width: 200, height: 92, borderRadius: 14, display: "flex",
-                      alignItems: "center", justifyContent: "center", textAlign: "center",
-                      background: active ? "rgba(34,211,238,0.16)" : C.panel,
-                      border: `1px solid ${active ? C.cyan : C.panelEdge}`,
-                      fontFamily: F.mono, fontSize: 21, color: active ? C.cyan : C.text,
-                      padding: 12, boxSizing: "border-box" }}>
-                      {ln}
+                  <div
+                    style={{
+                      position: "relative",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: 14,
+                      opacity: q,
+                      transform: `translateY(${(1 - q) * 22}px)`,
+                    }}
+                  >
+                    <div
+                      style={{
+                        position: "relative",
+                        width: 280,
+                        height: 106,
+                        borderRadius: 14,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        background: active ? "rgba(34,211,238,0.20)" : C.panel,
+                        border: `1.5px solid ${active ? C.cyan : i === p.highlight ? C.amber : C.panelEdge}`,
+                        boxShadow: active ? "0 0 24px rgba(34,211,238,0.25)" : "none",
+                        fontFamily: F.mono,
+                        fontSize: 22,
+                        fontWeight: 700,
+                        color: active ? C.cyan : i === p.highlight ? C.amber : C.text,
+                        padding: "14px 18px",
+                        boxSizing: "border-box",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {/* Active technical scanning beam */}
+                      <div
+                        style={{
+                          position: "absolute",
+                          left: 0,
+                          right: 0,
+                          top: scanY,
+                          height: 2,
+                          background: `linear-gradient(90deg, transparent, ${active ? C.cyan : "rgba(255,255,255,0.25)"}, transparent)`,
+                          opacity: active ? 0.95 : 0.45,
+                        }}
+                      />
+                      <span>{ln}</span>
                     </div>
-                    <div style={{ width: 120, height: 4, borderRadius: 4,
-                      background: C.panelEdge, overflow: "hidden" }}>
-                      <div style={{ width: `${fill * 100}%`,
-                        height: 4, background: i === p.highlight ? C.amber : C.cyan,
-                        opacity: fill > 0 ? barPulse : 0.2 }} />
+                    {/* Progress / activity bar */}
+                    <div
+                      style={{
+                        width: 180,
+                        height: 4,
+                        borderRadius: 4,
+                        background: C.panelEdge,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: `${fill * 100}%`,
+                          height: 4,
+                          background: i === p.highlight ? C.amber : C.cyan,
+                          opacity: fill > 0 ? barPulse : 0.2,
+                        }}
+                      />
                     </div>
                   </div>
-                  {i < boxes - 1 ? <div style={{ color: C.faint, fontSize: 30 }}>→</div> : null}
+                  {i < boxes - 1 ? (
+                    <div
+                      style={{
+                        color: active ? C.cyan : C.faint,
+                        fontSize: 32,
+                        transform: `scale(${active ? 1.25 : 1.0})`,
+                      }}
+                    >
+                      →
+                    </div>
+                  ) : null}
                 </React.Fragment>
               );
             })}
