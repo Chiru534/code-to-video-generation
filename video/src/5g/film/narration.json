@@ -1,0 +1,17 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {"id": "s01", "text": "5G looks like the power question: it drains your battery, and it makes sense, because the chip is faster."},
+    {"id": "s02", "text": "The measurement says the story is backwards. 5G costs more than 4G during the quiet parts — during tails, during handovers, and during the 4G to 5G switch itself."},
+    {"id": "s03", "text": "A variegated look at 5G in the wild, measured in the wild: two carriers, two phones, a Monsoon power monitor, per-state power."},
+    {"id": "s04", "text": "The RRC state machine. The modem goes idle, it reconnects when it needs data, and it returns to idle again. This machine is where the extra consumption lives."},
+    {"id": "s05", "text": "Measured on T-Mobile NSA low band: a tail of about 259 mW and 20 seconds, versus 4G about 66 mW and about 10 seconds."},
+    {"id": "s06", "text": "On the data path itself the numbers are nearly the same as 4G. The difference is not the data path — it is the state machine around it."},
+    {"id": "s07", "text": "And the handovers: NSA mmWave on Verizon was measured at 1092 mW against 249 mW for NSA low band. The switching itself — NR to LTE — was measured at 1494 mW for Verizon mmWave."},
+    {"id": "s08", "text": "So your phone in the fringe: the modem acquires, re-measures, and re-selects — over and over — and that is the burn. The speed upgrade did not make this slower; it just made the tail and the switch costlier relative to 4G."},
+    {"id": "s09", "text": "The 5G chip does use more power when it transmits data at high throughput, but that is the same direction 4G and the latency, and the gap is smaller than the state machine effect."},
+    {"id": "s10", "text": "The 2026 RRC_INACTIVE state, standardized in 3GPP Release 17, cuts the transition cost by making the UE stay connected to the core — an Ericsson measurement shows battery savings up to 30% for NSA setups."},
+    {"id": "s11", "text": "Credits: Xu et al., SIGCOMM 2021, variegated look at 5G. Ericsson Press, 2021. Multicsalt 2021 paper (Power Saving Techniques)."}
+  ]
+}
