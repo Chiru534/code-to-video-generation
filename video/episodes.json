@@ -125,6 +125,17 @@
     "shape": "film",
     "style": "film"
   },
+  "qr-codes": {
+    "title": "A QR code is designed to be partly destroyed.",
+    "srcDir": "src/qr/film",
+    "audioDir": "public/audio/qr-film",
+    "composition": "QrFilm",
+    "output": "qr-codes.mp4",
+    "thumbSeconds": 10.0,
+    "status": "draft",
+    "shape": "film",
+    "style": "film"
+  },
   "training-memory": {
     "title": "Why Training a 7B Model Needs 112 GB",
     "srcDir": "src/shorts/training-memory",
