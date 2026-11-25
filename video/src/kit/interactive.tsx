@@ -1024,6 +1024,61 @@ export const CinematicStage: React.FC<{
         title={title}
       />
 
+      {/* Left chapter rail — one tick per beat. It carries real orientation
+          (which beat of the film this is) and it puts content in the vertical
+          space between the top bar and the footer, which is where the dead
+          band used to open up. */}
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: 64,
+          zIndex: 9,
+          background: "linear-gradient(180deg, #0b1220 0%, #0f172a 50%, #0b1220 100%)",
+          borderRight: "1.5px solid #1e293b",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "space-evenly",
+          padding: "150px 0 190px 0",
+          boxSizing: "border-box",
+        }}
+      >
+        {Array.from({ length: totalBeats }).map((_, i) => {
+          const isDone = i < currentBeat;
+          const isCurrent = i === currentBeat;
+          return (
+            <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+              <div
+                style={{
+                  width: isCurrent ? 22 : 12,
+                  height: isCurrent ? 22 : 12,
+                  borderRadius: "50%",
+                  background: isCurrent ? C.amber : isDone ? C.cyan : "#334155",
+                  boxShadow: isCurrent
+                    ? `0 0 12px ${C.amber}`
+                    : isDone
+                    ? `0 0 6px ${C.cyan}66`
+                    : "none",
+                }}
+              />
+              <div
+                style={{
+                  fontFamily: F.mono,
+                  fontSize: 13,
+                  fontWeight: isCurrent ? 800 : 500,
+                  color: isCurrent ? C.amber : isDone ? C.cyan : "#475569",
+                }}
+              >
+                {i + 1}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
       {/* Sweeping CRT Scanline Beam */}
       <div
         style={{
