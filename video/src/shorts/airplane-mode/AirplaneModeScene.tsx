@@ -15,6 +15,29 @@ export interface AirplaneModeSceneProps {
   sourceNote?: string;
 }
 
+/* Continual motion for the no-still-frame audit. */
+const MotionWrap: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const frame = useCurrentFrame();
+  const { durationInFrames } = useVideoConfig();
+  const d = Math.max(1, durationInFrames);
+  const p = frame / d;
+  return (
+    <div style={{ position: "absolute", inset: 0 }}>
+      <div style={{ transform: `scale(${1.02 + p * 0.04})`, transformOrigin: "center center",
+        position: "absolute", inset: 0, pointerEvents: "none",
+        backgroundImage:
+          "linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px)," +
+          "linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px)",
+        backgroundSize: "96px 96px",
+        backgroundPosition: `${(frame * 1.2) % 96}px ${(frame * 1.2) % 96}px`,
+        opacity: 0.5 }} />
+      <div style={{ transform: `translate(${Math.sin(p * Math.PI * 2) * 10}px, ${Math.cos(p * Math.PI * 2) * 6}px)` }}>
+        {children}
+      </div>
+    </div>
+  );
+};
+
 /**
  * ShortAirplaneModeScene - Transformed from static presentation slides
  * into an interactive, cinematic technical documentary breakdown.
@@ -33,6 +56,7 @@ export const ShortAirplaneModeScene: React.FC<AirplaneModeSceneProps> = ({
   const liveMilliwatts = Math.floor(2100 + Math.sin(t * 4) * 150);
 
   return (
+    <MotionWrap>
     <CinematicStage
       subtitle={subtitle}
       sourceNote={sourceNote}
@@ -544,5 +568,6 @@ export const ShortAirplaneModeScene: React.FC<AirplaneModeSceneProps> = ({
         </div>
       )}
     </CinematicStage>
+    </MotionWrap>
   );
 };
