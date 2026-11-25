@@ -1,0 +1,13 @@
+{
+  "voice": "af_heart",
+  "speed": 0.95,
+  "lines": [
+    {"id": "s01", "text": "A QR code is built to survive destruction."},
+    {"id": "s02", "text": "Every QR code is wrapped in error-correcting codes. There are four levels. L, M, Q, and H — each one lets the scanner rebuild a little bit of the data if part of the code is destroyed."},
+    {"id": "s03", "text": "Level L restores about 7 percent of the code. Level H restores about 30. The higher the level, the more redundancy, and the larger the code gets."},
+    {"id": "s04", "text": "So you can scratch a code, find a coffee ring on a label, and it still decodes. The mechanism is Reed-Solomon — the same family of math used on CDs and for deep-space communication."},
+    {"id": "s05", "text": "And there is a phrase people keep getting wrong: that destruction means damage to data codewords. The three corner finder squares are NOT protected. Lose one of them, and the scanner has no way to find the code at all."},
+    {"id": "s06", "text": "This is why a QR code with a logo in the middle uses the high levels. You are asking the code to survive you, not the other way around."},
+    {"id": "s07", "text": "Higher levels mean denser codes. If you need to print a longer URL, plan for the larger version."}
+  ]
+}
