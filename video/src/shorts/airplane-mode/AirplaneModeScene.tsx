@@ -31,7 +31,8 @@ const MotionWrap: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         backgroundSize: "96px 96px",
         backgroundPosition: `${(frame * 1.2) % 96}px ${(frame * 1.2) % 96}px`,
         opacity: 0.5 }} />
-      <div style={{ transform: `translate(${Math.sin(p * Math.PI * 2) * 10}px, ${Math.cos(p * Math.PI * 2) * 6}px)` }}>
+      <div style={{ position: "absolute", inset: 0,
+        transform: `translate(${Math.sin(p * Math.PI * 2) * 10}px, ${Math.cos(p * Math.PI * 2) * 6}px)` }}>
         {children}
       </div>
     </div>
